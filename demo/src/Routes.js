@@ -9,15 +9,15 @@ const AsyncDocument = MyLoadable({ loader: () => import('./containers/Document/D
 const AsyncCollection = MyLoadable({ loader: () => import('./containers/Collection/Collection') });
 const AsyncAbout = MyLoadable({ loader: () => import('./containers/About/About') });
 const AsyncPublicChats = MyLoadable({ loader: () => import('./containers/PublicChats/PublicChats') });
-const AsyncMyAccount = MyLoadable({ loader: () => import('./containers/MyAccount/MyAccount') });
+const AsyncMyAccount = MyLoadable({ loader: () => import('../../src/containers/MyAccount/MyAccount') });
 
 const AsyncPredefinedChatMessages = MyLoadable({ loader: () => import('./containers/PredefinedChatMessages/PredefinedChatMessages') });
 
 const AsyncTask = MyLoadable({ loader: () => import('./containers/Tasks/Task') });
 const AsyncTasks = MyLoadable({ loader: () => import('./containers/Tasks/Tasks') }, [AsyncTask]);
 
-const AsyncRole = MyLoadable({ loader: () => import('./containers/Roles/Role') });
-const AsyncRoles = MyLoadable({ loader: () => import('./containers/Roles/Roles') }, AsyncRole);
+const AsyncRole = MyLoadable({ loader: () => import('../../src/containers/Roles/Role') });
+const AsyncRoles = MyLoadable({ loader: () => import('../../src/containers/Roles/Roles') }, AsyncRole);
 
 const AsyncChat = MyLoadable({ loader: () => import('./containers/Chats/Chat') });
 const AsyncCreateChat = MyLoadable({ loader: () => import('./containers/Chats/CreateChat') });
@@ -26,11 +26,11 @@ const AsyncChats = MyLoadable({ loader: () => import('./containers/Chats/Chats')
 const AsyncCompany = MyLoadable({ loader: () => import('./containers/Companies/Company') });
 const AsyncCompanies = MyLoadable({ loader: () => import('./containers/Companies/Companies') }, [AsyncCompany]);
 
-const AsyncUser = MyLoadable({ loader: () => import('./containers/Users/User') });
-const AsyncUsers = MyLoadable({ loader: () => import('./containers/Users/Users') }, [AsyncUser]);
+const AsyncUser = MyLoadable({ loader: () => import('../../src/containers/Users/User') });
+const AsyncUsers = MyLoadable({ loader: () => import('../../src/containers/Users/Users') }, [AsyncUser]);
 
 const AsyncSignIn = MyLoadable({ loader: () => import('./containers/SignIn/SignIn') });
-const AsyncPageNotFound = MyLoadable({ loader: () => import('./components/PageNotFound/PageNotFound') });
+const AsyncPageNotFound = MyLoadable({ loader: () => import('../../src/components/PageNotFound/PageNotFound') });
 
 const Routes = (props, context) => {
 

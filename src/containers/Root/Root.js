@@ -90,7 +90,7 @@ class Root extends Component {
     }
 
     render() {
-        const { locale, muiTheme, messages, getMenuItems, routes, firebaseLoad } = this.props;
+        const { locale, muiTheme, messages, getMenuItems, routes, firebaseLoad, appConfig } = this.props;
 
         return (
             <MuiThemeProvider muiTheme={muiTheme}>
@@ -99,9 +99,10 @@ class Root extends Component {
                         <Switch>
                             <Route
                                 children={(props) => <AppLayout
+                                    appConfig={appConfig}
+                                    firebaseLoad={firebaseLoad}
                                     getMenuItems={getMenuItems}
                                     routes={routes}
-                                    firebaseLoad={firebaseLoad}
                                     {...props}
                                 />}
                             />

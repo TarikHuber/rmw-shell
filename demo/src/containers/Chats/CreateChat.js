@@ -1,20 +1,20 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import muiThemeable from 'material-ui/styles/muiThemeable'
-import {injectIntl, intlShape} from 'react-intl'
-import { Activity } from '../../containers/Activity'
-import {List, ListItem} from 'material-ui/List'
+import { injectIntl, intlShape } from 'react-intl'
+import { Activity } from '../../../../src'
+import { List, ListItem } from 'material-ui/List'
 import Divider from 'material-ui/Divider'
 import Avatar from 'material-ui/Avatar'
 import FontIcon from 'material-ui/FontIcon'
 import { withRouter } from 'react-router-dom'
-import {GoogleIcon, FacebookIcon, GitHubIcon, TwitterIcon} from '../../components/Icons'
+import { GoogleIcon, FacebookIcon, GitHubIcon, TwitterIcon } from '../../components/Icons'
 import { withFirebase } from 'firekit-provider'
 import ReactList from 'react-list'
 import { filterSelectors, filterActions } from 'material-ui-filter'
-import { setPersistentValue } from '../../store/persistentValues/actions'
-import Scrollbar from '../../components/Scrollbar/Scrollbar'
+import { setPersistentValue } from '../../../../src/store/persistentValues/actions'
+import { Scrollbar } from '../../../../src'
 import SearchField from '../../components/SearchField/SearchField'
 
 
@@ -32,24 +32,24 @@ class Users extends Component {
 
     switch (provider.providerId) {
       case 'google.com':
-      return <GoogleIcon color={color}/>
+        return <GoogleIcon color={color} />
       case 'facebook.com':
-      return <FacebookIcon color={color}/>
+        return <FacebookIcon color={color} />
       case 'twitter.com':
-      return <TwitterIcon color={color}/>
+        return <TwitterIcon color={color} />
       case 'github.com':
-      return <GitHubIcon color={color}/>
+        return <GitHubIcon color={color} />
       case 'phone':
-      return <FontIcon className="material-icons" color={color} >phone</FontIcon>
+        return <FontIcon className="material-icons" color={color} >phone</FontIcon>
       case 'password':
-      return <FontIcon className="material-icons" color={color} >email</FontIcon>
+        return <FontIcon className="material-icons" color={color} >email</FontIcon>
       default:
-      return undefined
+        return undefined
     }
   }
 
   handleRowClick = (user) => {
-    const {auth, firebaseApp, history, usePreview, setPersistentValue} =this.props;
+    const { auth, firebaseApp, history, usePreview, setPersistentValue } = this.props;
 
     const key = user.key;
     const userValues = user.val;
@@ -57,11 +57,11 @@ class Users extends Component {
 
     const chatData = {
       displayName: userValues.displayName,
-      photoURL: userValues.photoURL?userValues.photoURL:'',
+      photoURL: userValues.photoURL ? userValues.photoURL : '',
       lastMessage: ''
     };
 
-    userChatsRef.update({...chatData});
+    userChatsRef.update({ ...chatData });
 
     if (usePreview) {
       setPersistentValue('current_chat_uid', key)
@@ -90,12 +90,12 @@ class Users extends Component {
       <ListItem
         key={key}
         id={key}
-        onClick={()=>{this.handleRowClick(users[index])}}
-        leftAvatar={<Avatar style={{marginTop: 10}} src={user.photoURL} alt="person" icon={<FontIcon className="material-icons" >person</FontIcon>}/>}
-        rightIcon={<FontIcon style={{marginTop: 22}} className="material-icons" color={user.connections?muiTheme.palette.primary1Color:muiTheme.palette.disabledColor}>offline_pin</FontIcon>}>
+        onClick={() => { this.handleRowClick(users[index]) }}
+        leftAvatar={<Avatar style={{ marginTop: 10 }} src={user.photoURL} alt="person" icon={<FontIcon className="material-icons" >person</FontIcon>} />}
+        rightIcon={<FontIcon style={{ marginTop: 22 }} className="material-icons" color={user.connections ? muiTheme.palette.primary1Color : muiTheme.palette.disabledColor}>offline_pin</FontIcon>}>
 
-        <div style={{display: 'flex', flexWrap: 'wrap', alignItems: 'strech'}}>
-          <div style={{display: 'flex', flexDirection:'column', width: 120}}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'strech' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', width: 120 }}>
             <div>
               {user.displayName}
             </div>
@@ -108,17 +108,17 @@ class Users extends Component {
                 marginTop: 4,
                 color: muiTheme.listItem.secondaryTextColor,
               }}>
-              {(!user.connections && !user.lastOnline)?intl.formatMessage({id: 'offline'}):intl.formatMessage({id: 'online'})}
+              {(!user.connections && !user.lastOnline) ? intl.formatMessage({ id: 'offline' }) : intl.formatMessage({ id: 'online' })}
               {' '}
-              {(!user.connections && user.lastOnline)?intl.formatRelative(new Date(user.lastOnline)):undefined}
+              {(!user.connections && user.lastOnline) ? intl.formatRelative(new Date(user.lastOnline)) : undefined}
             </div>
           </div>
 
-          <div style={{marginLeft: 20, display: 'flex', flexWrap: 'wrap', alignItems: 'center'}}>
+          <div style={{ marginLeft: 20, display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
             {user.providerData && user.providerData.map(
-              (p, i)=>{
+              (p, i) => {
                 return (
-                  <div key={i} style={{paddingLeft: 10}}>
+                  <div key={i} style={{ paddingLeft: 10 }}>
                     {this.getProviderIcon(p)}
                   </div>
                 )
@@ -127,11 +127,11 @@ class Users extends Component {
           </div>
         </div>
       </ListItem>
-      <Divider inset={true}/>
+      <Divider inset={true} />
     </div>
   }
 
-  render(){
+  render() {
     const {
       users,
       muiTheme,
@@ -141,25 +141,25 @@ class Users extends Component {
 
     return (
       <Activity
-        iconStyleLeft={{width: 'auto'}}
-        iconStyleRight={{width: '100%', textAlign: 'center', marginLeft: 0}}
+        iconStyleLeft={{ width: 'auto' }}
+        iconStyleRight={{ width: '100%', textAlign: 'center', marginLeft: 0 }}
         iconElementRight={
-          <div style={{width: 'calc(100% - 48px)'}}>
+          <div style={{ width: 'calc(100% - 48px)' }}>
             <SearchField
               onChange={(e, newVal) => {
                 setSearch('select_user', newVal)
               }}
-              hintText={`${intl.formatMessage({id: 'user_label_search'})}`}
+              hintText={`${intl.formatMessage({ id: 'user_label_search' })}`}
             />
           </div>
         }
-        isLoading={users===undefined}>
-        <div style={{height: '100%', overflow: 'none', backgroundColor: muiTheme.palette.convasColor}}>
+        isLoading={users === undefined}>
+        <div style={{ height: '100%', overflow: 'none', backgroundColor: muiTheme.palette.convasColor }}>
           <Scrollbar>
             <List id='test' ref={(field) => { this.users = field; }}>
               <ReactList
                 itemRenderer={this.renderItem}
-                length={users?users.length:0}
+                length={users ? users.length : 0}
                 type='simple'
               />
             </List>

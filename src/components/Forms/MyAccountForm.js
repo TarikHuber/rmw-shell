@@ -10,7 +10,6 @@ import config from '../../config'
 import { AvatarImageField } from '../ReduxFormFields'
 
 class MyAccountForm extends Component {
-
   render () {
     const {
       handleSubmit,
@@ -39,7 +38,7 @@ class MyAccountForm extends Component {
         justifyContent: 'center'
       }}>
 
-        <div style={{margin: 15, display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+        <div style={{ margin: 15, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <AvatarImageField
             uid={uid}
             change={this.props.change}
@@ -55,7 +54,7 @@ class MyAccountForm extends Component {
                     key={i}
                     disabled={isLinkedWithProvider(p)}
                     onClick={() => { linkUserWithPopup(p) }}
-                    tooltip={intl.formatMessage({id: `link_with_${p}`})}>
+                    tooltip={intl.formatMessage({ id: `link_with_${p}` })}>
                     {getProviderIcon(p)}
                   </IconButton>
                 } else {
@@ -73,21 +72,21 @@ class MyAccountForm extends Component {
               disabled={!initialized}
               component={TextField}
               fullWidth
-              hintText={intl.formatMessage({id: 'name_hint'})}
-              floatingLabelText={intl.formatMessage({id: 'name_label'})}
+              hintText={intl.formatMessage({ id: 'name_hint' })}
+              floatingLabelText={intl.formatMessage({ id: 'name_label' })}
               ref='displayName'
               withRef
             />
           </div>
 
-          <div style={{display: 'flex', alignItems: 'flex-end', flexWrap: 'wrap'}}>
+          <div style={{ display: 'flex', alignItems: 'flex-end', flexWrap: 'wrap' }}>
             <div>
               <Field
                 name='email'
                 disabled={!initialized}
                 component={TextField}
-                hintText={intl.formatMessage({id: 'email'})}
-                floatingLabelText={intl.formatMessage({id: 'email'})}
+                hintText={intl.formatMessage({ id: 'email' })}
+                floatingLabelText={intl.formatMessage({ id: 'email' })}
                 ref='email'
                 withRef
               />
@@ -96,10 +95,10 @@ class MyAccountForm extends Component {
             <div>
               <IconButton
                 onClick={auth.emailVerified === true ? undefined : handleEmailVerificationsSend}
-                tooltip={intl.formatMessage({id: auth.emailVerified === true ? 'email_verified' : 'email_not_verified'})}>
+                tooltip={intl.formatMessage({ id: auth.emailVerified === true ? 'email_verified' : 'email_not_verified' })}>
                 <FontIcon
                   color={auth.emailVerified === true ? muiTheme.palette.primary1Color : muiTheme.palette.accent1Color}
-                  style={{'paddingLeft': 10}}
+                  style={{ 'paddingLeft': 10 }}
                   className='material-icons'>
                   {auth.emailVerified === true ? 'verified_user' : 'error'}
                 </FontIcon>
@@ -117,8 +116,8 @@ class MyAccountForm extends Component {
                   type='Password'
                   component={TextField}
                   fullWidth
-                  hintText={intl.formatMessage({id: 'password'})}
-                  floatingLabelText={intl.formatMessage({id: 'password'})}
+                  hintText={intl.formatMessage({ id: 'password' })}
+                  floatingLabelText={intl.formatMessage({ id: 'password' })}
                   ref='old_password'
                   withRef
                 />
@@ -131,8 +130,8 @@ class MyAccountForm extends Component {
                   type='Password'
                   component={TextField}
                   fullWidth
-                  hintText={intl.formatMessage({id: 'password'})}
-                  floatingLabelText={intl.formatMessage({id: 'new_password'})}
+                  hintText={intl.formatMessage({ id: 'password' })}
+                  floatingLabelText={intl.formatMessage({ id: 'new_password' })}
                   ref='new_password'
                   withRef
                 />
@@ -145,8 +144,8 @@ class MyAccountForm extends Component {
                   type='Password'
                   component={TextField}
                   fullWidth
-                  hintText={intl.formatMessage({id: 'confirm_password'})}
-                  floatingLabelText={intl.formatMessage({id: 'confirm_password'})}
+                  hintText={intl.formatMessage({ id: 'confirm_password' })}
+                  floatingLabelText={intl.formatMessage({ id: 'confirm_password' })}
                   ref='new_password_confirmation'
                   withRef
                 />
@@ -162,7 +161,7 @@ class MyAccountForm extends Component {
           open={new_company_photo !== undefined}
           src={new_company_photo}
           handleClose={() => { setSimpleValue('new_company_photo', undefined) }}
-          title={intl.formatMessage({id: 'change_photo'})}
+          title={intl.formatMessage({ id: 'change_photo' })}
         />
       </form>
     )
@@ -184,4 +183,4 @@ MyAccountForm.propTypes = {
   auth: PropTypes.object.isRequired
 }
 
-export default reduxForm({form: 'my_account'})(MyAccountForm)
+export default reduxForm({ form: 'my_account' })(MyAccountForm)

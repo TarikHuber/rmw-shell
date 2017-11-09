@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import {injectIntl, intlShape} from 'react-intl';
-import { Activity } from '../../containers/Activity';
+import { Activity } from '../../../../src'
 import {List, ListItem} from 'material-ui/List';
 import Divider from 'material-ui/Divider';
 import { withFirebase } from 'firekit-provider';
@@ -9,7 +9,7 @@ import { withRouter } from 'react-router-dom';
 import FontIcon from 'material-ui/FontIcon';
 import isGranted  from '../../utils/auth';
 import PropTypes from 'prop-types';
-import { setSimpleValue } from '../../store/simpleValues/actions';
+import { setSimpleValue } from '../../../../src/store/simpleValues/actions'
 import { TextField } from 'redux-form-material-ui';
 import FlatButton from 'material-ui/FlatButton';
 import IconButton from 'material-ui/IconButton';
@@ -17,7 +17,7 @@ import {BottomNavigation} from 'material-ui/BottomNavigation';
 import Dialog from 'material-ui/Dialog';
 import muiThemeable from 'material-ui/styles/muiThemeable';
 import ReactList from 'react-list';
-import Scrollbar from '../../components/Scrollbar/Scrollbar';
+import { Scrollbar } from '../../../../src'
 
 
 const path=`predefined_chat_messages`;

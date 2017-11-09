@@ -10,9 +10,9 @@ import theme from './theme/reducer'
 import firekitReducers from 'firekit'
 import filterReducer from 'material-ui-filter/lib/store/reducer'
 import initState from './init'
-import * as authTypes from './auth/types'
+import rootReducer from './rootReducer'
 
-const appReducer = combineReducers({
+export const appReducers = {
   ...firekitReducers,
   browser: responsiveStateReducer,
   dialogs,
@@ -23,14 +23,8 @@ const appReducer = combineReducers({
   responsiveDrawer,
   simpleValues,
   theme
-})
-
-const rootReducer = (state, action) => {
-  if (action.type === authTypes.USER_LOGOUT) {
-      state = initState
-    }
-
-  return appReducer(state, action)
 }
 
-export default rootReducer
+const appReducer = combineReducers(appReducers)
+
+export default (state, action) => rootReducer(appReducer, initState, state, action)

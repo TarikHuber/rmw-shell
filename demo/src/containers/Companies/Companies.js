@@ -3,31 +3,30 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import muiThemeable from 'material-ui/styles/muiThemeable';
 import { injectIntl } from 'react-intl';
-import { Activity } from '../../containers/Activity';
-import {List, ListItem } from 'material-ui/List';
+import { List, ListItem } from 'material-ui/List';
 import Divider from 'material-ui/Divider';
 import FontIcon from 'material-ui/FontIcon';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
-import {withRouter} from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import Avatar from 'material-ui/Avatar';
 import { withFirebase } from 'firekit-provider'
-import isGranted  from '../../utils/auth';
-import Scrollbar from '../../components/Scrollbar/Scrollbar';
+import isGranted from '../../utils/auth';
+import { Activity, Scrollbar } from '../../../../src'
 
 class Companies extends Component {
 
   componentDidMount() {
-    const { watchList, firebaseApp}=this.props;
+    const { watchList, firebaseApp } = this.props;
 
-    let ref=firebaseApp.database().ref('companies').limitToFirst(20);
+    let ref = firebaseApp.database().ref('companies').limitToFirst(20);
 
     watchList(ref);
   }
 
   renderList(companies) {
-    const {history} =this.props;
+    const { history } = this.props;
 
-    if(companies===undefined){
+    if (companies === undefined) {
       return <div></div>
     }
 
@@ -49,45 +48,45 @@ class Companies extends Component {
           key={index}
           primaryText={company.val.name}
           secondaryText={company.val.full_name}
-          onClick={()=>{history.push(`/companies/edit/${company.key}`)}}
+          onClick={() => { history.push(`/companies/edit/${company.key}`) }}
           id={index}
         />
-        <Divider inset={true}/>
+        <Divider inset={true} />
       </div>
     });
   }
 
 
-  render(){
-    const { intl, companies, muiTheme, history, isGranted } =this.props;
+  render() {
+    const { intl, companies, muiTheme, history, isGranted } = this.props;
 
     return (
       <Activity
-        isLoading={companies===undefined}
-        containerStyle={{overflow:'hidden'}}
-        title={intl.formatMessage({id: 'companies'})}>
+        isLoading={companies === undefined}
+        containerStyle={{ overflow: 'hidden' }}
+        title={intl.formatMessage({ id: 'companies' })}>
 
         <Scrollbar>
 
-          <div style={{overflow: 'none', backgroundColor: muiTheme.palette.convasColor}}>
-            <List  id='test' style={{height: '100%'}} ref={(field) => { this.list = field; }}>
+          <div style={{ overflow: 'none', backgroundColor: muiTheme.palette.convasColor }}>
+            <List id='test' style={{ height: '100%' }} ref={(field) => { this.list = field; }}>
               {this.renderList(companies)}
             </List>
           </div>
 
-          <div style={{position: 'fixed', right: 18, zIndex:3, bottom: 18, }}>
-          {
+          <div style={{ position: 'fixed', right: 18, zIndex: 3, bottom: 18, }}>
+            {
               isGranted('create_company') &&
-              <FloatingActionButton secondary={true} onClick={()=>{history.push(`/companies/create`)}} style={{zIndex:3}}>
+              <FloatingActionButton secondary={true} onClick={() => { history.push(`/companies/create`) }} style={{ zIndex: 3 }}>
                 <FontIcon className="material-icons" >add</FontIcon>
               </FloatingActionButton>
-          }
+            }
           </div>
-      </Scrollbar>
-    </Activity>
-  );
+        </Scrollbar>
+      </Activity>
+    );
 
-}
+  }
 
 }
 
@@ -104,7 +103,7 @@ const mapStateToProps = (state) => {
     companies: lists.companies,
     auth,
     browser,
-    isGranted: grant=>isGranted(state, grant)
+    isGranted: grant => isGranted(state, grant)
   };
 };
 

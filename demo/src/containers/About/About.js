@@ -2,9 +2,8 @@ import React, { Component } from 'react'
 import FlatButton from 'material-ui/FlatButton'
 import { injectIntl, intlShape } from 'react-intl'
 import { GitHubIcon } from '../../components/Icons'
-import { Activity } from '../../containers/Activity'
+import { Activity, Scrollbar } from '../../../../src'
 import ReactMarkdown from 'react-markdown'
-import Scrollbar from '../../components/Scrollbar/Scrollbar'
 
 require('github-markdown-css')
 
@@ -49,7 +48,6 @@ class About extends Component {
 
       </Activity>
     )
-
   }
 }
 

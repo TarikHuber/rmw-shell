@@ -5,8 +5,8 @@ import { Provider } from 'react-redux'
 import Root from './containers/Root'
 
 class App extends Component {
-  render() {
-    const { customConfigureStore, getMenuItems, routes, firebaseLoad } = this.props
+  render () {
+    const { customConfigureStore, getMenuItems, routes, firebaseLoad, appConfig } = this.props
 
     const store = customConfigureStore != undefined ? customConfigureStore() : configureStore()
 
@@ -16,6 +16,7 @@ class App extends Component {
           getMenuItems={getMenuItems}
           routes={routes}
           firebaseLoad={firebaseLoad}
+          appConfig={appConfig}
         />
       </Provider>
     )
