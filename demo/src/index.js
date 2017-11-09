@@ -1,15 +1,25 @@
-import React, {Component} from 'react'
-import {render} from 'react-dom'
+import React, { Component } from 'react'
+import ReactDOM, { render } from 'react-dom'
+import { Provider } from 'react-redux'
+import configureStore from './store'
+import { Root } from './containers/Root'
+import { addLocalizationData } from './locales'
+import registerServiceWorker from './registerServiceWorker'
 
-import Example from '../../src'
+const store = configureStore()
+
+addLocalizationData()
 
 class Demo extends Component {
-  render() {
+  render () {
     return <div>
-      <h1>rmw-shell Demo</h1>
-      <Example/>
+      <Provider store={store}>
+        <Root />
+      </Provider>
     </div>
   }
 }
 
-render(<Demo/>, document.querySelector('#demo'))
+render(<Demo />, document.querySelector('#demo'))
+
+registerServiceWorker()
