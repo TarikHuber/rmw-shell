@@ -1,3 +1,8 @@
-import Activity from './containers/Activity'
+export Activity from './containers/Activity'
+export RestrictedRoute from './containers/RestrictedRoute'
+export makeLoadable from './containers/MyLoadable'
+export LoadingComponent from './components/LoadingComponent'
 
-export default Activity
+import App from './App'
+
+export default App

@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function LoadingComponent (props) {
+export default function LoadingComponent(props) {
   if (props.isLoading) {
     // While our other component is loading...
     if (props.timedOut) {
@@ -18,6 +18,7 @@ export default function LoadingComponent (props) {
       return null
     }
   } else if (props.error) {
+    console.warn(props.error)
     // window.location.reload()
     // If we aren't loading, maybe
     return <div>Error! Component failed to load</div>
