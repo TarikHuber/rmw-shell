@@ -1,8 +1,5 @@
 module.exports = {
   type: 'react-component',
-  babel: {
-    stage: 1
-  },
   npm: {
     esModules: true,
     umd: {

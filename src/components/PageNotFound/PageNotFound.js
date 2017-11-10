@@ -1,10 +1,10 @@
-import React from 'react'
-import Paper from 'material-ui/Paper'
-import {injectIntl} from 'react-intl'
-import muiThemeable from 'material-ui/styles/muiThemeable'
-import FloatingActionButton from 'material-ui/FloatingActionButton'
 import ActionHome from 'material-ui/svg-icons/action/home'
-import {RMWIcon} from '../Icons'
+import FloatingActionButton from 'material-ui/FloatingActionButton'
+import Paper from 'material-ui/Paper'
+import React from 'react'
+import muiThemeable from 'material-ui/styles/muiThemeable'
+import withAppConfigs from '../../withAppConfigs'
+import { injectIntl } from 'react-intl'
 
 const styles = {
   paper: {
@@ -25,13 +25,15 @@ const styles = {
   }
 }
 
-const PageNotFound = ({muiTheme, intl }) => {
+const PageNotFound = ({ muiTheme, intl, appConfig }) => {
+  const AppIcon = appConfig.appIcon
+
   return (
     <Paper zDepth={1} style={styles.paper}>
       <div style={styles.container}>
-        <RMWIcon color={muiTheme.palette.primary2Color} style={styles.icon} />
-        <h3>{intl.formatMessage({id: 'warning_404_message'})}</h3>
-        <p>{intl.formatMessage({id: 'warning_404_description'})}</p>
+        <AppIcon color={muiTheme.palette.primary2Color} style={styles.icon} />
+        <h3>{intl.formatMessage({ id: 'warning_404_message' })}</h3>
+        <p>{intl.formatMessage({ id: 'warning_404_description' })}</p>
         <FloatingActionButton secondary href='/'>
           <ActionHome />
         </FloatingActionButton>
@@ -40,4 +42,4 @@ const PageNotFound = ({muiTheme, intl }) => {
   )
 }
 
-export default injectIntl(muiThemeable()(PageNotFound))
+export default injectIntl(muiThemeable()(withAppConfigs(PageNotFound)))

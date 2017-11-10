@@ -1,15 +1,15 @@
-import React from 'react'
 import Avatar from 'material-ui/Avatar'
-import IconButton from 'material-ui/IconButton'
 import FontIcon from 'material-ui/FontIcon'
-import ListItem from 'material-ui/List/ListItem'
+import IconButton from 'material-ui/IconButton'
 import List from 'material-ui/List/List'
+import ListItem from 'material-ui/List/ListItem'
 import Paper from 'material-ui/Paper'
-import {RMWIcon} from '../Icons'
-import {injectIntl} from 'react-intl'
+import React from 'react'
 import muiThemeable from 'material-ui/styles/muiThemeable'
+import withAppConfigs from '../../withAppConfigs'
+import { injectIntl } from 'react-intl'
 
-const DrawerHeader = ({muiTheme, intl, auth, setAuthMenuOpen, fetchUser, dialogs, setDialogIsOpen}) => {
+const DrawerHeader = ({ muiTheme, intl, auth, setAuthMenuOpen, fetchUser, dialogs, setDialogIsOpen, appConfig }) => {
   const styles = {
     header: {
       padding: 5
@@ -30,6 +30,8 @@ const DrawerHeader = ({muiTheme, intl, auth, setAuthMenuOpen, fetchUser, dialogs
     }
   }
 
+  const AppIcon = appConfig.appIcon
+
   return (
     <Paper zDepth={1} style={styles.paper}>
       {auth.isAuthorised &&
@@ -39,21 +41,21 @@ const DrawerHeader = ({muiTheme, intl, auth, setAuthMenuOpen, fetchUser, dialogs
               disabled
               leftAvatar={
                 <Avatar size={45} src={auth.photoURL} alt='person' icon={<FontIcon className='material-icons' >person</FontIcon>} />
-                }
-              />
+              }
+            />
 
             <ListItem
               primaryText={auth.displayName}
               secondaryText={auth.email}
               rightIconButton={
-                <IconButton onClick={() => { setDialogIsOpen('auth_menu', dialogs.auth_menu ? false : true) }}>
+                <IconButton onClick={() => { setDialogIsOpen('auth_menu', !dialogs.auth_menu) }}>
                   <FontIcon className='material-icons' >{dialogs.auth_menu ? 'arrow_drop_up' : 'arrow_drop_down'}</FontIcon>
                 </IconButton>
-                }
+              }
               disableFocusRipple
               style={{ backgroundColor: 'transparent' }}
-              onClick={() => { setDialogIsOpen('auth_menu', dialogs.auth_menu ? false : true) }}
-              />
+              onClick={() => { setDialogIsOpen('auth_menu', !dialogs.auth_menu) }}
+            />
           </List>
         </div>
       }
@@ -62,9 +64,9 @@ const DrawerHeader = ({muiTheme, intl, auth, setAuthMenuOpen, fetchUser, dialogs
         <List>
           <ListItem
             disabled
-            primaryText={intl.formatMessage({id: 'app_name'})}
+            primaryText={intl.formatMessage({ id: 'app_name' })}
             leftAvatar={
-              <RMWIcon color={muiTheme.palette.accent1Color} style={styles.icon} />
+              <AppIcon color={muiTheme.palette.accent1Color} style={styles.icon} />
             }
           />
         </List>
@@ -74,4 +76,4 @@ const DrawerHeader = ({muiTheme, intl, auth, setAuthMenuOpen, fetchUser, dialogs
   )
 }
 
-export default injectIntl(muiThemeable()(DrawerHeader))
+export default injectIntl(muiThemeable()(withAppConfigs(DrawerHeader)))

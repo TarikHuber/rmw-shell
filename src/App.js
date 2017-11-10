@@ -9,10 +9,10 @@ import locales, { addLocalizationData } from './locales'
 addLocalizationData(locales)
 
 class App extends Component {
-  render() {
+  render () {
     const { appConfig } = this.props
 
-    const store = appConfig.customConfigureStore != undefined ? appConfig.customConfigureStore() : configureStore()
+    const store = appConfig.configureStore()
 
     return (
       <Provider store={store}>

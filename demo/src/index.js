@@ -11,7 +11,6 @@ import config from './config'
 import getMenuItems from './menuItems'
 import Routes from './Routes'
 
-const store = configureStore()
 
 addLocalizationData(locales)
 
@@ -20,7 +19,7 @@ class Demo extends Component {
   render() {
 
     const appConfig = {
-      customConfigureStore: configureStore,
+      configureStore: configureStore,
       firebaseLoad: () => import('./firebase'),
       getMenuItems,
       locales,
