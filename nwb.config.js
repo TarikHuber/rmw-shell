@@ -1,7 +1,7 @@
 module.exports = {
   type: 'react-component',
   babel: {
-    cherryPick: 'some-module'
+    stage: 1
   },
   npm: {
     esModules: true,

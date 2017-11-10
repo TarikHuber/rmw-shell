@@ -5,12 +5,13 @@ import { ResponsiveDrawer } from 'material-ui-responsive-drawer'
 import { DrawerHeader } from '../../containers/Drawer'
 import { DrawerContent } from '../../containers/Drawer'
 import { withRouter } from 'react-router-dom'
-import Scrollbar from '../../components/Scrollbar/Scrollbar'
+import Scrollbar from '../../components/Scrollbar'
+import AppRoutes from '../../components/AppRoutes'
 import withAppConfigs from '../../withAppConfigs'
 
 export class AppLayout extends Component {
-  render () {
-    const { muiTheme, history, firebaseLoad, appConfig, locale } = this.props
+  render() {
+    const { muiTheme, history, appConfig } = this.props
     const drawerWidth = appConfig.drawer_width
     const path = history.location.pathname
     const Routes = appConfig.routes
@@ -24,7 +25,7 @@ export class AppLayout extends Component {
           </Scrollbar>
         </ResponsiveDrawer>
 
-        <Routes locale={locale} />
+        <Routes />
 
       </div>
     )
