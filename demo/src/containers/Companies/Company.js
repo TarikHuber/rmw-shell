@@ -15,7 +15,7 @@ import Dialog from 'material-ui/Dialog';
 import { withFirebase } from 'firekit-provider'
 import FireForm from 'fireform'
 import { change, submit } from 'redux-form';
-import isGranted from '../../utils/auth';
+import isGranted from '../../../../src/utils/auth';
 
 
 const path = '/companies/';

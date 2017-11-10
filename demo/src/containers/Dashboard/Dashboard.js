@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import FlatButton from 'material-ui/FlatButton'
 import { injectIntl, intlShape } from 'react-intl'
-import { GitHubIcon } from '../../components/Icons'
+import { GitHubIcon } from '../../../../src/components/Icons'
 import { Activity } from '../../../../src'
 import muiThemeable from 'material-ui/styles/muiThemeable'
 import { Line, Bar, Doughnut } from 'react-chartjs-2'
@@ -15,7 +15,6 @@ const daysPath = `/user_registrations_per_day/${currentYear}/${new Date().toISOS
 const monthsPath = `/user_registrations_per_month/${currentYear}`
 const providerPath = `/provider_count`
 
-
 class Dashboard extends Component {
   componentDidMount () {
     const { watchPath } = this.props
@@ -24,12 +23,10 @@ class Dashboard extends Component {
     watchPath(monthsPath)
     watchPath(providerPath)
     watchPath('users_count')
-
   }
 
   render () {
     const { muiTheme, intl, days, months, providers, usersCount } = this.props
-
 
     let daysLabels = []
     let daysData = []
@@ -77,7 +74,6 @@ class Dashboard extends Component {
         let date = new Date(`${currentYear}-${key}-1`)
         monthsLabels.push(intl.formatDate(date, { month: 'long' }))
 
-
         monthsData.push(months[key])
         return key
       })
@@ -110,7 +106,6 @@ class Dashboard extends Component {
         }
       ]
     }
-
 
     let providersData = []
     let providersLabels = []
@@ -218,7 +213,7 @@ const mapStateToProps = (state) => {
     providers: paths[providerPath],
     usersCount: paths['users_count'] ? paths['users_count'] : 0
   }
-};
+}
 
 export default connect(
   mapStateToProps
