@@ -1,8 +1,8 @@
-import {defineMessages} from 'react-intl';
+import { defineMessages } from 'react-intl';
 
-const messages=defineMessages({
+const messages = defineMessages({
   app_name: 'React Most Wanted',
-  dashboard: 'Dashboard',
+  dashboard: 'Dashboard2',
   about: 'About',
   page_not_found_demo: 'Page not found demo',
   '404': '404',
@@ -83,7 +83,7 @@ const messages=defineMessages({
   description_hint: 'Enter description',
   name_label: 'Name',
   name_hint: 'Enter name',
-  public_chats: 'Public chat', 
+  public_chats: 'Public chat',
   delete_message_title: 'Delete message?',
   delete_message_message: 'Message will be deleted!',
   users_count_title: '{number} Users',

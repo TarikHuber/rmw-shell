@@ -12,10 +12,9 @@ import es from 'react-intl/locale-data/es'
 
 var areIntlLocalesSupported = require('intl-locales-supported')
 
-
-//START: Intl polyfill
-//Required for working on Safari
-//Code from here: https://formatjs.io/guides/runtime-environments/
+// START: Intl polyfill
+// Required for working on Safari
+// Code from here: https://formatjs.io/guides/runtime-environments/
 var localesMyAppSupports = [
   /* list locales here */
 ]
@@ -64,25 +63,23 @@ const locales = [
 
 ]
 
-export function getLocaleMessages(locale) {
-  if (locales) {
-    for (var i = 0; i < locales.length; i++) {
-      if (locales[i]['locale'] === locale) {
-        return locales[i]['messages']
+export function getLocaleMessages(l, ls) {
+  if (ls) {
+    for (var i = 0; i < ls.length; i++) {
+      if (ls[i]['locale'] === l) {
+        return ls[i]['messages']
       }
     }
   }
 
-  return en_messages //Default locale
-
+  return en_messages // Default locale
 }
 
-export function addLocalizationData() {
-  locales.map((l) => {
+export function addLocalizationData(ls) {
+  ls.map((l) => {
     addLocaleData(l.data)
     return l
   })
-
 }
 
 export default locales

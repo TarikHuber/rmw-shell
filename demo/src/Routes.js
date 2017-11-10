@@ -29,12 +29,14 @@ const AsyncCompanies = MyLoadable({ loader: () => import('./containers/Companies
 const AsyncUser = MyLoadable({ loader: () => import('../../src/containers/Users/User') });
 const AsyncUsers = MyLoadable({ loader: () => import('../../src/containers/Users/Users') }, [AsyncUser]);
 
-const AsyncSignIn = MyLoadable({ loader: () => import('./containers/SignIn/SignIn') });
+const AsyncSignIn = MyLoadable({ loader: () => import('../../src/containers/SignIn/SignIn') });
 const AsyncPageNotFound = MyLoadable({ loader: () => import('../../src/components/PageNotFound/PageNotFound') });
 
 const Routes = (props, context) => {
 
+
   return (
+
     <Switch >
       <RestrictedRoute type='private' path="/" exact component={AsyncDashboard} />
       <RestrictedRoute type='private' path="/dashboard" exact component={AsyncDashboard} />

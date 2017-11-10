@@ -2,7 +2,9 @@ import React, { Component } from 'react'
 import ReactDOM, { render } from 'react-dom'
 import { Provider } from 'react-redux'
 import configureStore from './store'
-import { addLocalizationData } from './locales'
+import { addLocalizationData } from '../../src'
+import locales from './locales'
+import themes from './themes'
 import registerServiceWorker from './registerServiceWorker'
 import App from '../../src'
 import config from './config'
@@ -11,17 +13,23 @@ import Routes from './Routes'
 
 const store = configureStore()
 
-addLocalizationData()
+addLocalizationData(locales)
 
 class Demo extends Component {
+
   render() {
-    return <App
-      customConfigureStore={configureStore}
-      getMenuItems={getMenuItems}
-      appConfig={config}
-      routes={Routes}
-      firebaseLoad={() => import('./firebase')}
-    />
+
+    const appConfig = {
+      customConfigureStore: configureStore,
+      firebaseLoad: () => import('./firebase'),
+      getMenuItems,
+      locales,
+      routes: Routes,
+      themes,
+      ...config
+    }
+
+    return <App appConfig={appConfig} />
   }
 }
 

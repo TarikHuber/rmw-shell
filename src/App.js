@@ -3,28 +3,29 @@ import React, { Component } from 'react'
 import configureStore from './store'
 import { Provider } from 'react-redux'
 import Root from './containers/Root'
+import AppConfigProvider from './components/AppConfigProvider'
+import locales, { addLocalizationData } from './locales'
+
+addLocalizationData(locales)
 
 class App extends Component {
-  render () {
-    const { customConfigureStore, getMenuItems, routes, firebaseLoad, appConfig } = this.props
+  render() {
+    const { appConfig } = this.props
 
-    const store = customConfigureStore != undefined ? customConfigureStore() : configureStore()
+    const store = appConfig.customConfigureStore != undefined ? appConfig.customConfigureStore() : configureStore()
 
     return (
       <Provider store={store}>
-        <Root
-          getMenuItems={getMenuItems}
-          routes={routes}
-          firebaseLoad={firebaseLoad}
-          appConfig={appConfig}
-        />
+        <AppConfigProvider appConfig={appConfig}>
+          <Root appConfig={appConfig} />
+        </AppConfigProvider>
       </Provider>
     )
   }
 }
 
 App.propTypes = {
-  // PropTypes.any
+  appConfig: PropTypes.object.isRequired
 }
 
 export default App

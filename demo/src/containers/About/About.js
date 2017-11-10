@@ -3,9 +3,6 @@ import FlatButton from 'material-ui/FlatButton'
 import { injectIntl, intlShape } from 'react-intl'
 import { GitHubIcon } from '../../components/Icons'
 import { Activity, Scrollbar } from '../../../../src'
-import ReactMarkdown from 'react-markdown'
-
-require('github-markdown-css')
 
 class About extends Component {
   // Sorry for using setState here but I have to remove 'marked' from the dependencies
@@ -15,14 +12,6 @@ class About extends Component {
     this.state = {
       text: ''
     }
-  }
-
-  componentWillMount () {
-    fetch(README)
-      .then(response => response.text())
-      .then(text => {
-        this.setState({ text: text })
-      })
   }
 
   render () {

@@ -2,20 +2,25 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { injectIntl } from 'react-intl'
-import { Activity } from '../../../../src'
+import Activity from '../../containers/Activity'
 import muiThemeable from 'material-ui/styles/muiThemeable'
 import firebaseui from 'firebaseui'
-import { firebaseAuth } from '../../firebase'
 import config from '../../config'
 import { withRouter } from 'react-router-dom'
 import { withFirebase } from 'firekit-provider'
-// import 'firebaseui/dist/firebaseui.css'
+import withAppConfigs from '../../withAppConfigs'
 
-var authUi = new firebaseui.auth.AuthUI(firebaseAuth)
 
 class SignIn extends Component {
-  componentDidMount () {
-    const { browser, initMessaging } = this.props
+  constructor(props) {
+    super(props)
+    this.state = {
+      authUi: false
+    }
+  }
+
+  componentDidMount() {
+    const { browser, initMessaging, firebaseApp } = this.props
 
     var uiConfig = {
       signInSuccessUrl: '/',
@@ -31,23 +36,31 @@ class SignIn extends Component {
       signInOptions: config.firebase_providers
     }
 
-    authUi.start('#firebaseui-auth', uiConfig)
+    let authUi = null
+
+    try {
+      authUi = new firebaseui.auth.AuthUI(firebaseApp.auth())
+      this.setState({ authUi }, () => {
+        authUi.start('#firebaseui-auth', uiConfig)
+      })
+    } catch (err) {
+      console.warn(err)
+    }
   }
 
-  componentWillUnmount () {
-    authUi.reset()
+  componentWillUnmount() {
+    this.state.authUi.delete()
   }
 
-  render () {
+  render() {
     const { intl } = this.props
 
     return (
-      <Activity
-        title={intl.formatMessage({ id: 'sign_in' })}>
-        <div style={{ paddingTop: 35, width: '100%' }}>
-          <div id='firebaseui-auth' style={{ width: '100%' }} />
-        </div>
-      </Activity>
+
+      <div style={{ paddingTop: 35, width: '100%' }}>
+        <div id='firebaseui-auth' style={{ width: '100%' }} />
+      </div>
+
     )
   }
 }
@@ -66,4 +79,4 @@ const mapStateToProps = (state) => {
 
 export default connect(
   mapStateToProps
-)(injectIntl(muiThemeable()(withRouter(withFirebase(SignIn)))))
+)(injectIntl(muiThemeable()(withRouter(withFirebase(withAppConfigs(SignIn))))))

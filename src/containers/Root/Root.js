@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getLocaleMessages } from '../../locales';
-import { getThemeSource } from '../../themes';
+import locales, { getLocaleMessages } from '../../locales';
+import getThemeSource from '../../themes';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { IntlProvider } from 'react-intl'
@@ -73,10 +73,10 @@ class Root extends Component {
     }
 
     componentWillMount() {
-        const { watchAuth, firebaseLoad } = this.props;
+        const { watchAuth, appConfig } = this.props;
 
 
-        firebaseLoad().then(({ firebaseApp }) => {
+        appConfig.firebaseLoad().then(({ firebaseApp }) => {
             this.firebaseApp = firebaseApp
             watchAuth(firebaseApp, this.onAuthStateChanged)
         })
@@ -90,24 +90,18 @@ class Root extends Component {
     }
 
     render() {
-        const { locale, muiTheme, messages, getMenuItems, routes, firebaseLoad, appConfig } = this.props;
+        const { locale, muiTheme, messages, appConfig } = this.props;
 
         return (
             <MuiThemeProvider muiTheme={muiTheme}>
                 <IntlProvider locale={locale} messages={messages}>
-                    <Router history={history} >
-                        <Switch>
-                            <Route
-                                children={(props) => <AppLayout
-                                    appConfig={appConfig}
-                                    firebaseLoad={firebaseLoad}
-                                    getMenuItems={getMenuItems}
-                                    routes={routes}
-                                    {...props}
-                                />}
-                            />
-                        </Switch>
-                    </Router>
+                    <IntlProvider messages={getLocaleMessages(locale, appConfig.locales)}>
+                        <Router history={history} >
+                            <Switch>
+                                <Route children={(props) => <AppLayout {...props} />} />
+                            </Switch>
+                        </Router>
+                    </IntlProvider>
                 </IntlProvider>
             </MuiThemeProvider>
         );
@@ -122,11 +116,12 @@ Root.propTypes = {
     muiTheme: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
     const { theme, locale } = state;
+    const { appConfig } = ownProps
 
-    const source = getThemeSource(theme);
-    const messages = getLocaleMessages(locale);
+    const source = getThemeSource(theme, appConfig.themes);
+    const messages = getLocaleMessages(locale, locales);
     const muiTheme = getMuiTheme(source);
 
     return {

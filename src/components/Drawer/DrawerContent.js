@@ -3,10 +3,9 @@ import muiThemeable from 'material-ui/styles/muiThemeable'
 import { SelectableMenuList } from 'material-ui-selectable-menu-list'
 import FontIcon from 'material-ui/FontIcon'
 import Toggle from 'material-ui/Toggle'
-import allThemes from '../../themes'
-import allLocales from '../../locales'
 import { injectIntl } from 'react-intl'
 import { withRouter } from 'react-router-dom'
+import withAppConfigs from '../../withAppConfigs'
 
 const DrawerContent = (props, context) => {
   const {
@@ -23,9 +22,9 @@ const DrawerContent = (props, context) => {
     match,
     messaging,
     getMenuItems,
+    appConfig,
     isGranted
   } = props
-
 
   const isAuthorised = auth.isAuthorised
 
@@ -41,7 +40,7 @@ const DrawerContent = (props, context) => {
     }
   }
 
-  const themeItems = allThemes.map((t) => {
+  const themeItems = appConfig.themes.map((t) => {
     return {
       value: undefined,
       visible: true,
@@ -55,7 +54,7 @@ const DrawerContent = (props, context) => {
     }
   })
 
-  const localeItems = allLocales.map((l) => {
+  const localeItems = appConfig.locales.map((l) => {
     return {
       value: undefined,
       visible: true,
@@ -69,13 +68,12 @@ const DrawerContent = (props, context) => {
     }
   })
 
-
-  const menuItems = getMenuItems(props)
+  const menuItems = appConfig.getMenuItems(props)
 
   const handleSignOut = () => {
-    const { userLogout, setDialogIsOpen, firebaseLoad } = props
+    const { userLogout, setDialogIsOpen, appConfig } = props
 
-    firebaseLoad().then(({ firebaseApp }) => {
+    appConfig.firebaseLoad().then(({ firebaseApp }) => {
       this.firebaseApp = firebaseApp
 
       firebaseApp.database().ref(`users/${firebaseApp.auth().currentUser.uid}/connections`).remove()
@@ -83,7 +81,6 @@ const DrawerContent = (props, context) => {
       firebaseApp.database().ref(`users/${firebaseApp.auth().currentUser.uid}/lastOnline`).set(new Date())
       firebaseApp.auth().signOut().then(() => { setDialogIsOpen('auth_menu', false) })
       userLogout()
-
     })
   }
 
@@ -102,7 +99,6 @@ const DrawerContent = (props, context) => {
 
   ]
 
-
   return (
     <div style={{
       display: 'flex',
@@ -119,4 +115,4 @@ const DrawerContent = (props, context) => {
   )
 }
 
-export default injectIntl(muiThemeable()(withRouter(DrawerContent)))
+export default injectIntl(muiThemeable()(withRouter(withAppConfigs(DrawerContent))))
