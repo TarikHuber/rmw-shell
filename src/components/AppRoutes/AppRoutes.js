@@ -2,10 +2,11 @@ import React from 'react';
 import Loadable from 'react-loadable';
 import LoadingComponent from '../../components/LoadingComponent';
 import RestrictedRoute from '../../containers/RestrictedRoute';
-import MyLoadable from '../../containers/MyLoadable';
+import makeLoadable from '../../containers/MyLoadable';
 import { Route, Switch } from 'react-router-dom';
 import FirebaseProvider from 'firekit-provider';
-import withAppConfigs from '../../withAppConfigs'
+
+const MyLoadable = (opts, preloadComponents) => makeLoadable({ ...opts, firebase: () => import('../../firebase') }, preloadComponents)
 
 const AsyncChat = MyLoadable({ loader: () => import('../../containers/Chats/Chat') });
 const AsyncCreateChat = MyLoadable({ loader: () => import('../../containers/Chats/CreateChat') });
@@ -23,9 +24,6 @@ const AsyncChats = MyLoadable({ loader: () => import('../../containers/Chats/Cha
 
 const AppRoutes = (props, context) => {
 
-  const { appConfig } = props
-
-  const Routes = appConfig.routes
 
   return (
     <Route>
@@ -51,4 +49,4 @@ const AppRoutes = (props, context) => {
   );
 }
 
-export default withAppConfigs(AppRoutes);
+export default AppRoutes;
