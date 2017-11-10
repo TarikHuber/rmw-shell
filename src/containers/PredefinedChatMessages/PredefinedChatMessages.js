@@ -1,30 +1,30 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {injectIntl, intlShape} from 'react-intl';
-import { Activity } from '../../../../src'
-import {List, ListItem} from 'material-ui/List';
+import { injectIntl, intlShape } from 'react-intl';
+import Activity from '../../containers/Activity'
+import { List, ListItem } from 'material-ui/List';
 import Divider from 'material-ui/Divider';
 import { withFirebase } from 'firekit-provider';
 import { withRouter } from 'react-router-dom';
 import FontIcon from 'material-ui/FontIcon';
-import isGranted  from '../../utils/auth';
+import isGranted from '../../utils/auth';
 import PropTypes from 'prop-types';
-import { setSimpleValue } from '../../../../src/store/simpleValues/actions'
+import { setSimpleValue } from '../../store/simpleValues/actions'
 import { TextField } from 'redux-form-material-ui';
 import FlatButton from 'material-ui/FlatButton';
 import IconButton from 'material-ui/IconButton';
-import {BottomNavigation} from 'material-ui/BottomNavigation';
+import { BottomNavigation } from 'material-ui/BottomNavigation';
 import Dialog from 'material-ui/Dialog';
 import muiThemeable from 'material-ui/styles/muiThemeable';
 import ReactList from 'react-list';
-import { Scrollbar } from '../../../../src'
+import Scrollbar from '../../components/Scrollbar'
 
 
-const path=`predefined_chat_messages`;
+const path = `predefined_chat_messages`;
 
 class PredefinedChatMessages extends Component {
 
-  componentWillMount(){
+  componentWillMount() {
     const { watchList } = this.props;
     watchList(path);
   }
@@ -37,7 +37,7 @@ class PredefinedChatMessages extends Component {
   handleDelete = (key) => {
     const { firebaseApp, delete_predefined_chat_message } = this.props;
 
-    if(key) {
+    if (key) {
       firebaseApp.database().ref(`/${path}/${delete_predefined_chat_message}`).remove().then(() => {
         this.handleClose();
       });
@@ -45,7 +45,7 @@ class PredefinedChatMessages extends Component {
   }
 
   handleKeyDown = (event, onSucces) => {
-    if(event.keyCode===13){
+    if (event.keyCode === 13) {
       onSucces();
     }
   }
@@ -55,14 +55,14 @@ class PredefinedChatMessages extends Component {
     const message = this.refs["predefinedChatMessage"].refs.component.input.value;
     this.refs["predefinedChatMessage"].refs.component.input.value = '';
 
-    if(message.length>0){
-      firebaseApp.database().ref(`/${path}/`).push({message});
+    if (message.length > 0) {
+      firebaseApp.database().ref(`/${path}/`).push({ message });
     }
   }
 
 
   renderItem = (i, k) => {
-    const { list, setSimpleValue } =this.props;
+    const { list, setSimpleValue } = this.props;
 
     const key = list[i].key;
     const message = list[i].val.message;
@@ -81,13 +81,13 @@ class PredefinedChatMessages extends Component {
           id={key}
         />
 
-        <Divider/>
+        <Divider />
       </div>
     );
   }
 
 
-  render(){
+  render() {
     const {
       intl,
       list,
@@ -97,12 +97,12 @@ class PredefinedChatMessages extends Component {
 
     const actions = [
       <FlatButton
-        label={intl.formatMessage({id: 'cancel'})}
+        label={intl.formatMessage({ id: 'cancel' })}
         primary={true}
         onClick={this.handleClose}
       />,
       <FlatButton
-        label={intl.formatMessage({id: 'delete'})}
+        label={intl.formatMessage({ id: 'delete' })}
         secondary={true}
         onClick={this.handleDelete}
       />,
@@ -110,16 +110,16 @@ class PredefinedChatMessages extends Component {
 
     return (
       <Activity
-        isLoading={list===undefined}
-        containerStyle={{overflow:'hidden'}}
-        title={intl.formatMessage({id: 'predefined_messages'})}>
+        isLoading={list === undefined}
+        containerStyle={{ overflow: 'hidden' }}
+        title={intl.formatMessage({ id: 'predefined_messages' })}>
 
-        <div style={{overflow: 'auto', height: '100%', width: '100%', backgroundColor: muiTheme.palette.convasColor, paddingBottom: 56}}>
+        <div style={{ overflow: 'auto', height: '100%', width: '100%', backgroundColor: muiTheme.palette.convasColor, paddingBottom: 56 }}>
           <Scrollbar>
-            <List  ref={(field) => { this.list = field; }}>
+            <List ref={(field) => { this.list = field; }}>
               <ReactList
                 itemRenderer={this.renderItem}
-                length={list?list.length:0}
+                length={list ? list.length : 0}
                 type='simple'
               />
             </List>
@@ -131,12 +131,12 @@ class PredefinedChatMessages extends Component {
 
 
         {list &&
-          <BottomNavigation style={{width: '100%', position: 'absolute', bottom: 0, right: 0, left: 0, zIndex: 50}}>
-            <div style={{display:'flex', alignItems: 'center', justifyContent: 'center', padding: 15 }}>
+          <BottomNavigation style={{ width: '100%', position: 'absolute', bottom: 0, right: 0, left: 0, zIndex: 50 }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 15 }}>
               <TextField
                 id="predefinedChatMessage"
                 fullWidth={true}
-                onKeyDown={(event)=>{this.handleKeyDown(event, this.handleAddMessage)}}
+                onKeyDown={(event) => { this.handleKeyDown(event, this.handleAddMessage) }}
                 ref='predefinedChatMessage'
                 type="Text"
               />
@@ -150,12 +150,12 @@ class PredefinedChatMessages extends Component {
         }
 
         <Dialog
-          title={intl.formatMessage({id: 'delete_predefined_chat_message_title'})}
+          title={intl.formatMessage({ id: 'delete_predefined_chat_message_title' })}
           actions={actions}
           modal={false}
-          open={delete_predefined_chat_message!==undefined}
+          open={delete_predefined_chat_message !== undefined}
           onRequestClose={this.handleClose}>
-          {intl.formatMessage({id: 'delete_predefined_chat_message_message'})}
+          {intl.formatMessage({ id: 'delete_predefined_chat_message_message' })}
         </Dialog>
       </Activity>
 
@@ -181,7 +181,7 @@ const mapStateToProps = (state) => {
     browser,
     delete_predefined_chat_message,
     list: lists[path],
-    isGranted: grant=>isGranted(state, grant)
+    isGranted: grant => isGranted(state, grant)
   };
 };
 

@@ -6,8 +6,8 @@ import { TextField } from 'redux-form-material-ui'
 import FontIcon from 'material-ui/FontIcon'
 import { ImageCropDialog } from '../../containers/ImageCropDialog'
 import IconButton from 'material-ui/IconButton'
-import config from '../../config'
 import { AvatarImageField } from '../ReduxFormFields'
+import withAppConfigs from '../../withAppConfigs'
 
 class MyAccountForm extends Component {
   render () {
@@ -23,6 +23,7 @@ class MyAccountForm extends Component {
       linkUserWithPopup,
       getProviderIcon,
       handleEmailVerificationsSend,
+      appConfig,
       handlePhotoUploadSuccess
     } = this.props
 
@@ -48,7 +49,7 @@ class MyAccountForm extends Component {
 
           <div>
             {
-              config.firebase_providers.map((p, i) => {
+              appConfig.firebase_providers.map((p, i) => {
                 if (p !== 'email' && p !== 'password' && p !== 'phone') {
                   return <IconButton
                     key={i}
@@ -183,4 +184,4 @@ MyAccountForm.propTypes = {
   auth: PropTypes.object.isRequired
 }
 
-export default reduxForm({ form: 'my_account' })(MyAccountForm)
+export default reduxForm({ form: 'my_account' })(withAppConfigs(MyAccountForm))

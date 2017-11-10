@@ -4,20 +4,19 @@ import { injectIntl } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import { TextField } from 'redux-form-material-ui'
 import RaisedButton from 'material-ui/RaisedButton'
-import { SuperSelectField } from '../../components/ReduxFormFields'
+import { SuperSelectField } from '../../../../src/components/ReduxFormFields'
 import Avatar from 'material-ui/Avatar'
 import FontIcon from 'material-ui/FontIcon'
 
-
 class TaskForm extends Component {
-  componentDidMount() {
+  componentDidMount () {
     this.refs.title // the Field
       .getRenderedComponent() // on Field, returns ReduxFormMaterialUITextField
       .getRenderedComponent() // on ReduxFormMaterialUITextField, returns TextField
       .focus() // on TextField
   }
 
-  render() {
+  render () {
     const { handleSubmit, intl, users, initialized } = this.props
 
     let userSource = []
@@ -105,7 +104,7 @@ const mapStateToProps = state => {
     intl,
     users: lists.users
   }
-};
+}
 
 TaskForm = reduxForm({ form: 'task' })(TaskForm)
 

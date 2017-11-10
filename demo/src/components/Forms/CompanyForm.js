@@ -7,7 +7,7 @@ import { Avatar } from '../../../../src';
 import FontIcon from 'material-ui/FontIcon';
 import FlatButton from 'material-ui/FlatButton';
 import { setDialogIsOpen } from '../../../../src/store/dialogs/actions';
-import { ImageCropDialog } from '../../containers/ImageCropDialog';
+import { ImageCropDialog } from '../../../../src/containers/ImageCropDialog';
 import { withRouter } from 'react-router-dom';
 import muiThemeable from 'material-ui/styles/muiThemeable';
 import PropTypes from 'prop-types';

@@ -3,14 +3,13 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import muiThemeable from 'material-ui/styles/muiThemeable'
 import { injectIntl, intlShape } from 'react-intl'
-import { setSimpleValue } from '../../../../src/store/simpleValues/actions'
-import { Activity, Scrollbar } from '../../../../src'
+import { setSimpleValue } from '../../store/simpleValues/actions'
+import Activity from '../../containers/Activity'
 import FontIcon from 'material-ui/FontIcon'
 import Avatar from 'material-ui/Avatar'
 import { withRouter } from 'react-router-dom'
 import { withFirebase } from 'firekit-provider'
 import { ChatMessages } from '../../containers/ChatMessages'
-
 
 class Chat extends Component {
   componentDidMount() {
@@ -50,7 +49,6 @@ class Chat extends Component {
 
       </Activity>
     )
-
   }
 }
 
@@ -89,7 +87,7 @@ const mapStateToProps = (state, ownPops) => {
     auth,
     messages: lists[path]
   }
-};
+}
 
 export default connect(
   mapStateToProps, { setSimpleValue }

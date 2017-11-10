@@ -8,10 +8,10 @@ const AsyncDashboard = MyLoadable({ loader: () => import('./containers/Dashboard
 const AsyncDocument = MyLoadable({ loader: () => import('./containers/Document/Document') });
 const AsyncCollection = MyLoadable({ loader: () => import('./containers/Collection/Collection') });
 const AsyncAbout = MyLoadable({ loader: () => import('./containers/About/About') });
-const AsyncPublicChats = MyLoadable({ loader: () => import('./containers/PublicChats/PublicChats') });
+const AsyncPublicChats = MyLoadable({ loader: () => import('../../src/containers/PublicChats/PublicChats') });
 const AsyncMyAccount = MyLoadable({ loader: () => import('../../src/containers/MyAccount/MyAccount') });
 
-const AsyncPredefinedChatMessages = MyLoadable({ loader: () => import('./containers/PredefinedChatMessages/PredefinedChatMessages') });
+const AsyncPredefinedChatMessages = MyLoadable({ loader: () => import('../../src/containers/PredefinedChatMessages/PredefinedChatMessages') });
 
 const AsyncTask = MyLoadable({ loader: () => import('./containers/Tasks/Task') });
 const AsyncTasks = MyLoadable({ loader: () => import('./containers/Tasks/Tasks') }, [AsyncTask]);
@@ -19,9 +19,9 @@ const AsyncTasks = MyLoadable({ loader: () => import('./containers/Tasks/Tasks')
 const AsyncRole = MyLoadable({ loader: () => import('../../src/containers/Roles/Role') });
 const AsyncRoles = MyLoadable({ loader: () => import('../../src/containers/Roles/Roles') }, AsyncRole);
 
-const AsyncChat = MyLoadable({ loader: () => import('./containers/Chats/Chat') });
-const AsyncCreateChat = MyLoadable({ loader: () => import('./containers/Chats/CreateChat') });
-const AsyncChats = MyLoadable({ loader: () => import('./containers/Chats/Chats') }, [AsyncChat, AsyncCreateChat]);
+const AsyncChat = MyLoadable({ loader: () => import('../../src/containers/Chats/Chat') });
+const AsyncCreateChat = MyLoadable({ loader: () => import('../../src/containers/Chats/CreateChat') });
+const AsyncChats = MyLoadable({ loader: () => import('../../src/containers/Chats/Chats') }, [AsyncChat, AsyncCreateChat]);
 
 const AsyncCompany = MyLoadable({ loader: () => import('./containers/Companies/Company') });
 const AsyncCompanies = MyLoadable({ loader: () => import('./containers/Companies/Companies') }, [AsyncCompany]);

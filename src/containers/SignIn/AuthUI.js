@@ -1,26 +1,19 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { injectIntl } from 'react-intl'
-import Activity from '../../containers/Activity'
-import muiThemeable from 'material-ui/styles/muiThemeable'
 import firebaseui from 'firebaseui'
-import config from '../../config'
-import { withRouter } from 'react-router-dom'
-import { withFirebase } from 'firekit-provider'
 import withAppConfigs from '../../withAppConfigs'
-
+import { withFirebase } from 'firekit-provider'
 
 class SignIn extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = {
       authUi: false
     }
   }
 
-  componentDidMount() {
-    const { browser, initMessaging, firebaseApp } = this.props
+  componentDidMount () {
+    const { browser, initMessaging, firebaseApp, appConfig } = this.props
 
     var uiConfig = {
       signInSuccessUrl: '/',
@@ -33,7 +26,7 @@ class SignIn extends Component {
           return false
         }
       },
-      signInOptions: config.firebase_providers
+      signInOptions: appConfig.firebase_providers
     }
 
     let authUi = null
@@ -48,26 +41,18 @@ class SignIn extends Component {
     }
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     this.state.authUi.delete()
   }
 
-  render() {
-    const { intl } = this.props
-
+  render () {
     return (
-
       <div style={{ paddingTop: 35, width: '100%' }}>
         <div id='firebaseui-auth' style={{ width: '100%' }} />
       </div>
 
     )
   }
-}
-
-SignIn.propTypes = {
-  intl: PropTypes.object.isRequired,
-  muiTheme: PropTypes.object.isRequired
 }
 
 const mapStateToProps = (state) => {
@@ -79,4 +64,4 @@ const mapStateToProps = (state) => {
 
 export default connect(
   mapStateToProps
-)(injectIntl(muiThemeable()(withRouter(withFirebase(withAppConfigs(SignIn))))))
+)(withFirebase(withAppConfigs(SignIn)))
