@@ -76,12 +76,12 @@ class Root extends Component {
         const { watchAuth, appConfig } = this.props;
 
 
-        /*
+        
         appConfig.firebaseLoad().then(({ firebaseApp }) => {
             this.firebaseApp = firebaseApp
             watchAuth(firebaseApp, this.onAuthStateChanged)
         })
-        */
+        
 
 
     }
