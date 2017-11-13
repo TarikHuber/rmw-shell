@@ -7,6 +7,9 @@ import { Route } from 'react-router-dom';
 
 
 const getAppRoutes = (firebaseLoader) => {
+
+  console.log(firebaseLoader)
+
   const MyLoadable = (opts, preloadComponents) => makeLoadable({ ...opts, firebase: firebaseLoader }, preloadComponents)
 
   const AsyncChat = MyLoadable({ loader: () => import('../../containers/Chats/Chat') });
