@@ -16,7 +16,7 @@ import { ListItem } from 'material-ui/List';
 import Divider from 'material-ui/Divider';
 import ReactList from 'react-list';
 import { getGeolocation } from '../../utils/googleMaps';
-import googleMapsLogo from '../../utils/resources/google-maps-logo.png'
+//import googleMapsLogo from '../../utils/resources/google-maps-logo.png'
 import Scrollbar from '../../components/Scrollbar'
 import Image from 'material-ui-image'
 
@@ -219,7 +219,7 @@ class ChatMessages extends Component {
                       </div>
                       <div style={{ textAlign: 'center', width: '100%', height: '100%' }}>
                         <a target="_blank" href={values.location} style={{ width: '100%', height: '100%' }}>
-                          <img src={googleMapsLogo} alt='' height={50} width={50} />
+                          <img src={"to do"} alt='' height={50} width={50} />
                         </a>
                       </div>
                     </div>
