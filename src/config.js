@@ -40,7 +40,7 @@ const config = {
     firebaseLoad: () => import('./firebase'),
     getMenuItems: configureStore,
     locales: locales,
-    routes: AppRoutes,
+    routes: [],
     themes: themes,
 }
 
