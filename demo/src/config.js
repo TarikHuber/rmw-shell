@@ -1,3 +1,7 @@
+import getMenuItems from './menuItems'
+import locales from './locales'
+import routes from './routes'
+import themes from './themes'
 
 const config = {
   firebase_config: {
@@ -28,7 +32,12 @@ const config = {
     theme: 'dark',
     locale: 'en'
   },
-  drawer_width: 256
+  drawer_width: 256,
+  routes: routes,
+  getMenuItems: getMenuItems,
+  locales: locales,
+  themes: themes,
+  firebaseLoad: () => import('./firebase')
 }
 
 export default config
