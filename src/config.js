@@ -3,7 +3,6 @@ import configureStore from './store'
 import getMenuItems from './menuItems'
 import locales from './locales'
 import { themes } from './themes'
-import AppRoutes from './components/AppRoutes'
 
 const config = {
   firebase_providers: [
@@ -21,7 +20,7 @@ const config = {
   drawer_width: 256,
   appIcon: RMWIcon,
   configureStore: configureStore,
-  getMenuItems: configureStore,
+  getMenuItems: getMenuItems,
   locales: locales,
   routes: [],
   themes: themes
