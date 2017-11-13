@@ -11,7 +11,7 @@ export default function makeLoadable(opts, preloadComponents) {
       firebase: opts.firebase,
       NotificationLayout: () => import('../../containers/NotificationLayout/NotificationLayout'),
     },
-    loading: <div />,
+    loading: () => { return null },
     render(loaded, props) {
 
       if (preloadComponents !== undefined && preloadComponents instanceof Array) {
