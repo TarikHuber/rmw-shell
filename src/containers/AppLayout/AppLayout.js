@@ -6,7 +6,7 @@ import { DrawerHeader } from '../../containers/Drawer'
 import { DrawerContent } from '../../containers/Drawer'
 import { withRouter } from 'react-router-dom'
 import Scrollbar from '../../components/Scrollbar'
-import getAppRoutes from '../../components/AppRoutes'
+// import getAppRoutes from '../../components/AppRoutes'
 import withAppConfigs from '../../withAppConfigs'
 import { Switch } from 'react-router-dom'
 
@@ -16,7 +16,7 @@ export class AppLayout extends Component {
     const drawerWidth = appConfig.drawer_width
     const path = history.location.pathname
     const customRoutes = appConfig.routes ? appConfig.routes : []
-    const appRoutes = getAppRoutes(appConfig.firebaseLoad)
+    // const appRoutes = getAppRoutes(appConfig.firebaseLoad)
 
     return (
       <div style={{ backgroundColor: muiTheme.palette.canvasColor, height: '100%' }}>
@@ -29,7 +29,7 @@ export class AppLayout extends Component {
 
         <Switch>
           {customRoutes.map((Route, i) => { return React.cloneElement(Route, { key: `@customRoute/${i}` }) })}
-          {appRoutes.map((Route, i) => { return React.cloneElement(Route, { key: `@appRoute/${i}` }) })}
+          {[].map((Route, i) => { return React.cloneElement(Route, { key: `@appRoute/${i}` }) })}
         </Switch>
 
       </div>
