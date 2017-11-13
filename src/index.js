@@ -10,6 +10,7 @@ export { getThemeSource } from './themes'
 export makeLoadable from './containers/MyLoadable'
 export rootReducer from './store/rootReducer'
 export withAppConfigs from './withAppConfigs'
+export registerServiceWorker from './registerServiceWorker'
 export { appReducers } from './store/reducers'
 
 import App from './App'
