@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import muiThemeable from 'material-ui/styles/muiThemeable'
 import { ResponsiveDrawer } from 'material-ui-responsive-drawer'
-import { DrawerHeader } from '../../containers/Drawer'
-import { DrawerContent } from '../../containers/Drawer'
+//import { DrawerHeader } from '../../containers/Drawer'
+//import { DrawerContent } from '../../containers/Drawer'
 import { withRouter } from 'react-router-dom'
 import Scrollbar from '../../components/Scrollbar'
 // import getAppRoutes from '../../components/AppRoutes'
@@ -11,7 +11,7 @@ import withAppConfigs from '../../withAppConfigs'
 import { Switch } from 'react-router-dom'
 
 export class AppLayout extends Component {
-  render () {
+  render() {
     const { muiTheme, history, appConfig } = this.props
     const drawerWidth = appConfig.drawer_width
     const path = history.location.pathname
@@ -22,8 +22,7 @@ export class AppLayout extends Component {
       <div style={{ backgroundColor: muiTheme.palette.canvasColor, height: '100%' }}>
         <ResponsiveDrawer width={drawerWidth}>
           <Scrollbar>
-            <DrawerHeader />
-            <DrawerContent path={path} history={history} />
+
           </Scrollbar>
         </ResponsiveDrawer>
 
