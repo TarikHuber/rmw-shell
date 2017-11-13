@@ -1,6 +1,6 @@
 import React from 'react';
 import Loadable from 'react-loadable';
-import LoadingComponent from '../../components/LoadingComponent/LoadingComponent';
+import LoadingComponent from '../../components/LoadingComponent';
 import FirebaseProvider from 'firekit-provider';
 
 export default function makeLoadable(opts, preloadComponents) {

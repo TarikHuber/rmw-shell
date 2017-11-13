@@ -410,7 +410,7 @@ class ChatMessages extends Component {
                   style={{ height: 42, width: 'calc(100% - 72px)', lineHeight: undefined }}
                   underlineShow={false}
                   fullWidth={true}
-                  autocomplete="off"
+                  autoComplete="off"
                   hintText={intl.formatMessage({ id: 'write_message_hint' })}
                   onKeyDown={(event) => { this.handleKeyDown(event, () => this.handleAddMessage("text", this.name.getValue())) }}
                   ref={(field) => { this.name = field }}

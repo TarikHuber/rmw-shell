@@ -82,6 +82,36 @@ const getMenuItems = (props) => {
       ]
     },
     {
+      value: '/companies',
+      visible: isGranted('read_companies'),
+      primaryText: intl.formatMessage({ id: 'companies' }),
+      leftIcon: <FontIcon className='material-icons' >business</FontIcon>
+    },
+    {
+      value: '/tasks',
+      visible: isAuthorised,
+      primaryText: intl.formatMessage({ id: 'tasks' }),
+      leftIcon: <FontIcon className='material-icons' >list</FontIcon>
+    },
+    {
+      visible: isAuthorised,
+      primaryTogglesNestedList: true,
+      primaryText: intl.formatMessage({ id: 'firestore' }),
+      leftIcon: <FontIcon className='material-icons' >flash_on</FontIcon>,
+      nestedItems: [
+        {
+          value: '/document',
+          primaryText: intl.formatMessage({ id: 'document' }),
+          leftIcon: <FontIcon className='material-icons' >flash_on</FontIcon>
+        },
+        {
+          value: '/collection',
+          primaryText: intl.formatMessage({ id: 'collection' }),
+          leftIcon: <FontIcon className='material-icons' >flash_on</FontIcon>
+        }
+      ]
+    },
+    {
       value: '/about',
       visible: isAuthorised,
       primaryText: intl.formatMessage({ id: 'about' }),

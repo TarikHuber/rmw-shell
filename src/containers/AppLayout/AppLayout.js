@@ -8,10 +8,10 @@ import { withRouter } from 'react-router-dom'
 import Scrollbar from '../../components/Scrollbar'
 import getAppRoutes from '../../components/AppRoutes'
 import withAppConfigs from '../../withAppConfigs'
-import { Route, Switch } from 'react-router-dom'
+import { Switch } from 'react-router-dom'
 
 export class AppLayout extends Component {
-  render() {
+  render () {
     const { muiTheme, history, appConfig } = this.props
     const drawerWidth = appConfig.drawer_width
     const path = history.location.pathname
@@ -28,8 +28,8 @@ export class AppLayout extends Component {
         </ResponsiveDrawer>
 
         <Switch>
-          {customRoutes.map(route => route)}
-          {appRoutes.map(route => route)}
+          {customRoutes.map((Route, i) => { return React.cloneElement(Route, { key: `@customRoute/${i}` }) })}
+          {appRoutes.map((Route, i) => { return React.cloneElement(Route, { key: `@appRoute/${i}` }) })}
         </Switch>
 
       </div>

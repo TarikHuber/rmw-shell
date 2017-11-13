@@ -1,16 +1,13 @@
 import React from 'react';
 import Loadable from 'react-loadable';
-import LoadingComponent from '../../components/LoadingComponent';
+import LoadingComponent from '../../components/LoadingComponent/LoadingComponent';
 import RestrictedRoute from '../../containers/RestrictedRoute';
 import makeLoadable from '../../containers/MyLoadable';
 import { Route } from 'react-router-dom';
-import FirebaseProvider from 'firekit-provider';
 
 
-const getAppRoutes = (firebaseLoader, routes) => {
+const getAppRoutes = (firebaseLoader) => {
   const MyLoadable = (opts, preloadComponents) => makeLoadable({ ...opts, firebase: firebaseLoader }, preloadComponents)
-
-  const CustomRoutes = routes
 
   const AsyncChat = MyLoadable({ loader: () => import('../../containers/Chats/Chat') });
   const AsyncCreateChat = MyLoadable({ loader: () => import('../../containers/Chats/CreateChat') });
@@ -38,7 +35,7 @@ const getAppRoutes = (firebaseLoader, routes) => {
     <RestrictedRoute type='private' path="/roles/edit/:uid" exact component={AsyncRole} />,
     <RestrictedRoute type='private' path="/users" exact component={AsyncUsers} />,
     <RestrictedRoute type='private' path="/users/edit/:uid/:editType" exact component={AsyncUser} />,
-    <RestrictedRoute type='public' path="/signin" component={AsyncSignIn} />,
+    <RestrictedRoute type='public' path="/signin" key="appRoute@/signin" component={AsyncSignIn} />,
     <Route component={AsyncPageNotFound} />,
   ]
 }
