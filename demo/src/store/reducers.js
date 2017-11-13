@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux'
 import initState from './init'
-import { appReducers, rootReducer } from '../../../src'
+import { appReducers } from '../../../src/store/reducers'
+import rootReducer from '../../../src/store/rootReducer'
 
 const appReducer = combineReducers({
   ...appReducers

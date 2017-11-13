@@ -7,14 +7,14 @@ import { Activity, Scrollbar } from '../../../../src'
 class About extends Component {
   // Sorry for using setState here but I have to remove 'marked' from the dependencies
   // because of a vulnerability issue
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = {
       text: ''
     }
   }
 
-  render() {
+  render () {
     const { intl } = this.props
 
     return (

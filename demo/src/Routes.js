@@ -1,5 +1,7 @@
-import React from 'react';
-import { RestrictedRoute, LoadingComponent, makeLoadable } from '../../src';
+import React from 'react'
+import RestrictedRoute from '../../src/containers/RestrictedRoute'
+import LoadingComponent from '../../src/components/LoadingComponent'
+import makeLoadable from '../../src/containers/MyLoadable'
 
 const MyLoadable = (opts, preloadComponents) => makeLoadable({ ...opts, firebase: () => import('./firebase') }, preloadComponents)
 

@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
-import configureStore from './store'
 import { Provider } from 'react-redux'
 import Root from './containers/Root'
 import AppConfigProvider from './components/AppConfigProvider'
