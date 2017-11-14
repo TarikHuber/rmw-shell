@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import FlatButton from 'material-ui/FlatButton'
 import { injectIntl, intlShape } from 'react-intl'
-//import { GitHubIcon } from 'rmw-shell/lib/components/Icons'
+// import { GitHubIcon } from 'rmw-shell/lib/components/Icons'
 import { Activity } from 'rmw-core'
 import muiThemeable from 'material-ui/styles/muiThemeable'
 import { Line, Bar, Doughnut } from 'react-chartjs-2'
@@ -15,7 +15,7 @@ const daysPath = `/user_registrations_per_day/${currentYear}/${new Date().toISOS
 const monthsPath = `/user_registrations_per_month/${currentYear}`
 const providerPath = `/provider_count`
 
-class Dashboard extends Component {
+export class Test extends Component {
   componentDidMount() {
     const { watchPath } = this.props
 
@@ -138,7 +138,7 @@ class Dashboard extends Component {
             target='_blank'
             rel='noopener'
             secondary
-          //icon={<GitHubIcon />}
+          // icon={<GitHubIcon />}
           />
         }
         title={intl.formatMessage({ id: 'dashboard' })}>
@@ -200,7 +200,7 @@ class Dashboard extends Component {
   }
 }
 
-Dashboard.propTypes = {
+Test.propTypes = {
   intl: intlShape.isRequired
 }
 
@@ -217,4 +217,4 @@ const mapStateToProps = (state) => {
 
 export default connect(
   mapStateToProps
-)(injectIntl(muiThemeable()(withFirebase(Dashboard))))
+)(injectIntl(muiThemeable()(withFirebase(Test))))

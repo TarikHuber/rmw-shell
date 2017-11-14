@@ -9,7 +9,7 @@ const getAppRoutes = (firebaseLoader) => {
 
   const MyLoadable = (opts, preloadComponents) => makeLoadable({ ...opts, firebase: firebaseLoader }, preloadComponents)
 
-  const AsyncChats = MyLoadable({ loader: () => import('../../containers/Activity/Activity') });
+  const AsyncChats = MyLoadable({ loader: () => import('../../components/Test/Test') });
 
   /*
   const AsyncChat = MyLoadable({ loader: () => import('../../containers/Chats/Chat') });
