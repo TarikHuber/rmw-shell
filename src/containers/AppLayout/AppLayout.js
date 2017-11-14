@@ -11,13 +11,13 @@ import withAppConfigs from '../../withAppConfigs'
 import { Switch } from 'react-router-dom'
 
 export class AppLayout extends Component {
-  render () {
+  render() {
     const { muiTheme, history, appConfig } = this.props
     const drawerWidth = appConfig.drawer_width
     const path = history.location.pathname
     const customRoutes = appConfig.routes ? appConfig.routes : []
     const appRoutes = getAppRoutes(appConfig.firebaseLoad)
-    const routes = customRoutes // .concat(appRoutes)
+    const routes = customRoutes
 
     return (
       <div style={{ backgroundColor: muiTheme.palette.canvasColor, height: '100%' }}>
@@ -29,7 +29,8 @@ export class AppLayout extends Component {
         </ResponsiveDrawer>
 
         <Switch>
-          {routes.map((Route, i) => { return React.cloneElement(Route, { key: `@routes/${i}` }) })}
+          {customRoutes.map((Route, i) => { return React.cloneElement(Route, { key: `@routes/${i}` }) })}
+          {appRoutes.map(route => route)}
         </Switch>
 
       </div>
