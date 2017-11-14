@@ -1,5 +1,5 @@
 import React from 'react';
-import Loadable from 'react-loadable';
+import Loadable from 'react-loadable'
 import LoadingComponent from '../../components/LoadingComponent';
 import RestrictedRoute from '../../containers/RestrictedRoute';
 import makeLoadable from '../../containers/MyLoadable';
@@ -12,7 +12,7 @@ const getAppRoutes = (firebaseLoader) => {
 
   const MyLoadable = (opts, preloadComponents) => makeLoadable({ ...opts, firebase: firebaseLoader }, preloadComponents)
 
-  const AsyncChat = MyLoadable({ loader: () => import('../../containers/Chats/Chat') });
+  const AsyncChat = MyLoadable({ loader: () => import('rmw-shell/lib/containers/Chats/Chat') });
   const AsyncCreateChat = MyLoadable({ loader: () => import('../../containers/Chats/CreateChat') });
   const AsyncMyAccount = MyLoadable({ loader: () => import('../../containers/MyAccount/MyAccount') });
   const AsyncPageNotFound = MyLoadable({ loader: () => import('../../components/PageNotFound/PageNotFound') });
@@ -22,7 +22,7 @@ const getAppRoutes = (firebaseLoader) => {
   const AsyncSignIn = MyLoadable({ loader: () => import('../../containers/SignIn/SignIn') });
   const AsyncUser = MyLoadable({ loader: () => import('../../containers/Users/User') });
   const AsyncRoles = MyLoadable({ loader: () => import('../../containers/Roles/Roles') }, [AsyncRole]);
-  const AsyncUsers = MyLoadable({ loader: () => import('../../containers/Users/Users') }, [AsyncUser]);
+  const AsyncUsers = MyLoadable({ loader: () => import('rmw-shell/lib/containers/Users/Users') }, [AsyncUser]);
   const AsyncChats = MyLoadable({ loader: () => import('../../containers/Chats/Chats') }, [AsyncChat, AsyncCreateChat]);
 
   return [
