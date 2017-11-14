@@ -21,7 +21,7 @@ import { filterSelectors, filterActions } from 'material-ui-filter'
 const path = '/users'
 const form_name = 'user'
 
-class User extends Component {
+export class User extends Component {
 
   componentWillMount() {
     this.props.watchList('admins')

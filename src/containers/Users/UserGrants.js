@@ -16,7 +16,7 @@ import ReactList from 'react-list';
 import { List } from 'material-ui/List';
 import { FilterDrawer, filterSelectors, filterActions } from 'material-ui-filter'
 
-class UserGrants extends Component {
+export class UserGrants extends Component {
 
   componentWillMount() {
     this.props.watchList('user_grants');
@@ -24,11 +24,11 @@ class UserGrants extends Component {
 
   hanldeGrantToggleChange = (e, isInputChecked, key) => {
     const { firebaseApp, match } = this.props;
-    const uid=match.params.uid;
+    const uid = match.params.uid;
 
-    if(isInputChecked){
+    if (isInputChecked) {
       firebaseApp.database().ref(`/user_grants/${uid}/${key}`).set(true);
-    }else{
+    } else {
       firebaseApp.database().ref(`/user_grants/${uid}/${key}`).remove();
     }
 
@@ -42,11 +42,11 @@ class UserGrants extends Component {
     const val = grants[list[i].key]
     let userGrants = []
 
-    if(user_grants !== undefined) {
+    if (user_grants !== undefined) {
       user_grants.map(role => {
-        if(role.key===uid) {
-          if(role.val!==undefined) {
-            userGrants=role.val
+        if (role.key === uid) {
+          if (role.val !== undefined) {
+            userGrants = role.val
           }
         }
         return role
@@ -64,16 +64,16 @@ class UserGrants extends Component {
         }
         rightToggle={
           <Toggle
-            toggled={userGrants[val]===true}
-            onToggle={(e, isInputChecked)=>{this.hanldeGrantToggleChange(e, isInputChecked, val)}}
+            toggled={userGrants[val] === true}
+            onToggle={(e, isInputChecked) => { this.hanldeGrantToggleChange(e, isInputChecked, val) }}
           />
         }
         key={key}
         id={key}
-        primaryText={intl.formatMessage({id: `grant_${val}`})}
+        primaryText={intl.formatMessage({ id: `grant_${val}` })}
         secondaryText={val}
       />
-      <Divider inset={true}/>
+      <Divider inset={true} />
     </div>;
   }
 
@@ -82,7 +82,7 @@ class UserGrants extends Component {
 
     let grantList = []
     grants.forEach((grant, index) => {
-      grantList.push({key: index, val: { name: intl.formatMessage({id: `grant_${grant}`}), value: grant }})
+      grantList.push({ key: index, val: { name: intl.formatMessage({ id: `grant_${grant}` }), value: grant } })
     })
 
     const list = filterSelectors.getFilteredList('user_grants', filters, grantList, fieldValue => fieldValue.val)
@@ -90,28 +90,28 @@ class UserGrants extends Component {
     const filterFields = [
       {
         name: 'name',
-        label: intl.formatMessage({id: 'name_label'})
+        label: intl.formatMessage({ id: 'name_label' })
       },
       {
         name: 'value',
-        label: intl.formatMessage({id: 'value_label'})
+        label: intl.formatMessage({ id: 'value_label' })
       }
     ]
 
     return (
-      <div style={{height: '100%'}}>
-          <List style={{height: '100%'}} ref={(field) => { this.list = field; }}>
-            <ReactList
-              itemRenderer={(i, k) => this.renderGrantItem(list, i, k)}
-              length={list?list.length:0}
-              type='simple'
-            />
-          </List>
-          <FilterDrawer
-            name={'user_grants'}
-            fields={filterFields}
-            formatMessage={intl.formatMessage}
+      <div style={{ height: '100%' }}>
+        <List style={{ height: '100%' }} ref={(field) => { this.list = field; }}>
+          <ReactList
+            itemRenderer={(i, k) => this.renderGrantItem(list, i, k)}
+            length={list ? list.length : 0}
+            type='simple'
           />
+        </List>
+        <FilterDrawer
+          name={'user_grants'}
+          fields={filterFields}
+          formatMessage={intl.formatMessage}
+        />
       </div>
     );
   }

@@ -14,7 +14,7 @@ import Toggle from 'material-ui/Toggle';
 import ReactList from 'react-list';
 import { List } from 'material-ui/List';
 
-class UserRoles extends Component {
+export class UserRoles extends Component {
 
   componentWillMount() {
     this.props.watchList('user_roles');
@@ -23,11 +23,11 @@ class UserRoles extends Component {
 
   hanldeRoleToggleChange = (e, isInputChecked, key) => {
     const { firebaseApp, match } = this.props
-    const uid=match.params.uid
+    const uid = match.params.uid
 
-    if(isInputChecked){
+    if (isInputChecked) {
       firebaseApp.database().ref(`/user_roles/${uid}/${key}`).set(true)
-    }else{
+    } else {
       firebaseApp.database().ref(`/user_roles/${uid}/${key}`).remove()
     }
 
@@ -36,16 +36,16 @@ class UserRoles extends Component {
   renderRoleItem = (i, k) => {
     const { roles, user_roles, match } = this.props
 
-    const uid=match.params.uid
-    const key=roles[i].key
-    const val=roles[i].val
-    let userRoles=[]
+    const uid = match.params.uid
+    const key = roles[i].key
+    const val = roles[i].val
+    let userRoles = []
 
-    if(user_roles!==undefined){
-      user_roles.map(role=>{
-        if(role.key===uid){
-          if(role.val!==undefined){
-            userRoles=role.val
+    if (user_roles !== undefined) {
+      user_roles.map(role => {
+        if (role.key === uid) {
+          if (role.val !== undefined) {
+            userRoles = role.val
           }
         }
         return role
@@ -63,8 +63,8 @@ class UserRoles extends Component {
         }
         rightToggle={
           <Toggle
-            toggled={userRoles[key]===true}
-            onToggle={(e, isInputChecked)=>{this.hanldeRoleToggleChange(e, isInputChecked, key)}}
+            toggled={userRoles[key] === true}
+            onToggle={(e, isInputChecked) => { this.hanldeRoleToggleChange(e, isInputChecked, key) }}
           />
         }
         key={key}
@@ -72,7 +72,7 @@ class UserRoles extends Component {
         primaryText={val.name}
         secondaryText={val.description}
       />
-      <Divider inset={true}/>
+      <Divider inset={true} />
     </div>
   }
 
@@ -80,14 +80,14 @@ class UserRoles extends Component {
     const { roles } = this.props;
 
     return (
-      <div style={{height: '100%'}}>
-          <List style={{height: '100%'}} >
-            <ReactList
-              itemRenderer={(i, k) => this.renderRoleItem(i, k)}
-              length={roles?roles.length:0}
-              type='simple'
-            />
-          </List>
+      <div style={{ height: '100%' }}>
+        <List style={{ height: '100%' }} >
+          <ReactList
+            itemRenderer={(i, k) => this.renderRoleItem(i, k)}
+            length={roles ? roles.length : 0}
+            type='simple'
+          />
+        </List>
       </div>
     );
   }
@@ -113,7 +113,7 @@ const mapStateToProps = (state, ownProps) => {
     uid,
     intl,
     user_roles: lists.user_roles,
-    roles: lists.roles?lists.roles:[]
+    roles: lists.roles ? lists.roles : []
   }
 }
 
