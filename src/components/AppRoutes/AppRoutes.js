@@ -10,6 +10,7 @@ const getAppRoutes = (firebaseLoader) => {
   const MyLoadable = (opts, preloadComponents) => makeLoadable({ ...opts, firebase: firebaseLoader }, preloadComponents)
 
   const AsyncChats = MyLoadable({ loader: () => import('../../components/Test/Test') });
+  const AsyncUsers = MyLoadable({ loader: () => import('../../containers/Users/Users') });
 
   /*
   const AsyncChat = MyLoadable({ loader: () => import('../../containers/Chats/Chat') });
@@ -28,6 +29,7 @@ const getAppRoutes = (firebaseLoader) => {
 
   return [
     <RestrictedRoute type='private' path="/chats" exact component={AsyncChats} />,
+    <RestrictedRoute type='private' path="/users" exact component={AsyncUsers} />
     /*
     <RestrictedRoute type='private' path="/chats/create" exact component={AsyncCreateChat} />,
     <RestrictedRoute type='private' path="/chats/edit/:uid" exact component={AsyncChat} />,

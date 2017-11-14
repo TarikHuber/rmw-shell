@@ -17,7 +17,7 @@ import { ResponsiveMenu } from 'material-ui-responsive-menu'
 
 const path = `users`
 
-class Users extends Component {
+export class Users extends Component {
 
   componentDidMount() {
     this.props.watchList(path);
