@@ -11,7 +11,7 @@ import withAppConfigs from '../../withAppConfigs'
 import { Switch } from 'react-router-dom'
 
 export class AppLayout extends Component {
-  render() {
+  render () {
     const { muiTheme, history, appConfig } = this.props
     const drawerWidth = appConfig.drawer_width
     const path = history.location.pathname
@@ -29,8 +29,8 @@ export class AppLayout extends Component {
         </ResponsiveDrawer>
 
         <Switch>
-          {customRoutes.map((Route, i) => { return React.cloneElement(Route, { key: `@routes/${i}` }) })}
-          {appRoutes.map(route => route)}
+          {customRoutes.map((Route, i) => { return React.cloneElement(Route, { key: `@customRoutes/${i}` }) })}
+          {appRoutes.map((Route, i) => { return React.cloneElement(Route, { key: `@appRoutes/${i}` }) })}
         </Switch>
 
       </div>
