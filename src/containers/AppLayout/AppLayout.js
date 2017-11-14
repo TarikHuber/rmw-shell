@@ -17,6 +17,7 @@ export class AppLayout extends Component {
     const path = history.location.pathname
     const customRoutes = appConfig.routes ? appConfig.routes : []
     const appRoutes = getAppRoutes(appConfig.firebaseLoad)
+    const routes = customRoutes // .concat(appRoutes)
 
     return (
       <div style={{ backgroundColor: muiTheme.palette.canvasColor, height: '100%' }}>
@@ -28,8 +29,7 @@ export class AppLayout extends Component {
         </ResponsiveDrawer>
 
         <Switch>
-          {customRoutes.map((Route, i) => { return React.cloneElement(Route, { key: `@customRoute/${i}` }) })}
-          {appRoutes.map((Route, i) => { return React.cloneElement(Route, { key: `@appRoute/${i}` }) })}
+          {routes.map((Route, i) => { return React.cloneElement(Route, { key: `@routes/${i}` }) })}
         </Switch>
 
       </div>
