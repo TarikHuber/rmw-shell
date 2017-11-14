@@ -2,19 +2,20 @@ import React, { Component } from 'react'
 import FlatButton from 'material-ui/FlatButton'
 import { injectIntl, intlShape } from 'react-intl'
 import { GitHubIcon } from '../../../../src/components/Icons'
-import { Activity, Scrollbar } from '../../../../src'
+import { Activity } from 'rmw-core'
+import { Scrollbar } from 'rmw-shell'
 
 class About extends Component {
   // Sorry for using setState here but I have to remove 'marked' from the dependencies
   // because of a vulnerability issue
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       text: ''
     }
   }
 
-  render () {
+  render() {
     const { intl } = this.props
 
     return (

@@ -3,7 +3,7 @@ import FloatingActionButton from 'material-ui/FloatingActionButton'
 import Paper from 'material-ui/Paper'
 import React from 'react'
 import muiThemeable from 'material-ui/styles/muiThemeable'
-// import { withAppConfigs } from 'rmw-shell'
+import { withAppConfigs } from 'rmw-core'
 import { injectIntl } from 'react-intl'
 
 const styles = {
@@ -26,12 +26,12 @@ const styles = {
 }
 
 const PageNotFound = ({ muiTheme, intl, appConfig }) => {
-  // const AppIcon = appConfig.appIcon
+  const AppIcon = appConfig.appIcon
 
   return (
     <Paper zDepth={1} style={styles.paper}>
       <div style={styles.container}>
-
+        <AppIcon color={muiTheme.palette.primary2Color} style={styles.icon} />
         <h3>{intl.formatMessage({ id: 'warning_404_message' })}</h3>
         <p>{intl.formatMessage({ id: 'warning_404_description' })}</p>
         <FloatingActionButton secondary href='/'>
@@ -42,4 +42,4 @@ const PageNotFound = ({ muiTheme, intl, appConfig }) => {
   )
 }
 
-export default injectIntl(muiThemeable()(PageNotFound))
+export default injectIntl(muiThemeable()(withAppConfigs(PageNotFound)))

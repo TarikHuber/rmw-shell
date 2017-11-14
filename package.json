@@ -109,6 +109,7 @@
     "redux-responsive": "^4.3.4",
     "redux-testkit": "^1.0.6",
     "redux-thunk": "^2.2.0",
+    "rmw-core": "^1.0.0",
     "source-map-explorer": "^1.5.0",
     "standard": "^10.0.3"
   },
