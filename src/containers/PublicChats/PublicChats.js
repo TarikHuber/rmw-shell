@@ -9,8 +9,8 @@ import { withRouter } from 'react-router-dom'
 import { withFirebase } from 'firekit-provider'
 import { ChatMessages } from 'rmw-shell'
 
-class Chat extends Component {
-  render () {
+export class Chat extends Component {
+  render() {
     const { muiTheme, intl } = this.props
 
     return (

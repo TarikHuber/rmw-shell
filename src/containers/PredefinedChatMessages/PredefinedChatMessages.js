@@ -22,7 +22,7 @@ import Scrollbar from '../../components/Scrollbar'
 
 const path = `predefined_chat_messages`;
 
-class PredefinedChatMessages extends Component {
+export class PredefinedChatMessages extends Component {
 
   componentWillMount() {
     const { watchList } = this.props;

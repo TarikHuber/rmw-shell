@@ -1,21 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Route , Redirect } from 'react-router';
+import { Route, Redirect } from 'react-router';
 
 
-const RestrictedRoute = ({ type, isAuthorised, component: Component, ...rest }) => (
+export const RestrictedRoute = ({ type, isAuthorised, component: Component, ...rest }) => (
   <Route {...rest} render={props => (
-    (isAuthorised && type==='private') || (!isAuthorised && type==='public') ? (
-      <Component {...props}/>
+    (isAuthorised && type === 'private') || (!isAuthorised && type === 'public') ? (
+      <Component {...props} />
     ) : (
-      <Redirect to={{
-        pathname: type==='private' ? `/signin`: (props.location.state?props.location.state.from.pathname:'/'),
-        search: `from=${props.location.pathname}`,
-        state: {from: props.location }
-      }}/>
-    )
-  )}/>
+        <Redirect to={{
+          pathname: type === 'private' ? `/signin` : (props.location.state ? props.location.state.from.pathname : '/'),
+          search: `from=${props.location.pathname}`,
+          state: { from: props.location }
+        }} />
+      )
+  )} />
 )
 
 RestrictedRoute.propTypes = {

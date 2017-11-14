@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 import { Activity, Scrollbar, setPersistentValue, ChatMessages } from 'rmw-shell'
 import { filterSelectors } from 'material-ui-filter'
 
-class Chats extends Component {
+export class Chats extends Component {
 
   componentDidMount() {
     const { watchList, path } = this.props;

@@ -20,7 +20,7 @@ import SearchField from '../../components/SearchField/SearchField'
 
 const path = `users`;
 
-class Users extends Component {
+export class Users extends Component {
 
   componentDidMount() {
     this.props.watchList(path);

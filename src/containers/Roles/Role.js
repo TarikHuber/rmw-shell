@@ -23,7 +23,7 @@ const path = '/roles';
 const form_name = 'role';
 
 
-class Role extends Component {
+export class Role extends Component {
 
 
   validate = (values) => {

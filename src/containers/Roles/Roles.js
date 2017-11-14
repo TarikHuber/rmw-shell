@@ -15,7 +15,7 @@ import Scrollbar from '../../components/Scrollbar/Scrollbar';
 
 const path = `roles`;
 
-class Roles extends Component {
+export class Roles extends Component {
 
   componentDidMount() {
     const { watchList } = this.props;
