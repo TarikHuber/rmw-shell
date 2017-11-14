@@ -7,7 +7,7 @@ import Activity from 'rmw-core'
 import { withFirebase } from 'firekit-provider'
 
 class SignIn extends Component {
-  render() {
+  render () {
     const { intl, firebaseApp } = this.props
 
     return (
