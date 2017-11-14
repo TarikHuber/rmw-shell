@@ -11,10 +11,10 @@ import Avatar from 'material-ui/Avatar';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import FontIcon from 'material-ui/FontIcon';
 import PropTypes from 'prop-types';
-import { setPersistentValue } from '../../store/persistentValues/actions'
-import { ChatMessages } from '../../containers/ChatMessages';
-import Activity from '../../containers/Activity'
-import Scrollbar from '../../components/Scrollbar'
+import { setPersistentValue } from 'rmw-shell/store/persistentValues/actions'
+import { ChatMessages } from 'rmw-shell/containers/ChatMessages';
+import Activity from 'rmw-shell/containers/Activity'
+import Scrollbar from 'rmw-shell/components/Scrollbar'
 import { filterSelectors } from 'material-ui-filter'
 
 class Chats extends Component {

@@ -1,3 +1,5 @@
+const path = require('path')
+
 module.exports = {
   type: 'react-component',
   npm: {
@@ -7,6 +9,9 @@ module.exports = {
   webpack: {
     html: {
       template: 'demo/public/index.html'
+    },
+    aliases: {
+      'rmw-shell': path.resolve('src')
     }
   }
 }
