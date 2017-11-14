@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import FlatButton from 'material-ui/FlatButton'
 import { injectIntl, intlShape } from 'react-intl'
-import { GitHubIcon } from 'rmw-shell/lib/components/Icons'
+//import { GitHubIcon } from 'rmw-shell/lib/components/Icons'
 import { Activity } from 'rmw-core'
 import muiThemeable from 'material-ui/styles/muiThemeable'
 import { Line, Bar, Doughnut } from 'react-chartjs-2'
@@ -138,7 +138,7 @@ class Dashboard extends Component {
             target='_blank'
             rel='noopener'
             secondary
-            icon={<GitHubIcon />}
+          //icon={<GitHubIcon />}
           />
         }
         title={intl.formatMessage({ id: 'dashboard' })}>
