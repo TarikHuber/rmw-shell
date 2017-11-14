@@ -3,7 +3,7 @@ const path = require('path')
 module.exports = {
   type: 'react-component',
   npm: {
-    esModules: false,
+    esModules: true,
     umd: false
   },
   webpack: {
@@ -11,7 +11,7 @@ module.exports = {
       template: 'demo/public/index.html'
     },
     aliases: {
-      'rmw-shell/lib': path.resolve('src')
+      'rmw-shell': path.resolve('src')
     }
   }
 }

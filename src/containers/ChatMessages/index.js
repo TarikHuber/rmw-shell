@@ -1,1 +1,3 @@
-export { default as ChatMessages } from './ChatMessages';
+import ChatMessages from './ChatMessages'
+
+export default ChatMessages

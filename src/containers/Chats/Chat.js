@@ -9,15 +9,15 @@ import FontIcon from 'material-ui/FontIcon'
 import Avatar from 'material-ui/Avatar'
 import { withRouter } from 'react-router-dom'
 import { withFirebase } from 'firekit-provider'
-import { ChatMessages } from '../../containers/ChatMessages'
+import { ChatMessages } from 'rmw-shell'
 
 class Chat extends Component {
-  componentDidMount() {
+  componentDidMount () {
     const { watchList, chatsPath } = this.props
     watchList(chatsPath)
   }
 
-  render() {
+  render () {
     const { messages, muiTheme, history, receiverDisplayName, receiverPhotoURL, path } = this.props
 
     return (

@@ -1,23 +1,20 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import ReactDOM from 'react-dom';
-import firebase from 'firebase';
-import PropTypes from 'prop-types';
-import muiThemeable from 'material-ui/styles/muiThemeable';
-import { injectIntl, intlShape } from 'react-intl';
-import { setSimpleValue } from 'rmw-shell/lib/store/simpleValues/actions'
-import FontIcon from 'material-ui/FontIcon';
-import IconButton from 'material-ui/IconButton';
-import TextField from 'material-ui/TextField';
-import { withRouter } from 'react-router-dom';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import ReactDOM from 'react-dom'
+import firebase from 'firebase'
+import PropTypes from 'prop-types'
+import muiThemeable from 'material-ui/styles/muiThemeable'
+import { injectIntl, intlShape } from 'react-intl'
+import FontIcon from 'material-ui/FontIcon'
+import IconButton from 'material-ui/IconButton'
+import TextField from 'material-ui/TextField'
+import { withRouter } from 'react-router-dom'
 import { withFirebase } from 'firekit-provider'
-import Chip from 'material-ui/Chip';
-import { ListItem } from 'material-ui/List';
-import Divider from 'material-ui/Divider';
-import ReactList from 'react-list';
-import { getGeolocation } from 'rmw-shell/lib/utils/googleMaps';
-//import googleMapsLogo from '../../utils/resources/google-maps-logo.png'
-import Scrollbar from 'rmw-shell/lib/components/Scrollbar'
+import Chip from 'material-ui/Chip'
+import { ListItem } from 'material-ui/List'
+import Divider from 'material-ui/Divider'
+import ReactList from 'react-list'
+import { Scrollbar, setSimpleValue, getGeolocation } from 'rmw-shell'
 import Image from 'material-ui-image'
 
 
