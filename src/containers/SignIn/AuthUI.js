@@ -1,18 +1,18 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import firebaseui from 'firebaseui'
-import withAppConfigs from 'rmw-core'
+import withAppConfigs from 'rmw-shell'
 import { withFirebase } from 'firekit-provider'
 
-class SignIn extends Component {
-  constructor(props) {
+export class AuthUI extends Component {
+  constructor (props) {
     super(props)
     this.state = {
       authUi: false
     }
   }
 
-  componentDidMount() {
+  componentDidMount () {
     const { browser, initMessaging, firebaseApp, appConfig } = this.props
 
     var uiConfig = {
@@ -41,11 +41,11 @@ class SignIn extends Component {
     }
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     this.state.authUi.delete()
   }
 
-  render() {
+  render () {
     return (
       <div style={{ paddingTop: 35, width: '100%' }}>
         <div id='firebaseui-auth' style={{ width: '100%' }} />
@@ -64,4 +64,4 @@ const mapStateToProps = (state) => {
 
 export default connect(
   mapStateToProps
-)(withFirebase(withAppConfigs(SignIn)))
+)(withFirebase(withAppConfigs(AuthUI)))

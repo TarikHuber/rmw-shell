@@ -12,7 +12,7 @@ import { withFirebase } from 'firekit-provider'
 import ReactList from 'react-list'
 import { FilterDrawer, filterSelectors, filterActions } from 'material-ui-filter'
 import { Scrollbar, SearchField, GoogleIcon, FacebookIcon, GitHubIcon, TwitterIcon } from 'rmw-shell'
-import { Activity } from 'rmw-core'
+import { Activity } from 'rmw-shell'
 import { ResponsiveMenu } from 'material-ui-responsive-menu'
 
 const path = `users`

@@ -3,7 +3,7 @@ import FloatingActionButton from 'material-ui/FloatingActionButton'
 import Paper from 'material-ui/Paper'
 import React from 'react'
 import muiThemeable from 'material-ui/styles/muiThemeable'
-import { withAppConfigs } from 'rmw-core'
+import { withAppConfigs } from 'rmw-shell'
 import { injectIntl } from 'react-intl'
 
 const styles = {

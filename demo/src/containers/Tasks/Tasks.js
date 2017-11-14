@@ -5,7 +5,7 @@ import firebase from 'firebase';
 import PropTypes from 'prop-types';
 import muiThemeable from 'material-ui/styles/muiThemeable';
 import { injectIntl, intlShape } from 'react-intl';
-import { Activity } from 'rmw-core'
+import { Activity } from 'rmw-shell'
 import { setDialogIsOpen } from '../../../../src/store/dialogs/actions'
 import { List, ListItem } from 'material-ui/List';
 import Divider from 'material-ui/Divider';

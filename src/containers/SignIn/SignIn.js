@@ -1,21 +1,20 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { injectIntl } from 'react-intl'
-import Activity from 'rmw-core'
-// import AuthUI from './AuthUI'
-// import LoadingComponent from '../../components/LoadingComponent/LoadingComponent'
+import Activity from '../../containers/Activity'
+import AuthUI from './AuthUI'
+import LoadingComponent from '../../components/LoadingComponent/LoadingComponent'
 import { withFirebase } from 'firekit-provider'
 
 export class SignIn extends Component {
-  render() {
+  render () {
     const { intl, firebaseApp } = this.props
 
     return (
       <Activity
         title={intl.formatMessage({ id: 'sign_in' })}>
-        {firebaseApp && <div />}
-        {!firebaseApp && <div />}
-        TEEEST
+        {firebaseApp && <AuthUI />}
+        {!firebaseApp && <LoadingComponent />}
       </Activity>
 
     )
