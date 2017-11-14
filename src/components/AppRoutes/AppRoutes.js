@@ -5,10 +5,7 @@ import RestrictedRoute from '../../containers/RestrictedRoute';
 import makeLoadable from '../../containers/MyLoadable';
 import { Route } from 'react-router-dom';
 
-
 const getAppRoutes = (firebaseLoader) => {
-
-  console.log(firebaseLoader)
 
   const MyLoadable = (opts, preloadComponents) => makeLoadable({ ...opts, firebase: firebaseLoader }, preloadComponents)
 
@@ -22,7 +19,7 @@ const getAppRoutes = (firebaseLoader) => {
   const AsyncSignIn = MyLoadable({ loader: () => import('../../containers/SignIn/SignIn') });
   const AsyncUser = MyLoadable({ loader: () => import('../../containers/Users/User') });
   const AsyncRoles = MyLoadable({ loader: () => import('../../containers/Roles/Roles') }, [AsyncRole]);
-  const AsyncUsers = MyLoadable({ loader: () => import('../../lib/containers/Users/Users') }, [AsyncUser]);
+  const AsyncUsers = MyLoadable({ loader: () => import('../../containers/Users/Users') }, [AsyncUser]);
   const AsyncChats = MyLoadable({ loader: () => import('../../containers/Chats/Chats') }, [AsyncChat, AsyncCreateChat]);
 
   return [
