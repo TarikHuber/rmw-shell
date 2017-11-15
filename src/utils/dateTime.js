@@ -85,7 +85,7 @@ export function formatDateToString (value, formatOptions, locale = 'de-DE') {
   }
 }
 
-export function formatTimeToObject (value, formatOptions) {
+export function formatTimeToObject (value) {
   if (value === undefined) {
     return undefined
   }
