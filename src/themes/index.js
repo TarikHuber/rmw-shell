@@ -10,12 +10,16 @@ export const themes = [
   {
     id: 'dark',
     source: darkBaseTheme
+  },
+  {
+    id: 'ics',
+    source: icsTheme
   }
 ]
 
 const getThemeSource = (t, ts) => {
   if (ts) {
-    for (var i = 0; i < ts.length; i++) {
+    for (let i = 0; i < ts.length; i++) {
       if (ts[i]['id'] === t) {
         return ts[i]['source']
       }
