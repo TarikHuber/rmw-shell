@@ -21,7 +21,7 @@ class TimeField extends Component {
   handleTimePickerChange = (e, newVal) => {
     const { change, name, formatOptions } = this.props;
 
-    if (newVal != null) {
+    if (newVal !== null) {
 
       this.setState({
         value: new Date(newVal).toLocaleString('de-DE', formatOptions)
@@ -50,11 +50,11 @@ class TimeField extends Component {
   componentWillReceiveProps(nextProps) {
     const { formatOptions } = this.props;
 
-    if (nextProps!==undefined) {
+    if (nextProps !== undefined) {
       const { input } = nextProps;
       const { value } = input;
 
-      if(value!==undefined && value!==null && value.length>0){
+      if(value !== undefined && value !== null && value.length > 0){
           this.setState({value: new Date(value).toLocaleString('de-DE', formatOptions)});
       }
     }
