@@ -1,7 +1,7 @@
 import { responsiveStateReducer } from 'redux-responsive'
 import { combineReducers } from 'redux'
 import responsiveDrawer from 'material-ui-responsive-drawer/lib/store/reducer'
-import formReducer from 'redux-form/lib/reducer.js'
+import formReducer from 'redux-form/lib/reducer'
 import persistentValues from './persistentValues/reducer'
 import simpleValues from './simpleValues/reducer'
 import dialogs from './dialogs/reducer'
