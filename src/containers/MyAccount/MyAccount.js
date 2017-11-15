@@ -147,7 +147,7 @@ export class MyAccount extends Component {
     const { auth, firebaseApp, authStateChanged, authError } = this.props;
 
 
-    const simpleChange = (values.displayName && values.displayName.localeCompare(auth.displayNam)) ||
+    const simpleChange = (values.displayName && values.displayName.localeCompare(auth.displayName)) ||
       (values.photoURL && values.photoURL.localeCompare(auth.photoURL));
 
     let simpleValues = {
@@ -177,8 +177,7 @@ export class MyAccount extends Component {
         }, e => {
           authError(e)
 
-          // eslint-disable-next-line
-          if (e.code == 'auth/requires-recent-login') {
+          if (e.code === 'auth/requires-recent-login') {
             firebaseApp.auth().signOut().then(function () {
               setTimeout(() => {
                 alert('Please sign in again to change your email.');
@@ -199,8 +198,7 @@ export class MyAccount extends Component {
         }, e => {
           authError(e)
 
-          // eslint-disable-next-line
-          if (e.code == 'auth/requires-recent-login') {
+          if (e.code === 'auth/requires-recent-login') {
             firebaseApp.auth().signOut().then(() => {
               setTimeout(() => {
                 alert('Please sign in again to change your password.');
@@ -211,7 +209,7 @@ export class MyAccount extends Component {
       })
     }
 
-    //We manage the data saving above
+    // We manage the data saving above
     return false;
   }
 
@@ -231,8 +229,7 @@ export class MyAccount extends Component {
         }, e => {
           authError(e)
 
-          // eslint-disable-next-line
-          if (e.code == 'auth/requires-recent-login') {
+          if (e.code === 'auth/requires-recent-login') {
             firebaseApp.auth().signOut().then(() => {
               setTimeout(() => {
                 alert('Please sign in again to delete your account.');
@@ -258,7 +255,7 @@ export class MyAccount extends Component {
     } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
       errors.email = 'Invalid email address'
     } else if (!values.old_password && providerId === 'password' && auth.email.localeCompare(values.email)) {
-      errors.old_password = 'For email change enter your pasword'
+      errors.old_password = 'For email change enter your password'
     }
 
     if (values.new_password) {
