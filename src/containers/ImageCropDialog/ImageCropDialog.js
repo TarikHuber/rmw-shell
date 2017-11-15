@@ -13,7 +13,7 @@ import LinearProgress from 'material-ui/LinearProgress';
 const styles = {
   container: {
     display: 'flex',
-    alignItems: 'strech',
+    alignItems: 'stretch',
     justifyContent: 'center',
     flexDirection: 'row',
   },
@@ -49,7 +49,7 @@ export class ImageCropDialog extends Component {
 
 
     uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, snapshot => {
-      var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
       this.setState({ isUploading: true, uploadProgress: progress })
     }, error => {
       console.log(error);
@@ -63,7 +63,7 @@ export class ImageCropDialog extends Component {
 
   }
 
-  hanldePhotoULRChange = (e) => {
+  handlePhotoULRChange = (e) => {
     e.preventDefault();
 
     this.setState({ isLoading: true });
@@ -126,7 +126,7 @@ export class ImageCropDialog extends Component {
                 type="file"
                 accept="image/*"
                 //style={{visibility:'hidden'}}
-                onChange={this.hanldePhotoULRChange}
+                onChange={this.handlePhotoULRChange}
               />
             }
 
