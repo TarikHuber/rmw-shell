@@ -52,13 +52,13 @@ class DateField extends Component {
   componentWillReceiveProps(nextProps){
     const { formatOptions } = this.props;
 
-    const format = formatOptions?formatOptions:defaultFormatOptions;
+    const format = formatOptions ? formatOptions : defaultFormatOptions;
 
-    if(nextProps!==undefined){
+    if(nextProps !== undefined){
       const { input } = nextProps;
       const { value } = input;
 
-      if(value!==undefined && value!==null && value.length>0){
+      if(value !== undefined && value !== null && value.length > 0){
         this.setState({value: new Date(value).toLocaleString('de-DE', format)});
       }
     }
