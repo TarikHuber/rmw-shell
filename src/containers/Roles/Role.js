@@ -62,7 +62,7 @@ export class Role extends Component {
     }
   }
 
-  hanldeGrantToggleChange = (e, isInputChecked, key) => {
+  handleGrantToggleChange = (e, isInputChecked, key) => {
     const { firebaseApp, match } = this.props;
     const uid = match.params.uid;
 
@@ -105,7 +105,7 @@ export class Role extends Component {
         rightToggle={
           <Toggle
             toggled={roleGrants[val] === true}
-            onToggle={(e, isInputChecked) => { this.hanldeGrantToggleChange(e, isInputChecked, val) }}
+            onToggle={(e, isInputChecked) => { this.handleGrantToggleChange(e, isInputChecked, val) }}
           />
         }
         key={key}
