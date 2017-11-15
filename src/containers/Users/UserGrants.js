@@ -22,7 +22,7 @@ export class UserGrants extends Component {
     this.props.watchList('user_grants');
   }
 
-  hanldeGrantToggleChange = (e, isInputChecked, key) => {
+  handleGrantToggleChange = (e, isInputChecked, key) => {
     const { firebaseApp, match } = this.props;
     const uid = match.params.uid;
 
@@ -65,7 +65,7 @@ export class UserGrants extends Component {
         rightToggle={
           <Toggle
             toggled={userGrants[val] === true}
-            onToggle={(e, isInputChecked) => { this.hanldeGrantToggleChange(e, isInputChecked, val) }}
+            onToggle={(e, isInputChecked) => { this.handleGrantToggleChange(e, isInputChecked, val) }}
           />
         }
         key={key}
