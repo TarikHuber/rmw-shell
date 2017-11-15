@@ -83,7 +83,7 @@ export class Activity extends Component {
                 />
                 {!isConnected &&
                     <div
-                        id="offline-inicator"
+                        id="offline-indicator"
                         style={{
                             zIndex: 9999,
                             position: 'fixed',
