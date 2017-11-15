@@ -32,14 +32,7 @@ export const DrawerContent = (props, context) => {
   const handleSignOut = () => {
     const { userLogout, setDialogIsOpen, appConfig } = props
 
-    console.log('props', props)
-    console.log('appConfig', appConfig)
-
     appConfig.firebaseLoad().then(({ firebaseApp }) => {
-      console.log(firebaseApp)
-
-      this.firebaseApp = firebaseApp
-
       firebaseApp.database().ref(`users/${firebaseApp.auth().currentUser.uid}/connections`).remove()
       firebaseApp.database().ref(`users/${firebaseApp.auth().currentUser.uid}/notificationTokens/${messaging.token}`).remove()
       firebaseApp.database().ref(`users/${firebaseApp.auth().currentUser.uid}/lastOnline`).set(new Date())
