@@ -3,16 +3,17 @@ import React, { Component } from 'react'
 import { Provider } from 'react-redux'
 import Root from './containers/Root'
 import AppConfigProvider from './components/AppConfigProvider'
+import configureStore from './store'
 import config from './config'
 import locales, { addLocalizationData } from './locales'
 
 addLocalizationData(locales)
 
 class App extends Component {
-  render () {
+  render() {
     const { appConfig } = this.props
 
-    const store = appConfig.configureStore()
+    const store = appConfig.configureStore ? appConfig.configureStore() : configureStore()
 
     const configs = { ...config, ...appConfig }
 
