@@ -1,1 +1,1 @@
-export { default as ImageCropDialog } from './ImageCropDialog.js';
+export { default as ImageCropDialog } from './ImageCropDialog';
