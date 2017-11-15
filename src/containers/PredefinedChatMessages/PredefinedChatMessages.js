@@ -44,9 +44,9 @@ export class PredefinedChatMessages extends Component {
     }
   }
 
-  handleKeyDown = (event, onSucces) => {
+  handleKeyDown = (event, onSuccess) => {
     if (event.keyCode === 13) {
-      onSucces();
+      onSuccess();
     }
   }
 
@@ -114,7 +114,7 @@ export class PredefinedChatMessages extends Component {
         containerStyle={{ overflow: 'hidden' }}
         title={intl.formatMessage({ id: 'predefined_messages' })}>
 
-        <div style={{ overflow: 'auto', height: '100%', width: '100%', backgroundColor: muiTheme.palette.convasColor, paddingBottom: 56 }}>
+        <div style={{ overflow: 'auto', height: '100%', width: '100%', backgroundColor: muiTheme.palette.canvasColor, paddingBottom: 56 }}>
           <Scrollbar>
             <List ref={(field) => { this.list = field; }}>
               <ReactList
