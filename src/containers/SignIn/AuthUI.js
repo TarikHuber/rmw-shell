@@ -1,8 +1,5 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
 import firebaseui from 'firebaseui'
-import withAppConfigs from 'rmw-shell'
-import { withFirebase } from 'firekit-provider'
 
 export class AuthUI extends Component {
   constructor (props) {
@@ -13,21 +10,7 @@ export class AuthUI extends Component {
   }
 
   componentDidMount () {
-    const { browser, initMessaging, firebaseApp, appConfig } = this.props
-
-    let uiConfig = {
-      signInSuccessUrl: '/',
-      signInFlow: browser.greaterThan.medium ? 'popup' : 'redirect',
-      callbacks: {
-        signInSuccess: (user, credentials, redirect) => {
-          initMessaging()
-
-          // To avoid page reload on single page applications
-          return false
-        }
-      },
-      signInOptions: appConfig.firebase_providers
-    }
+    const { firebaseApp, uiConfig } = this.props
 
     let authUi = null
 
@@ -55,13 +38,4 @@ export class AuthUI extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  const { browser } = state
-  return {
-    browser
-  }
-}
-
-export default connect(
-  mapStateToProps
-)(withFirebase(withAppConfigs(AuthUI)))
+export default AuthUI

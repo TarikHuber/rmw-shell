@@ -5,15 +5,31 @@ import Activity from '../../containers/Activity'
 import AuthUI from './AuthUI'
 import LoadingComponent from '../../components/LoadingComponent/LoadingComponent'
 import { withFirebase } from 'firekit-provider'
+import { connect } from 'react-redux'
+import withAppConfigs from '../../withAppConfigs'
 
 export class SignIn extends Component {
   render () {
-    const { intl, firebaseApp } = this.props
+    const { intl, firebaseApp, appConfig, browser } = this.props
+
+    let uiConfig = {
+      signInSuccessUrl: '/',
+      signInFlow: browser.greaterThan.medium ? 'popup' : 'redirect',
+      callbacks: {
+        signInSuccess: (user, credentials, redirect) => {
+          initMessaging()
+
+          // To avoid page reload on single page applications
+          return false
+        }
+      },
+      signInOptions: appConfig.firebase_providers
+    }
 
     return (
       <Activity
         title={intl.formatMessage({ id: 'sign_in' })}>
-        {firebaseApp && <AuthUI />}
+        {firebaseApp && <AuthUI firebaseApp={firebaseApp} uiConfig={uiConfig} />}
         {!firebaseApp && <LoadingComponent />}
       </Activity>
 
@@ -25,4 +41,13 @@ SignIn.propTypes = {
   intl: PropTypes.object.isRequired
 }
 
-export default injectIntl(withFirebase(SignIn))
+const mapStateToProps = (state) => {
+  const { browser } = state
+  return {
+    browser
+  }
+}
+
+export default connect(
+  mapStateToProps
+)(injectIntl(withFirebase(withAppConfigs(SignIn))))

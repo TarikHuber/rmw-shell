@@ -7,7 +7,7 @@ import { injectIntl } from 'react-intl'
 import { withRouter } from 'react-router-dom'
 import withAppConfigs from '../../withAppConfigs'
 
-const DrawerContent = (props, context) => {
+export const DrawerContent = (props, context) => {
   const {
     responsiveDrawer,
     setResponsive,

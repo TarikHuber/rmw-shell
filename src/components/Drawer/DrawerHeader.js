@@ -9,7 +9,7 @@ import muiThemeable from 'material-ui/styles/muiThemeable'
 import withAppConfigs from '../../withAppConfigs'
 import { injectIntl } from 'react-intl'
 
-const DrawerHeader = ({ muiTheme, intl, auth, setAuthMenuOpen, fetchUser, dialogs, setDialogIsOpen, appConfig }) => {
+export const DrawerHeader = ({ muiTheme, intl, auth, setAuthMenuOpen, fetchUser, dialogs, setDialogIsOpen, appConfig }) => {
   const styles = {
     header: {
       padding: 5
