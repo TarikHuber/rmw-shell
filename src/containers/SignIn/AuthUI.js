@@ -15,7 +15,7 @@ export class AuthUI extends Component {
   componentDidMount () {
     const { browser, initMessaging, firebaseApp, appConfig } = this.props
 
-    var uiConfig = {
+    let uiConfig = {
       signInSuccessUrl: '/',
       signInFlow: browser.greaterThan.medium ? 'popup' : 'redirect',
       callbacks: {
