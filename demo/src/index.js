@@ -11,7 +11,8 @@ addLocalizationData(locales)
 
 class Demo extends Component {
   render() {
-    return <App appConfig={{ configureStore, ...config }} />
+    //return <App appConfig={{ configureStore, ...config }} />
+    return <App />
   }
 }
 

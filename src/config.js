@@ -35,11 +35,11 @@ const config = {
   },
   drawer_width: 256,
   appIcon: RMWIcon,
-  configureStore: configureStore,
-  getMenuItems: getMenuItems,
-  locales: locales,
+  configureStore,
+  getMenuItems,
+  locales,
+  themes,
   routes: [],
-  themes: themes,
   firebaseLoad: () => import('./firebase')
 }
 

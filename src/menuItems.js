@@ -1,8 +1,8 @@
 import React from 'react'
 import FontIcon from 'material-ui/FontIcon'
 import Toggle from 'material-ui/Toggle'
-import allLocales from './locales'
-import allThemes from './themes'
+import locales from './locales'
+import { themes } from './themes'
 
 const getMenuItems = (props) => {
   const {
@@ -20,7 +20,7 @@ const getMenuItems = (props) => {
 
   const isAuthorised = auth.isAuthorised
 
-  const themeItems = allThemes.map((t) => {
+  const themeItems = themes.map((t) => {
     return {
       value: undefined,
       visible: true,
@@ -34,7 +34,7 @@ const getMenuItems = (props) => {
     }
   })
 
-  const localeItems = allLocales.map((l) => {
+  const localeItems = locales.map((l) => {
     return {
       value: undefined,
       visible: true,

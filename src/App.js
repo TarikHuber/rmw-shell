@@ -10,10 +10,10 @@ import locales, { addLocalizationData } from './locales'
 addLocalizationData(locales)
 
 class App extends Component {
-  render() {
+  render () {
     const { appConfig } = this.props
 
-    const store = appConfig.configureStore ? appConfig.configureStore() : configureStore()
+    const store = (appConfig && appConfig.configureStore) ? appConfig.configureStore() : configureStore()
 
     const configs = { ...config, ...appConfig }
 
@@ -28,7 +28,7 @@ class App extends Component {
 }
 
 App.propTypes = {
-  appConfig: PropTypes.object.isRequired
+  appConfig: PropTypes.object
 }
 
 export default App
