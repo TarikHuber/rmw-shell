@@ -21,7 +21,7 @@ class RoleForm extends Component {
     return (
       <form onSubmit={handleSubmit} style={{
         height: '100%',
-        alignItems: 'strech',
+        alignItems: 'stretch',
         display: 'flex',
         flexWrap: 'wrap',
         justifyContent: 'center'

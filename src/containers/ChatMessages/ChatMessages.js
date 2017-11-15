@@ -124,14 +124,14 @@ class ChatMessages extends Component {
     let currentAuthor = '';
 
     if (messages === undefined) {
-      return <div></div>
+      return <div />
     }
 
     return messages.map((row, i) => {
       const values = row.val
       //const key=row.key
 
-      if (values.created == null) {
+      if (values.created === null) {
         return undefined
       }
 
@@ -179,7 +179,7 @@ class ChatMessages extends Component {
               margin: 1,
               marginTop: authorChanged === true ? 8 : 1,
               boxShadow: muiTheme.chip.shadow,
-              borderRadius: authorChanged === true ? (values.authorUid === auth.uid ? '8px 0px 8px 8px' : '0px 8px 8px 8px') : '8px 8px 8px 8px',
+              borderRadius: authorChanged === true ? (values.authorUid === auth.uid ? '8px 0 8px 8px' : '0 8px 8px 8px') : '8px 8px 8px 8px',
               backgroundColor: backgroundColor,
               color: color,
               fontFamily: muiTheme.fontFamily
@@ -226,7 +226,7 @@ class ChatMessages extends Component {
                     <a target="_blank" href={values.link}>{values.link}</a>
                   }
                   {
-                    type === 'image' && values.image != null &&
+                    type === 'image' && values.image !== null &&
 
                     <Image
                       style={{ width: 'auto', height: 'auto', paddingTop: 0 }}
@@ -274,7 +274,7 @@ class ChatMessages extends Component {
               setSimpleValue('chatMessageMenuOpen', false)
               this.handleAddMessage("text", message)
             }}>
-            <FontIcon className="material-icons" color={muiTheme.palette.text1Color}>send</FontIcon>
+            <FontIcon className="material-icons" color={muiTheme.palette.textColor}>send</FontIcon>
           </IconButton>
         }
         onClick={() => {
@@ -295,7 +295,7 @@ class ChatMessages extends Component {
   uploadSelectedFile = (file, handleAddMessage) => {
     const { firebaseApp, intl } = this.props
 
-    if (file == null) {
+    if (file === null) {
       return
     }
 
@@ -353,7 +353,7 @@ class ChatMessages extends Component {
 
         <Scrollbar
           style={{
-            backgroundColor: muiTheme.palette.convasColor,
+            backgroundColor: muiTheme.palette.canvasColor,
             width: '100%',
           }}>
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>

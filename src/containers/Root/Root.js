@@ -28,7 +28,7 @@ class Root extends Component {
         let lastOnlineRef = this.firebaseApp.database().ref(`users/${user.uid}/lastOnline`);
         lastOnlineRef.onDisconnect().set(new Date());
 
-        var con = myConnectionsRef.push(true)
+        let con = myConnectionsRef.push(true)
         con.onDisconnect().remove();
 
     }
@@ -39,7 +39,7 @@ class Root extends Component {
             watchConnection,
             watchList,
             watchPath
-    } = this.props;
+          } = this.props;
 
 
         clearInitialization();
@@ -76,19 +76,19 @@ class Root extends Component {
         const { watchAuth, appConfig } = this.props;
 
 
-        
+
         appConfig.firebaseLoad().then(({ firebaseApp }) => {
             this.firebaseApp = firebaseApp
             watchAuth(firebaseApp, this.onAuthStateChanged)
         })
-        
+
 
 
     }
 
     componentWillUnmount() {
         //const { clearApp }= this.props;
-        //clearApp(this.firebaseApp); //TO DO: add it afte firekit update
+        //clearApp(this.firebaseApp); //TODO: add it after firekit update
     }
 
     render() {

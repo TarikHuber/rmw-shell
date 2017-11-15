@@ -10,12 +10,12 @@ import ru from 'react-intl/locale-data/ru'
 import bs from 'react-intl/locale-data/bs'
 import es from 'react-intl/locale-data/es'
 
-var areIntlLocalesSupported = require('intl-locales-supported')
+let areIntlLocalesSupported = require('intl-locales-supported')
 
 // START: Intl polyfill
 // Required for working on Safari
 // Code from here: https://formatjs.io/guides/runtime-environments/
-var localesMyAppSupports = [
+let localesMyAppSupports = [
   /* list locales here */
 ]
 
@@ -24,7 +24,7 @@ if (global.Intl) {
   if (!areIntlLocalesSupported(localesMyAppSupports)) {
     // `Intl` exists, but it doesn't have the data we need, so load the
     // polyfill and replace the constructors with need with the polyfill's.
-    var IntlPolyfill = require('intl')
+    let IntlPolyfill = require('intl')
     Intl.NumberFormat = IntlPolyfill.NumberFormat
     Intl.DateTimeFormat = IntlPolyfill.DateTimeFormat
   }
@@ -65,7 +65,7 @@ const locales = [
 
 export function getLocaleMessages(l, ls) {
   if (ls) {
-    for (var i = 0; i < ls.length; i++) {
+    for (let i = 0; i < ls.length; i++) {
       if (ls[i]['locale'] === l) {
         return ls[i]['messages']
       }

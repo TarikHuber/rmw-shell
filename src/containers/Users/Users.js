@@ -63,7 +63,7 @@ export class Users extends Component {
         leftAvatar={<Avatar style={{ marginTop: 10 }} src={user.photoURL} alt="person" icon={<FontIcon className="material-icons" >person</FontIcon>} />}
         rightIcon={<FontIcon style={{ marginTop: 22 }} className="material-icons" color={user.connections ? muiTheme.palette.primary1Color : muiTheme.palette.disabledColor}>offline_pin</FontIcon>}>
 
-        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'strech' }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'stretch' }}>
           <div style={{ display: 'flex', flexDirection: 'column', width: 120 }}>
             <div>
               {user.displayName}
@@ -154,7 +154,7 @@ export class Users extends Component {
           </div>
         }
         isLoading={list === undefined}>
-        <div style={{ height: '100%', overflow: 'none', backgroundColor: muiTheme.palette.convasColor }}>
+        <div style={{ height: '100%', overflow: 'none', backgroundColor: muiTheme.palette.canvasColor }}>
           <Scrollbar>
             <List id='test' ref={field => this.list = field}>
               <ReactList
