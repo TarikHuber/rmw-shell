@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function LoadingComponent (props) {
+const LoadingComponent = (props) => {
   if (props.isLoading) {
     // While our other component is loading...
     if (props.timedOut) {
@@ -27,3 +27,5 @@ export default function LoadingComponent (props) {
     return null
   }
 }
+
+export default LoadingComponent

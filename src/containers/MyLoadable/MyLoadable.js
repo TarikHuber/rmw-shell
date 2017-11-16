@@ -1,6 +1,6 @@
 import React from 'react';
 import Loadable from 'react-loadable';
-import LoadingComponent from '../../components/LoadingComponent';
+import LoadingComponent from '../../components/LoadingComponent/LoadingComponent';
 import FirebaseProvider from 'firekit-provider';
 
 export default function makeLoadable(opts, preloadComponents) {
@@ -11,7 +11,7 @@ export default function makeLoadable(opts, preloadComponents) {
       firebase: opts.firebase,
       NotificationLayout: () => import('../../containers/NotificationLayout/NotificationLayout'),
     },
-    loading: () => { return <LoadingComponent /> },
+    loading: LoadingComponent,
     render(loaded, props) {
 
       if (preloadComponents !== undefined && preloadComponents instanceof Array) {
