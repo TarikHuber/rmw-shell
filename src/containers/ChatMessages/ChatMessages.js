@@ -14,7 +14,9 @@ import Chip from 'material-ui/Chip'
 import { ListItem } from 'material-ui/List'
 import Divider from 'material-ui/Divider'
 import ReactList from 'react-list'
-import { Scrollbar, setSimpleValue, getGeolocation } from 'rmw-shell'
+import Scrollbar from '../../components/Scrollbar'
+import { setSimpleValue } from '../../store/simpleValues/actions'
+import { getGeolocation } from '../../utils/googleMaps'
 import Image from 'material-ui-image'
 
 
