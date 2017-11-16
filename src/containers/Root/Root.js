@@ -65,7 +65,7 @@ class Root extends Component {
 
             if (appConfig.onAuthStateChanged) {
                 try {
-                    appConfig.onAuthStateChanged()
+                    appConfig.onAuthStateChanged(user, this.props)
                 } catch (err) {
                     console.warn(err)
                 }
