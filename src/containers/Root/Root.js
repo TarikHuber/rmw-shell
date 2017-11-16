@@ -21,11 +21,11 @@ const history = createHistory();
 
 class Root extends Component {
 
-    handlePresence = (user) => {
+    handlePresence = (user, firebaseApp) => {
 
-        let myConnectionsRef = this.firebaseApp.database().ref(`users/${user.uid}/connections`);
+        let myConnectionsRef = firebaseApp.database().ref(`users/${user.uid}/connections`);
 
-        let lastOnlineRef = this.firebaseApp.database().ref(`users/${user.uid}/lastOnline`);
+        let lastOnlineRef = firebaseApp.database().ref(`users/${user.uid}/lastOnline`);
         lastOnlineRef.onDisconnect().set(new Date());
 
         let con = myConnectionsRef.push(true)
@@ -33,7 +33,7 @@ class Root extends Component {
 
     }
 
-    onAuthStateChanged = (user) => {
+    onAuthStateChanged = (user, firebaseApp) => {
         const {
             clearInitialization,
             watchConnection,
@@ -47,8 +47,8 @@ class Root extends Component {
 
         if (user) {
 
-            this.handlePresence(user);
-            setTimeout(() => { watchConnection(this.firebaseApp); }, 1000);
+            this.handlePresence(user, firebaseApp);
+            setTimeout(() => { watchConnection(firebaseApp); }, 1000);
 
             const userData = {
                 displayName: user.displayName ? user.displayName : 'UserName',
@@ -60,18 +60,18 @@ class Root extends Component {
                 providerData: user.providerData,
             };
 
-            watchList(this.firebaseApp, `user_grants/${user.uid}`);
-            watchPath(this.firebaseApp, `admins/${user.uid}`);
+            watchList(firebaseApp, `user_grants/${user.uid}`);
+            watchPath(firebaseApp, `admins/${user.uid}`);
 
             if (appConfig.onAuthStateChanged) {
                 try {
-                    appConfig.onAuthStateChanged(user, this.props, this.firebaseApp)
+                    appConfig.onAuthStateChanged(user, this.props, firebaseApp)
                 } catch (err) {
                     console.warn(err)
                 }
             }
 
-            this.firebaseApp.database().ref(`users/${user.uid}`).update(userData);
+            firebaseApp.database().ref(`users/${user.uid}`).update(userData);
 
             return userData;
 
@@ -84,11 +84,8 @@ class Root extends Component {
     componentWillMount() {
         const { watchAuth, appConfig } = this.props;
 
-
-
         appConfig.firebaseLoad().then(({ firebaseApp }) => {
-            this.firebaseApp = firebaseApp
-            watchAuth(firebaseApp, this.onAuthStateChanged)
+            watchAuth(firebaseApp, (user) => this.onAuthStateChanged(user, firebaseApp))
         })
 
 
