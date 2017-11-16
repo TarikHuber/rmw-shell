@@ -7,6 +7,8 @@
 
 This project was bootstrapped with [NWB](https://github.com/insin/nwb).
 
+Here is an article that should explain what `rmw-shell`is about and why it was made for: [Beyond create-react-app (CRA)](https://codeburst.io/beyond-create-react-app-cra-a2063196a124)
+
 This is a `shell` for my future applications with the minimum features I would like them to have. Because of this I have designed it to be as simple as possible and without regrets about feature implementations.
 
 You can find an example of this project in this [DEMO](https://www.react-most-wanted.com/).
