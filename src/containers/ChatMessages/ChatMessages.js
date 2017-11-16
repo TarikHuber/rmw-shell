@@ -213,13 +213,14 @@ class ChatMessages extends Component {
                   {
                     type === 'location' &&
                     <div style={{ padding: 7 }}>
-                      <div style={{ padding: 3 }}>
-                        {intl.formatMessage({ id: 'my_location' })}
-                      </div>
                       <div style={{ textAlign: 'center', width: '100%', height: '100%' }}>
-                        <a target="_blank" href={values.location} style={{ width: '100%', height: '100%' }}>
-                          <img src={"to do"} alt='' height={50} width={50} />
-                        </a>
+                        <IconButton
+                          target="_blank"
+                          href={values.location}
+                        >
+                          <FontIcon className="material-icons" color={muiTheme.palette.accent1Color}>map</FontIcon>
+                        </IconButton>
+                        {intl.formatMessage({ id: 'my_location' })}
                       </div>
                     </div>
                   }
