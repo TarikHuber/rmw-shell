@@ -40,6 +40,7 @@ const config = {
   locales,
   themes,
   routes: [],
+  onAuthStateChanged: undefined,
   firebaseLoad: () => import('./firebase')
 }
 

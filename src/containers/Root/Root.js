@@ -35,10 +35,11 @@ class Root extends Component {
 
     onAuthStateChanged = (user) => {
         const {
-      clearInitialization,
+            clearInitialization,
             watchConnection,
             watchList,
-            watchPath
+            watchPath,
+            appConfig
           } = this.props;
 
 
@@ -61,6 +62,14 @@ class Root extends Component {
 
             watchList(this.firebaseApp, `user_grants/${user.uid}`);
             watchPath(this.firebaseApp, `admins/${user.uid}`);
+
+            if (appConfig.onAuthStateChanged) {
+                try {
+                    appConfig.onAuthStateChanged()
+                } catch (err) {
+                    console.warn(err)
+                }
+            }
 
             this.firebaseApp.database().ref(`users/${user.uid}`).update(userData);
 
