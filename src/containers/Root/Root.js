@@ -65,7 +65,7 @@ class Root extends Component {
 
             if (appConfig.onAuthStateChanged) {
                 try {
-                    appConfig.onAuthStateChanged(user, this.props)
+                    appConfig.onAuthStateChanged(user, this.props, this.firebaseApp)
                 } catch (err) {
                     console.warn(err)
                 }
