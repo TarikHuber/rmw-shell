@@ -5,7 +5,7 @@ import { updateTheme } from '../../store/theme/actions'
 import { updateLocale } from '../../store/locale/actions'
 import { DrawerContent } from '../../components/Drawer'
 import { setDialogIsOpen } from '../../store/dialogs/actions'
-import isGranted, {isAnyGranted} from '../../utils/auth'
+import isGranted, { isAnyGranted } from '../../utils/auth'
 import { userLogout } from '../../store/auth/actions'
 
 DrawerContent.propTypes = {
@@ -19,21 +19,14 @@ DrawerContent.propTypes = {
 }
 
 const mapStateToProps = (state) => {
-  const { responsiveDrawer, theme, locale, auth, dialogs, messaging } = state
-
   return {
-    responsiveDrawer,
-    theme,
-    locale,
-    auth,
-    dialogs,
-    messaging,
     isGranted: grant => isGranted(state, grant),
-    isAnyGranted: grants => isAnyGranted(state, grants)
+    isAnyGranted: grants => isAnyGranted(state, grants),
+    ...state
   }
 }
 
 export default connect(
   mapStateToProps,
-  {setResponsive, setDrawerOpen, updateTheme, updateLocale, setDialogIsOpen, userLogout}
+  { setResponsive, setDrawerOpen, updateTheme, updateLocale, setDialogIsOpen, userLogout }
 )(DrawerContent)
