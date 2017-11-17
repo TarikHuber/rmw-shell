@@ -8,7 +8,6 @@ import { ResponsiveMenu } from 'material-ui-responsive-menu';
 import { setDialogIsOpen } from '../../../../src/store/dialogs/actions'
 import CompanyForm from '../../components/Forms/CompanyForm';
 import { withRouter } from 'react-router-dom';
-import firebase from 'firebase';
 import FontIcon from 'material-ui/FontIcon';
 import FlatButton from 'material-ui/FlatButton';
 import Dialog from 'material-ui/Dialog';
@@ -33,14 +32,6 @@ class Company extends Component {
     errors.vat = !values.vat ? intl.formatMessage({ id: 'error_required_field' }) : '';
 
     return errors
-  }
-
-  handleUpdateValues = (values) => {
-
-    return {
-      updated: firebase.database.ServerValue.TIMESTAMP,
-      ...values
-    }
   }
 
   handleClose = () => {

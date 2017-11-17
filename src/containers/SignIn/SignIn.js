@@ -9,7 +9,7 @@ import { connect } from 'react-redux'
 import withAppConfigs from '../../withAppConfigs'
 
 export class SignIn extends Component {
-  render () {
+  render() {
     const { intl, firebaseApp, appConfig, browser } = this.props
 
     let uiConfig = {
@@ -17,7 +17,7 @@ export class SignIn extends Component {
       signInFlow: browser.greaterThan.medium ? 'popup' : 'redirect',
       callbacks: {
         signInSuccess: (user, credentials, redirect) => {
-          initMessaging()
+          //initMessaging()
 
           // To avoid page reload on single page applications
           return false

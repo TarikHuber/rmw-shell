@@ -4,9 +4,7 @@ import { injectIntl } from 'react-intl';
 import { Activity } from 'rmw-shell'
 import { setDialogIsOpen } from '../../../../src/store/dialogs/actions'
 import Form from './Form';
-import { firebaseDb } from '../../firebase';
 import { withRouter } from 'react-router-dom';
-import firebase from 'firebase';
 import FontIcon from 'material-ui/FontIcon';
 import FlatButton from 'material-ui/FlatButton';
 import Dialog from 'material-ui/Dialog';
@@ -27,7 +25,7 @@ class Task extends Component {
     const { auth } = this.props;
 
     return {
-      created: firebase.database.ServerValue.TIMESTAMP,
+      created: new Date(),
       userName: auth.displayName,
       userPhotoURL: auth.photoURL,
       userId: auth.uid,
@@ -45,11 +43,11 @@ class Task extends Component {
 
   handleDelete = () => {
 
-    const { history, match } = this.props;
+    const { history, match, firebaseApp } = this.props;
     const uid = match.params.uid;
 
     if (uid) {
-      firebaseDb.ref().child(`${path}${uid}`).remove().then(() => {
+      firebaseApp.database().ref().child(`${path}${uid}`).remove().then(() => {
         this.handleClose();
         history.goBack();
       })
