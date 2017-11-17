@@ -7,7 +7,6 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { IntlProvider } from 'react-intl'
 import AppLayout from '../../containers/AppLayout';
-import firebase from 'firebase/auth'
 import {
     watchAuth,
     clearInitialization,
@@ -85,11 +84,11 @@ class Root extends Component {
     componentWillMount() {
         const { watchAuth, appConfig } = this.props;
 
-        appConfig.firebaseLoad().then(({ firebaseApp }) => {
-            watchAuth(firebaseApp, (user) => this.onAuthStateChanged(user, firebaseApp))
+        import('firebase').then(() => {
+            appConfig.firebaseLoad().then(({ firebaseApp }) => {
+                watchAuth(firebaseApp, (user) => this.onAuthStateChanged(user, firebaseApp))
+            })
         })
-
-
 
     }
 
