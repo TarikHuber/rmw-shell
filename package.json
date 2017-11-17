@@ -66,7 +66,7 @@
   },
   "devDependencies": {
     "chart.js": "^2.7.1",
-    "enzyme": "^3.1.1",
+    "enzyme": "^3.2.0",
     "firebase": "^4.6.2",
     "firebaseui": "^2.4.1",
     "fireform": "^0.2.13",
@@ -105,7 +105,7 @@
     "redux-form": "^7.1.2",
     "redux-form-material-ui": "^4.3.0",
     "redux-logger": "^3.0.6",
-    "redux-persist": "^5.3.5",
+    "redux-persist": "^5.4.0",
     "redux-responsive": "^4.3.4",
     "redux-testkit": "^1.0.6",
     "redux-thunk": "^2.2.0",
