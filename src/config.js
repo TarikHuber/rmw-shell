@@ -2,6 +2,7 @@ import { RMWIcon } from './components/Icons'
 import configureStore from './store'
 import getMenuItems from './menuItems'
 import locales from './locales'
+import grants from './grants'
 import { themes } from './themes'
 
 const config = {
@@ -39,6 +40,7 @@ const config = {
   getMenuItems,
   locales,
   themes,
+  grants,
   routes: [],
   onAuthStateChanged: undefined,
   firebaseLoad: () => import('./firebase')

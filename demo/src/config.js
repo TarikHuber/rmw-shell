@@ -2,6 +2,7 @@ import getMenuItems from './menuItems'
 import locales from './locales'
 import routes from './routes'
 import themes from './themes'
+import grants from './grants'
 
 const config = {
   firebase_config: {
@@ -33,10 +34,11 @@ const config = {
     locale: 'en'
   },
   drawer_width: 256,
-  routes: routes,
-  getMenuItems: getMenuItems,
-  locales: locales,
-  themes: themes,
+  routes,
+  getMenuItems,
+  locales,
+  themes,
+  grants,
   firebaseLoad: () => import('./firebase')
 }
 

@@ -1,23 +1,23 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { injectIntl } from 'react-intl';
-import muiThemeable from 'material-ui/styles/muiThemeable';
 import Activity from '../../containers/Activity'
-import { ResponsiveMenu } from 'material-ui-responsive-menu';
-import { setDialogIsOpen } from '../../store/dialogs/actions';
-import { withRouter } from 'react-router-dom';
-import FontIcon from 'material-ui/FontIcon';
-import FlatButton from 'material-ui/FlatButton';
-import Dialog from 'material-ui/Dialog';
-import { withFirebase } from 'firekit-provider'
+import Avatar from 'material-ui/Avatar'
+import Dialog from 'material-ui/Dialog'
+import Divider from 'material-ui/Divider'
 import FireForm from 'fireform'
-import { change, submit } from 'redux-form';
-import RoleForm from '../../components/Forms/RoleForm';
-import { ListItem } from 'material-ui/List';
-import Divider from 'material-ui/Divider';
-import Avatar from 'material-ui/Avatar';
-import Toggle from 'material-ui/Toggle';
-import { grants } from '../../utils/auth';
+import FlatButton from 'material-ui/FlatButton'
+import FontIcon from 'material-ui/FontIcon'
+import React, { Component } from 'react'
+import RoleForm from '../../components/Forms/RoleForm'
+import Toggle from 'material-ui/Toggle'
+import muiThemeable from 'material-ui/styles/muiThemeable'
+import withAppConfigs from '../../withAppConfigs'
+import { ListItem } from 'material-ui/List'
+import { ResponsiveMenu } from 'material-ui-responsive-menu'
+import { change, submit } from 'redux-form'
+import { connect } from 'react-redux'
+import { injectIntl } from 'react-intl'
+import { setDialogIsOpen } from '../../store/dialogs/actions'
+import { withFirebase } from 'firekit-provider'
+import { withRouter } from 'react-router-dom'
 
 const path = '/roles';
 const form_name = 'role';
@@ -75,11 +75,11 @@ export class Role extends Component {
   }
 
   renderGrantItem = (i, k) => {
-    const { role_grants, match, intl } = this.props;
+    const { role_grants, match, intl, appConfig } = this.props;
 
     const uid = match.params.uid;
     const key = i;
-    const val = grants[i];
+    const val = appConfig.grants[i];
     let roleGrants = [];
 
     if (role_grants !== undefined) {
@@ -128,7 +128,8 @@ export class Role extends Component {
       submit,
       muiTheme,
       match,
-      firebaseApp
+      firebaseApp,
+      appConfig
     } = this.props;
 
     const uid = match.params.uid;
@@ -189,6 +190,7 @@ export class Role extends Component {
             onDelete={(values) => { history.push(`${path}`); }}
             uid={this.props.match.params.uid}>
             <RoleForm
+              grants={appConfig.grants}
               renderGrantItem={this.renderGrantItem}
               {...this.props}
             />
@@ -221,4 +223,4 @@ const mapStateToProps = (state) => {
 
 export default connect(
   mapStateToProps, { setDialogIsOpen, change, submit }
-)(injectIntl(withRouter(withFirebase(muiThemeable()(Role)))));
+)(injectIntl(withRouter(withFirebase(withAppConfigs(muiThemeable()(Role))))))

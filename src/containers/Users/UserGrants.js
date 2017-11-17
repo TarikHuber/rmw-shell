@@ -11,10 +11,10 @@ import { ListItem } from 'material-ui/List';
 import Divider from 'material-ui/Divider';
 import Avatar from 'material-ui/Avatar';
 import Toggle from 'material-ui/Toggle';
-import { grants } from '../../utils/auth';
 import ReactList from 'react-list';
 import { List } from 'material-ui/List';
 import { FilterDrawer, filterSelectors, filterActions } from 'material-ui-filter'
+import withAppConfigs from '../../withAppConfigs'
 
 export class UserGrants extends Component {
 
@@ -35,11 +35,11 @@ export class UserGrants extends Component {
   }
 
   renderGrantItem = (list, i, k) => {
-    const { user_grants, match, intl } = this.props
+    const { user_grants, match, intl, appConfig } = this.props
 
     const uid = match.params.uid
     const key = list[i].key
-    const val = grants[list[i].key]
+    const val = appConfig.grants[list[i].key]
     let userGrants = []
 
     if (user_grants !== undefined) {
@@ -78,10 +78,10 @@ export class UserGrants extends Component {
   }
 
   render() {
-    const { intl, filters } = this.props;
+    const { intl, filters, appConfig } = this.props;
 
     let grantList = []
-    grants.forEach((grant, index) => {
+    appConfig.grants.forEach((grant, index) => {
       grantList.push({ key: index, val: { name: intl.formatMessage({ id: `grant_${grant}` }), value: grant } })
     })
 
@@ -142,4 +142,4 @@ const mapStateToProps = (state, ownProps) => {
 
 export default connect(
   mapStateToProps, { setSimpleValue, ...filterActions }
-)(injectIntl(withRouter(withFirebase(muiThemeable()(UserGrants)))));
+)(injectIntl(withRouter(withFirebase(withAppConfigs(muiThemeable()(UserGrants))))))

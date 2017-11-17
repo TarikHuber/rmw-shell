@@ -4,18 +4,18 @@ import { intlShape } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import { TextField } from 'redux-form-material-ui'
 import ReactList from 'react-list'
-import {List} from 'material-ui/List'
+import { List } from 'material-ui/List'
 import Subheader from 'material-ui/Subheader'
-import { grants } from '../../utils/auth'
 
 class RoleForm extends Component {
 
-  render () {
+  render() {
     const {
       handleSubmit,
       intl,
       initialized,
-      renderGrantItem
+      renderGrantItem,
+      grants
     } = this.props
 
     return (
@@ -26,7 +26,7 @@ class RoleForm extends Component {
         flexWrap: 'wrap',
         justifyContent: 'center'
       }}>
-        <button type='submit' style={{display: 'none'}} />
+        <button type='submit' style={{ display: 'none' }} />
 
         <div>
           <div>
@@ -34,11 +34,11 @@ class RoleForm extends Component {
               name='name'
               disabled={!initialized}
               component={TextField}
-              hintText={intl.formatMessage({id: 'name_hint'})}
-              floatingLabelText={intl.formatMessage({id: 'name_label'})}
+              hintText={intl.formatMessage({ id: 'name_hint' })}
+              floatingLabelText={intl.formatMessage({ id: 'name_label' })}
               ref='name'
               withRef
-          />
+            />
           </div>
 
           <div>
@@ -46,25 +46,25 @@ class RoleForm extends Component {
               name='description'
               component={TextField}
               disabled={!initialized}
-              hintText={intl.formatMessage({id: 'description_hint'})}
-              floatingLabelText={intl.formatMessage({id: 'description_label'})}
+              hintText={intl.formatMessage({ id: 'description_hint' })}
+              floatingLabelText={intl.formatMessage({ id: 'description_label' })}
               multiLine
               rows={2}
               ref='description'
               withRef
-          />
+            />
           </div>
 
         </div>
 
         <div>
-          <Subheader>{intl.formatMessage({id: 'grants'})}</Subheader>
-          <List style={{height: '100%'}} ref={(field) => { this.grants = field }}>
+          <Subheader>{intl.formatMessage({ id: 'grants' })}</Subheader>
+          <List style={{ height: '100%' }} ref={(field) => { this.grants = field }}>
             <ReactList
               itemRenderer={renderGrantItem}
               length={grants ? grants.length : 0}
               type='simple'
-          />
+            />
           </List>
         </div>
 
@@ -81,4 +81,4 @@ RoleForm.propTypes = {
   uid: PropTypes.string
 }
 
-export default reduxForm({form: 'role'})(RoleForm)
+export default reduxForm({ form: 'role' })(RoleForm)

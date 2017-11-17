@@ -1,12 +1,5 @@
 
-export const grants = [
-  'create_company',
-  'edit_company',
-  'delete_company',
-  'read_companies'
-]
-
-export default function isGranted(state, grant) {
+export default function isGranted (state, grant) {
   const { auth, lists, paths } = state
 
   const userGrants = lists[`user_grants/${auth.uid}`]
@@ -31,7 +24,7 @@ export default function isGranted(state, grant) {
   return false
 }
 
-export function isAnyGranted(state, grants) {
+export function isAnyGranted (state, grants) {
   if (grants !== undefined) {
     for (let grant of grants) {
       if (isGranted(state, grant) === true) {
@@ -43,7 +36,7 @@ export function isAnyGranted(state, grants) {
   return false
 }
 
-export function isAuthorised() {
+export function isAuthorised () {
   try {
     const key = Object.keys(localStorage).find(e => e.match(/firebase:authUser/))
     const data = JSON.parse(localStorage.getItem(key))
