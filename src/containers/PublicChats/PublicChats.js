@@ -10,15 +10,15 @@ import { withFirebase } from 'firekit-provider'
 import { ChatMessages } from 'rmw-shell'
 
 export class Chat extends Component {
-  render() {
-    const { muiTheme, intl } = this.props
+  render () {
+    const { muiTheme, intl, firebaseApp } = this.props
 
     return (
       <Activity
         containerStyle={{ overflow: 'hidden', backgroundColor: muiTheme.chip.backgroundColor }}
         title={intl.formatMessage({ id: 'public_chats' })}>
 
-        <ChatMessages path={'public_chats'} />
+        <ChatMessages path={'public_chats'} firebaseApp={firebaseApp} />
 
       </Activity>
     )
