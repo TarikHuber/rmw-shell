@@ -8,7 +8,6 @@ export default function makeLoadable(opts, preloadComponents) {
   return Loadable.Map({
     loader: {
       Component: opts.loader,
-      firebase: opts.firebase,
       NotificationLayout: () => import('../../containers/NotificationLayout/NotificationLayout'),
     },
     loading: LoadingComponent,
@@ -20,14 +19,11 @@ export default function makeLoadable(opts, preloadComponents) {
 
       const Component = loaded.Component.default;
       const NotificationLayout = loaded.NotificationLayout.default
-      const firebaseApp = loaded.firebase.firebaseApp;
 
-      return <FirebaseProvider firebaseApp={firebaseApp}>
-        <div>
-          <Component {...props} />
-          <NotificationLayout />
-        </div>
-      </FirebaseProvider>;
+      return <div>
+        <Component {...props} />
+        <NotificationLayout />
+      </div>
     }
   });
 

@@ -4,6 +4,7 @@ import getMenuItems from './menuItems'
 import locales from './locales'
 import grants from './grants'
 import { themes } from './themes'
+import firebase from 'firebase/app'
 
 const config = {
   firebase_config: {
@@ -43,7 +44,9 @@ const config = {
   grants,
   routes: [],
   onAuthStateChanged: undefined,
-  firebaseLoad: () => import('./firebase')
+  firebaseLoad: () => import('./firebase'),
 }
+
+config.firebaseApp = firebase.initializeApp(process.env.NODE_ENV !== 'production' ? config.firebase_config_dev : config.firebase_config)
 
 export default config
