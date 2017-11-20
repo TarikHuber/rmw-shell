@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import FontIcon from 'material-ui/FontIcon';
-import firebase from 'firebase/messaging'
 import { injectIntl } from 'react-intl';
 import muiThemeable from 'material-ui/styles/muiThemeable';
 import ReactMaterialUiNotifications from 'react-materialui-notifications';
@@ -9,7 +8,7 @@ import { withFirebase } from 'firekit-provider';
 import { withRouter } from 'react-router-dom';
 import Snackbar from 'material-ui/Snackbar';
 
-export class AppLayout extends Component {
+export class NotificationLayout extends Component {
 
   handleActionTouchTap = () => {
     const { messaging, history, clearMessage } = this.props;
@@ -28,9 +27,13 @@ export class AppLayout extends Component {
   componentDidMount() {
     const { messaging, initMessaging } = this.props;
 
-    if (messaging === undefined || !messaging.isInitialized) {
-      initMessaging(token => { this.handleTokenChange(token) }, this.handleMessageReceived)
-    }
+
+    import('firebase').then(() => {
+      if (messaging === undefined || !messaging.isInitialized) {
+        initMessaging(token => { this.handleTokenChange(token) }, this.handleMessageReceived)
+      }
+    })
+
   }
 
 
@@ -159,4 +162,4 @@ const mapStateToProps = (state) => {
 
 export default connect(
   mapStateToProps,
-)(muiThemeable()(injectIntl(withFirebase(withRouter(AppLayout)))));
+)(muiThemeable()(injectIntl(withFirebase(withRouter(NotificationLayout)))));
