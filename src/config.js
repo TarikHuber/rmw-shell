@@ -4,7 +4,6 @@ import getMenuItems from './menuItems'
 import locales from './locales'
 import grants from './grants'
 import { themes } from './themes'
-import firebase from 'firebase/app'
 
 const config = {
   firebase_config: {
