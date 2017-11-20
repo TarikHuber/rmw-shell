@@ -85,15 +85,10 @@ class Root extends Component {
   componentWillMount() {
     const { watchAuth, appConfig } = this.props;
 
-    watchAuth(appConfig.firebaseApp, (user) => this.onAuthStateChanged(user, appConfig.firebaseApp))
-
-    console.log(appConfig.firebaseApp)
-
-    /*
     import('firebase').then(() => {
-        watchAuth(appConfig.firebaseApp, (user) => this.onAuthStateChanged(user, appConfig.firebaseApp))
+      watchAuth(appConfig.firebaseApp, (user) => this.onAuthStateChanged(user, appConfig.firebaseApp))
     })
-    */
+
 
   }
 
