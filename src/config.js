@@ -47,6 +47,4 @@ const config = {
   firebaseLoad: () => import('./firebase'),
 }
 
-config.firebaseApp = firebase.initializeApp(process.env.NODE_ENV !== 'production' ? config.firebase_config_dev : config.firebase_config)
-
 export default config
