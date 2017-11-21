@@ -32,7 +32,6 @@ I tried to make the project as clean as possible and to use all libraries in the
   - [Authorisation](#authorisation)
 - [TO DO](#to-do)
 - [License](#license)
-- [Logo](#logo)
 
 
 ## Features
@@ -354,9 +353,6 @@ To:
 
 MIT
 
-## Logo
-
-Thanks to @SiradDev for creating the logo for this project :)
 
 [logo-image]: https://www.react-most-wanted.com/favicon-32x32.png
 [logo-url]: https://github.com/TarikHuber/react-most-wanted/blob/master/README.md
