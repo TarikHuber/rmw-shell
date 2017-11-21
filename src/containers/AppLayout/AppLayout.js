@@ -21,6 +21,8 @@ export class AppLayout extends Component {
     console.log(appConfig.routes)
     const Routes = appConfig.routes
 
+    console.log(Routes)
+
     return (
       <div style={{ backgroundColor: muiTheme.palette.canvasColor, height: '100%' }}>
         <ResponsiveDrawer width={drawerWidth}>

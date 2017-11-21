@@ -3,14 +3,14 @@ import firebaseui from 'firebaseui'
 import firebase from 'firebase/auth'
 
 export class AuthUI extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = {
       authUi: false
     }
   }
 
-  componentDidMount() {
+  componentDidMount () {
     const { firebaseApp, uiConfig } = this.props
 
     let authUi = null
@@ -25,11 +25,11 @@ export class AuthUI extends Component {
     }
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     this.state.authUi.delete()
   }
 
-  render() {
+  render () {
     return (
       <div style={{ paddingTop: 35, width: '100%' }}>
         <div id='firebaseui-auth' style={{ width: '100%' }} />
