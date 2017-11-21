@@ -16,8 +16,10 @@ export class AppLayout extends Component {
     const { muiTheme, history, appConfig } = this.props
     const drawerWidth = appConfig.drawer_width
     const path = history.location.pathname
-    const customRoutes = appConfig.routes ? appConfig.routes : null
-    const Routes = customRoutes
+    // const customRoutes = appConfig.routes ? appConfig.routes : <div />
+
+    console.log(appConfig.routes)
+    const Routes = appConfig.routes
 
     return (
       <div style={{ backgroundColor: muiTheme.palette.canvasColor, height: '100%' }}>
