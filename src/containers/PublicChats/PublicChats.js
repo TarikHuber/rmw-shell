@@ -7,10 +7,10 @@ import { setSimpleValue } from '../../store/simpleValues/actions'
 import Activity from '../../containers/Activity'
 import { withRouter } from 'react-router-dom'
 import { withFirebase } from 'firekit-provider'
-import { ChatMessages } from 'rmw-shell'
+import ChatMessages from '../../containers/ChatMessages/ChatMessages'
 
 export class Chat extends Component {
-  render () {
+  render() {
     const { muiTheme, intl, firebaseApp } = this.props
 
     return (

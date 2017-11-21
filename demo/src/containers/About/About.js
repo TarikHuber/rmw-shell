@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import FlatButton from 'material-ui/FlatButton'
 import { injectIntl, intlShape } from 'react-intl'
 import { GitHubIcon } from '../../../../src/components/Icons'
-import { Activity } from 'rmw-shell'
-import { Scrollbar } from 'rmw-shell'
+import Activity from '../../../../src/containers/Activity'
+import Scrollbar from '../../../../src/components/Scrollbar'
 
 class About extends Component {
   // Sorry for using setState here but I have to remove 'marked' from the dependencies

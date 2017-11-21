@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
-import { Activity } from 'rmw-shell'
+import Activity from '../../../../src/containers/Activity'
 import { setDialogIsOpen } from '../../../../src/store/dialogs/actions'
 import Form from './Form';
 import { withRouter } from 'react-router-dom';

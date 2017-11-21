@@ -11,8 +11,10 @@ import { withRouter } from 'react-router-dom'
 import { withFirebase } from 'firekit-provider'
 import ReactList from 'react-list'
 import { FilterDrawer, filterSelectors, filterActions } from 'material-ui-filter'
-import { Scrollbar, SearchField, GoogleIcon, FacebookIcon, GitHubIcon, TwitterIcon } from 'rmw-shell'
-import { Activity } from 'rmw-shell'
+import { GoogleIcon, FacebookIcon, GitHubIcon, TwitterIcon } from '../../components/Icons'
+import Activity from '../../containers/Activity'
+import Scrollbar from '../../components/Scrollbar'
+import SearchField from '../../components/SearchField'
 import { ResponsiveMenu } from 'material-ui-responsive-menu'
 
 const path = `users`
