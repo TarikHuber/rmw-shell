@@ -12,7 +12,10 @@ function MyLoadable(opts, preloadComponents) {
         loader: {
             Component: opts.loader,
         },
-        loading: () => { return <div /> },
+        loading: (props) => {
+            console.log(props)
+            return <div />
+        },
         render(loaded, props) {
 
             if (preloadComponents !== undefined && preloadComponents instanceof Array) {
