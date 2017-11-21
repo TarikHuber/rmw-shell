@@ -19,7 +19,7 @@ import { withRouter } from 'react-router-dom';
 import FlatButton from 'material-ui/FlatButton';
 import Dialog from 'material-ui/Dialog';
 import { withFirebase } from 'firekit-provider'
-import Scrollbar from '../../../../src/containers/Scrollbar'
+import Scrollbar from '../../../../src/components/Scrollbar'
 
 class Tasks extends Component {
 

@@ -12,17 +12,11 @@ import { Switch } from 'react-router-dom'
 // import NotificationLayout from '../../containers/NotificationLayout'
 
 export class AppLayout extends Component {
-  render() {
+  render () {
     const { muiTheme, history, appConfig } = this.props
     const drawerWidth = appConfig.drawer_width
     const path = history.location.pathname
-    // const customRoutes = appConfig.routes ? appConfig.routes : <div />
-
-    console.log(appConfig)
-    console.log(appConfig.routes)
-    const Routes = appConfig.routes
-
-    console.log(Routes)
+    const customRoutes = appConfig.routes ? appConfig.routes : []
 
     return (
       <div style={{ backgroundColor: muiTheme.palette.canvasColor, height: '100%' }}>
@@ -33,7 +27,10 @@ export class AppLayout extends Component {
           </Scrollbar>
         </ResponsiveDrawer>
 
-        <Routes />
+        <Switch>
+          {customRoutes.map((Route, i) => { return React.cloneElement(Route, { key: `@customRoutes/${i}` }) })}
+          {appRoutes.map((Route, i) => { return React.cloneElement(Route, { key: `@appRoutes/${i}` }) })}
+        </Switch>
 
       </div>
     )

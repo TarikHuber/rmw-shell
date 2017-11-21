@@ -41,7 +41,7 @@ const config = {
   locales,
   themes,
   grants,
-  routes: null,
+  routes: [],
   onAuthStateChanged: undefined
 }
 
