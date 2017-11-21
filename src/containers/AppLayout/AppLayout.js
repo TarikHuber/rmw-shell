@@ -16,8 +16,8 @@ export class AppLayout extends Component {
     const { muiTheme, history, appConfig } = this.props
     const drawerWidth = appConfig.drawer_width
     const path = history.location.pathname
-    const customRoutes = appConfig.routes ? appConfig.routes : []
-    const routes = customRoutes
+    const customRoutes = appConfig.routes ? appConfig.routes : null
+    const Routes = customRoutes
 
     return (
       <div style={{ backgroundColor: muiTheme.palette.canvasColor, height: '100%' }}>
@@ -28,10 +28,7 @@ export class AppLayout extends Component {
           </Scrollbar>
         </ResponsiveDrawer>
 
-        <Switch>
-          {customRoutes.map((Route, i) => { return React.cloneElement(Route, { key: `@customRoutes/${i}` }) })}
-          {appRoutes.map((Route, i) => { return React.cloneElement(Route, { key: `@appRoutes/${i}` }) })}
-        </Switch>
+        <Routes />
 
       </div>
     )

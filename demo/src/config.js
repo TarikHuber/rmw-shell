@@ -1,6 +1,6 @@
 import getMenuItems from './menuItems'
 import locales from './locales'
-import routes from './routes'
+import Routes from './routesNEW'
 import themes from './themes'
 import grants from './grants'
 
@@ -34,7 +34,7 @@ const config = {
     locale: 'en'
   },
   drawer_width: 256,
-  routes,
+  routes: Routes,
   getMenuItems,
   locales,
   themes,
