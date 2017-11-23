@@ -9,7 +9,7 @@ export class AuthUI extends Component {
     }
   }
 
-  componentDidMount() {
+  componentWillMount() {
     const { firebaseApp, uiConfig } = this.props
 
     let authUi = null
@@ -25,7 +25,11 @@ export class AuthUI extends Component {
   }
 
   componentWillUnmount() {
-    this.state.authUi.delete()
+    try {
+      this.state.authUi.delete()
+    } catch (err) {
+      console.warn(err)
+    }
   }
 
   render() {

@@ -10,11 +10,11 @@ import withAppConfigs from '../../withAppConfigs'
 
 export class SignIn extends Component {
   render() {
-    const { intl, firebaseApp, appConfig, browser } = this.props
+    const { intl, firebaseApp, appConfig } = this.props
 
     let uiConfig = {
       signInSuccessUrl: '/',
-      signInFlow: browser.greaterThan.medium ? 'popup' : 'redirect',
+      signInFlow: 'popup',
       callbacks: {
         signInSuccess: (user, credentials, redirect) => {
           //initMessaging()
