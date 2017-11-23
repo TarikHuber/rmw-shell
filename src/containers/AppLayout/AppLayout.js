@@ -6,17 +6,17 @@ import { DrawerHeader } from '../../containers/Drawer'
 import { DrawerContent } from '../../containers/Drawer'
 import { withRouter } from 'react-router-dom'
 import Scrollbar from '../../components/Scrollbar'
-import appRoutes from '../../components/AppRoutes'
+import getAppRoutes from '../../components/AppRoutes'
 import withAppConfigs from '../../withAppConfigs'
 import { Switch } from 'react-router-dom'
-// import NotificationLayout from '../../containers/NotificationLayout'
 
 export class AppLayout extends Component {
-  render () {
+  render() {
     const { muiTheme, history, appConfig } = this.props
     const drawerWidth = appConfig.drawer_width
     const path = history.location.pathname
     const customRoutes = appConfig.routes ? appConfig.routes : []
+    const appRoutes = getAppRoutes(appConfig.firebaseLoad)
 
     return (
       <div style={{ backgroundColor: muiTheme.palette.canvasColor, height: '100%' }}>

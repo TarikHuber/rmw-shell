@@ -16,7 +16,6 @@ import {
 } from 'firekit';
 import createHistory from 'history/createBrowserHistory'
 import { Router, Route, Switch } from 'react-router-dom';
-import FirebaseProvider from 'firekit-provider';
 
 const history = createHistory();
 
@@ -85,8 +84,8 @@ class Root extends Component {
   componentWillMount() {
     const { watchAuth, appConfig } = this.props;
 
-    import('firebase').then(() => {
-      watchAuth(appConfig.firebaseApp, (user) => this.onAuthStateChanged(user, appConfig.firebaseApp))
+    appConfig.firebaseLoad().then(({ firebaseApp }) => {
+      watchAuth(firebaseApp, (user) => this.onAuthStateChanged(user, firebaseApp))
     })
 
 
@@ -104,13 +103,11 @@ class Root extends Component {
       <MuiThemeProvider muiTheme={muiTheme}>
         <IntlProvider locale={locale} messages={messages}>
           <IntlProvider messages={getLocaleMessages(locale, appConfig.locales)}>
-            <FirebaseProvider firebaseApp={appConfig.firebaseApp}>
-              <Router history={history} >
-                <Switch>
-                  <Route children={(props) => <AppLayout {...props} />} />
-                </Switch>
-              </Router>
-            </FirebaseProvider>
+            <Router history={history} >
+              <Switch>
+                <Route children={(props) => <AppLayout {...props} />} />
+              </Switch>
+            </Router>
           </IntlProvider>
         </IntlProvider>
       </MuiThemeProvider>

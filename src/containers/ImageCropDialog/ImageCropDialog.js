@@ -6,7 +6,6 @@ import { Cropper } from 'react-image-cropper';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import { withFirebase } from 'firekit-provider';
-import firebase from 'firebase';
 import CircularProgress from 'material-ui/CircularProgress';
 import LinearProgress from 'material-ui/LinearProgress';
 

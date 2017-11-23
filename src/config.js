@@ -42,7 +42,8 @@ const config = {
   themes,
   grants,
   routes: [],
-  onAuthStateChanged: undefined
+  onAuthStateChanged: undefined,
+  firebaseLoad: () => import('./firebase')
 }
 
 export default config

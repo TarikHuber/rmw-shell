@@ -38,7 +38,8 @@ const config = {
   getMenuItems,
   locales,
   themes,
-  grants
+  grants,
+  firebaseLoad: () => import('./firebase')
 }
 
 export default config

@@ -9,7 +9,6 @@ import { withRouter } from 'react-router-dom';
 import FontIcon from 'material-ui/FontIcon';
 import FlatButton from 'material-ui/FlatButton';
 import Dialog from 'material-ui/Dialog';
-import firebase from 'firebase';
 import { withFirebase } from 'firekit-provider'
 import FireForm from 'fireform'
 import { GoogleIcon, FacebookIcon, GitHubIcon, TwitterIcon } from '../../components/Icons';

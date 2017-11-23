@@ -27,12 +27,10 @@ export class NotificationLayout extends Component {
   componentDidMount() {
     const { messaging, initMessaging } = this.props;
 
+    if (messaging === undefined || !messaging.isInitialized) {
+      initMessaging(token => { this.handleTokenChange(token) }, this.handleMessageReceived)
+    }
 
-    import('firebase').then(() => {
-      if (messaging === undefined || !messaging.isInitialized) {
-        initMessaging(token => { this.handleTokenChange(token) }, this.handleMessageReceived)
-      }
-    })
 
   }
 
