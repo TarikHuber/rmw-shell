@@ -17,20 +17,20 @@ export class SignIn extends Component {
       signInFlow: 'popup',
       callbacks: {
         signInSuccess: (user, credentials, redirect) => {
-          //initMessaging()
+          // initMessaging()
 
           // To avoid page reload on single page applications
           return false
         }
       },
-      signInOptions: appConfig.firebase_providers
+      signInOptions: appConfig.firebase_providers,
+      credentialHelper: firebaseui.auth.CredentialHelper.NONE
     }
 
     return (
       <Activity
         title={intl.formatMessage({ id: 'sign_in' })}>
-        {firebaseApp && <AuthUI firebaseApp={firebaseApp} uiConfig={uiConfig} />}
-        {!firebaseApp && <LoadingComponent />}
+        <AuthUI firebaseApp={firebaseApp} uiConfig={uiConfig} />
       </Activity>
 
     )
