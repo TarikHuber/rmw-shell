@@ -22,7 +22,10 @@ const path = `users`
 export class Users extends Component {
 
   componentDidMount() {
-    this.props.watchList(path);
+    const { setSearch } = this.props;
+
+    setSearch('users', '')
+    this.props.watchList(path)
   }
 
   getProviderIcon = (provider) => {
@@ -144,7 +147,7 @@ export class Users extends Component {
                 onChange={(e, newVal) => {
                   setSearch('users', newVal)
                 }}
-                hintText={`${intl.formatMessage({ id: 'user_label_search' })}`}
+                hintText={`${intl.formatMessage({ id: 'search' })}`}
               />
             </div>
             <div style={{ position: 'absolute', right: 10, width: 100 }}>

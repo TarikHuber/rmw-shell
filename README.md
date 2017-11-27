@@ -17,6 +17,13 @@ You can find an example of this project in this [DEMO](https://www.react-most-wa
 
 I tried to make the project as clean as possible and to use all libraries in their pure ways.
 
+Because we use only peer dependencies the install command is a little bit long:
+```json
+
+npm i --save rmw-shel firebase firebaseui fireform firekit firekit-provider intl intl-locales-supported material-ui material-ui-filter material-ui-image material-ui-responsive-drawer material-ui-responsive-menu material-ui-selectable-menu-list material-ui-superselectfield prop-types react react-container-dimensions react-custom-scrollbars react-dom react-helmet react-image-cropper react-intl react-list react-loadable react-materialui-notifications react-redux react-router react-router-dom redux redux-form redux-form-material-ui redux-logger redux-persist redux-responsive redux-thunk 
+
+```
+
 ## Table of Contents
 
 - [Features](#features)
