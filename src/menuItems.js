@@ -50,12 +50,6 @@ const getMenuItems = (props) => {
 
   return [
     {
-      value: '/dashboard',
-      visible: isAuthorised,
-      primaryText: intl.formatMessage({ id: 'dashboard' }),
-      leftIcon: <FontIcon className='material-icons' >dashboard</FontIcon>
-    },
-    {
       visible: isAuthorised,
       primaryText: intl.formatMessage({ id: 'chats' }),
       primaryTogglesNestedList: true,
@@ -80,12 +74,6 @@ const getMenuItems = (props) => {
           leftIcon: <FontIcon className='material-icons' >textsms</FontIcon>
         }
       ]
-    },
-    {
-      value: '/about',
-      visible: isAuthorised,
-      primaryText: intl.formatMessage({ id: 'about' }),
-      leftIcon: <FontIcon className='material-icons' >info_outline</FontIcon>
     },
     {
       visible: isAuthorised, // In prod: isGranted('administration'),
