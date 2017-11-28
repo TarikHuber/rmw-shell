@@ -101,7 +101,7 @@ class Root extends Component {
 
     return (
       <MuiThemeProvider muiTheme={muiTheme} >
-        <IntlProvider locale={locale} messages={getLocaleMessages(locale, locales)}>
+        <IntlProvider locale={locale} key={locale} messages={messages}>
           <Router history={history} >
             <Switch>
               <Route children={(props) => <AppLayout {...props} />} />
@@ -126,7 +126,7 @@ const mapStateToProps = (state, ownProps) => {
   const { appConfig } = ownProps
 
   const source = getThemeSource(theme, appConfig.themes);
-  const messages = getLocaleMessages(locale, locales);
+  const messages = { ...(getLocaleMessages(locale, locales)), ...(getLocaleMessages(locale, appConfig.locales)) }
   const muiTheme = getMuiTheme(source);
 
   return {
