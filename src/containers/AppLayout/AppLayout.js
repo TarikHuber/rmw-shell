@@ -9,30 +9,34 @@ import Scrollbar from '../../components/Scrollbar'
 import getAppRoutes from '../../components/AppRoutes'
 import withAppConfigs from '../../withAppConfigs'
 import { Switch } from 'react-router-dom'
+import { getLocaleMessages } from '../../locales'
+import { IntlProvider } from 'react-intl'
 
 export class AppLayout extends Component {
-  render() {
-    const { muiTheme, history, appConfig } = this.props
+  render () {
+    const { muiTheme, history, appConfig, locale } = this.props
     const drawerWidth = appConfig.drawer_width
     const path = history.location.pathname
     const customRoutes = appConfig.routes ? appConfig.routes : []
     const appRoutes = getAppRoutes(appConfig.firebaseLoad)
 
     return (
-      <div style={{ backgroundColor: muiTheme.palette.canvasColor, height: '100%' }}>
-        <ResponsiveDrawer width={drawerWidth}>
-          <Scrollbar>
-            <DrawerHeader />
-            <DrawerContent path={path} history={history} />
-          </Scrollbar>
-        </ResponsiveDrawer>
+      <IntlProvider locale={locale} messages={getLocaleMessages(locale, appConfig.locales)}>
+        <div style={{ backgroundColor: muiTheme.palette.canvasColor, height: '100%' }}>
+          <ResponsiveDrawer width={drawerWidth}>
+            <Scrollbar>
+              <DrawerHeader />
+              <DrawerContent path={path} history={history} />
+            </Scrollbar>
+          </ResponsiveDrawer>
 
-        <Switch>
-          {customRoutes.map((Route, i) => { return React.cloneElement(Route, { key: `@customRoutes/${i}` }) })}
-          {appRoutes.map((Route, i) => { return React.cloneElement(Route, { key: `@appRoutes/${i}` }) })}
-        </Switch>
+          <Switch>
+            {customRoutes.map((Route, i) => { return React.cloneElement(Route, { key: `@customRoutes/${i}` }) })}
+            {appRoutes.map((Route, i) => { return React.cloneElement(Route, { key: `@appRoutes/${i}` }) })}
+          </Switch>
 
-      </div>
+        </div>
+      </IntlProvider>
     )
   }
 }

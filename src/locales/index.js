@@ -1,14 +1,8 @@
 import { addLocaleData } from 'react-intl'
 import en_messages from './en'
 import de_messages from './de'
-import ru_messages from './ru'
-import bs_messages from './bs'
-import es_messages from './es'
 import en from 'react-intl/locale-data/en'
 import de from 'react-intl/locale-data/de'
-import ru from 'react-intl/locale-data/ru'
-import bs from 'react-intl/locale-data/bs'
-import es from 'react-intl/locale-data/es'
 
 let areIntlLocalesSupported = require('intl-locales-supported')
 
@@ -44,26 +38,11 @@ const locales = [
     locale: 'de',
     messages: de_messages,
     data: de
-  },
-  {
-    locale: 'bs',
-    messages: bs_messages,
-    data: bs
-  },
-  {
-    locale: 'ru',
-    messages: ru_messages,
-    data: ru
-  },
-  {
-    locale: 'es',
-    messages: es_messages,
-    data: es
   }
 
 ]
 
-export function getLocaleMessages(l, ls) {
+export function getLocaleMessages (l, ls) {
   if (ls) {
     for (let i = 0; i < ls.length; i++) {
       if (ls[i]['locale'] === l) {
@@ -75,7 +54,7 @@ export function getLocaleMessages(l, ls) {
   return en_messages // Default locale
 }
 
-export function addLocalizationData(ls) {
+export function addLocalizationData (ls) {
   ls.map((l) => {
     addLocaleData(l.data)
     return l

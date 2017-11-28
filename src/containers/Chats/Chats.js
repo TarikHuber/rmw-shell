@@ -16,12 +16,29 @@ import Scrollbar from '../../components/Scrollbar'
 import ChatMessages from '../../containers/ChatMessages'
 import { setPersistentValue } from '../../store/persistentValues/actions'
 import { filterSelectors } from 'material-ui-filter'
+import IconMenu from 'material-ui/IconMenu'
+import MenuItem from 'material-ui/MenuItem'
+import IconButton from 'material-ui/IconButton'
 
 export class Chats extends Component {
 
   componentDidMount() {
     const { watchList, path } = this.props;
     watchList(path);
+  }
+
+  handleDeleteChat = (key, val) => {
+    const { firebaseApp, auth } = this.props;
+
+    firebaseApp.database().ref(`user_chats/${auth.uid}/${key}`).remove();
+
+  }
+
+  handleMarkAsUnread = (key, val) => {
+    const { firebaseApp, auth } = this.props;
+
+    firebaseApp.database().ref(`user_chats/${auth.uid}/${key}/unread`).set(1);
+
   }
 
   handleItemClick = (val, key) => {
@@ -38,12 +55,55 @@ export class Chats extends Component {
     }
   }
 
+
+
+
+
   renderItem = (i, k) => {
     const { list, intl, currentChatUid, usePreview, muiTheme } = this.props;
 
     const key = list[i].key;
     const val = list[i].val;
     const isPreviewed = usePreview && currentChatUid === key;
+
+    const rightIconMenu = (
+      <div style={{ width: 'auto', fontSize: 11, color: muiTheme.listItem.secondaryTextColor }}>
+        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+          {val.unread > 0 &&
+            <div style={{ textAlign: 'right' }}>
+              <Avatar
+                size={20}
+                backgroundColor={muiTheme.palette.primary1Color}
+                color={muiTheme.palette.primaryTextColor}
+                alt="unread">
+                <div style={{ color: muiTheme.listItem.secondaryTextColor }} >
+                  {val.unread}
+                </div>
+              </Avatar>
+            </div>
+          }
+          <IconMenu
+            style={{ marginTop: -18, marginRight: -10 }}
+            anchorOrigin={{ horizontal: 'left', vertical: 'top' }}
+            targetOrigin={{ horizontal: 'left', vertical: 'top' }}
+            iconButtonElement={<IconButton><FontIcon className="material-icons">more_horiz</FontIcon></IconButton>}
+          >
+            <MenuItem
+              onClick={() => { this.handleDeleteChat(key, val) }}>
+              {intl.formatMessage({ id: 'delete_chat' })}
+            </MenuItem>
+            <MenuItem
+              onClick={() => { this.handleMarkAsUnread(key, val) }}>
+              {intl.formatMessage({ id: 'mark_chat_as_unread' })}
+            </MenuItem>
+          </IconMenu>
+        </div>
+        <div style={{ width: 'auto', color: val.unread > 0 ? muiTheme.palette.primary1Color : undefined, textAlign: 'right', marginRight: 5 }} >
+          {val.lastCreated ? intl.formatTime(new Date(val.lastCreated), 'hh:mm') : undefined}
+        </div>
+
+      </div>
+    );
 
     return <div key={i}>
       <ListItem
@@ -58,27 +118,7 @@ export class Chats extends Component {
         onClick={() => { this.handleItemClick(val, key) }}
         key={key}
         id={key}
-        rightIcon={
-          <div style={{ width: 'auto', fontSize: 11, color: muiTheme.listItem.secondaryTextColor }}>
-            <div style={{ width: 'auto', color: val.unread > 0 ? muiTheme.palette.primary1Color : undefined }} >
-              {val.lastCreated ? intl.formatTime(new Date(val.lastCreated), 'hh:mm') : undefined}
-            </div>
-            {val.unread > 0 &&
-              <div style={{ textAlign: 'right' }}>
-                <Avatar
-                  size={20}
-                  backgroundColor={muiTheme.palette.primary1Color}
-                  color={muiTheme.palette.primaryTextColor}
-                  alt="unread">
-                  <div style={{ color: muiTheme.listItem.secondaryTextColor }} >
-                    {val.unread}
-                  </div>
-                </Avatar>
-              </div>
-            }
-          </div>
-        }
-
+        rightIconButton={rightIconMenu}
         primaryText={val.unread > 0 ? <div><b>{val.displayName}</b></div> : val.displayName}
         secondaryText={val.unread > 0 ? <div><b>{val.lastMessage}</b></div> : val.lastMessage}
       />
@@ -89,7 +129,7 @@ export class Chats extends Component {
 
   render() {
     const {
-      intl,
+        intl,
       list,
       history,
       currentChatUid,

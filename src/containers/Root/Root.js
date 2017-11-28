@@ -1,21 +1,21 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import locales, { getLocaleMessages } from '../../locales';
-import getThemeSource from '../../themes';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import locales, { getLocaleMessages } from '../../locales'
+import getThemeSource from '../../themes'
+import getMuiTheme from 'material-ui/styles/getMuiTheme'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { IntlProvider } from 'react-intl'
-import AppLayout from '../../containers/AppLayout';
+import AppLayout from '../../containers/AppLayout'
 import {
   watchAuth,
   clearInitialization,
   initConnection,
   watchList,
   watchPath
-} from 'firekit';
+} from 'firekit'
 import createHistory from 'history/createBrowserHistory'
-import { Router, Route, Switch } from 'react-router-dom';
+import { Router, Route, Switch } from 'react-router-dom'
 
 const history = createHistory();
 
@@ -35,7 +35,7 @@ class Root extends Component {
 
   onAuthStateChanged = (user, firebaseApp) => {
     const {
-            clearInitialization,
+      clearInitialization,
       watchConnection,
       watchList,
       watchPath,
@@ -100,15 +100,13 @@ class Root extends Component {
     const { locale, muiTheme, messages, appConfig } = this.props;
 
     return (
-      <MuiThemeProvider muiTheme={muiTheme}>
-        <IntlProvider locale={locale} messages={messages}>
-          <IntlProvider messages={getLocaleMessages(locale, appConfig.locales)}>
-            <Router history={history} >
-              <Switch>
-                <Route children={(props) => <AppLayout {...props} />} />
-              </Switch>
-            </Router>
-          </IntlProvider>
+      <MuiThemeProvider muiTheme={muiTheme} >
+        <IntlProvider locale={locale} messages={getLocaleMessages(locale, locales)}>
+          <Router history={history} >
+            <Switch>
+              <Route children={(props) => <AppLayout {...props} />} />
+            </Switch>
+          </Router>
         </IntlProvider>
       </MuiThemeProvider>
     );

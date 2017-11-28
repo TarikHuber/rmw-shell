@@ -1,6 +1,6 @@
-import {defineMessages} from 'react-intl';
+import { defineMessages } from 'react-intl'
 
-const messages=defineMessages({
+const messages = defineMessages({
   app_name: 'React Most Wanted',
   dashboard: 'Dashboard',
   about: 'About',
@@ -83,7 +83,7 @@ const messages=defineMessages({
   description_hint: 'Enter description',
   name_label: 'Name',
   name_hint: 'Enter name',
-  public_chats: 'Public chat', 
+  public_chats: 'Public chat',
   delete_message_title: 'Delete message?',
   delete_message_message: 'Message will be deleted!',
   users_count_title: '{number} Users',
@@ -144,7 +144,9 @@ const messages=defineMessages({
   user_label_search: 'Search user',
   document: 'Document',
   collection: 'Collection',
+  mark_chat_as_unread: 'Mark as unread',
+  delete_chat: 'Delete chat'
 
-});
+})
 
-export default messages;
+export default messages
