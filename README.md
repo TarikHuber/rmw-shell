@@ -13,6 +13,8 @@ This is a `shell` for my future applications with the minimum features I would l
 
 You can find an example of this project in this [DEMO](https://www.react-most-wanted.com/).
 
+[DOCUMENTATION](https://github.com/TarikHuber/rmw-shell/wiki)
+
 **INFO:** This README is just a copy from the React Most Wanted Project. Both need now an updated version and we will provide one ASAP.
 
 I tried to make the project as clean as possible and to use all libraries in their pure ways.
