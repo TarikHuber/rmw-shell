@@ -145,7 +145,8 @@ const messages = defineMessages({
   document: 'Document',
   collection: 'Collection',
   mark_chat_as_unread: 'Als ungelesen markieren',
-  delete_chat: 'Chat löschen'
+  delete_chat: 'Chat löschen',
+  search: 'Suchen'
 })
 
 export default messages

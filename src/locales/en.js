@@ -145,7 +145,8 @@ const messages = defineMessages({
   document: 'Document',
   collection: 'Collection',
   mark_chat_as_unread: 'Mark as unread',
-  delete_chat: 'Delete chat'
+  delete_chat: 'Delete chat',
+  search: 'Search'
 
 })
 
