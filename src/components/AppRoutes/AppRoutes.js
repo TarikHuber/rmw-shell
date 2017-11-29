@@ -34,6 +34,7 @@ const getAppRoutes = (firebaseLoader) => {
     <RestrictedRoute type='private' path="/roles/create" exact component={AsyncRole} />,
     <RestrictedRoute type='private' path="/roles/edit/:uid" exact component={AsyncRole} />,
     <RestrictedRoute type='private' path="/users" exact component={AsyncUsers} />,
+    <RestrictedRoute type='private' path="/users/:select" exact component={AsyncUsers} />,
     <RestrictedRoute type='private' path="/users/edit/:uid/:editType" exact component={AsyncUser} />,
     <RestrictedRoute type='public' path="/signin" component={AsyncSignIn} />,
     <RestrictedRoute type='private' path="/" exact component={AsyncUsers} />,
