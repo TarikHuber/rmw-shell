@@ -1,4 +1,4 @@
-# ‌‌ [![LOGO][logo-image]][logo-url] RMW-Schell
+# ‌‌ [![LOGO][logo-image]][logo-url] RMW-Shell
 [![Build Status][travis-image]][travis-url]
 [![Dependency Status][daviddm-image]][daviddm-url]
 [![License][license-image]][license-url]
