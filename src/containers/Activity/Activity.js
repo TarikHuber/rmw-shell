@@ -77,7 +77,7 @@ export class Activity extends Component {
                     width={drawerWidth}
                     title={title}
                     showMenuIconButton={onBackClick !== undefined ? true : undefined}
-                    onLeftIconButtonTouchTap={onBackClick}
+                    onLeftIconButtonClick={onBackClick}
                     iconElementLeft={this.getIconElementLeft()}
                     {...rest}
                 />
