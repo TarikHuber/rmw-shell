@@ -19,7 +19,16 @@ const LoadingComponent = (props) => {
     }
   } else if (props.error) {
     console.warn(props.error)
-    window.location.reload()
+
+    // Reload page on first failed load
+    if (window.location.href.indexOf('isReload') === -1) {
+      if (window.location.href.indexOf('isReload') === -1) {
+        window.location.href = window.location.href + '?isReload=1'
+      } else {
+        window.location.href = window.location.href + '&isReload=1'
+      }
+    }
+
     // If we aren't loading, maybe
     return <div>Error! Component failed to load</div>
   } else {
