@@ -13,7 +13,7 @@ export class AuthUI extends Component {
       if (!firebaseui.auth.AuthUI.getInstance()) {
         authUi = new firebaseui.auth.AuthUI(firebaseApp.auth())
       } else {
-        console.log(firebaseui.auth)
+        // console.log(firebaseui.auth)
       }
     } catch (err) {
       console.warn(err)
