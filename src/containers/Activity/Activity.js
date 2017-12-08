@@ -18,7 +18,7 @@ export class Activity extends Component {
         const { onBackClick } = this.props;
 
         if (onBackClick) {
-            return <IconButton>
+            return <IconButton onClick={onBackClick}>
                 <FontIcon className="material-icons" >chevron_left</FontIcon>
             </IconButton>
         } else {
