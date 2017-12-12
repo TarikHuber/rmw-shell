@@ -11,7 +11,7 @@ Here is an article that should explain what `rmw-shell`is about and why it was m
 
 This is a `shell` for applications that can work with zero config and that can be updated with npm for bugfixes and new features. It provides a shell for applications that want to use react, redux, material-ui and firebase.
 
-You can find an example of this project in this [DEMO](https://www.react-most-wanted.com/).
+You can find an example of this project in this [DEMO](https://www.react-most-wanted.com/) ([Source code](https://github.com/TarikHuber/react-most-wanted)).
 
 [DOCUMENTATION](https://github.com/TarikHuber/rmw-shell/wiki)
 
