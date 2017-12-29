@@ -13,119 +13,121 @@ import { withRouter } from 'react-router-dom'
 
 export class Activity extends Component {
 
-    getIconElementLeft = () => {
+  getIconElementLeft = () => {
 
-        const { onBackClick } = this.props;
+    const { onBackClick } = this.props;
 
-        if (onBackClick) {
-            return <IconButton onClick={onBackClick}>
-                <FontIcon className="material-icons" >chevron_left</FontIcon>
-            </IconButton>
-        } else {
-            return undefined;
-        }
+    if (onBackClick) {
+      return <IconButton onClick={onBackClick}>
+        <FontIcon className="material-icons" >chevron_left</FontIcon>
+      </IconButton>
+    } else {
+      return undefined;
     }
+  }
 
-    render() {
+  render() {
 
-        const {
+    const {
       muiTheme,
-            title,
-            children,
-            onBackClick,
-            history,
-            intl,
-            isConnected,
-            isLoading,
-            dispatch,
-            containerStyle,
-            pageTitle,
-            height,
-            staticContext,
-            valueLink,
-            customDrawerWidth,
-            ...rest
+      title,
+      children,
+      onBackClick,
+      history,
+      intl,
+      isConnected,
+      isLoading,
+      dispatch,
+      containerStyle,
+      pageTitle,
+      height,
+      staticContext,
+      valueLink,
+      customDrawerWidth,
+      ...rest
     } = this.props;
 
-        const drawerWidth = customDrawerWidth ? customDrawerWidth : 256;
+    const drawerWidth = customDrawerWidth ? customDrawerWidth : 256;
 
-        const bodyContainerStyle = {
-            backgroundColor: muiTheme.palette.canvasColor,
-            top: 64,
-            bottom: 0,
-            overflow: 'auto',
-            ...containerStyle
-        };
+    const bodyContainerStyle = {
+      backgroundColor: muiTheme.palette.canvasColor,
+      top: 64,
+      bottom: 0,
+      overflow: 'auto',
+      ...containerStyle
+    };
 
-        let headerTitle = ''
+    let headerTitle = ''
 
-        if (typeof title === 'string' || title instanceof String) {
-            headerTitle = title;
-        } else {
-            headerTitle = pageTitle;
+    if (typeof title === 'string' || title instanceof String) {
+      headerTitle = title;
+    }
+
+    if (pageTitle) {
+      headerTitle = pageTitle;
+    }
+
+    return (
+      <div style={{ backgroundColor: muiTheme.palette.canvasColor, height: '100%' }}>
+        <Helmet>
+          <meta name="theme-color" content={muiTheme.palette.primary1Color} />
+          <meta name="apple-mobile-web-app-status-bar-style" content={muiTheme.palette.primary1Color} />
+          <meta name="msapplication-navbutton-color" content={muiTheme.palette.primary1Color} />
+          <title>{headerTitle}</title>
+        </Helmet>
+        <ResponsiveAppBar
+          width={drawerWidth}
+          title={title}
+          showMenuIconButton={onBackClick !== undefined ? true : undefined}
+          onLeftIconButtonClick={onBackClick}
+          iconElementLeft={this.getIconElementLeft()}
+          {...rest}
+        />
+        {!isConnected &&
+          <div
+            id="offline-indicator"
+            style={{
+              zIndex: 9999,
+              position: 'fixed',
+              top: 0,
+              height: 12,
+              backgroundColor: deepOrange500,
+              color: darkWhite,
+              width: '100%',
+              fontSize: 12,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+
+            }} >
+            <span>
+              {intl.formatMessage({ id: 'no_connection' })}
+            </span>
+          </div>
         }
 
-        return (
-            <div style={{ backgroundColor: muiTheme.palette.canvasColor, height: '100%' }}>
-                <Helmet>
-                    <meta name="theme-color" content={muiTheme.palette.primary1Color} />
-                    <meta name="apple-mobile-web-app-status-bar-style" content={muiTheme.palette.primary1Color} />
-                    <meta name="msapplication-navbutton-color" content={muiTheme.palette.primary1Color} />
-                    <title>{headerTitle}</title>
-                </Helmet>
-                <ResponsiveAppBar
-                    width={drawerWidth}
-                    title={title}
-                    showMenuIconButton={onBackClick !== undefined ? true : undefined}
-                    onLeftIconButtonClick={onBackClick}
-                    iconElementLeft={this.getIconElementLeft()}
-                    {...rest}
-                />
-                {!isConnected &&
-                    <div
-                        id="offline-indicator"
-                        style={{
-                            zIndex: 9999,
-                            position: 'fixed',
-                            top: 0,
-                            height: 12,
-                            backgroundColor: deepOrange500,
-                            color: darkWhite,
-                            width: '100%',
-                            fontSize: 12,
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center'
+        {isLoading &&
+          <LinearProgress mode="indeterminate" color={muiTheme.palette.accent1Color} style={{ zIndex: 9998, position: 'fixed', top: 0, height: height ? height : 5 }} />
+        }
 
-                        }} >
-                        <span>
-                            {intl.formatMessage({ id: 'no_connection' })}
-                        </span>
-                    </div>
-                }
+        <BodyContainer width={drawerWidth} id="bodyContainer" ref="bodyContainer" withRef style={bodyContainerStyle} >
+          {children}
+        </BodyContainer>
+      </div>
+    );
 
-                {isLoading &&
-                    <LinearProgress mode="indeterminate" color={muiTheme.palette.accent1Color} style={{ zIndex: 9998, position: 'fixed', top: 0, height: height ? height : 5 }} />
-                }
-
-                <BodyContainer width={drawerWidth} id="bodyContainer" ref="bodyContainer" withRef style={bodyContainerStyle} >
-                    {children}
-                </BodyContainer>
-            </div>
-        );
-
-    }
+  }
 }
 
 const mapStateToProps = (state) => {
-    const { connection, intl } = state;
+  const { connection, intl } = state;
 
-    return {
-        isConnected: connection ? connection.isConnected : false,
-        intl
-    };
+  return {
+    isConnected: connection ? connection.isConnected : false,
+    intl
+  };
 };
 
 export default connect(
-    mapStateToProps,
+  mapStateToProps,
 )(injectIntl(muiThemeable()(withRouter(Activity))));
