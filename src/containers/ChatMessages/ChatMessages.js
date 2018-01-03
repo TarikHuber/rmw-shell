@@ -354,7 +354,8 @@ class ChatMessages extends Component {
       predefinedMessages,
       uid,
       firebaseApp,
-      auth
+      auth,
+      path
   } = this.props
 
     return (
@@ -488,7 +489,10 @@ class ChatMessages extends Component {
           }
 
           <div style={{ position: 'absolute', bottom: 50, right: 5 }}>
-            <ChatMic handleAddMessage={this.handleAddMessage} />
+            <ChatMic
+              handleAddMessage={this.handleAddMessage}
+              path={path}
+            />
           </div>
         </div>
       </div>

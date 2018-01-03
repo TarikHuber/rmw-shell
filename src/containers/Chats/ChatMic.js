@@ -63,7 +63,7 @@ export class ChatMic extends Component {
   }
 
   uploadAudioFile = (file) => {
-    const { firebaseApp, intl, handleAddMessage } = this.props
+    const { firebaseApp, intl, handleAddMessage, path } = this.props
 
     if (file === null) {
       return
@@ -77,8 +77,13 @@ export class ChatMic extends Component {
 
     let key = firebaseApp.database().ref(`/user_chat_messages/`).push().key
 
+    const metadata = {
+      customMetadata: {
+        path, key
+      }
+    }
 
-    let uploadTask = firebaseApp.storage().ref(`/user_chats/${key}`).put(file)
+    let uploadTask = firebaseApp.storage().ref(`/user_chats/${key}`).put(file, metadata)
 
     uploadTask.on('state_changed', snapshot => {
 
