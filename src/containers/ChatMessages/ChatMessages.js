@@ -1,23 +1,25 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import ReactDOM from 'react-dom'
-import firebase from 'firebase'
-import PropTypes from 'prop-types'
-import muiThemeable from 'material-ui/styles/muiThemeable'
-import { injectIntl, intlShape } from 'react-intl'
+import Chip from 'material-ui/Chip'
+import Divider from 'material-ui/Divider'
+import FloatingActionButton from 'material-ui/FloatingActionButton'
 import FontIcon from 'material-ui/FontIcon'
 import IconButton from 'material-ui/IconButton'
-import TextField from 'material-ui/TextField'
-import { withRouter } from 'react-router-dom'
-import { withFirebase } from 'firekit-provider'
-import Chip from 'material-ui/Chip'
-import { ListItem } from 'material-ui/List'
-import Divider from 'material-ui/Divider'
+import Image from 'material-ui-image'
+import PropTypes from 'prop-types'
+import React, { Component } from 'react'
+import ReactDOM from 'react-dom'
 import ReactList from 'react-list'
 import Scrollbar from '../../components/Scrollbar'
-import { setSimpleValue } from '../../store/simpleValues/actions'
+import ChatMic from '../../containers/Chats/ChatMic'
+import TextField from 'material-ui/TextField'
+import firebase from 'firebase'
+import muiThemeable from 'material-ui/styles/muiThemeable'
+import { ListItem } from 'material-ui/List'
+import { connect } from 'react-redux'
 import { getGeolocation } from '../../utils/googleMaps'
-import Image from 'material-ui-image'
+import { injectIntl, intlShape } from 'react-intl'
+import { setSimpleValue } from '../../store/simpleValues/actions'
+import { withFirebase } from 'firekit-provider'
+import { withRouter } from 'react-router-dom'
 
 
 const pageStep = 20;
@@ -96,12 +98,15 @@ class ChatMessages extends Component {
       authorName: auth.displayName,
       authorUid: auth.uid,
       authorPhotoUrl: auth.photoURL,
+      type
     }
 
     if (type === 'image') {
       newMessage.image = message
     } else if (type === 'location') {
       newMessage.location = message
+    } else if (type === 'audio') {
+      newMessage.audio = message
     } else {
       if (message.startsWith('http') || message.startsWith('https')) {
         newMessage.link = message
@@ -142,7 +147,12 @@ class ChatMessages extends Component {
       let authorChanged = false
       const backgroundColor = values.authorUid === auth.uid ? muiTheme.palette.primary2Color : muiTheme.palette.canvasColor
       const color = muiTheme.chip.textColor
-      const type = values.message ? 'text' : (values.link ? "link" : (values.location ? 'location' : (values.image ? 'image' : undefined)))
+      let type = values.message ? 'text' : (values.link ? "link" : (values.location ? 'location' : (values.image ? 'image' : undefined)))
+
+
+      if (values.type) {
+        type = values.type
+      }
 
       if (currentDate !== stringDate) {
         currentDate = stringDate;
@@ -222,6 +232,12 @@ class ChatMessages extends Component {
                         </IconButton>
                         {intl.formatMessage({ id: 'my_location' })}
                       </div>
+                    </div>
+                  }
+                  {
+                    type === 'audio' &&
+                    <div style={{ padding: 7 }}>
+                      <audio ref="audioSource" controls="controls" src={values.audio}></audio>
                     </div>
                   }
                   {
@@ -315,7 +331,7 @@ class ChatMessages extends Component {
     reader.onload = function (fileData) {
       let uploadTask = firebaseApp.storage().ref(`/user_chats/${key}`).putString(fileData.target.result, 'data_url')
 
-      uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, snapshot => {
+      uploadTask.on('state_changed', snapshot => {
       }, error => {
         console.log(error)
       }, () => {
@@ -325,7 +341,6 @@ class ChatMessages extends Component {
 
     reader.readAsDataURL(file)
   }
-
 
 
   render() {
@@ -471,6 +486,10 @@ class ChatMessages extends Component {
               </div>
             </Scrollbar>
           }
+
+          <div style={{ position: 'absolute', bottom: 50, right: 5 }}>
+            <ChatMic handleAddMessage={this.handleAddMessage} />
+          </div>
         </div>
       </div>
     );

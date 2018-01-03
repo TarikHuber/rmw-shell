@@ -1,8 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { Route, Redirect } from 'react-router';
-
+import React from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { Route, Redirect } from 'react-router'
 
 export const RestrictedRoute = ({ type, isAuthorised, component: Component, ...rest }) => (
   <Route {...rest} render={props => (
@@ -19,19 +18,18 @@ export const RestrictedRoute = ({ type, isAuthorised, component: Component, ...r
 )
 
 RestrictedRoute.propTypes = {
-  isAuthorised: PropTypes.bool.isRequired,
+  isAuthorised: PropTypes.bool.isRequired
 
-};
+}
 
 const mapStateToProps = (state) => {
-  const { auth } = state;
+  const { auth } = state
 
   return {
     isAuthorised: auth.isAuthorised
-  };
-};
-
+  }
+}
 
 export default connect(
   mapStateToProps
-)(RestrictedRoute);
+)(RestrictedRoute)
