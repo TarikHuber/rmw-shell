@@ -14,7 +14,7 @@ import { withFirebase } from 'firekit-provider'
 import { withRouter } from 'react-router-dom'
 import CircularProgress from 'material-ui/CircularProgress'
 
-require('./ChatMicStyle.css');
+import './ChatMicStyle.css'
 
 export class ChatMic extends Component {
 
