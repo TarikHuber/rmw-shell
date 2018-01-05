@@ -244,6 +244,7 @@ class ChatMessages extends Component {
                     type === 'audio' &&
                     <div style={{ padding: 7 }}>
                       <audio ref="audioSource" controls="controls" src={values.audio}></audio>
+                      <br />
                       {values.message}
                     </div>
                   }
