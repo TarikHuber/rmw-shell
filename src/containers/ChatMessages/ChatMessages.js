@@ -20,6 +20,7 @@ import { injectIntl, intlShape } from 'react-intl'
 import { setSimpleValue } from '../../store/simpleValues/actions'
 import { withFirebase } from 'firekit-provider'
 import { withRouter } from 'react-router-dom'
+import moment from 'moment'
 
 
 const pageStep = 20;
@@ -142,7 +143,7 @@ class ChatMessages extends Component {
         return undefined
       }
 
-      const stringDate = new Date(values.created).toISOString().slice(0, 10)
+      const stringDate = values.created ? new Date(values.created).toISOString().slice(0, 10) : ''
       let dataChanged = false
       let authorChanged = false
       const backgroundColor = values.authorUid === auth.uid ? muiTheme.palette.primary2Color : muiTheme.palette.canvasColor
