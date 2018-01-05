@@ -26,10 +26,12 @@ export class ChatMic extends Component {
   }
 
   startRecording = () => {
+
     this.setState({
       record: true,
       visible: true
     });
+
   }
 
   stopRecording = () => {
@@ -63,7 +65,7 @@ export class ChatMic extends Component {
   }
 
   uploadAudioFile = (file) => {
-    const { firebaseApp, intl, handleAddMessage, path } = this.props
+    const { firebaseApp, intl, handleAddMessage, path, receiverPath } = this.props
 
     if (file === null) {
       return
@@ -79,11 +81,14 @@ export class ChatMic extends Component {
 
     const metadata = {
       customMetadata: {
-        path, key
+        path,
+        receiverPath,
+        key,
+        languageCode: intl.formatMessage({ id: 'current_locale', defaultMessage: 'en-US' })
       }
     }
 
-    let uploadTask = firebaseApp.storage().ref(`/user_chats/${key}`).put(file, metadata)
+    let uploadTask = firebaseApp.storage().ref(`/user_chats/${key}.opus`).put(file, metadata)
 
     uploadTask.on('state_changed', snapshot => {
 
@@ -102,7 +107,7 @@ export class ChatMic extends Component {
         sending: false,
         uploadCompleted: undefined,
       }, () => {
-        handleAddMessage('audio', uploadTask.snapshot.downloadURL)
+        handleAddMessage('audio', uploadTask.snapshot.downloadURL, key)
       })
 
     })
@@ -127,6 +132,7 @@ export class ChatMic extends Component {
               width={200}
               className="oscilloscope"
               visualSetting="sinewave"
+              mimeType={'audio/ogg; codecs=opus'}
               record={this.state.record}
               onStop={this.onStop}
               strokeColor={muiTheme.palette.primary1Color}

@@ -1,6 +1,7 @@
 import { defineMessages } from 'react-intl'
 
 const messages = defineMessages({
+  current_locale: 'en-US',
   app_name: 'React Most Wanted',
   dashboard: 'Dashboard',
   about: 'About',

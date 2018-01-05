@@ -18,7 +18,7 @@ export class Chat extends Component {
   }
 
   render () {
-    const { messages, muiTheme, history, receiverDisplayName, receiverPhotoURL, path } = this.props
+    const { messages, muiTheme, history, receiverDisplayName, receiverPhotoURL, path, receiverPath } = this.props
 
     return (
       <Activity
@@ -45,7 +45,10 @@ export class Chat extends Component {
           </div>
         </div>}>
 
-        <ChatMessages path={path} />
+        <ChatMessages
+          receiverPath={receiverPath}
+          path={path}
+        />
 
       </Activity>
     )
@@ -64,6 +67,7 @@ const mapStateToProps = (state, ownPops) => {
   const uid = match.params.uid
 
   const path = `user_chat_messages/${auth.uid}/${uid}`
+  const receiverPath = `user_chat_messages/${uid}/${auth.uid}`
   const chatsPath = `user_chats/${auth.uid}`
   const chats = lists[chatsPath] ? lists[chatsPath] : []
 
@@ -80,6 +84,7 @@ const mapStateToProps = (state, ownPops) => {
 
   return {
     uid,
+    receiverPath,
     path,
     receiverDisplayName,
     receiverPhotoURL,

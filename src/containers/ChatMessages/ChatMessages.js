@@ -238,6 +238,7 @@ class ChatMessages extends Component {
                     type === 'audio' &&
                     <div style={{ padding: 7 }}>
                       <audio ref="audioSource" controls="controls" src={values.audio}></audio>
+                      {values.message}
                     </div>
                   }
                   {
@@ -311,7 +312,7 @@ class ChatMessages extends Component {
     </div>;
   }
 
-  uploadSelectedFile = (file, handleAddMessage) => {
+  uploadSelectedFile = (file, handleAddMessage, key) => {
     const { firebaseApp, intl } = this.props
 
     if (file === null) {
@@ -325,7 +326,9 @@ class ChatMessages extends Component {
 
     let reader = new FileReader()
 
-    let key = firebaseApp.database().ref(`/user_chat_messages/`).push().key
+    if (!key) {
+      key = firebaseApp.database().ref(`/user_chat_messages/`).push().key
+    }
 
 
     reader.onload = function (fileData) {

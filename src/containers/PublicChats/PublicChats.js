@@ -18,7 +18,11 @@ export class Chat extends Component {
         containerStyle={{ overflow: 'hidden', backgroundColor: muiTheme.chip.backgroundColor }}
         title={intl.formatMessage({ id: 'public_chats' })}>
 
-        <ChatMessages path={'public_chats'} firebaseApp={firebaseApp} />
+        <ChatMessages
+          path={'public_chats'}
+          receiverPath={'public_chats'}
+          firebaseApp={firebaseApp}
+        />
 
       </Activity>
     )
