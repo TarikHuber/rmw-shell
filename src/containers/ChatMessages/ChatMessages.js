@@ -91,7 +91,7 @@ class ChatMessages extends Component {
     }
   }
 
-  handleAddMessage = (type, message) => {
+  handleAddMessage = (type, message, key) => {
     const { auth, firebaseApp, path } = this.props
 
     const newMessage = {
@@ -120,7 +120,12 @@ class ChatMessages extends Component {
     this.name.state.hasValue = false
 
     if (message.length > 0) {
-      firebaseApp.database().ref(path).push(newMessage)
+      if (key) {
+        firebaseApp.database().ref(`${path}/${key}`).update(newMessage)
+      } else {
+        firebaseApp.database().ref(path).push(newMessage)
+      }
+
     }
   }
 
@@ -313,7 +318,7 @@ class ChatMessages extends Component {
     </div>;
   }
 
-  uploadSelectedFile = (file, handleAddMessage, key) => {
+  uploadSelectedFile = (file, handleAddMessage) => {
     const { firebaseApp, intl } = this.props
 
     if (file === null) {
@@ -327,9 +332,8 @@ class ChatMessages extends Component {
 
     let reader = new FileReader()
 
-    if (!key) {
-      key = firebaseApp.database().ref(`/user_chat_messages/`).push().key
-    }
+
+    const key = firebaseApp.database().ref(`/user_chat_messages/`).push().key
 
 
     reader.onload = function (fileData) {
@@ -339,7 +343,7 @@ class ChatMessages extends Component {
       }, error => {
         console.log(error)
       }, () => {
-        handleAddMessage('image', uploadTask.snapshot.downloadURL)
+        handleAddMessage('image', uploadTask.snapshot.downloadURL, key)
       })
     }
 
@@ -359,7 +363,8 @@ class ChatMessages extends Component {
       uid,
       firebaseApp,
       auth,
-      path
+      path,
+      receiverPath
   } = this.props
 
     return (
@@ -494,6 +499,7 @@ class ChatMessages extends Component {
 
           <div style={{ position: 'absolute', bottom: 50, right: 5 }}>
             <ChatMic
+              receiverPath={receiverPath}
               handleAddMessage={this.handleAddMessage}
               path={path}
             />
