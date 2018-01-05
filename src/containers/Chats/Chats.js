@@ -176,7 +176,10 @@ export class Chats extends Component {
 
           <div style={{ marginLeft: 0, flexGrow: 1 }}>
             {isDisplayingMessages &&
-              <ChatMessages path={`user_chat_messages/${auth.uid}/${currentChatUid}`} />
+              <ChatMessages
+                path={`user_chat_messages/${auth.uid}/${currentChatUid}`}
+                receiverPath={`user_chat_messages/${currentChatUid}/${auth.uid}`}
+              />
             }
           </div>
           <div

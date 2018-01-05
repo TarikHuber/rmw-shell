@@ -88,6 +88,8 @@ export class ChatMic extends Component {
       }
     }
 
+    console.log(metadata)
+
     let uploadTask = firebaseApp.storage().ref(`/user_chats/${key}.opus`).put(file, metadata)
 
     uploadTask.on('state_changed', snapshot => {
