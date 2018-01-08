@@ -21,6 +21,7 @@ import { setSimpleValue } from '../../store/simpleValues/actions'
 import { withFirebase } from 'firekit-provider'
 import { withRouter } from 'react-router-dom'
 import moment from 'moment'
+import AudioPlayer from '../../components/AudioPlayer/AudioPlayer'
 
 
 const pageStep = 20;
@@ -243,7 +244,9 @@ class ChatMessages extends Component {
                   {
                     type === 'audio' &&
                     <div style={{ padding: 7 }}>
-                      <audio ref="audioSource" controls="controls" src={values.audio}></audio>
+
+                      <AudioPlayer src={values.audio} authorPhotoUrl={values.authorPhotoUrl} />
+
                       <br />
                       {values.message}
                     </div>
