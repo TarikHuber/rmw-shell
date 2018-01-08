@@ -22,10 +22,7 @@ const getAppRoutes = (firebaseLoader) => {
   const AsyncUsers = MyLoadable({ loader: () => import('../../containers/Users/Users') }, [AsyncUser]);
   const AsyncChats = MyLoadable({ loader: () => import('../../containers/Chats/Chats') }, [AsyncChat, AsyncCreateChat]);
 
-  const AsyncAudioPlayer = MyLoadable({ loader: () => import('../../components/AudioPlayer/AudioPlayer') });
-
   return [
-    <RestrictedRoute type='private' path="/audioplayer" exact component={AsyncAudioPlayer} />,
     <RestrictedRoute type='private' path="/chats" exact component={AsyncChats} />,
     <RestrictedRoute type='private' path="/chats/create" exact component={AsyncCreateChat} />,
     <RestrictedRoute type='private' path="/chats/edit/:uid" exact component={AsyncChat} />,
