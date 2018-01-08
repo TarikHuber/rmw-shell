@@ -93,13 +93,14 @@ class ChatMessages extends Component {
   }
 
   handleAddMessage = (type, message, key) => {
-    const { auth, firebaseApp, path } = this.props
+    const { auth, firebaseApp, path, intl } = this.props
 
     const newMessage = {
       created: firebase.database.ServerValue.TIMESTAMP,
       authorName: auth.displayName,
       authorUid: auth.uid,
       authorPhotoUrl: auth.photoURL,
+      languageCode: intl.formatMessage({ id: 'current_locale', defaultMessage: 'en-US' }),
       type
     }
 

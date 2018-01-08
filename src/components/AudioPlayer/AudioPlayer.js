@@ -80,7 +80,7 @@ export class AudioPlayer extends Component {
     return (
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <Avatar src={authorPhotoUrl} alt='person' icon={<FontIcon className='material-icons' >person</FontIcon>} />
-        <IconButton onClick={this.onPlay} >
+        <IconButton onClick={this.state.playing ? this.onPause : this.onPlay} >
           <FontIcon
             style={
               {
