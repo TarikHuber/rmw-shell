@@ -23,7 +23,6 @@ import { withRouter } from 'react-router-dom'
 import moment from 'moment'
 import AudioPlayer from '../../components/AudioPlayer/AudioPlayer'
 
-
 const pageStep = 20;
 
 class ChatMessages extends Component {
@@ -260,8 +259,8 @@ class ChatMessages extends Component {
                     type === 'image' && values.image !== null &&
 
                     <Image
-                      style={{ width: 'auto', height: 'auto', paddingTop: 0 }}
-                      imageStyle={{ maxWidth: '100%', padding: 7, position: 'relative' }}
+                      style={{ width: 'auto', height: 300, paddingTop: 0 }}
+                      imageStyle={{ maxWidth: '100%', padding: 0, position: 'relative', borderRadius: 5 }}
                       onLoad={this.scrollToBottom}
                       src={values.image}
                       color={backgroundColor}
@@ -274,12 +273,9 @@ class ChatMessages extends Component {
                 </div>
                 <div style={{
                   fontSize: 9,
-                  color: values.authorUid !== auth.uid ? muiTheme.palette.primary2Color : muiTheme.palette.canvasColor,
+                  color: values.authorUid !== auth.uid ? muiTheme.palette.primary3Color : muiTheme.palette.canvasColor,
                   marginLeft: 8,
-                  //marginRight: 3,
-                  //marginLeft: 5,
                   alignSelf: 'flex-end',
-                  fontFamily: muiTheme.fontFamily
                 }}>
                   {`${values.created ? intl.formatTime(new Date(values.created)) : undefined}`}
                 </div>
