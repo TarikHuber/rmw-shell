@@ -10,62 +10,59 @@ import { ReactMic } from 'react-mic'
 import { connect } from 'react-redux'
 import { injectIntl, intlShape } from 'react-intl'
 import { setSimpleValue } from '../../store/simpleValues/actions'
+import { setChatMic } from '../../store/chat/actions'
 import { withFirebase } from 'firekit-provider'
 import { withRouter } from 'react-router-dom'
 import CircularProgress from 'material-ui/CircularProgress'
 
 export class ChatMic extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      record: false,
-      visible: false,
-    }
-
-  }
-
   startRecording = () => {
+    const { setChatMic } = this.props
 
-    this.setState({
+    setChatMic({
       record: true,
       visible: true
-    });
+    })
 
   }
 
   stopRecording = () => {
-    this.setState({
+
+    const { setChatMic } = this.props
+
+    setChatMic({
       record: false
-    });
+    })
+
   }
 
   cancelRecording = () => {
 
-    console.log('Recording canceled')
+    const { setChatMic } = this.props
 
-    this.setState({
+    setChatMic({
       visible: false,
       record: false
-    });
+    })
+
   }
 
   onStop = (recordedBlob) => {
-    console.log('recordedBlob is: ', recordedBlob);
 
-    this.setState({
+    const { setChatMic } = this.props
+
+    setChatMic({
       visible: false,
-      sending: true,
+      record: false,
       uploadCompleted: 0
-    }, () => {
-      this.uploadAudioFile(recordedBlob.blob)
     })
 
-
+    this.uploadAudioFile(recordedBlob.blob)
   }
 
   uploadAudioFile = (file) => {
-    const { firebaseApp, intl, handleAddMessage, path, receiverPath } = this.props
+    const { firebaseApp, intl, handleAddMessage, path, receiverPath, setChatMic } = this.props
 
     if (file === null) {
       return
@@ -95,31 +92,35 @@ export class ChatMic extends Component {
       var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
       console.log('Upload is ' + progress + '% done');
 
-      this.setState({
+      setChatMic({
         sending: true,
         uploadCompleted: progress,
       })
 
+
     }, error => {
       console.log(error)
     }, () => {
-      this.setState({
+
+      setChatMic({
         sending: false,
         uploadCompleted: undefined,
-      }, () => {
-        handleAddMessage('audio', uploadTask.snapshot.downloadURL, key)
       })
+
+      handleAddMessage('audio', uploadTask.snapshot.downloadURL, key)
 
     })
 
   }
 
   render() {
-    const { muiTheme } = this.props
+    const { muiTheme, containerStyle, chat } = this.props
+
+    const mic = chat.mic ? chat.mic : {}
 
     return (
       <div>
-        {this.state.visible &&
+        {mic.visible &&
           < div style={{ marginBottom: 9, marginRight: 40, borderRadius: 50 }}>
             <FloatingActionButton
               onClick={this.cancelRecording}
@@ -133,29 +134,29 @@ export class ChatMic extends Component {
               className="oscilloscope"
               visualSetting="sinewave"
               mimeType={'audio/ogg; codecs=opus'}
-              record={this.state.record}
+              record={mic.record}
               onStop={this.onStop}
               strokeColor={muiTheme.palette.primary1Color}
               backgroundColor={muiTheme.palette.accent1Color} />
           </div>
         }
-        {this.state.sending &&
+        {mic.sending &&
           <CircularProgress
             style={{ position: 'absolute', right: 15, bottom: 5, zIndex: 90 }}
             mode="determinate"
-            value={this.state.uploadCompleted}
+            value={mic.uploadCompleted}
             size={67}
             thickness={10}
           />
         }
 
         <FloatingActionButton
-          disabled={this.state.sending}
-          onClick={this.state.record ? this.stopRecording : this.startRecording}
+          disabled={mic.sending}
+          onClick={mic.record ? this.stopRecording : this.startRecording}
           style={{ position: 'absolute', right: 20, bottom: 10, zIndex: 99 }}
-          primary={this.state.record}
-          secondary={!this.state.record}>
-          <FontIcon className='material-icons' >{this.state.record ? 'send' : 'mic'}</FontIcon>
+          primary={mic.record}
+          secondary={!mic.record}>
+          <FontIcon className='material-icons' >{mic.record ? 'send' : 'mic'}</FontIcon>
         </FloatingActionButton>
       </div >
     )
@@ -169,16 +170,13 @@ ChatMic.propTypes = {
 }
 
 const mapStateToProps = (state, ownPops) => {
-  const { auth } = state
-
-  const uid = ''
+  const { chat } = state
 
   return {
-    uid
-
+    chat
   }
 }
 
 export default connect(
-  mapStateToProps, { setSimpleValue }
+  mapStateToProps, { setSimpleValue, setChatMic }
 )(injectIntl(muiThemeable()(withRouter(withFirebase(ChatMic)))))

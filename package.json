@@ -61,7 +61,7 @@
   "devDependencies": {
     "chart.js": "^2.7.1",
     "enzyme": "^3.3.0",
-    "firebase": "^4.8.1",
+    "firebase": "^4.8.2",
     "firebaseui": "^2.5.1",
     "fireform": "^0.2.13",
     "firekit": "^0.2.20",
@@ -76,7 +76,7 @@
     "material-ui-responsive-menu": "^1.19.3",
     "material-ui-selectable-menu-list": "^1.19.4",
     "material-ui-superselectfield": "^1.8.5",
-    "nwb": "^0.21.0",
+    "nwb": "^0.21.1",
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
     "react-chartjs-2": "^2.6.4",

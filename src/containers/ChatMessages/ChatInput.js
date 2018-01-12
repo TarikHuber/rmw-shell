@@ -9,7 +9,7 @@ import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import ReactList from 'react-list'
 import Scrollbar from '../../components/Scrollbar'
-import ChatMic from '../../containers/Chats/ChatMic'
+import ChatMic from './ChatMic'
 import TextField from 'material-ui/TextField'
 import firebase from 'firebase'
 import muiThemeable from 'material-ui/styles/muiThemeable'
@@ -18,6 +18,7 @@ import { connect } from 'react-redux'
 import { getGeolocation } from '../../utils/googleMaps'
 import { injectIntl, intlShape } from 'react-intl'
 import { setSimpleValue } from '../../store/simpleValues/actions'
+import { setChatInputMessage } from '../../store/chat/actions'
 import { withFirebase } from 'firekit-provider'
 import { withRouter } from 'react-router-dom'
 import moment from 'moment'
@@ -42,7 +43,7 @@ class ChatMessages extends Component {
   }
 
   handleAddMessage = (type, message, key) => {
-    const { auth, firebaseApp, path, intl, setSimpleValue } = this.props
+    const { auth, firebaseApp, path, intl, setChatInputMessage } = this.props
 
     const newMessage = {
       created: firebase.database.ServerValue.TIMESTAMP,
@@ -67,7 +68,7 @@ class ChatMessages extends Component {
       }
     }
 
-    setSimpleValue('chat_input_message', '');
+    setChatInputMessage('');
     //this.name.input.value = ''
     this.name.state.hasValue = false
 
@@ -82,7 +83,7 @@ class ChatMessages extends Component {
   }
 
   renderItem = (i, k) => {
-    const { predefinedMessages, muiTheme, setSimpleValue } = this.props;
+    const { predefinedMessages, muiTheme, setSimpleValue, setChatInputMessage } = this.props;
 
     const key = predefinedMessages[i].key;
     const message = predefinedMessages[i].val.message;
@@ -100,7 +101,7 @@ class ChatMessages extends Component {
         }
         onClick={() => {
           setSimpleValue('chatMessageMenuOpen', false);
-          setSimpleValue('chat_input_message', message);
+          setChatInputMessage(message);
 
 
           //this.name.input.value = message;
@@ -161,8 +162,10 @@ class ChatMessages extends Component {
       uid,
       firebaseApp,
       simpleValues,
+      setChatInputMessage,
       auth,
       path,
+      chat,
       receiverPath
   } = this.props
 
@@ -200,10 +203,10 @@ class ChatMessages extends Component {
                 style={{ height: 42, width: 'calc(100% - 72px)', lineHeight: undefined }}
                 underlineShow={false}
                 onChange={(e, val) => {
-                  setSimpleValue('chat_input_message', val)
+                  setChatInputMessage(val)
                 }}
                 fullWidth={true}
-                value={simpleValues['chat_input_message']}
+                value={chat.inputMessage}
                 autoComplete="off"
                 hintText={intl.formatMessage({ id: 'write_message_hint' })}
                 onKeyDown={(event) => { this.handleKeyDown(event, () => this.handleAddMessage("text", this.name.getValue())) }}
@@ -250,7 +253,7 @@ class ChatMessages extends Component {
           <IconButton
             disabled={messages === undefined}
             onClick={() => this.handleAddMessage("text", this.name.getValue())}>
-            <FontIcon className="material-icons" color={muiTheme.palette.primary1Color}>send</FontIcon>
+            <FontIcon className="material-icons" color={muiTheme.palette.primary1Color}>mic</FontIcon>
           </IconButton>
         </div>
         {
@@ -285,7 +288,7 @@ ChatMessages.propTypes = {
 };
 
 const mapStateToProps = (state, ownPops) => {
-  const { lists, auth, browser, simpleValues } = state;
+  const { lists, auth, browser, simpleValues, chat } = state;
   const { uid, path } = ownPops;
 
   const chatMessageMenuOpen = simpleValues['chatMessageMenuOpen'] === true
@@ -293,6 +296,7 @@ const mapStateToProps = (state, ownPops) => {
 
   return {
     imageDialogOpen,
+    chat,
     simpleValues: simpleValues ? simpleValues : [],
     path,
     uid,
@@ -306,5 +310,5 @@ const mapStateToProps = (state, ownPops) => {
 
 
 export default connect(
-  mapStateToProps, { setSimpleValue }
+  mapStateToProps, { setSimpleValue, setChatInputMessage }
 )(injectIntl(muiThemeable()(withRouter(withFirebase(ChatMessages)))));
