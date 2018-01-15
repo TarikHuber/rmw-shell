@@ -10,9 +10,8 @@ import getAppRoutes from '../../components/AppRoutes'
 import withAppConfigs from '../../withAppConfigs'
 import { Switch } from 'react-router-dom'
 
-
 export class AppLayout extends Component {
-  render() {
+  render () {
     const { muiTheme, history, appConfig } = this.props
     const drawerWidth = appConfig.drawer_width
     const path = history.location.pathname
