@@ -251,9 +251,9 @@ class ChatMessages extends Component {
             </div>
           </div>
           <IconButton
-            disabled={messages === undefined}
+            disabled={chat.inputMessage === undefined || chat.inputMessage === ''}
             onClick={() => this.handleAddMessage("text", this.name.getValue())}>
-            <FontIcon className="material-icons" color={muiTheme.palette.primary1Color}>mic</FontIcon>
+            <FontIcon className="material-icons" color={muiTheme.palette.primary1Color}>send</FontIcon>
           </IconButton>
         </div>
         {
