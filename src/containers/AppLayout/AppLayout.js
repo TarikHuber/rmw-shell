@@ -18,13 +18,13 @@ export class AppLayout extends Component {
     const path = history.location.pathname
     const customRoutes = appConfig.routes ? appConfig.routes : []
     const appRoutes = getAppRoutes(appConfig.firebaseLoad)
-
+    const Header = appConfig.drawerHeader ? appConfig.drawerHeader : DrawerHeader
     return (
 
       <div style={{ backgroundColor: muiTheme.palette.canvasColor, height: '100%' }}>
         <ResponsiveDrawer width={drawerWidth}>
           <Scrollbar>
-            <DrawerHeader />
+            <Header />
             <DrawerContent path={path} history={history} />
           </Scrollbar>
         </ResponsiveDrawer>
