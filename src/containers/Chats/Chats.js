@@ -55,6 +55,28 @@ export class Chats extends Component {
     }
   }
 
+  renderIcons = (val) => {
+    const { muiTheme } = this.props;
+
+    return <div>
+      {
+        val.isSend &&
+        <FontIcon className="material-icons" style={{
+          fontSize: 14,
+          padding: 0,
+          paddingRight: 2,
+          bottom: -1,
+          color: muiTheme.palette.secondary1Color
+        }} >{val.isReceived ? 'done_all' : 'done'}</FontIcon>
+      }
+      {val.unread > 0 && <b>{val.lastMessage}</b>}
+      {!val.unread && val.lastMessage}
+    </div>
+
+
+
+  }
+
 
 
 
@@ -120,7 +142,7 @@ export class Chats extends Component {
         id={key}
         rightIconButton={rightIconMenu}
         primaryText={val.unread > 0 ? <div><b>{val.displayName}</b></div> : val.displayName}
-        secondaryText={val.unread > 0 ? <div><b>{val.lastMessage}</b></div> : val.lastMessage}
+        secondaryText={this.renderIcons(val)}
       />
       <Divider inset={true} />
     </div>;

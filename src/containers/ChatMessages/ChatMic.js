@@ -154,7 +154,6 @@ export class ChatMic extends Component {
           disabled={mic.sending}
           onClick={mic.record ? this.stopRecording : this.startRecording}
           style={{ position: 'absolute', right: 20, bottom: 10, zIndex: 99 }}
-          primary={mic.record}
           secondary={!mic.record}>
           <FontIcon className='material-icons' >{mic.record ? 'send' : 'mic'}</FontIcon>
         </FloatingActionButton>
@@ -166,7 +165,6 @@ export class ChatMic extends Component {
 ChatMic.propTypes = {
   intl: intlShape.isRequired,
   muiTheme: PropTypes.object.isRequired,
-  auth: PropTypes.object.isRequired
 }
 
 const mapStateToProps = (state, ownPops) => {

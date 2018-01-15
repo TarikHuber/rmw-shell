@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import muiThemeable from 'material-ui/styles/muiThemeable'
-import { ResponsiveDrawer } from 'material-ui-responsive-drawer'
-import { DrawerHeader } from '../../containers/Drawer'
-import { DrawerContent } from '../../containers/Drawer'
-import { withRouter } from 'react-router-dom'
 import Scrollbar from '../../components/Scrollbar'
 import getAppRoutes from '../../components/AppRoutes'
+import muiThemeable from 'material-ui/styles/muiThemeable'
 import withAppConfigs from '../../withAppConfigs'
+import { DrawerContent } from '../../containers/Drawer'
+import { DrawerHeader } from '../../containers/Drawer'
+import { ResponsiveDrawer } from 'material-ui-responsive-drawer'
 import { Switch } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 
 export class AppLayout extends Component {
   render () {

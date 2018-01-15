@@ -116,17 +116,16 @@ export class AudioPlayer extends Component {
           style={{ display: 'none' }}
           playing={this.state.playing}
           url={src}
-          onReady={() => console.log('onReady')}
-          onStart={() => console.log('onStart')}
+          //onReady={() => console.log('onReady')}
+          //onStart={() => console.log('onStart')}
           onPlay={this.onPlay}
           onPause={this.onPause}
-          onBuffer={() => console.log('onBuffer')}
-          onSeek={e => console.log('onSeek', e)}
+          //onBuffer={() => console.log('onBuffer')}
+          //onSeek={e => console.log('onSeek', e)}
           onEnded={this.onEnded}
-          onError={e => console.log('onError', e)}
+          //onError={e => console.log('onError', e)}
           onProgress={this.onProgress}
           onDuration={this.onDuration}
-          preload
         />
       </div >
     )

@@ -7,7 +7,6 @@ import Image from 'material-ui-image'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
-import ReactList from 'react-list'
 import Scrollbar from '../../components/Scrollbar'
 import TextField from 'material-ui/TextField'
 import firebase from 'firebase'
@@ -231,6 +230,15 @@ class ChatMessages extends Component {
                   alignSelf: 'flex-end',
                 }}>
                   {`${values.created ? intl.formatTime(new Date(values.created)) : undefined}`}
+                  {values.isSend &&
+                    <FontIcon className="material-icons" style={{
+                      fontSize: 11,
+                      padding: 0,
+                      paddingLeft: 2,
+                      bottom: -2,
+                      color: muiTheme.palette.canvasColor
+                    }} >{values.isReceived ? 'done_all' : 'done'}</FontIcon>
+                  }
                 </div>
               </div>
             </div>
