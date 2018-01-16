@@ -58,8 +58,6 @@ export class Chats extends Component {
   renderIcons = (val) => {
     const { muiTheme, auth } = this.props;
 
-    console.log(val)
-
     return <div>
       {
         val.isSend && auth.uid === val.authorUid &&
