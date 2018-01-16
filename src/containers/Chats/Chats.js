@@ -56,17 +56,19 @@ export class Chats extends Component {
   }
 
   renderIcons = (val) => {
-    const { muiTheme } = this.props;
+    const { muiTheme, auth } = this.props;
+
+    console.log(val)
 
     return <div>
       {
-        val.isSend &&
+        val.isSend && auth.uid === val.authorUid &&
         <FontIcon className="material-icons" style={{
           fontSize: 14,
           padding: 0,
           paddingRight: 2,
           bottom: -1,
-          color: muiTheme.palette.secondary1Color
+          color: val.isRead ? muiTheme.palette.accent1Color : muiTheme.palette.secondary1Color
         }} >{val.isReceived ? 'done_all' : 'done'}</FontIcon>
       }
       {val.unread > 0 && <b>{val.lastMessage}</b>}
