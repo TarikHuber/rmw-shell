@@ -123,6 +123,7 @@ class ChatMessages extends Component {
       }
 
       return <ChatMessage
+        key={i}
         path={path}
         dataChanged={dataChanged}
         authorChanged={authorChanged}

@@ -20,6 +20,7 @@ import IconMenu from 'material-ui/IconMenu'
 import MenuItem from 'material-ui/MenuItem'
 import IconButton from 'material-ui/IconButton'
 
+
 export class Chats extends Component {
 
   componentDidMount() {
@@ -88,8 +89,12 @@ export class Chats extends Component {
     const val = list[i].val;
     const isPreviewed = usePreview && currentChatUid === key;
 
-    const rightIconMenu = (
-      <div style={{ width: 'auto', fontSize: 11, color: muiTheme.listItem.secondaryTextColor }}>
+    const iconMenu = MenuButton
+
+    const MenuButton = (props) => {
+      const { onKeyboardFocus, ...rest } = props
+
+      return <div style={{ width: 'auto', fontSize: 11, color: muiTheme.listItem.secondaryTextColor }} {...rest} >
         <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
           {val.unread > 0 &&
             <div style={{ textAlign: 'right' }}>
@@ -125,7 +130,7 @@ export class Chats extends Component {
         </div>
 
       </div>
-    );
+    }
 
     return <div key={i}>
       <ListItem
@@ -140,7 +145,7 @@ export class Chats extends Component {
         onClick={() => { this.handleItemClick(val, key) }}
         key={key}
         id={key}
-        rightIconButton={rightIconMenu}
+        rightIconButton={<MenuButton />}
         primaryText={val.unread > 0 ? <div><b>{val.displayName}</b></div> : val.displayName}
         secondaryText={this.renderIcons(val)}
       />

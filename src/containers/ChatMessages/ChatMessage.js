@@ -30,7 +30,6 @@ class ChatMessage extends Component {
     const {
       dataChanged,
       authorChanged,
-      i,
       muiTheme,
       auth,
       values,
@@ -41,7 +40,7 @@ class ChatMessage extends Component {
       type
       } = this.props
 
-    return <div key={i} style={{ width: '100%' }}>
+    return <div style={{ width: '100%' }}>
 
       <div >
         {dataChanged &&
