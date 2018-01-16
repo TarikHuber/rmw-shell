@@ -45,7 +45,7 @@ export class Chats extends Component {
     const { usePreview, history, setPersistentValue, firebaseApp, auth } = this.props;
 
     if (val.unread > 0) {
-      firebaseApp.database().ref(`user_chats/${auth.uid}/${key}/unread`).remove();
+      //firebaseApp.database().ref(`user_chats/${auth.uid}/${key}/unread`).remove();
     }
 
     if (usePreview) {
