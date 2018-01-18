@@ -128,12 +128,13 @@ class ChatMessage extends Component {
                   type === 'image' && values.image !== null &&
 
                   <Image
-                    style={{ width: 'auto', height: 300, paddingTop: 0 }}
+                    style={{ width: 'auto', height: 280, paddingTop: 0 }}
                     imageStyle={{ maxWidth: '100%', padding: 0, position: 'relative', borderRadius: 5 }}
                     onLoad={this.scrollToBottom}
                     src={values.image}
                     color={backgroundColor}
                   />
+
                 }
                 {
                   type === 'text' &&
