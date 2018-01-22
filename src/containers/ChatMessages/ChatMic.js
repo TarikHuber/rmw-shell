@@ -32,6 +32,7 @@ export class ChatMic extends Component {
     const { setChatMic } = this.props
 
     setChatMic({
+      send: true,
       record: false
     })
 
@@ -42,7 +43,7 @@ export class ChatMic extends Component {
     const { setChatMic } = this.props
 
     setChatMic({
-      visible: false,
+      send: false,
       record: false
     })
 
@@ -50,7 +51,7 @@ export class ChatMic extends Component {
 
   onStop = (recordedBlob) => {
 
-    const { setChatMic } = this.props
+    const { setChatMic, chat } = this.props
 
     setChatMic({
       visible: false,
@@ -58,7 +59,10 @@ export class ChatMic extends Component {
       uploadCompleted: 0
     })
 
-    this.uploadAudioFile(recordedBlob.blob)
+    if (chat.mic.send) {
+      this.uploadAudioFile(recordedBlob.blob)
+    }
+
   }
 
   uploadAudioFile = (file) => {
