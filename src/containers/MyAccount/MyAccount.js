@@ -65,20 +65,22 @@ export class MyAccount extends Component {
   }
 
   getProvider = (provider) => {
+    const { auth, firebaseApp, authError } = this.props;
+
     if (provider.indexOf('facebook') > -1) {
-      return new firebase.auth.FacebookAuthProvider();
+      return new firebaseApp.auth().FacebookAuthProvider();
     }
     if (provider.indexOf('github') > -1) {
-      return new firebase.auth.GithubAuthProvider();
+      return new firebaseApp.auth().GithubAuthProvider();
     }
     if (provider.indexOf('google') > -1) {
-      return new firebase.auth.GoogleAuthProvider();
+      return new firebaseApp.auth().GoogleAuthProvider();
     }
     if (provider.indexOf('twitter') > -1) {
-      return new firebase.auth.TwitterAuthProvider();
+      return new firebaseApp.auth().TwitterAuthProvider();
     }
     if (provider.indexOf('phone') > -1) {
-      return new firebase.auth.PhoneAuthProvider();
+      return new firebaseApp.auth().PhoneAuthProvider();
     }
 
     throw new Error('Provider is not supported!');
