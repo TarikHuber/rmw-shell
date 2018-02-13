@@ -147,7 +147,9 @@ const messages = defineMessages({
   collection: 'Collection',
   mark_chat_as_unread: 'Mark as unread',
   delete_chat: 'Delete chat',
-  search: 'Search'
+  search: 'Search',
+  update_available: 'A new version of this app is available.',
+  load_update: 'Refresh'
 
 })
 

@@ -82,7 +82,6 @@ class Companies extends Component {
         </Scrollbar>
       </Activity>
     )
-
   }
 }
 
@@ -101,7 +100,7 @@ const mapStateToProps = (state) => {
     browser,
     isGranted: grant => isGranted(state, grant)
   }
-};
+}
 
 export default connect(
   mapStateToProps

@@ -111,8 +111,8 @@ export class Chats extends Component {
           }
           <IconMenu
             style={{ marginTop: -18, marginRight: -10 }}
-            anchorOrigin={{ horizontal: 'left', vertical: 'top' }}
-            targetOrigin={{ horizontal: 'left', vertical: 'top' }}
+            anchorOrigin={{ horizontal: 'middle', vertical: 'top' }}
+            targetOrigin={{ horizontal: 'right', vertical: 'top' }}
             iconButtonElement={<IconButton><FontIcon className="material-icons">more_horiz</FontIcon></IconButton>}
           >
             <MenuItem
@@ -156,7 +156,7 @@ export class Chats extends Component {
 
   render() {
     const {
-        intl,
+      intl,
       list,
       history,
       currentChatUid,

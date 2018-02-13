@@ -74,7 +74,7 @@
     "material-ui-image": "^2.1.1",
     "material-ui-responsive-drawer": "^1.19.4",
     "material-ui-responsive-menu": "^1.19.3",
-    "material-ui-selectable-menu-list": "^1.19.4",
+    "material-ui-selectable-menu-list": "^1.19.5",
     "material-ui-superselectfield": "^1.8.5",
     "nwb": "^0.21.5",
     "prop-types": "^15.6.0",
