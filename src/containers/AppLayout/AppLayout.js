@@ -65,7 +65,7 @@ export class AppLayout extends Component {
     const Header = appConfig.drawerHeader ? appConfig.drawerHeader : DrawerHeader
     return (
 
-      <div style={{ backgroundColor: muiTheme.palette.canvasColor, height: '100%' }}>
+      <div style={{ backgroundColor: muiTheme.palette.canvasColor, height: '100%', position: 'absolute', top: 0, bottom: 0, right: 0, left: 0 }}>
         <ResponsiveDrawer width={drawerWidth}>
           <Scrollbar>
             <Header />

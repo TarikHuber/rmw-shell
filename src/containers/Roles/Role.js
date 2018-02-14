@@ -111,7 +111,7 @@ export class Role extends Component {
         key={key}
         id={key}
         primaryText={intl.formatMessage({ id: `grant_${val}` })}
-      //secondaryText={val.description}
+        secondaryText={val}
       />
       <Divider inset={true} />
     </div>;

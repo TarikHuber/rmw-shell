@@ -29,7 +29,7 @@ const PageNotFound = ({ muiTheme, intl, appConfig }) => {
   const AppIcon = appConfig.appIcon
 
   return (
-    <Paper zDepth={1} style={styles.paper}>
+    <Paper zDepth={0} style={styles.paper}>
       <div style={styles.container}>
         <AppIcon color={muiTheme.palette.primary2Color} style={styles.icon} />
         <h3>{intl.formatMessage({ id: 'warning_404_message' })}</h3>

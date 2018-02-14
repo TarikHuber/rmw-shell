@@ -125,7 +125,13 @@ export class Chats extends Component {
             </MenuItem>
           </IconMenu>
         </div>
-        <div style={{ width: 'auto', color: val.unread > 0 ? muiTheme.palette.primary1Color : undefined, textAlign: 'right', marginRight: 5 }} >
+        <div style={{
+          width: 'auto',
+          color: val.unread > 0 ? muiTheme.palette.primary1Color : muiTheme.listItem.secondaryTextColor,
+          textAlign: 'right',
+          marginRight: 5,
+          fontSize: 11
+        }} >
           {val.lastCreated ? intl.formatTime(new Date(val.lastCreated), 'hh:mm') : undefined}
         </div>
 

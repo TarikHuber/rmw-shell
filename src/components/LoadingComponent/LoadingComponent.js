@@ -1,6 +1,6 @@
 import React from 'react'
 
-const LoadingComponent = (props) => {
+export const LoadingComponent = (props) => {
   if (props.isLoading) {
     // While our other component is loading...
     if (props.timedOut) {
