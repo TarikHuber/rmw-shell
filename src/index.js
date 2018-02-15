@@ -11,6 +11,6 @@ export { getGeolocation } from './utils/googleMaps'
 export { setPersistentValue } from './store/persistentValues/actions'
 export { setSimpleValue } from './store/simpleValues/actions'
 
-import './index.css'
+//import './index.css'
 
 export default App
