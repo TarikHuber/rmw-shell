@@ -17,6 +17,7 @@ import UserRoles from './UserRoles'
 import { Tabs, Tab } from 'material-ui/Tabs'
 import Scrollbar from '../../components/Scrollbar/Scrollbar'
 import { filterSelectors, filterActions } from 'material-ui-filter'
+import SearchField from '../../components/SearchField'
 
 const path = '/users'
 const form_name = 'user'
@@ -56,6 +57,7 @@ export class User extends Component {
       editType,
       setFilterIsOpen,
       hasFilters,
+      setSearch,
       firebaseApp
     } = this.props
 
@@ -84,15 +86,28 @@ export class User extends Component {
     return (
       <Activity
         iconStyleRight={{ width: '50%' }}
+        iconStyleLeft={{ width: 'auto' }}
+        iconStyleRight={{ width: '100%', textAlign: 'center', marginLeft: 0 }}
         iconElementRight={
-          <div>
-            <ResponsiveMenu
-              iconMenuColor={muiTheme.palette.canvasColor}
-              menuList={menuList}
-            />
+          <div style={{ display: 'flex' }}>
+            {editType === 'grants' &&
+              <div style={{ width: 'calc(100% - 84px)' }}>
+                <SearchField
+                  onChange={(e, newVal) => {
+                    setSearch('user_grants', newVal)
+                  }}
+                  hintText={`${intl.formatMessage({ id: 'search' })}`}
+                />
+              </div>
+            }
+            <div style={{ position: 'absolute', right: 10, width: 100 }}>
+              <ResponsiveMenu
+                iconMenuColor={muiTheme.palette.canvasColor}
+                menuList={menuList}
+              />
+            </div>
           </div>
         }
-
         onBackClick={() => history.push('/users')}
         title={intl.formatMessage({ id: 'edit_user' })}>
 

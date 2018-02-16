@@ -16,6 +16,7 @@ import Activity from '../../containers/Activity'
 import Scrollbar from '../../components/Scrollbar'
 import SearchField from '../../components/SearchField'
 import { ResponsiveMenu } from 'material-ui-responsive-menu'
+import { getList, isLoading } from 'firekit'
 
 const path = `users`
 
@@ -113,7 +114,8 @@ export class Users extends Component {
       setSearch,
       intl,
       setFilterIsOpen,
-      hasFilters
+      hasFilters,
+      isLoading
     } = this.props
 
     const menuList = [
@@ -158,7 +160,7 @@ export class Users extends Component {
             </div>
           </div>
         }
-        isLoading={list === undefined}>
+        isLoading={isLoading}>
         <div style={{ height: '100%', overflow: 'none', backgroundColor: muiTheme.palette.canvasColor }}>
           <Scrollbar>
             <List id='test' ref={field => this.list = field}>
@@ -194,11 +196,12 @@ const mapStateToProps = (state, ownProps) => {
   const isSelecting = match.params.select ? match.params.select : false
 
   const { hasFilters } = filterSelectors.selectFilterProps('companies', filters)
-  const list = filterSelectors.getFilteredList('users', filters, lists[path], fieldValue => fieldValue.val)
+  const list = filterSelectors.getFilteredList('users', filters, getList(state, path), fieldValue => fieldValue.val)
 
   return {
     isSelecting,
     hasFilters,
+    isLoading: isLoading(state, path),
     list,
     auth
   }

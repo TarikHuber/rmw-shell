@@ -61,10 +61,10 @@
   "devDependencies": {
     "chart.js": "^2.7.1",
     "enzyme": "^3.3.0",
-    "firebase": "^4.9.1",
+    "firebase": "^4.10.0",
     "firebaseui": "^2.6.0",
     "fireform": "^0.2.13",
-    "firekit": "^1.0.0",
+    "firekit": "^1.0.1",
     "firekit-provider": "^0.2.16",
     "github-markdown-css": "^2.10.0",
     "intl": "^1.2.5",
