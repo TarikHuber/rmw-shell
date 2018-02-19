@@ -7,17 +7,23 @@ import FlatButton from 'material-ui/FlatButton'
 import FontIcon from 'material-ui/FontIcon'
 import React, { Component } from 'react'
 import RoleForm from '../../components/Forms/RoleForm'
+import RoleGrants from './RoleGrants'
+import Scrollbar from '../../components/Scrollbar/Scrollbar'
 import Toggle from 'material-ui/Toggle'
 import muiThemeable from 'material-ui/styles/muiThemeable'
 import withAppConfigs from '../../withAppConfigs'
 import { ListItem } from 'material-ui/List'
 import { ResponsiveMenu } from 'material-ui-responsive-menu'
+import { Tabs, Tab } from 'material-ui/Tabs'
 import { change, submit } from 'redux-form'
 import { connect } from 'react-redux'
 import { injectIntl } from 'react-intl'
 import { setDialogIsOpen } from '../../store/dialogs/actions'
 import { withFirebase } from 'firekit-provider'
 import { withRouter } from 'react-router-dom'
+import SearchField from '../../components/SearchField'
+import { filterSelectors, filterActions } from 'material-ui-filter'
+import { isLoading } from 'firekit'
 
 const path = '/roles';
 const form_name = 'role';
@@ -35,10 +41,17 @@ export class Role extends Component {
     return errors
   }
 
+  handleTabActive = (value) => {
+    const { history, uid } = this.props
 
-  componentDidMount() {
-    this.props.watchList('grants');
-    this.props.watchList('role_grants');
+    history.push(`${path}/edit/${uid}/${value}`)
+  }
+
+
+  componentWillMount() {
+    const { watchList, setSearch } = this.props
+    watchList('grants')
+    setSearch('role_grants', '')
   }
 
 
@@ -62,62 +75,6 @@ export class Role extends Component {
     }
   }
 
-  handleGrantToggleChange = (e, isInputChecked, key) => {
-    const { firebaseApp, match } = this.props;
-    const uid = match.params.uid;
-
-    if (isInputChecked) {
-      firebaseApp.database().ref(`/role_grants/${uid}/${key}`).set(true);
-    } else {
-      firebaseApp.database().ref(`/role_grants/${uid}/${key}`).remove();
-    }
-
-  }
-
-  renderGrantItem = (i, k) => {
-    const { role_grants, match, intl, appConfig } = this.props;
-
-    const uid = match.params.uid;
-    const key = i;
-    const val = appConfig.grants[i];
-    let roleGrants = [];
-
-    if (role_grants !== undefined) {
-      role_grants.map(role => {
-        if (role.key === uid) {
-          if (role.val !== undefined) {
-            roleGrants = role.val;
-          }
-        }
-        return role;
-      })
-    }
-
-    return <div key={key}>
-      <ListItem
-        leftAvatar={
-          <Avatar
-            alt="person"
-            src={undefined}
-            icon={<FontIcon className="material-icons" >checked</FontIcon>}
-          />
-        }
-        rightToggle={
-          <Toggle
-            toggled={roleGrants[val] === true}
-            onToggle={(e, isInputChecked) => { this.handleGrantToggleChange(e, isInputChecked, val) }}
-          />
-        }
-        key={key}
-        id={key}
-        primaryText={intl.formatMessage({ id: `grant_${val}` })}
-        secondaryText={val}
-      />
-      <Divider inset={true} />
-    </div>;
-  }
-
-
   render() {
 
     const {
@@ -129,7 +86,12 @@ export class Role extends Component {
       muiTheme,
       match,
       firebaseApp,
-      appConfig
+      appConfig,
+      editType,
+      setSearch,
+      hasFilters,
+      setFilterIsOpen,
+      isLoading
     } = this.props;
 
     const uid = match.params.uid;
@@ -149,53 +111,102 @@ export class Role extends Component {
 
     const menuList = [
       {
+        hidden: uid === undefined || editType !== 'main',
         text: intl.formatMessage({ id: 'save' }),
         icon: <FontIcon className="material-icons" color={muiTheme.palette.canvasColor}>save</FontIcon>,
         tooltip: intl.formatMessage({ id: 'save' }),
         onClick: () => { submit('role') }
       },
       {
-        hidden: uid === undefined,
+        hidden: uid === undefined || editType !== 'main',
         text: intl.formatMessage({ id: 'delete' }),
         icon: <FontIcon className="material-icons" color={muiTheme.palette.canvasColor}>delete</FontIcon>,
         tooltip: intl.formatMessage({ id: 'delete' }),
         onClick: () => { setDialogIsOpen('delete_role', true); }
+      },
+      {
+        hidden: editType !== 'grants',
+        text: intl.formatMessage({ id: 'open_filter' }),
+        icon: <FontIcon className="material-icons" color={hasFilters ? muiTheme.palette.accent1Color : muiTheme.palette.canvasColor}>filter_list</FontIcon>,
+        tooltip: intl.formatMessage({ id: 'open_filter' }),
+        onClick: () => setFilterIsOpen('role_grants', true)
       }
     ]
 
 
     return (
       <Activity
+        isLoading={isLoading}
         iconStyleRight={{ width: '50%' }}
+        iconStyleLeft={{ width: 'auto' }}
+        iconStyleRight={{ width: '100%', textAlign: 'center', marginLeft: 0 }}
         iconElementRight={
-          <div>
-            <ResponsiveMenu
-              iconMenuColor={muiTheme.palette.canvasColor}
-              menuList={menuList}
-            />
+          <div style={{ display: 'flex' }}>
+            {editType === 'grants' &&
+              <div style={{ width: 'calc(100% - 84px)' }}>
+                <SearchField
+                  onChange={(e, newVal) => {
+                    setSearch('role_grants', newVal)
+                  }}
+                  hintText={`${intl.formatMessage({ id: 'search' })}`}
+                />
+              </div>
+            }
+            <div style={{ position: 'absolute', right: 10, width: 100 }}>
+              <ResponsiveMenu
+                iconMenuColor={muiTheme.palette.canvasColor}
+                menuList={menuList}
+              />
+            </div>
           </div>
         }
+        onBackClick={() => history.push('/roles')}
+        title={intl.formatMessage({ id: 'edit_role' })} >
 
-        onBackClick={() => { history.goBack() }}
-        title={intl.formatMessage({
-          id: this.props.match.params.uid ? 'edit_role' : 'create_role'
-        })}>
-        <div style={{ margin: 15, display: 'flex' }}>
-          <FireForm
-            firebaseApp={firebaseApp}
-            name={form_name}
-            path={`${path}/`}
-            validate={this.validate}
-            onSubmitSuccess={(values) => { history.push(`${path}`); }}
-            onDelete={(values) => { history.push(`${path}`); }}
-            uid={this.props.match.params.uid}>
-            <RoleForm
-              grants={appConfig.grants}
-              renderGrantItem={this.renderGrantItem}
-              {...this.props}
-            />
-          </FireForm>
-        </div>
+
+        <Scrollbar>
+          <Tabs
+            value={editType}
+            onChange={this.handleTabActive}>
+
+
+            <Tab
+              value={'main'}
+              icon={<FontIcon className="material-icons">account_box</FontIcon>}>
+              {
+                editType === 'main' &&
+
+                <div style={{ margin: 15, display: 'flex' }}>
+                  <FireForm
+                    firebaseApp={firebaseApp}
+                    name={form_name}
+                    path={`${path}/`}
+                    validate={this.validate}
+                    onSubmitSuccess={(values) => { history.push(`${path}`); }}
+                    onDelete={(values) => { history.push(`${path}`); }}
+                    uid={this.props.match.params.uid}>
+                    <RoleForm
+                      grants={appConfig.grants}
+                      {...this.props}
+                    />
+                  </FireForm>
+                </div>
+              }
+
+            </Tab>
+
+            <Tab
+              value={'grants'}
+              icon={<FontIcon className="material-icons">lock</FontIcon>}>
+              {
+                editType === 'grants' &&
+                <RoleGrants {...this.props} />
+              }
+            </Tab>
+          </Tabs>
+        </Scrollbar>
+
+
         <Dialog
           title={intl.formatMessage({ id: 'delete_role_title' })}
           actions={actions}
@@ -210,17 +221,26 @@ export class Role extends Component {
 }
 
 
-const mapStateToProps = (state) => {
-  const { auth, intl, dialogs, lists } = state;
+const mapStateToProps = (state, ownProps) => {
+  const { auth, intl, dialogs, lists, filters } = state
+
+  const { match } = ownProps
+  const editType = match.params.editType ? match.params.editType : 'data'
+  const uid = match.params.uid ? match.params.uid : ''
+  const { hasFilters } = filterSelectors.selectFilterProps('role_grants', filters)
 
   return {
     auth,
     intl,
+    uid,
     dialogs,
-    role_grants: lists.role_grants
+    hasFilters,
+    editType,
+    role_grants: lists.role_grants,
+    isLoading: isLoading(state, 'role_grants')
   };
 };
 
 export default connect(
-  mapStateToProps, { setDialogIsOpen, change, submit }
+  mapStateToProps, { setDialogIsOpen, change, submit, ...filterActions }
 )(injectIntl(withRouter(withFirebase(withAppConfigs(muiThemeable()(Role))))))

@@ -15,12 +15,17 @@ import ReactList from 'react-list';
 import { List } from 'material-ui/List';
 import { FilterDrawer, filterSelectors, filterActions } from 'material-ui-filter'
 import withAppConfigs from '../../withAppConfigs'
+import { getList } from 'firekit'
 
 export class UserGrants extends Component {
 
+
   componentWillMount() {
-    this.props.watchList('user_grants');
+    const { watchList, setSearch } = this.props
+    watchList('user_grants')
+    setSearch('user_grants', '')
   }
+
 
   handleGrantToggleChange = (e, isInputChecked, key) => {
     const { firebaseApp, match } = this.props;
@@ -126,7 +131,7 @@ UserGrants.propTypes = {
 
 
 const mapStateToProps = (state, ownProps) => {
-  const { auth, intl, lists, filters } = state;
+  const { auth, intl, filters } = state;
   const { match } = ownProps
 
   const uid = match.params.uid
@@ -136,7 +141,7 @@ const mapStateToProps = (state, ownProps) => {
     auth,
     uid,
     intl,
-    user_grants: lists.user_grants
+    user_grants: getList(state, 'user_grants'),
   }
 }
 

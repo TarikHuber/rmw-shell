@@ -13,6 +13,8 @@ import Avatar from 'material-ui/Avatar';
 import Toggle from 'material-ui/Toggle';
 import ReactList from 'react-list';
 import { List } from 'material-ui/List';
+import { getList } from 'firekit'
+
 
 export class UserRoles extends Component {
 
@@ -102,7 +104,7 @@ UserRoles.propTypes = {
 
 
 const mapStateToProps = (state, ownProps) => {
-  const { auth, intl, lists, filters } = state;
+  const { auth, intl, filters } = state;
   const { match } = ownProps
 
   const uid = match.params.uid
@@ -112,8 +114,8 @@ const mapStateToProps = (state, ownProps) => {
     auth,
     uid,
     intl,
-    user_roles: lists.user_roles,
-    roles: lists.roles ? lists.roles : []
+    user_roles: getList(state, 'user_roles'),
+    roles: getList(state, 'roles'),
   }
 }
 

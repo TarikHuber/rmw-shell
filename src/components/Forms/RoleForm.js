@@ -8,8 +8,7 @@ import { List } from 'material-ui/List'
 import Subheader from 'material-ui/Subheader'
 
 class RoleForm extends Component {
-
-  render() {
+  render () {
     const {
       handleSubmit,
       intl,
@@ -55,17 +54,6 @@ class RoleForm extends Component {
             />
           </div>
 
-        </div>
-
-        <div>
-          <Subheader>{intl.formatMessage({ id: 'grants' })}</Subheader>
-          <List style={{ height: '100%' }} ref={(field) => { this.grants = field }}>
-            <ReactList
-              itemRenderer={renderGrantItem}
-              length={grants ? grants.length : 0}
-              type='simple'
-            />
-          </List>
         </div>
 
       </form>

@@ -22,6 +22,7 @@ import { injectIntl, intlShape } from 'react-intl'
 import { setSimpleValue } from '../../store/simpleValues/actions'
 import { withFirebase } from 'firekit-provider'
 import { withRouter } from 'react-router-dom'
+import { getList } from 'firekit'
 
 const pageStep = 20;
 
@@ -142,7 +143,7 @@ class ChatMessages extends Component {
   render() {
 
     const {
-    messages,
+      messages,
       muiTheme,
       intl,
       setSimpleValue,
@@ -153,7 +154,7 @@ class ChatMessages extends Component {
       auth,
       path,
       receiverPath
-  } = this.props
+    } = this.props
 
     return (
       <Scrollbar
@@ -201,8 +202,8 @@ const mapStateToProps = (state, ownPops) => {
     path,
     uid,
     chatMessageMenuOpen,
-    messages: lists[path],
-    predefinedMessages: lists['predefined_chat_messages'],
+    messages: getList(state, path),
+    predefinedMessages: getList(state, 'predefined_chat_messages'),
     auth,
     browser
   };

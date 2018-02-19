@@ -16,7 +16,7 @@ import ReactList from 'react-list'
 import { filterSelectors, filterActions } from 'material-ui-filter'
 import { setPersistentValue } from '../../store/persistentValues/actions'
 import SearchField from '../../components/SearchField/SearchField'
-
+import { getList } from 'firekit'
 
 const path = `users`;
 
@@ -178,9 +178,9 @@ Users.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-  const { lists, auth, filters, browser } = state;
+  const { auth, filters, browser } = state;
 
-  const users = filterSelectors.getFilteredList('select_user', filters, lists['users'], fieldValue => fieldValue.val);
+  const users = filterSelectors.getFilteredList('select_user', filters, getList(state, 'users'), fieldValue => fieldValue.val);
   const usePreview = browser.greaterThan.small;
 
   return {

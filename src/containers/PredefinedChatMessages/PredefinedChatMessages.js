@@ -18,7 +18,7 @@ import Dialog from 'material-ui/Dialog';
 import muiThemeable from 'material-ui/styles/muiThemeable';
 import ReactList from 'react-list';
 import Scrollbar from '../../components/Scrollbar'
-
+import { getList } from 'firekit'
 
 const path = `predefined_chat_messages`;
 
@@ -119,7 +119,7 @@ export class PredefinedChatMessages extends Component {
             <List ref={(field) => { this.list = field; }}>
               <ReactList
                 itemRenderer={this.renderItem}
-                length={list ? list.length : 0}
+                length={list.length}
                 type='simple'
               />
             </List>
@@ -180,7 +180,7 @@ const mapStateToProps = (state) => {
   return {
     browser,
     delete_predefined_chat_message,
-    list: lists[path],
+    list: getList(state, path),
     isGranted: grant => isGranted(state, grant)
   };
 };

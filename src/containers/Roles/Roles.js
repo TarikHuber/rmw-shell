@@ -11,7 +11,7 @@ import Avatar from 'material-ui/Avatar';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import FontIcon from 'material-ui/FontIcon';
 import Scrollbar from '../../components/Scrollbar/Scrollbar';
-
+import { getList, isLoading } from 'firekit'
 
 const path = `roles`;
 
@@ -49,7 +49,7 @@ export class Roles extends Component {
             icon={<FontIcon className="material-icons" >account_box</FontIcon>}
           />
         }
-        onClick={() => { history.push(`/${path}/edit/${key}`) }}
+        onClick={() => { history.push(`/${path}/edit/${key}/main`) }}
         key={key}
         id={key}
         primaryText={val.name}
@@ -60,12 +60,12 @@ export class Roles extends Component {
   }
 
   render() {
-    const { intl, list } = this.props;
+    const { intl, list, isLoading } = this.props;
 
 
     return (
       <Activity
-        isLoading={list === undefined}
+        isLoading={isLoading}
         title={intl.formatMessage({ id: 'roles' })}>
 
         <div style={{ height: '100%' }}>
@@ -73,7 +73,7 @@ export class Roles extends Component {
             <List ref={(field) => { this.list = field; }}>
               <ReactList
                 itemRenderer={this.renderItem}
-                length={list ? list.length : 0}
+                length={list.length}
                 type='simple'
               />
             </List>
@@ -105,7 +105,8 @@ const mapStateToProps = (state) => {
   const { lists } = state;
 
   return {
-    list: lists[path]
+    list: getList(state, path),
+    isLoading: isLoading(state, path)
   };
 };
 

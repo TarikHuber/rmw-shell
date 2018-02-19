@@ -8,7 +8,7 @@ import Toggle from 'material-ui/Toggle'
 
 class UserForm extends Component {
 
-  render () {
+  render() {
     const {
       handleSubmit,
       intl,
@@ -26,9 +26,9 @@ class UserForm extends Component {
         flexWrap: 'wrap',
         justifyContent: 'flex-start'
       }}>
-        <button type='submit' style={{display: 'none'}} />
+        <button type='submit' style={{ display: 'none' }} />
 
-        <div style={{marginLeft: -10}}>
+        <div style={{ marginLeft: -10 }}>
           <AvatarImageField
             disabled
             uid={uid}
@@ -36,7 +36,7 @@ class UserForm extends Component {
             initialized={initialized}
             intl={intl}
             path={'users'}
-        />
+          />
 
         </div>
 
@@ -46,32 +46,32 @@ class UserForm extends Component {
               name='displayName'
               disabled
               component={TextField}
-              hintText={intl.formatMessage({id: 'name_hint'})}
-              floatingLabelText={intl.formatMessage({id: 'name_label'})}
+              hintText={intl.formatMessage({ id: 'name_hint' })}
+              floatingLabelText={intl.formatMessage({ id: 'name_label' })}
               ref='displayName'
               withRef
-          />
+            />
           </div>
           <div>
             <Field
               name='email'
               disabled
               component={TextField}
-              hintText={intl.formatMessage({id: 'email_hint'})}
-              floatingLabelText={intl.formatMessage({id: 'email_label'})}
+              hintText={intl.formatMessage({ id: 'email_hint' })}
+              floatingLabelText={intl.formatMessage({ id: 'email_label' })}
               ref='email'
               withRef
-          />
+            />
           </div>
 
           <br />
 
           <div>
             <Toggle
-              label={intl.formatMessage({id: 'is_admin_label'})}
+              label={intl.formatMessage({ id: 'is_admin_label' })}
               toggled={isAdmin}
               onToggle={handleAdminChange}
-          />
+            />
           </div>
 
         </div>
@@ -86,8 +86,7 @@ UserForm.propTypes = {
   isAdmin: PropTypes.bool.isRequired,
   intl: intlShape.isRequired,
   initialized: PropTypes.bool.isRequired,
-  setDialogIsOpen: PropTypes.any.isRequired,
   uid: PropTypes.string.isRequired
 }
 
-export default reduxForm({form: 'user'})(UserForm)
+export default reduxForm({ form: 'user' })(UserForm)

@@ -19,7 +19,7 @@ import { filterSelectors } from 'material-ui-filter'
 import IconMenu from 'material-ui/IconMenu'
 import MenuItem from 'material-ui/MenuItem'
 import IconButton from 'material-ui/IconButton'
-
+import { getList } from 'firekit'
 
 export class Chats extends Component {
 
@@ -236,9 +236,9 @@ const mapStateToProps = (state, ownPops) => {
 
   const path = `user_chats/${auth.uid}`;
   const usePreview = browser.greaterThan.small;
-  const currentChatUid = persistentValues['current_chat_uid'] ? persistentValues['current_chat_uid'] : undefined;
+  const currentChatUid = persistentValues['current_chat_uid'] ? persistentValues['current_chat_uid'] : undefined
 
-  const list = lists[path] ? lists[path].sort(filterSelectors.dynamicSort('lastCreated', false, fieldValue => fieldValue.val)) : [];
+  const list = getList(state, path).sort(filterSelectors.dynamicSort('lastCreated', false, fieldValue => fieldValue.val))
 
   return {
     auth,

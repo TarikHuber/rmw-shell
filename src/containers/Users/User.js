@@ -18,6 +18,7 @@ import { Tabs, Tab } from 'material-ui/Tabs'
 import Scrollbar from '../../components/Scrollbar/Scrollbar'
 import { filterSelectors, filterActions } from 'material-ui-filter'
 import SearchField from '../../components/SearchField'
+import { getList, isLoading } from 'firekit'
 
 const path = '/users'
 const form_name = 'user'
@@ -25,7 +26,8 @@ const form_name = 'user'
 export class User extends Component {
 
   componentWillMount() {
-    this.props.watchList('admins')
+    const { watchList, setSearch } = this.props
+    watchList('admins')
   }
 
   handleTabActive = (value) => {
@@ -58,7 +60,8 @@ export class User extends Component {
       setFilterIsOpen,
       hasFilters,
       setSearch,
-      firebaseApp
+      firebaseApp,
+      isLoading
     } = this.props
 
     const uid = match.params.uid
@@ -85,6 +88,7 @@ export class User extends Component {
 
     return (
       <Activity
+        isLoading={isLoading}
         iconStyleRight={{ width: '50%' }}
         iconStyleLeft={{ width: 'auto' }}
         iconStyleRight={{ width: '100%', textAlign: 'center', marginLeft: 0 }}
@@ -177,12 +181,14 @@ User.propTypes = {
 
 
 const mapStateToProps = (state, ownProps) => {
-  const { auth, intl, lists, filters } = state
+  const { auth, intl, filters } = state
   const { match } = ownProps
 
   const uid = match.params.uid
   const editType = match.params.editType ? match.params.editType : 'data'
   const { hasFilters } = filterSelectors.selectFilterProps('user_grants', filters)
+  const isLoadingRoles = isLoading(state, 'user_roles')
+  const isLoadingGrants = isLoading(state, 'user_grants')
 
   return {
     hasFilters,
@@ -190,7 +196,8 @@ const mapStateToProps = (state, ownProps) => {
     uid,
     editType,
     intl,
-    admins: lists.admins
+    admins: getList(state, 'admins'),
+    isLoading: isLoadingRoles || isLoadingGrants
   }
 }
 
