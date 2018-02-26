@@ -83,6 +83,8 @@ export class AppLayout extends Component {
           message={intl.formatMessage({ id: 'update_available' })}
           action={intl.formatMessage({ id: 'load_update' })}
           autoHideDuration={10000}
+          contentStyle={{ paddingBottom: 12 }}
+          bodyStyle={{ display: 'flex', height: 'auto' }}
           onActionClick={this.handleActionClick}
           onRequestClose={this.handleRequestClose}
         />

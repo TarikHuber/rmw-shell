@@ -1,12 +1,15 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import FontIcon from 'material-ui/FontIcon';
-import { injectIntl } from 'react-intl';
-import muiThemeable from 'material-ui/styles/muiThemeable';
-import ReactMaterialUiNotifications from 'react-materialui-notifications';
-import { withFirebase } from 'firekit-provider';
-import { withRouter } from 'react-router-dom';
-import Snackbar from 'material-ui/Snackbar';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import FontIcon from 'material-ui/FontIcon'
+import { injectIntl } from 'react-intl'
+import muiThemeable from 'material-ui/styles/muiThemeable'
+import { withFirebase } from 'firekit-provider'
+import { withRouter } from 'react-router-dom'
+import withAppConfigs from '../../withAppConfigs'
+import { ToastContainer, toast, style } from 'react-toastify'
+import Avatar from 'material-ui/Avatar'
+import { ListItem } from 'material-ui/List'
+
 
 export class NotificationLayout extends Component {
 
@@ -25,13 +28,50 @@ export class NotificationLayout extends Component {
   };
 
   componentDidMount() {
-    const { messaging, initMessaging } = this.props;
+    const { messaging, initMessaging, muiTheme } = this.props;
+
+    style({
+      width: "320px",
+      colorDefault: muiTheme.palette.primary1Color,
+      colorInfo: muiTheme.palette.primary1Color,
+      colorSuccess: "#07bc0c",
+      colorWarning: "#f1c40f",
+      colorError: "#e74c3c",
+      colorProgressDefault: "linear-gradient(to right, #4cd964, #5ac8fa, #007aff, #34aadc, #5856d6, #ff2d55)",
+      mobile: "only screen and (max-width : 480px)",
+      fontFamily: "sans-serif",
+      zIndex: 9999,
+      TOP_LEFT: {
+        top: '1em',
+        left: '1em'
+      },
+      TOP_CENTER: {
+        top: '1em',
+        marginLeft: `-${320 / 2}px`,
+        left: '50%'
+      },
+      TOP_RIGHT: {
+        top: '1em',
+        right: '1em'
+      },
+      BOTTOM_LEFT: {
+        bottom: '1em',
+        left: '1em'
+      },
+      BOTTOM_CENTER: {
+        bottom: '1em',
+        marginLeft: `-${320 / 2}px`,
+        left: '50%'
+      },
+      BOTTOM_RIGHT: {
+        bottom: '1em',
+        right: '1em'
+      }
+    })
 
     if (messaging === undefined || !messaging.isInitialized) {
       initMessaging(token => { this.handleTokenChange(token) }, this.handleMessageReceived)
     }
-
-
   }
 
 
@@ -41,69 +81,47 @@ export class NotificationLayout extends Component {
     firebaseApp.database().ref(`users/${firebaseApp.auth().currentUser.uid}/notificationTokens/${token}`).set(true);
   }
 
-  getNotifications = (notification) => {
-    const { history } = this.props;
-    return {
-      chat: {
-        path: 'chats',
-        autoHide: 3000,
-        title: notification.title,
-        icon: <div><FontIcon className="material-icons" style={{ fontSize: 12 }}>chat</FontIcon></div>,
-        additionalText: notification.body,
-        onTouchTap: () => { history.push(`/chats`) }
-      }
+  getNotification = (notification, closeToast) => {
+
+    if (notification.getNotification) {
+      return notification.getNotification(notification, closeToast)
     }
+
+
+    return (<div onClick={() => {
+      console.log('TEST')
+      notification.onClick()
+    }}>
+      <ListItem
+        disabled={true}
+        leftAvatar={<Avatar src={notification.icon} />}
+        primaryText={notification.title}
+        secondaryText={notification.body}
+      />
+    </div>)
   }
-
-  showMessage = () => {
-    const { location, messaging, isDesktop, clearMessage } = this.props;
-
-    if (!messaging.message || isDesktop) {
-      return false
-    }
-
-    const notification = messaging.message.notification;
-    const pathname = location ? location.pathname : '';
-    const tag = notification.tag;
-    const notifications = this.getNotifications(notification);
-    const notificationData = notifications[tag] ? notifications[tag] : {}
-
-    let show = false;
-
-    if (notificationData) {
-      show = pathname.indexOf(notificationData.path) === -1
-    }
-
-    if (!show) {
-      clearMessage()
-    }
-
-    return show
-  }
-
-
 
   handleMessageReceived = (payload) => {
-    const { muiTheme, location } = this.props;
+    const { muiTheme, location, appConfig } = this.props;
 
-    const notification = payload.notification;
+    const notification = payload.notification
+    const data = payload.data
     const pathname = location ? location.pathname : '';
-    const tag = notification.tag;
-    const notifications = this.getNotifications(notification);
+    const tag = data['gcm.notification.tag'];
+    const notifications = appConfig.getNotifications(notification, this.props);
     const notificationData = notifications[tag] ? notifications[tag] : false;
 
-    if (notificationData) {
-      if (pathname.indexOf(notificationData.path) === -1) {
-
-        ReactMaterialUiNotifications.showNotification({
-          avatar: notification.icon,
-          iconBadgeColor: muiTheme.palette.accent1Color,
-          timestamp: notification.timestamp,
-          personalised: true,
-          ...notificationData
-        })
-      }
+    if (notificationData && pathname.indexOf(notificationData.path) === -1) {
+      toast.info(({ closeToast }) => this.getNotification(notificationData, closeToast), {
+        position: toast.POSITION.BOTTOM_RIGHT,
+        autoClose: notificationData.autoClose ? notificationData.autoClose : false
+      });
+    } else {
+      toast.info(({ closeToast }) => this.getNotification(notification, closeToast), {
+        position: toast.POSITION.BOTTOM_RIGHT
+      });
     }
+
 
   }
 
@@ -112,32 +130,7 @@ export class NotificationLayout extends Component {
 
     return (
       <div style={{ backgroundColor: muiTheme.palette.canvasColor, height: '100%' }}>
-
-        {isDesktop &&
-          <ReactMaterialUiNotifications
-            //desktop={true} //NOT WORKING
-            transitionName={{
-              leave: 'dummy',
-              leaveActive: 'fadeOut',
-              appear: 'dummy',
-              appearActive: 'zoomInUp'
-            }}
-            rootStyle={{ bottom: 30, right: 30, zIndex: 999999 }}
-            transitionAppear={true}
-            transitionLeave={true}
-          />
-        }
-
-        {this.showMessage() &&
-          <Snackbar
-            open={messaging.message !== undefined}
-            message={messaging.message ? `${messaging.message.notification.title} - ${messaging.message.notification.body}` : ''}
-            action={intl.formatMessage({ id: 'open_label' })}
-            autoHideDuration={4000}
-            onActionTouchTap={this.handleActionTouchTap}
-            onRequestClose={clearMessage}
-          />
-        }
+        <ToastContainer />
       </div>
     );
 
@@ -160,4 +153,4 @@ const mapStateToProps = (state) => {
 
 export default connect(
   mapStateToProps,
-)(muiThemeable()(injectIntl(withFirebase(withRouter(NotificationLayout)))));
+)(muiThemeable()(injectIntl(withFirebase(withRouter(withAppConfigs(NotificationLayout))))))

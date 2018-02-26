@@ -4,6 +4,10 @@ import getMenuItems from './menuItems'
 import locales from './locales'
 import grants from './grants'
 import { themes } from './themes'
+import React from 'react'
+import FontIcon from 'material-ui/FontIcon'
+import FlatButton from 'material-ui/FlatButton'
+import moment from 'moment'
 
 const config = {
   firebase_config: {
@@ -43,7 +47,19 @@ const config = {
   grants,
   routes: [],
   onAuthStateChanged: undefined,
-  firebaseLoad: () => import('./firebase')
+  firebaseLoad: () => import('./firebase'),
+  getNotifications: (notification, props) => {
+    const { history } = props;
+    return {
+      chat: {
+        path: 'chats',
+        autoHide: 5000,
+        //getNotification: () => <div>YOUR CUSTOM NOTIFICATION COMPONENT</div>,
+        onClick: () => { history.push(`/chats`) },
+        ...notification
+      }
+    }
+  }
 }
 
 export default config
