@@ -89,7 +89,6 @@ export class NotificationLayout extends Component {
 
 
     return (<div onClick={() => {
-      console.log('TEST')
       notification.onClick()
     }}>
       <ListItem

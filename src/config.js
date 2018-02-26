@@ -4,10 +4,6 @@ import getMenuItems from './menuItems'
 import locales from './locales'
 import grants from './grants'
 import { themes } from './themes'
-import React from 'react'
-import FontIcon from 'material-ui/FontIcon'
-import FlatButton from 'material-ui/FlatButton'
-import moment from 'moment'
 
 const config = {
   firebase_config: {

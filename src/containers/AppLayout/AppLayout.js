@@ -9,50 +9,89 @@ import { ResponsiveDrawer } from 'material-ui-responsive-drawer'
 import { Switch } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import Snackbar from 'material-ui/Snackbar';
 import { injectIntl } from 'react-intl'
+import { ToastContainer, toast, style } from 'react-toastify'
+import Avatar from 'material-ui/Avatar'
+import { ListItem } from 'material-ui/List'
+import FlatButton from 'material-ui/FlatButton';
 
 export class AppLayout extends Component {
 
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      open: false,
-    };
-  }
-
   componentWillMount() {
+
+    const { muiTheme } = this.props;
+
+    style({
+      width: "320px",
+      colorDefault: muiTheme.palette.primary1Color,
+      colorInfo: muiTheme.palette.primary1Color,
+      colorSuccess: "#07bc0c",
+      colorWarning: "#f1c40f",
+      colorError: "#e74c3c",
+      colorProgressDefault: "linear-gradient(to right, #4cd964, #5ac8fa, #007aff, #34aadc, #5856d6, #ff2d55)",
+      mobile: "only screen and (max-width : 480px)",
+      fontFamily: "sans-serif",
+      zIndex: 9999,
+      TOP_LEFT: {
+        top: '1em',
+        left: '1em'
+      },
+      TOP_CENTER: {
+        top: '1em',
+        marginLeft: `-${320 / 2}px`,
+        left: '50%'
+      },
+      TOP_RIGHT: {
+        top: '1em',
+        right: '1em'
+      },
+      BOTTOM_LEFT: {
+        bottom: '1em',
+        left: '1em'
+      },
+      BOTTOM_CENTER: {
+        bottom: '1em',
+        marginLeft: `-${320 / 2}px`,
+        left: '50%'
+      },
+      BOTTOM_RIGHT: {
+        bottom: '1em',
+        right: '1em'
+      }
+    })
 
     if (window.updateAvailable) {
       this.setState({
         open: true,
       });
     }
+  }
+
+  getNotification = (closeToast) => {
+    const { intl } = this.props;
+
+    return (<div onClick={this.handleActionClick} >
+      {intl.formatMessage({ id: 'update_available' })}
+      <div style={{ float: 'right' }}>
+        <FlatButton label={intl.formatMessage({ id: 'load_update' })} secondary={true} onClick={this.handleActionClick} />
+      </div>
+
+    </div>)
   }
 
   componentWillReceiveProps() {
 
     if (window.updateAvailable) {
-      this.setState({
-        open: true,
-      });
+      toast.info(({ closeToast }) => this.getNotification(closeToast), {
+        position: toast.POSITION.BOTTOM_CENTER,
+        autoClose: false
+      })
     }
   }
 
   handleActionClick = () => {
-    this.setState({
-      open: false,
-    });
-
     window.updateAvailable = false
     window.location.href = window.location.href
-  };
-
-  handleRequestClose = () => {
-    this.setState({
-      open: false,
-    });
   };
 
 
@@ -78,16 +117,7 @@ export class AppLayout extends Component {
           {appRoutes.map((Route, i) => { return React.cloneElement(Route, { key: `@appRoutes/${i}` }) })}
         </Switch>
 
-        <Snackbar
-          open={this.state.open}
-          message={intl.formatMessage({ id: 'update_available' })}
-          action={intl.formatMessage({ id: 'load_update' })}
-          autoHideDuration={10000}
-          contentStyle={{ paddingBottom: 12 }}
-          bodyStyle={{ display: 'flex', height: 'auto' }}
-          onActionClick={this.handleActionClick}
-          onRequestClose={this.handleRequestClose}
-        />
+        <ToastContainer />
 
       </div>
 
