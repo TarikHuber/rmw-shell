@@ -149,7 +149,10 @@ const messages = defineMessages({
   delete_chat: 'Delete chat',
   search: 'Search',
   update_available: 'A new version of this app is available.',
-  load_update: 'Refresh'
+  load_update: 'Refresh',
+  enable_notifications_message: 'Enable notifications?',
+  enable: 'Enable',
+  no_thanks: 'No, thanks'
 
 })
 

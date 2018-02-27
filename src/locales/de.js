@@ -149,7 +149,11 @@ const messages = defineMessages({
   delete_chat: 'Chat löschen',
   search: 'Suchen',
   update_available: 'Eine neue Version dieser App ist verfügbar.',
-  load_update: 'Aktualisieren'
+  load_update: 'Aktualisieren',
+  enable_notifications_message: 'Benachrichtigungen aktivieren?',
+  enable: 'Aktivieren',
+  no_thanks: 'Nein, danke'
+
 })
 
 export default messages

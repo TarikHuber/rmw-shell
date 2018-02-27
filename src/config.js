@@ -43,6 +43,7 @@ const config = {
   grants,
   routes: [],
   onAuthStateChanged: undefined,
+  notificationsReengagingHours: -1,
   firebaseLoad: () => import('./firebase'),
   getNotifications: (notification, props) => {
     const { history } = props;

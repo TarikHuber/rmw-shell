@@ -40,7 +40,7 @@ class Root extends Component {
       watchList,
       watchPath,
       appConfig
-          } = this.props;
+    } = this.props;
 
 
     clearInitialization();

@@ -7,78 +7,105 @@ import { withFirebase } from 'firekit-provider'
 import { withRouter } from 'react-router-dom'
 import withAppConfigs from '../../withAppConfigs'
 import { ToastContainer, toast, style } from 'react-toastify'
+import { setPersistentValue } from '../../store/persistentValues/actions'
 import Avatar from 'material-ui/Avatar'
 import { ListItem } from 'material-ui/List'
-
+import Dialog from 'material-ui/Dialog'
+import FlatButton from 'material-ui/FlatButton'
+import moment from 'moment'
+import { app } from 'firebase/app';
 
 export class NotificationLayout extends Component {
 
-  handleActionTouchTap = () => {
-    const { messaging, history, clearMessage } = this.props;
 
-    clearMessage()
-
-    const click_action = messaging.message ? messaging.message.notification.click_action : false;
-
-    if (click_action) {
-      const indexOfCom = click_action.indexOf('.com') + 4
-      history.push(click_action.substring(indexOfCom))
-    }
-
-  };
-
-  componentDidMount() {
-    const { messaging, initMessaging, muiTheme } = this.props;
+  componentWillMount() {
+    const { muiTheme } = this.props
 
     style({
-      width: "320px",
-      colorDefault: muiTheme.palette.primary1Color,
       colorInfo: muiTheme.palette.primary1Color,
-      colorSuccess: "#07bc0c",
-      colorWarning: "#f1c40f",
-      colorError: "#e74c3c",
-      colorProgressDefault: "linear-gradient(to right, #4cd964, #5ac8fa, #007aff, #34aadc, #5856d6, #ff2d55)",
-      mobile: "only screen and (max-width : 480px)",
-      fontFamily: "sans-serif",
-      zIndex: 9999,
-      TOP_LEFT: {
-        top: '1em',
-        left: '1em'
-      },
-      TOP_CENTER: {
-        top: '1em',
-        marginLeft: `-${320 / 2}px`,
-        left: '50%'
-      },
-      TOP_RIGHT: {
-        top: '1em',
-        right: '1em'
-      },
-      BOTTOM_LEFT: {
-        bottom: '1em',
-        left: '1em'
-      },
-      BOTTOM_CENTER: {
-        bottom: '1em',
-        marginLeft: `-${320 / 2}px`,
-        left: '50%'
-      },
-      BOTTOM_RIGHT: {
-        bottom: '1em',
-        right: '1em'
-      }
     })
+  }
 
-    if (messaging === undefined || !messaging.isInitialized) {
+  componentWillReceiveProps(nextProps) {
+    const { messaging, initMessaging, auth } = nextProps
+
+
+    if (Notification.permission === "granted" && auth.uid && !messaging.isInitialized) {
       initMessaging(token => { this.handleTokenChange(token) }, this.handleMessageReceived)
     }
+
+    if (Notification.permission !== "granted" && auth.uid) {
+      this.requestNotificationPermission(nextProps)
+    }
+
+  }
+
+  requestNotificationPermission = (props) => {
+    const {
+      messaging,
+      initMessaging,
+      auth,
+      notificationPermissionRequested,
+      setPersistentValue,
+      muiTheme,
+      intl,
+      appConfig
+    } = props
+
+    const reengagingHours = appConfig.notificationsReengagingHours ? appConfig.notificationsReengagingHours : 48
+    const requestNotificationPermission = notificationPermissionRequested ? moment().diff(notificationPermissionRequested, 'hours') > reengagingHours : true
+
+    if (Notification.permission !== "granted" && auth.uid && requestNotificationPermission) {
+
+      if (!toast.isActive(this.toastId)) {
+        this.toastId = toast.info(({ closeToast }) => (<div>
+          <div style={{ display: 'flex', alignItems: 'center', padding: 8 }}>
+            <FontIcon
+              style={{ paddingRight: 8 }}
+              className="material-icons"
+              color={muiTheme.palette.accent1Color}
+            >notifications</FontIcon>
+            <div style={{ padding: undefined }}>{intl.formatMessage({ id: 'enable_notifications_message' })}</div>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
+            <FlatButton
+              onClick={() => {
+                setPersistentValue('notificationPermissionRequested', moment())
+                initMessaging(token => { this.handleTokenChange(token) }, this.handleMessageReceived)
+                closeToast()
+              }}
+              label={intl.formatMessage({ id: 'enable' })}
+            />
+            <FlatButton
+              onClick={() => {
+                setPersistentValue('notificationPermissionRequested', moment())
+                closeToast()
+              }}
+              label={intl.formatMessage({ id: 'no_thanks' })}
+              secondary={true}
+            />
+          </div>
+
+
+        </div>), {
+            position: toast.POSITION.TOP_CENTER,
+            autoClose: false,
+            closeButton: false,
+            closeOnClick: false
+          });
+      }
+    }
+  }
+
+  componentDidMount() {
+    this.requestNotificationPermission(this.props)
   }
 
 
   handleTokenChange = (token) => {
-    const { firebaseApp } = this.props;
+    const { firebaseApp, auth } = this.props;
 
-    firebaseApp.database().ref(`users/${firebaseApp.auth().currentUser.uid}/notificationTokens/${token}`).set(true);
+    firebaseApp.database().ref(`users/${auth.uid}/notificationTokens/${token}`).set(true);
   }
 
   getNotification = (notification, closeToast) => {
@@ -88,9 +115,10 @@ export class NotificationLayout extends Component {
     }
 
 
-    return (<div onClick={() => {
-      notification.onClick()
-    }}>
+    return (<div
+      onClick={() => {
+        notification.onClick()
+      }}>
       <ListItem
         disabled={true}
         leftAvatar={<Avatar src={notification.icon} />}
@@ -124,32 +152,27 @@ export class NotificationLayout extends Component {
 
   }
 
-  render() {
-    const { muiTheme, isDesktop, intl, messaging, clearMessage } = this.props;
 
-    return (
-      <div style={{ backgroundColor: muiTheme.palette.canvasColor, height: '100%' }}>
-        <ToastContainer />
-      </div>
-    );
 
-  }
+  render() { return <ToastContainer /> }
 }
 
-const mapStateToProps = (state) => {
-  const { theme, locale, messaging, browser, intl } = state;
+const mapStateToProps = (state, ownProps) => {
+  const { theme, locale, messaging, browser, intl, auth, persistentValues } = state;
 
-  const isDesktop = browser.greaterThan.medium
+  const notificationPermissionRequested = persistentValues.notificationPermissionRequested
 
   return {
     theme, //We need this so the theme change triggers rerendering
     locale,
     messaging,
-    isDesktop,
+    isDesktop: browser.greaterThan.medium,
+    auth,
+    notificationPermissionRequested,
     intl
   };
 };
 
 export default connect(
-  mapStateToProps,
+  mapStateToProps, { setPersistentValue }
 )(muiThemeable()(injectIntl(withFirebase(withRouter(withAppConfigs(NotificationLayout))))))
