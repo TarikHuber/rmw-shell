@@ -52,6 +52,8 @@ export class NotificationLayout extends Component {
       appConfig
     } = props
 
+
+
     const reengagingHours = appConfig.notificationsReengagingHours ? appConfig.notificationsReengagingHours : 48
     const requestNotificationPermission = notificationPermissionRequested ? moment().diff(notificationPermissionRequested, 'hours') > reengagingHours : true
 
