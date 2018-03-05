@@ -14,7 +14,7 @@ import { FilterDrawer, filterSelectors, filterActions } from 'material-ui-filter
 import { GoogleIcon, FacebookIcon, GitHubIcon, TwitterIcon } from '../../components/Icons'
 import Activity from '../../containers/Activity'
 import Scrollbar from '../../components/Scrollbar'
-import SearchField from '../../components/SearchField'
+import SearchField from '../../containers/SearchField'
 import { ResponsiveMenu } from 'material-ui-responsive-menu'
 import { getList, isLoading } from 'firekit'
 
@@ -23,10 +23,9 @@ const path = `users`
 export class Users extends Component {
 
   componentDidMount() {
-    const { setSearch } = this.props;
+    const { watchList } = this.props;
 
-    setSearch('users', '')
-    this.props.watchList(path)
+    watchList(path)
   }
 
   getProviderIcon = (provider) => {
@@ -146,9 +145,7 @@ export class Users extends Component {
           <div style={{ display: 'flex' }}>
             <div style={{ width: 'calc(100% - 84px)' }}>
               <SearchField
-                onChange={(e, newVal) => {
-                  setSearch('users', newVal)
-                }}
+                filterName={'users'}
                 hintText={`${intl.formatMessage({ id: 'search' })}`}
               />
             </div>
