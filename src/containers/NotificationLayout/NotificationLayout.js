@@ -29,14 +29,16 @@ export class NotificationLayout extends Component {
   componentWillReceiveProps(nextProps) {
     const { messaging, initMessaging, auth } = nextProps
 
+    if ("Notification" in window) {
+      if (Notification.permission === "granted" && auth.uid && !messaging.isInitialized) {
+        initMessaging(token => { this.handleTokenChange(token) }, this.handleMessageReceived)
+      }
 
-    if (Notification.permission === "granted" && auth.uid && !messaging.isInitialized) {
-      initMessaging(token => { this.handleTokenChange(token) }, this.handleMessageReceived)
+      if (Notification.permission !== "granted" && auth.uid) {
+        this.requestNotificationPermission(nextProps)
+      }
     }
 
-    if (Notification.permission !== "granted" && auth.uid) {
-      this.requestNotificationPermission(nextProps)
-    }
 
   }
 
@@ -57,7 +59,7 @@ export class NotificationLayout extends Component {
     const reengagingHours = appConfig.notificationsReengagingHours ? appConfig.notificationsReengagingHours : 48
     const requestNotificationPermission = notificationPermissionRequested ? moment().diff(notificationPermissionRequested, 'hours') > reengagingHours : true
 
-    if (Notification.permission !== "granted" && auth.uid && requestNotificationPermission) {
+    if ("Notification" in window && Notification.permission !== "granted" && auth.uid && requestNotificationPermission) {
 
       if (!toast.isActive(this.toastId)) {
         this.toastId = toast.info(({ closeToast }) => (<div>
