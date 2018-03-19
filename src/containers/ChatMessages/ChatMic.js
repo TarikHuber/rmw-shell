@@ -129,9 +129,7 @@ export class ChatMic extends Component {
   }
 
   render() {
-    const { muiTheme, containerStyle, chat } = this.props
-
-    const mic = chat.mic ? chat.mic : {}
+    const { muiTheme, containerStyle } = this.props
 
     return (
       <div>
