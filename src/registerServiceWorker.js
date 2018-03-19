@@ -18,14 +18,6 @@ const isLocalhost = Boolean(
   )
 )
 
-function sendMessageToAllClients (msg) {
-  self.clients.matchAll().then(clients => {
-    clients.forEach(client => {
-      client.postMessage(msg)
-    })
-  })
-}
-
 export default function register () {
   if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
     // The URL constructor is available in all browsers that support SW.
@@ -51,9 +43,6 @@ export default function register () {
             'This web app is being served cache-first by a service ' +
             'worker. To learn more, visit https://goo.gl/SC7cgQ'
           )
-
-          sendMessageToAllClients('This web app is being served cache-first by a service ' +
-            'worker. To learn more, visit https://goo.gl/SC7cgQ')
         })
       } else {
         // Is not local host. Just register service worker
@@ -77,13 +66,12 @@ function registerValidSW (swUrl) {
               // It's the perfect time to display a "New content is
               // available; please refresh." message in your web app.
               console.log('New content is available; please refresh.')
-              sendMessageToAllClients('update')
+              window.updateAvailable = true
             } else {
               // At this point, everything has been precached.
               // It's the perfect time to display a
               // "Content is cached for offline use." message.
               console.log('Content is cached for offline use.')
-              sendMessageToAllClients('cached')
             }
           }
         }
