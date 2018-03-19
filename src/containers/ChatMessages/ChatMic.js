@@ -10,17 +10,24 @@ import { ReactMic } from 'react-mic'
 import { connect } from 'react-redux'
 import { injectIntl, intlShape } from 'react-intl'
 import { setSimpleValue } from '../../store/simpleValues/actions'
-import { setChatMic } from '../../store/chat/actions'
 import { withFirebase } from 'firekit-provider'
 import { withRouter } from 'react-router-dom'
 import CircularProgress from 'material-ui/CircularProgress'
 
 export class ChatMic extends Component {
 
-  startRecording = () => {
-    const { setChatMic } = this.props
+  constructor(props) {
+    super(props);
 
-    setChatMic({
+    this.state = {
+      record: false,
+      visible: false,
+      send: false
+    }
+  }
+
+  startRecording = () => {
+    this.setState({
       record: true,
       visible: true
     })
@@ -29,9 +36,7 @@ export class ChatMic extends Component {
 
   stopRecording = () => {
 
-    const { setChatMic } = this.props
-
-    setChatMic({
+    this.setState({
       send: true,
       record: false
     })
@@ -42,26 +47,30 @@ export class ChatMic extends Component {
 
     const { setChatMic } = this.props
 
-    setChatMic({
-      send: false,
-      record: false
+    this.setState({
+      record: false,
+      visible: false
     })
 
   }
 
   onStop = (recordedBlob) => {
 
-    const { setChatMic, chat } = this.props
+    const { chat } = this.props
 
-    setChatMic({
-      visible: false,
+
+    this.setState({
       record: false,
+      visible: false,
       uploadCompleted: 0
     })
 
-    if (chat.mic.send) {
+
+    if (this.state.send) {
       this.uploadAudioFile(recordedBlob.blob)
     }
+
+
 
   }
 
@@ -96,20 +105,22 @@ export class ChatMic extends Component {
       var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
       console.log('Upload is ' + progress + '% done');
 
-      setChatMic({
+      this.setState({
         sending: true,
         uploadCompleted: progress,
       })
+
 
 
     }, error => {
       console.log(error)
     }, () => {
 
-      setChatMic({
+      this.setState({
         sending: false,
         uploadCompleted: undefined,
       })
+
 
       handleAddMessage('audio', uploadTask.snapshot.downloadURL, key)
 
@@ -124,7 +135,7 @@ export class ChatMic extends Component {
 
     return (
       <div>
-        {mic.visible &&
+        {this.state.visible &&
           < div style={{ marginBottom: 9, marginRight: 40, borderRadius: 50 }}>
             <FloatingActionButton
               onClick={this.cancelRecording}
@@ -138,28 +149,28 @@ export class ChatMic extends Component {
               className="oscilloscope"
               visualSetting="sinewave"
               mimeType={'audio/ogg; codecs=opus'}
-              record={mic.record}
+              record={this.state.record}
               onStop={this.onStop}
               strokeColor={muiTheme.palette.primary1Color}
               backgroundColor={muiTheme.palette.accent1Color} />
           </div>
         }
-        {mic.sending &&
+        {this.state.sending &&
           <CircularProgress
             style={{ position: 'absolute', right: 15, bottom: 5, zIndex: 90 }}
             mode="determinate"
-            value={mic.uploadCompleted}
+            value={this.state.uploadCompleted}
             size={67}
             thickness={10}
           />
         }
 
         <FloatingActionButton
-          disabled={mic.sending}
-          onClick={mic.record ? this.stopRecording : this.startRecording}
+          disabled={this.state.sending}
+          onClick={this.state.record ? this.stopRecording : this.startRecording}
           style={{ position: 'absolute', right: 20, bottom: 10, zIndex: 99 }}
-          secondary={!mic.record}>
-          <FontIcon className='material-icons' >{mic.record ? 'send' : 'mic'}</FontIcon>
+          secondary={!this.state.record}>
+          <FontIcon className='material-icons' >{this.state.record ? 'send' : 'mic'}</FontIcon>
         </FloatingActionButton>
       </div >
     )
@@ -172,13 +183,13 @@ ChatMic.propTypes = {
 }
 
 const mapStateToProps = (state, ownPops) => {
-  const { chat } = state
+  const { auth } = state
 
   return {
-    chat
+    auth
   }
 }
 
 export default connect(
-  mapStateToProps, { setSimpleValue, setChatMic }
+  mapStateToProps, { setSimpleValue }
 )(injectIntl(muiThemeable()(withRouter(withFirebase(ChatMic)))))

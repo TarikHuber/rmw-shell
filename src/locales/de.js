@@ -102,7 +102,7 @@ const messages = defineMessages({
   google_color: '#EA4335',
   password_color: '#4CAF50',
   chats: 'Chats',
-  write_message_hint: 'Eine Nachricht schreiben...',
+  write_message_hint: 'Nachricht schreiben...',
   load_more_label: 'Mehr...',
   my_location: 'Mein Standort',
   select_user: 'Benutzer auswählen',

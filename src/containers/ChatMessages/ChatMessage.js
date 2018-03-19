@@ -38,7 +38,7 @@ class ChatMessage extends Component {
       intl,
       history,
       type
-      } = this.props
+    } = this.props
 
     return <div style={{ width: '100%' }}>
 

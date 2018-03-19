@@ -1,4 +1,3 @@
-import chat from './chat/reducer'
 import dialogs from './dialogs/reducer'
 import filterReducer from 'material-ui-filter/lib/store/reducer'
 import firekitReducers from 'firekit'
@@ -16,7 +15,6 @@ import { responsiveStateReducer } from 'redux-responsive'
 export const appReducers = {
   ...firekitReducers,
   browser: responsiveStateReducer,
-  chat,
   dialogs,
   filters: filterReducer,
   form: formReducer,
