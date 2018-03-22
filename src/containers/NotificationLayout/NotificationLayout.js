@@ -21,6 +21,8 @@ export class NotificationLayout extends Component {
   componentWillMount() {
     const { muiTheme } = this.props
 
+    this.initMessaging(this.props)
+
     style({
       colorInfo: muiTheme.palette.primary1Color,
     })
@@ -28,18 +30,23 @@ export class NotificationLayout extends Component {
 
   componentWillReceiveProps(nextProps) {
     const { messaging, initMessaging, auth } = nextProps
+    this.initMessaging(nextProps)
 
+  }
+
+
+  initMessaging = (props) => {
+    const { messaging, initMessaging, auth } = props
     if ("Notification" in window) {
+
       if (Notification.permission === "granted" && auth.uid && !messaging.isInitialized) {
         initMessaging(token => { this.handleTokenChange(token) }, this.handleMessageReceived)
       }
 
       if (Notification.permission !== "granted" && auth.uid) {
-        this.requestNotificationPermission(nextProps)
+        this.requestNotificationPermission(props)
       }
     }
-
-
   }
 
   requestNotificationPermission = (props) => {
@@ -53,8 +60,6 @@ export class NotificationLayout extends Component {
       intl,
       appConfig
     } = props
-
-
 
     const reengagingHours = appConfig.notificationsReengagingHours ? appConfig.notificationsReengagingHours : 48
     const requestNotificationPermission = notificationPermissionRequested ? moment().diff(notificationPermissionRequested, 'hours') > reengagingHours : true
@@ -109,7 +114,7 @@ export class NotificationLayout extends Component {
   handleTokenChange = (token) => {
     const { firebaseApp, auth } = this.props;
 
-    firebaseApp.database().ref(`users/${auth.uid}/notificationTokens/${token}`).set(true);
+    firebaseApp.database().ref(`notification_tokens/${auth.uid}/${token}`).set(true);
   }
 
   getNotification = (notification, closeToast) => {
@@ -117,7 +122,6 @@ export class NotificationLayout extends Component {
     if (notification.getNotification) {
       return notification.getNotification(notification, closeToast)
     }
-
 
     return (<div
       onClick={() => {
@@ -135,10 +139,11 @@ export class NotificationLayout extends Component {
   handleMessageReceived = (payload) => {
     const { muiTheme, location, appConfig } = this.props;
 
+
     const notification = payload.notification
     const data = payload.data
     const pathname = location ? location.pathname : '';
-    const tag = data['gcm.notification.tag'];
+    const tag = payload.notification ? payload.notification.tag : '';
     const notifications = appConfig.getNotifications(notification, this.props);
     const notificationData = notifications[tag] ? notifications[tag] : false;
 

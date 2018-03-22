@@ -52,10 +52,17 @@ class Root extends Component {
 
       const userData = {
         displayName: user.displayName ? user.displayName : 'UserName',
-        email: user.email ? user.email : '-',
+        email: user.email ? user.email : ' ',
         photoURL: user.photoURL,
         emailVerified: user.emailVerified,
         isAnonymous: user.isAnonymous,
+        uid: user.uid,
+        providerData: user.providerData,
+      };
+
+      const publicUserData = {
+        displayName: user.displayName ? user.displayName : 'UserName',
+        photoURL: user.photoURL,
         uid: user.uid,
         providerData: user.providerData,
       };
@@ -71,7 +78,7 @@ class Root extends Component {
         }
       }
 
-      firebaseApp.database().ref(`users/${user.uid}`).update(userData);
+      firebaseApp.database().ref(`users/${user.uid}`).update(publicUserData);
 
       return userData;
 
