@@ -335,15 +335,18 @@ export class MyAccount extends Component {
               validate={this.validate}
               name={form_name}
               path={path}
+              initialValues={auth}
               handleUpdateValues={this.handleUpdateValues}
               onSubmitSuccess={(values) => { history.push('/dashboard'); setSimpleValue('auth_menu', false) }}
               onDelete={(values) => { history.push('/signin'); }}
               handleCreateValues={this.handleCreateValues}
-              uid={auth.uid}>
+            //uid={auth.uid}
+            >
               <MyAccountForm
                 linkUserWithPopup={this.linkUserWithPopup}
                 isLinkedWithProvider={this.isLinkedWithProvider}
                 getProviderIcon={this.getProviderIcon}
+                initialValues={auth}
                 handleEmailVerificationsSend={this.handleEmailVerificationsSend}
                 handlePhotoUploadSuccess={this.handlePhotoUploadSuccess}
                 handleUserDeletion={this.handleUserDeletion}
