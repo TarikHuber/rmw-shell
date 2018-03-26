@@ -10,7 +10,7 @@ import { AvatarImageField } from '../ReduxFormFields'
 import withAppConfigs from '../../withAppConfigs'
 
 class MyAccountForm extends Component {
-  render () {
+  render() {
     const {
       handleSubmit,
       intl,
@@ -96,6 +96,7 @@ class MyAccountForm extends Component {
 
             <div>
               <IconButton
+                tabIndex={-1}
                 onClick={auth.emailVerified === true ? undefined : handleEmailVerificationsSend}
                 tooltip={intl.formatMessage({ id: auth.emailVerified === true ? 'email_verified' : 'email_not_verified' })}>
                 <FontIcon

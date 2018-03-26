@@ -15,7 +15,7 @@ import { GoogleIcon, FacebookIcon, GitHubIcon, TwitterIcon } from '../../compone
 import muiThemeable from 'material-ui/styles/muiThemeable';
 import { change, submit, formValueSelector } from 'redux-form';
 import { ResponsiveMenu } from 'material-ui-responsive-menu'
-
+import { setDialogIsOpen } from '../../store/dialogs/actions'
 
 const path = '/users/'
 const form_name = 'my_account'
@@ -64,23 +64,23 @@ export class MyAccount extends Component {
     submit(form_name)
   }
 
-  getProvider = (provider) => {
+  getProvider = (firebase, provider) => {
     const { auth, firebaseApp, authError } = this.props;
 
     if (provider.indexOf('facebook') > -1) {
-      return new firebaseApp.auth().FacebookAuthProvider();
+      return new firebase.auth.FacebookAuthProvider();
     }
     if (provider.indexOf('github') > -1) {
-      return new firebaseApp.auth().GithubAuthProvider();
+      return new firebase.auth.GithubAuthProvider();
     }
     if (provider.indexOf('google') > -1) {
-      return new firebaseApp.auth().GoogleAuthProvider();
+      return new firebase.auth.GoogleAuthProvider();
     }
     if (provider.indexOf('twitter') > -1) {
-      return new firebaseApp.auth().TwitterAuthProvider();
+      return new firebase.auth.TwitterAuthProvider();
     }
     if (provider.indexOf('phone') > -1) {
-      return new firebaseApp.auth().PhoneAuthProvider();
+      return new firebase.auth.PhoneAuthProvider();
     }
 
     throw new Error('Provider is not supported!');
@@ -89,28 +89,32 @@ export class MyAccount extends Component {
   reauthenticateUser = (values, onSuccess) => {
     const { auth, firebaseApp, authError } = this.props;
 
-    if (this.isLinkedWithProvider('password') && !values) {
-      if (onSuccess && onSuccess instanceof Function) {
-        onSuccess();
-      }
-    } else if (this.isLinkedWithProvider('password') && values) {
-      const credential = firebase.auth.EmailAuthProvider.credential(
-        auth.email,
-        values.old_password
-      )
-      firebaseApp.auth().currentUser.reauthenticateWithCredential(credential)
-        .then(() => {
+    import('firebase').then(firebase => {
+      if (this.isLinkedWithProvider('password') && !values) {
+        if (onSuccess && onSuccess instanceof Function) {
+          onSuccess();
+        }
+      } else if (this.isLinkedWithProvider('password') && values) {
+        const credential = firebase.auth.EmailAuthProvider.credential(
+          auth.email,
+          values.old_password
+        )
+        firebaseApp.auth().currentUser.reauthenticateWithCredential(credential)
+          .then(() => {
+            if (onSuccess && onSuccess instanceof Function) {
+              onSuccess();
+            }
+          }, e => { authError(e) })
+      } else {
+        firebaseApp.auth().currentUser.reauthenticateWithPopup(this.getProvider(firebase, auth.providerData[0].providerId)).then(() => {
           if (onSuccess && onSuccess instanceof Function) {
-            onSuccess();
+            onSuccess()
           }
         }, e => { authError(e) })
-    } else {
-      firebaseApp.auth().currentUser.reauthenticateWithPopup(this.getProvider(auth.providerData[0].providerId)).then(() => {
-        if (onSuccess && onSuccess instanceof Function) {
-          onSuccess()
-        }
-      }, e => { authError(e) })
-    }
+      }
+    })
+
+
   }
 
   isLinkedWithProvider = (provider) => {
@@ -124,13 +128,20 @@ export class MyAccount extends Component {
     }
   }
 
-  linkUserWithPopup = (provider) => {
+  linkUserWithPopup = (p) => {
     const { firebaseApp, authError, authStateChanged } = this.props;
 
-    firebaseApp.auth().currentUser.linkWithPopup(this.getProvider(provider))
-      .then((payload) => {
-        authStateChanged(firebaseApp.auth().currentUser);
-      }, e => { authError(e) })
+
+    import('firebase').then(firebase => {
+      const provider = this.getProvider(firebase, p)
+
+      firebaseApp.auth().currentUser.linkWithPopup(provider)
+        .then((payload) => {
+          authStateChanged(firebaseApp.auth().currentUser);
+        }, e => { authError(e) })
+    })
+
+
   }
 
 
@@ -144,7 +155,7 @@ export class MyAccount extends Component {
   }
 
 
-  handleUpdateValues = (values, dispatch, props) => {
+  onSubmit = (values, dispatch, props) => {
     const { auth, firebaseApp, authStateChanged, authError } = this.props;
 
 
@@ -215,9 +226,9 @@ export class MyAccount extends Component {
   }
 
   handleClose = () => {
-    const { setSimpleValue } = this.props;
+    const { setSimpleValue, setDialogIsOpen } = this.props;
     setSimpleValue('delete_user', false);
-    setSimpleValue('auth_menu', false);
+    setDialogIsOpen('auth_menu', false);
   }
 
   handleDelete = () => {
@@ -283,7 +294,8 @@ export class MyAccount extends Component {
       auth,
       muiTheme,
       submit,
-      firebaseApp
+      firebaseApp,
+      setDialogIsOpen
     } = this.props;
 
     const actions = [
@@ -330,29 +342,19 @@ export class MyAccount extends Component {
         {
           auth.uid &&
           <div style={{ margin: 15, display: 'flex' }}>
-            <FireForm
-              firebaseApp={firebaseApp}
+            <MyAccountForm
               validate={this.validate}
-              name={form_name}
-              path={path}
+              linkUserWithPopup={this.linkUserWithPopup}
+              isLinkedWithProvider={this.isLinkedWithProvider}
+              onSubmitSuccess={(values) => { history.push('/dashboard'); setDialogIsOpen('auth_menu', false) }}
+              onSubmit={this.onSubmit}
+              getProviderIcon={this.getProviderIcon}
               initialValues={auth}
-              handleUpdateValues={this.handleUpdateValues}
-              onSubmitSuccess={(values) => { history.push('/dashboard'); setSimpleValue('auth_menu', false) }}
-              onDelete={(values) => { history.push('/signin'); }}
-              handleCreateValues={this.handleCreateValues}
-            //uid={auth.uid}
-            >
-              <MyAccountForm
-                linkUserWithPopup={this.linkUserWithPopup}
-                isLinkedWithProvider={this.isLinkedWithProvider}
-                getProviderIcon={this.getProviderIcon}
-                initialValues={auth}
-                handleEmailVerificationsSend={this.handleEmailVerificationsSend}
-                handlePhotoUploadSuccess={this.handlePhotoUploadSuccess}
-                handleUserDeletion={this.handleUserDeletion}
-                {...this.props}
-              />
-            </FireForm>
+              handleEmailVerificationsSend={this.handleEmailVerificationsSend}
+              handlePhotoUploadSuccess={this.handlePhotoUploadSuccess}
+              handleUserDeletion={this.handleUserDeletion}
+              {...this.props}
+            />
           </div>
         }
         <Dialog
@@ -397,5 +399,5 @@ const mapStateToProps = (state) => {
 
 
 export default connect(
-  mapStateToProps, { setSimpleValue, change, submit }
+  mapStateToProps, { setSimpleValue, change, submit, setDialogIsOpen }
 )(injectIntl(withRouter(muiThemeable()(withFirebase(MyAccount)))))
