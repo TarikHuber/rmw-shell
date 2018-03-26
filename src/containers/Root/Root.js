@@ -60,11 +60,21 @@ class Root extends Component {
         providerData: user.providerData,
       };
 
+      let publicProviderData = []
+
+      user.providerData.forEach(provider => {
+        publicProviderData.push({
+          providerId: provider.providerId,
+          displayName: provider.displayName ? provider.displayName : null
+        })
+      });
+
+
       const publicUserData = {
         displayName: user.displayName ? user.displayName : 'UserName',
         photoURL: user.photoURL,
         uid: user.uid,
-        providerData: user.providerData,
+        providerData: publicProviderData,
       };
 
       watchList(firebaseApp, `user_grants/${user.uid}`);
