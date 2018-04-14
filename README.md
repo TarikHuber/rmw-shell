@@ -1,8 +1,5 @@
 # ‌‌ [![LOGO][logo-image]][logo-url] RMW-Shell
 [![Build Status][travis-image]][travis-url]
-[![Dependency Status][daviddm-image]][daviddm-url]
-[![License][license-image]][license-url]
-[![Code Coverage][coverage-image]][coverage-url]
 [![Code Style][code-style-image]][code-style-url]
 
 This project was bootstrapped with [NWB](https://github.com/insin/nwb).
@@ -20,7 +17,7 @@ I tried to make the project as clean as possible and to use all libraries in the
 The fast way to use this library is to use CRA:
 ```json
 
-create-react-app test-app --scripts-version rmw-react-scripts
+npx create-react-app test-app --scripts-version rmw-react-scripts
 
 ```
 
