@@ -23,9 +23,21 @@ import { getList } from 'firekit'
 
 export class Chats extends Component {
 
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
   componentDidMount() {
     const { watchList, path } = this.props;
     watchList(path);
+  }
+
+  componentDidCatch(error, info) {
+    // Display fallback UI
+    this.setState({ hasError: true });
+    // You can also log the error to an error reporting service
+    logErrorToMyService(error, info);
   }
 
   handleDeleteChat = (key, val) => {
@@ -77,7 +89,6 @@ export class Chats extends Component {
 
 
   }
-
 
 
 
@@ -169,6 +180,11 @@ export class Chats extends Component {
       usePreview,
       auth
     } = this.props;
+
+    if (this.state.hasError) {
+      // You can render any custom fallback UI
+      return <h1>Something went wrong.</h1>;
+    }
 
     const isDisplayingMessages = usePreview && currentChatUid;
 
