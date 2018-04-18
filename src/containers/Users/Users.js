@@ -132,8 +132,9 @@ export class Users extends Component {
         label: intl.formatMessage({ id: 'name' })
       },
       {
-        name: 'email',
-        label: intl.formatMessage({ id: 'email_label' })
+        name: 'creationTime',
+        type: 'date',
+        label: intl.formatMessage({ id: 'creation_time' })
       }
     ];
 
@@ -192,7 +193,7 @@ const mapStateToProps = (state, ownProps) => {
 
   const isSelecting = match.params.select ? match.params.select : false
 
-  const { hasFilters } = filterSelectors.selectFilterProps('companies', filters)
+  const { hasFilters } = filterSelectors.selectFilterProps('users', filters)
   const list = filterSelectors.getFilteredList('users', filters, getList(state, path), fieldValue => fieldValue.val)
 
   return {

@@ -15,7 +15,7 @@ import { withFirebase } from 'firekit-provider'
 import ReactList from 'react-list'
 import { filterSelectors, filterActions } from 'material-ui-filter'
 import { setPersistentValue } from '../../store/persistentValues/actions'
-import SearchField from '../../components/SearchField/SearchField'
+import SearchField from '../../containers/SearchField'
 import { getList } from 'firekit'
 
 const path = `users`;
@@ -23,29 +23,9 @@ const path = `users`;
 export class Users extends Component {
 
   componentDidMount() {
-    this.props.watchList(path);
-  }
+    const { watchList } = this.props;
 
-  getProviderIcon = (provider) => {
-    const { muiTheme } = this.props;
-    const color = muiTheme.palette.primary2Color;
-
-    switch (provider.providerId) {
-      case 'google.com':
-        return <GoogleIcon color={color} />
-      case 'facebook.com':
-        return <FacebookIcon color={color} />
-      case 'twitter.com':
-        return <TwitterIcon color={color} />
-      case 'github.com':
-        return <GitHubIcon color={color} />
-      case 'phone':
-        return <FontIcon className="material-icons" color={color} >phone</FontIcon>
-      case 'password':
-        return <FontIcon className="material-icons" color={color} >email</FontIcon>
-      default:
-        return undefined
-    }
+    watchList(path)
   }
 
   handleRowClick = (user) => {
@@ -82,51 +62,21 @@ export class Users extends Component {
 
     const user = users[index].val
 
+    //We hide ourselfe to not create a chat with ourself
     if (user.uid === auth.uid) {
       return <div key={key}></div>
     }
 
     return <div key={key}>
-      <ListItem
+      < ListItem
         key={key}
         id={key}
         onClick={() => { this.handleRowClick(users[index]) }}
+        primaryText={user.displayName}
+        secondaryText={(!user.connections && !user.lastOnline) ? intl.formatMessage({ id: 'offline' }) : intl.formatMessage({ id: 'online' })}
         leftAvatar={<Avatar style={{ marginTop: 10 }} src={user.photoURL} alt="person" icon={<FontIcon className="material-icons" >person</FontIcon>} />}
-        rightIcon={<FontIcon style={{ marginTop: 22 }} className="material-icons" color={user.connections ? muiTheme.palette.primary1Color : muiTheme.palette.disabledColor}>offline_pin</FontIcon>}>
-
-        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'strech' }}>
-          <div style={{ display: 'flex', flexDirection: 'column', width: 120 }}>
-            <div>
-              {user.displayName}
-            </div>
-            <div
-              style={{
-                fontSize: 14,
-                lineHeight: '16px',
-                height: 16,
-                margin: 0,
-                marginTop: 4,
-                color: muiTheme.listItem.secondaryTextColor,
-              }}>
-              {(!user.connections && !user.lastOnline) ? intl.formatMessage({ id: 'offline' }) : intl.formatMessage({ id: 'online' })}
-              {' '}
-              {(!user.connections && user.lastOnline) ? intl.formatRelative(new Date(user.lastOnline)) : undefined}
-            </div>
-          </div>
-
-          <div style={{ marginLeft: 20, display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
-            {user.providerData && user.providerData.map(
-              (p, i) => {
-                return (
-                  <div key={i} style={{ paddingLeft: 10 }}>
-                    {this.getProviderIcon(p)}
-                  </div>
-                )
-              })
-            }
-          </div>
-        </div>
-      </ListItem>
+        rightIcon={<FontIcon style={{ marginTop: 22 }} className="material-icons" color={user.connections ? muiTheme.palette.primary1Color : muiTheme.palette.disabledColor}>offline_pin</FontIcon>}
+      />
       <Divider inset={true} />
     </div>
   }
@@ -146,10 +96,8 @@ export class Users extends Component {
         iconElementRight={
           <div style={{ width: 'calc(100% - 48px)' }}>
             <SearchField
-              onChange={(e, newVal) => {
-                setSearch('select_user', newVal)
-              }}
-              hintText={`${intl.formatMessage({ id: 'user_label_search' })}`}
+              filterName={'select_user'}
+              hintText={`${intl.formatMessage({ id: 'search' })}`}
             />
           </div>
         }

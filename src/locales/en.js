@@ -152,7 +152,8 @@ const messages = defineMessages({
   load_update: 'Refresh',
   enable_notifications_message: 'Enable notifications?',
   enable: 'Enable',
-  no_thanks: 'No, thanks'
+  no_thanks: 'No, thanks',
+  creation_time: 'Creation time'
 
 })
 
