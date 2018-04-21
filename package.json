@@ -61,7 +61,7 @@
   "devDependencies": {
     "chart.js": "^2.7.2",
     "enzyme": "^3.3.0",
-    "firebase": "^4.12.1",
+    "firebase": "^4.13.1",
     "firebaseui": "^2.7.0",
     "fireform": "^0.2.13",
     "firekit": "^1.0.7",
