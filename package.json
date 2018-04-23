@@ -69,7 +69,7 @@
     "github-markdown-css": "^2.10.0",
     "intl": "^1.2.5",
     "intl-locales-supported": "^1.0.0",
-    "material-ui": "^0.20.0",
+    "material-ui": "^1.0.0-beta.43",
     "material-ui-filter": "^0.1.38",
     "material-ui-image": "^2.1.1",
     "material-ui-responsive-drawer": "^1.19.4",
