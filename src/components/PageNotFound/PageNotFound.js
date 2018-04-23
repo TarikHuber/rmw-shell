@@ -1,16 +1,16 @@
-import ActionHome from 'material-ui/svg-icons/action/home'
-import FloatingActionButton from 'material-ui/FloatingActionButton'
+import ActionHome from '@material-ui/icons/Home'
+import Button from 'material-ui/Button'
 import Paper from 'material-ui/Paper'
 import React from 'react'
-import muiThemeable from 'material-ui/styles/muiThemeable'
+import Typography from 'material-ui/Typography'
+import { withStyles } from 'material-ui/styles'
 import withAppConfigs from '../../withAppConfigs'
 import { injectIntl } from 'react-intl'
 
-const styles = {
-  paper: {
-    height: '100%',
-    margin: 0,
-    padding: 1
+const styles = theme => ({
+  icon: {
+    width: 192,
+    height: 192
   },
   container: {
     display: 'flex',
@@ -19,27 +19,29 @@ const styles = {
     justifyContent: 'center',
     margin: 5
   },
-  icon: {
-    width: 192,
-    height: 192
+  paper: {
+    height: '100%',
+    margin: 0,
+    padding: 1
   }
-}
 
-const PageNotFound = ({ muiTheme, intl, appConfig }) => {
+})
+
+const PageNotFound = ({ muiTheme, intl, appConfig, classes }) => {
   const AppIcon = appConfig.appIcon
 
   return (
-    <Paper zDepth={0} style={styles.paper}>
-      <div style={styles.container}>
-        <AppIcon color={muiTheme.palette.primary2Color} style={styles.icon} />
+
+    <Typography className={classes.paper}>
+      <div className={classes.container}>
+        <AppIcon className={classes.icon} />
         <h3>{intl.formatMessage({ id: 'warning_404_message' })}</h3>
         <p>{intl.formatMessage({ id: 'warning_404_description' })}</p>
-        <FloatingActionButton secondary href='/'>
-          <ActionHome />
-        </FloatingActionButton>
       </div>
-    </Paper>
+
+    </Typography>
+
   )
 }
 
-export default injectIntl(muiThemeable()(withAppConfigs(PageNotFound)))
+export default injectIntl(withStyles(styles, { withTheme: true })(withAppConfigs(PageNotFound)))

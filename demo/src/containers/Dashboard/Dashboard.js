@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import FlatButton from 'material-ui/FlatButton'
+import Button from 'material-ui/Button'
 import { injectIntl, intlShape } from 'react-intl'
 import { GitHubIcon } from '../../../../src/components/Icons'
 import { Activity } from '../../../../src'
-import muiThemeable from 'material-ui/styles/muiThemeable'
+import { withTheme } from 'material-ui/styles'
 import { Line, Bar, Doughnut } from 'react-chartjs-2'
 import { withFirebase } from 'firekit-provider'
 import CountUp from 'react-countup'
-import FontIcon from 'material-ui/FontIcon'
+import Icon from 'material-ui/Icon'
 
 const currentYear = new Date().getFullYear()
 const daysPath = `/user_registrations_per_day/${currentYear}/${new Date().toISOString().slice(5, 7)}`
@@ -16,7 +16,7 @@ const monthsPath = `/user_registrations_per_month/${currentYear}`
 const providerPath = `/provider_count`
 
 class Dashboard extends Component {
-  componentDidMount () {
+  componentDidMount() {
     const { watchPath } = this.props
 
     watchPath(daysPath)
@@ -25,7 +25,7 @@ class Dashboard extends Component {
     watchPath('users_count')
   }
 
-  render () {
+  render() {
     const { muiTheme, intl, days, months, providers, usersCount } = this.props
 
     let daysLabels = []
@@ -132,7 +132,7 @@ class Dashboard extends Component {
     return (
       <Activity
         iconElementRight={
-          <FlatButton
+          <Button
             style={{ marginTop: 4 }}
             href='https://github.com/TarikHuber/react-most-wanted'
             target='_blank'
@@ -184,12 +184,12 @@ class Dashboard extends Component {
               end={usersCount}
             />
             <div>
-              <FontIcon
+              <Icon
                 color={muiTheme.palette.accent1Color}
                 className='material-icons'
                 style={{ fontSize: 70, marginLeft: 16 }}>
                 group
-              </FontIcon>
+              </Icon>
             </div>
 
           </div>
@@ -217,4 +217,4 @@ const mapStateToProps = (state) => {
 
 export default connect(
   mapStateToProps
-)(injectIntl(muiThemeable()(withFirebase(Dashboard))))
+)(injectIntl(withTheme()(withFirebase(Dashboard))))

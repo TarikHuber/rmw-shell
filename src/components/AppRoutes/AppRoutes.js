@@ -1,14 +1,23 @@
-import React from 'react';
+import React from 'react'
 import Loadable from 'react-loadable'
-import RestrictedRoute from '../../containers/RestrictedRoute';
-import makeLoadable from '../../containers/MyLoadable';
-import PageNotFound from '../../components/PageNotFound/PageNotFound'
-import { Route } from 'react-router-dom';
+import RestrictedRoute from '../../containers/RestrictedRoute'
+import makeLoadable from '../../containers/MyLoadable'
+// import PageNotFound from '../../components/PageNotFound/PageNotFound'
+import { Route } from 'react-router-dom'
 
 const getAppRoutes = (firebaseLoader) => {
-
   const MyLoadable = (opts, preloadComponents) => makeLoadable({ ...opts, firebase: firebaseLoader }, preloadComponents)
 
+
+  const AsyncSignIn = MyLoadable({ loader: () => import('../../containers/SignIn/SignIn') });
+  const AsyncPageNotFound = MyLoadable({ loader: () => import('../../components/PageNotFound/PageNotFound') });
+
+  return [
+    <RestrictedRoute type='public' path="/signin" component={AsyncSignIn} />,
+    <Route component={AsyncPageNotFound} />,
+  ]
+
+  /*
   const AsyncChat = MyLoadable({ loader: () => import('../../containers/Chats/Chat') });
   const AsyncCreateChat = MyLoadable({ loader: () => import('../../containers/Chats/CreateChat') });
   const AsyncMyAccount = MyLoadable({ loader: () => import('../../containers/MyAccount/MyAccount') });
@@ -38,6 +47,8 @@ const getAppRoutes = (firebaseLoader) => {
     <RestrictedRoute type='private' path="/" exact component={AsyncUsers} />,
     <Route component={PageNotFound} />,
   ]
+
+  */
 }
 
-export default getAppRoutes;
+export default getAppRoutes

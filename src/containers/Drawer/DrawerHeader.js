@@ -8,15 +8,15 @@ DrawerHeader.propTypes = {
 }
 
 const mapStateToProps = (state) => {
-  const { auth, theme, locale, dialogs } = state
+  const { auth, locale, dialogs } = state
 
   return {
     auth,
-    theme,
+    // theme,
     locale,
     dialogs
   }
-};
+}
 
 export default connect(
   mapStateToProps,

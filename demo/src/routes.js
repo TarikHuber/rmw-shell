@@ -1,10 +1,22 @@
 import React from 'react'
 import RestrictedRoute from '../../src/containers/RestrictedRoute'
 import makeLoadable from '../../src/containers/MyLoadable'
+import { Route } from 'react-router-dom'
 
 const MyLoadable = (opts, preloadComponents) => makeLoadable({ ...opts, firebase: () => import('./firebase') }, preloadComponents)
 
+
 const AsyncDashboard = MyLoadable({ loader: () => import('./containers/Dashboard/Dashboard') });
+const AsyncAbout = MyLoadable({ loader: () => import('./containers/About/About') });
+
+const routes = [
+  <RestrictedRoute type='private' path="/" exact component={AsyncAbout} />,
+  <RestrictedRoute type='private' path="/dashboard" exact component={AsyncDashboard} />,
+  <RestrictedRoute path="/about" exact component={AsyncAbout} />,
+]
+
+
+/*
 const AsyncDocument = MyLoadable({ loader: () => import('./containers/Document/Document') });
 const AsyncCollection = MyLoadable({ loader: () => import('./containers/Collection/Collection') });
 const AsyncAbout = MyLoadable({ loader: () => import('./containers/About/About') });
@@ -26,5 +38,7 @@ const routes = [
   <RestrictedRoute type='private' path="/document" exact component={AsyncDocument} />,
   <RestrictedRoute type='private' path="/collection" exact component={AsyncCollection} />,
 ]
+
+*/
 
 export default routes;

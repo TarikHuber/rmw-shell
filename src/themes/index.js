@@ -1,14 +1,13 @@
-import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme'
-import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme'
+import { createMuiTheme } from 'material-ui/styles'
 
 export const themes = [
   {
     id: 'light',
-    source: lightBaseTheme
+    source: createMuiTheme()
   },
   {
     id: 'dark',
-    source: darkBaseTheme
+    source: createMuiTheme()
   }
 ]
 
@@ -21,7 +20,7 @@ const getThemeSource = (t, ts) => {
     }
   }
 
-  return lightBaseTheme // Default theme
+  return createMuiTheme() // Default theme
 }
 
 export default getThemeSource

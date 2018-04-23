@@ -1,15 +1,14 @@
-import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme'
-import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme'
+import { createMuiTheme } from 'material-ui/styles'
 import icsTheme from './ics_theme'
 
 const themes = [
   {
     id: 'light',
-    source: lightBaseTheme
+    source: createMuiTheme()
   },
   {
     id: 'dark',
-    source: darkBaseTheme
+    source: createMuiTheme()
   },
   {
     id: 'ics',

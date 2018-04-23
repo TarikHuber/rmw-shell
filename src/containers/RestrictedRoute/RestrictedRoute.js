@@ -8,12 +8,12 @@ export const RestrictedRoute = ({ type, isAuthorised, component: Component, ...r
     (isAuthorised && type === 'private') || (!isAuthorised && type === 'public') ? (
       <Component {...props} />
     ) : (
-        <Redirect to={{
-          pathname: type === 'private' ? `/signin` : (props.location.state ? props.location.state.from.pathname : '/'),
-          search: `from=${props.location.pathname}`,
-          state: { from: props.location }
-        }} />
-      )
+      <Redirect to={{
+        pathname: type === 'private' ? `/signin` : (props.location.state ? props.location.state.from.pathname : '/'),
+        search: `from=${props.location.pathname}`,
+        state: { from: props.location }
+      }} />
+    )
   )} />
 )
 

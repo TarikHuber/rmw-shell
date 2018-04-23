@@ -9,6 +9,7 @@ import responsiveDrawer from 'material-ui-responsive-drawer/lib/store/reducer'
 import rootReducer from './rootReducer'
 import simpleValues from './simpleValues/reducer'
 import theme from './theme/reducer'
+import drawer from './drawer/reducer'
 import { combineReducers } from 'redux'
 import { responsiveStateReducer } from 'redux-responsive'
 
@@ -22,6 +23,7 @@ export const appReducers = {
   persistentValues,
   responsiveDrawer,
   simpleValues,
+  drawer,
   theme
 }
 

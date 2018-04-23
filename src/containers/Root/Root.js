@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import locales, { getLocaleMessages } from '../../locales'
 import getThemeSource from '../../themes'
-import getMuiTheme from 'material-ui/styles/getMuiTheme'
+import { createMuiTheme } from 'material-ui/styles'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { IntlProvider } from 'react-intl'
 import AppLayout from '../../containers/AppLayout'
@@ -117,7 +117,7 @@ class Root extends Component {
     const { locale, muiTheme, messages, appConfig } = this.props;
 
     return (
-      <MuiThemeProvider muiTheme={muiTheme} >
+      <MuiThemeProvider theme={muiTheme} >
         <IntlProvider locale={locale} key={locale} messages={messages}>
           <Router history={history} >
             <Switch>
@@ -144,7 +144,7 @@ const mapStateToProps = (state, ownProps) => {
 
   const source = getThemeSource(theme, appConfig.themes);
   const messages = { ...(getLocaleMessages(locale, locales)), ...(getLocaleMessages(locale, appConfig.locales)) }
-  const muiTheme = getMuiTheme(source);
+  const muiTheme = createMuiTheme(source);
 
   return {
     locale,
