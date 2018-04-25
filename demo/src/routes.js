@@ -8,11 +8,16 @@ const MyLoadable = (opts, preloadComponents) => makeLoadable({ ...opts, firebase
 
 const AsyncDashboard = MyLoadable({ loader: () => import('./containers/Dashboard/Dashboard') });
 const AsyncAbout = MyLoadable({ loader: () => import('./containers/About/About') });
+const AsyncCompany = MyLoadable({ loader: () => import('./containers/Companies/Company') });
+const AsyncCompanies = MyLoadable({ loader: () => import('./containers/Companies/Companies') }, [AsyncCompany]);
 
 const routes = [
   <RestrictedRoute type='private' path="/" exact component={AsyncAbout} />,
   <RestrictedRoute type='private' path="/dashboard" exact component={AsyncDashboard} />,
   <RestrictedRoute path="/about" exact component={AsyncAbout} />,
+  <RestrictedRoute type='private' path="/companies" exact component={AsyncCompanies} />,
+  <RestrictedRoute type='private' path="/companies/edit/:uid" exact component={AsyncCompany} />,
+  <RestrictedRoute type='private' path="/companies/create" exact component={AsyncCompany} />,
 ]
 
 

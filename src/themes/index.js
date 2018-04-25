@@ -3,11 +3,19 @@ import { createMuiTheme } from 'material-ui/styles'
 export const themes = [
   {
     id: 'light',
-    source: createMuiTheme()
+    source: createMuiTheme({
+      palette: {
+        type: 'dark'
+      }
+    })
   },
   {
     id: 'dark',
-    source: createMuiTheme()
+    source: createMuiTheme({
+      palette: {
+        type: 'dark'
+      }
+    })
   }
 ]
 
@@ -20,7 +28,11 @@ const getThemeSource = (t, ts) => {
     }
   }
 
-  return createMuiTheme() // Default theme
+  return createMuiTheme({
+    palette: {
+      type: 'dark'
+    }
+  }) // Default theme
 }
 
 export default getThemeSource

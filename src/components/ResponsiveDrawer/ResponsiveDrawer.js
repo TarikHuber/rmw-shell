@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types';
-import { withStyles } from 'material-ui/styles';
+import { withTheme, withStyles } from 'material-ui/styles';
 import Drawer from 'material-ui/Drawer';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
@@ -14,9 +14,9 @@ import IconButton from 'material-ui/IconButton';
 import Hidden from 'material-ui/Hidden';
 import Divider from 'material-ui/Divider';
 import MenuIcon from '@material-ui/icons/Menu';
-import { setDialogOpen, setDialogMobileOpen } from '../../store/drawer/actions'
 import { mailFolderListItems, otherMailFolderListItems } from './tileData';
 import drawerActions from '../../store/drawer/actions'
+import withWidth from 'material-ui/utils/withWidth'
 
 const drawerWidth = 240;
 
@@ -111,55 +111,30 @@ class ResponsiveDrawer extends React.Component {
   };
 
   render() {
-    const { classes, theme, children, drawer } = this.props;
+    const { classes, theme, children, drawer, width } = this.props;
 
-    const drawerComp = (
-      <div>
-        <div className={classes.toolbar} />
-        <Divider />
-        <List>{mailFolderListItems}</List>
-        <Divider />
-        <List>{otherMailFolderListItems}</List>
-      </div>
-    );
 
+    const smDown = width === 'sm' || width === 'xs'
 
     return (
       <div className={classes.root2}>
-        <Hidden mdUp>
-          <Drawer
-            variant="temporary"
-            anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-            open={drawer.mobileOpen}
-            onClose={this.handleDrawerToggle}
-            classes={{
-              paper: classes.drawerPaper,
-            }}
-            ModalProps={{
-              keepMounted: true, // Better open performance on mobile.
-            }}
-          >
-            {drawerComp}
-          </Drawer>
-        </Hidden>
-        <Hidden smDown implementation="css">
-          <Drawer
-            variant="permanent"
-            classes={{
-              paper: classNames(classes.drawerPaperOpen, !drawer.open && classes.drawerPaperClose),
-            }}
-            open={drawer.open}
-          >
-            <div className={classes.toolbar}>
-              <IconButton onClick={this.handleDrawerClose}>
-                {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-              </IconButton>
-            </div>
-            {children}
+        <Drawer
+          variant={smDown ? "temporary" : "permanent"}
+          onClose={this.handleDrawerToggle}
+          anchor={smDown ? undefined : (theme.direction === 'rtl' ? 'right' : 'left')}
+          classes={{
+            paper: smDown ? classes.drawerPaper : classNames(classes.drawerPaperOpen, !drawer.open && classes.drawerPaperClose),
+          }}
+          open={smDown ? drawer.mobileOpen : drawer.open}
+          ModalProps={{
+            keepMounted: true, // Better open performance on mobile.
+          }}
+        >
+          {children}
+        </Drawer>
 
-          </Drawer>
-        </Hidden>
-      </div>
+
+      </div >
     );
   }
 }
@@ -178,4 +153,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, { ...drawerActions })(withStyles(styles, { withTheme: true })(ResponsiveDrawer));
+export default connect(mapStateToProps, { ...drawerActions })(withWidth()(withTheme()(withStyles(styles, { withTheme: true })(ResponsiveDrawer))))

@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types';
-import { withStyles } from 'material-ui/styles';
+import { withTheme, withStyles } from 'material-ui/styles';
+import { Helmet } from 'react-helmet';
 import Drawer from 'material-ui/Drawer';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
@@ -15,6 +16,7 @@ import Hidden from 'material-ui/Hidden';
 import Divider from 'material-ui/Divider';
 import MenuIcon from '@material-ui/icons/Menu';
 import drawerActions from '../../store/drawer/actions'
+import withWidth from 'material-ui/utils/withWidth'
 
 const drawerWidth = 240;
 
@@ -113,52 +115,58 @@ class Activity extends React.Component {
   };
 
   render() {
-    const { classes, theme, children, drawer } = this.props;
+    const { classes, theme, children, drawer, title, pageTitle, width } = this.props;
+
+    let headerTitle = ''
+
+    if (typeof title === 'string' || title instanceof String) {
+      headerTitle = title;
+    }
+
+    if (pageTitle) {
+      headerTitle = pageTitle;
+    }
 
     return (
       <div className={classes.root}>
-        <Hidden mdUp>
-          <AppBar className={classes.appBar}>
-            <Toolbar>
-              <IconButton
-                color="inherit"
-                aria-label="open drawer"
-                onClick={this.handleDrawerToggle}
-                className={classes.navIconHide}
-              >
-                <MenuIcon />
-              </IconButton>
-              <Typography variant="title" color="inherit" noWrap>
-                Responsive drawer
+        <Helmet>
+          <meta name="theme-color" content={theme.palette.primary1Color} />
+          <meta name="apple-mobile-web-app-status-bar-style" content={theme.palette.primary1Color} />
+          <meta name="msapplication-navbutton-color" content={theme.palette.primary1Color} />
+          <title>{headerTitle}</title>
+        </Helmet>
+        <AppBar
+          position={(width !== 'sm' && width !== 'xs') ? "absolute" : undefined}
+          className={(width !== 'sm' && width !== 'xs') ? classNames(classes.appBar, drawer.open && classes.appBarShift) : classes.appBar}
+        >
+          <Toolbar disableGutters={!drawer.open}>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              onClick={this.handleDrawerOpen}
+              className={classNames(classes.menuButton, drawer.open && classes.hide)}
+            >
+              <MenuIcon />
+            </IconButton>
+
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              onClick={this.handleDrawerToggle}
+              className={classNames(classes.navIconHide, (width !== 'sm' && width !== 'xs') && classes.hide)}
+            >
+              <MenuIcon />
+            </IconButton>
+
+            <Typography variant="title" color="inherit" noWrap>
+              {title}
             </Typography>
-            </Toolbar>
-          </AppBar>
-        </Hidden>
-        <Hidden smDown implementation="css">
-          <AppBar
-            position="absolute"
-            className={classNames(classes.appBar, drawer.open && classes.appBarShift)}
-          >
-            <Toolbar disableGutters={!drawer.open}>
-              <IconButton
-                color="inherit"
-                aria-label="open drawer"
-                onClick={this.handleDrawerOpen}
-                className={classNames(classes.menuButton, drawer.open && classes.hide)}
-              >
-                <MenuIcon />
-              </IconButton>
-              <Typography variant="title" color="inherit" noWrap>
-                Mini variant drawer
-            </Typography>
-            </Toolbar>
-          </AppBar>
-        </Hidden>
+          </Toolbar>
+        </AppBar>
+
         <main className={classes.content}>
           <div className={classes.toolbar} />
-          <Typography noWrap>
-            {children}
-          </Typography>
+          {children}
         </main>
       </div>
     );
@@ -178,4 +186,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, { ...drawerActions })(withStyles(styles, { withTheme: true })(Activity));
+export default connect(mapStateToProps, { ...drawerActions })(withWidth()(withTheme()(withStyles(styles, { withTheme: true })(Activity))))

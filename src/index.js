@@ -2,9 +2,11 @@ import App from './App'
 
 
 export Activity from './components/Activity'
+export Scrollbar from './components/Scrollbar'
+
 /*
 export ChatMessages from './containers/ChatMessages'
-export Scrollbar from './components/Scrollbar'
+
 export SearchField from './components/SearchField'
 export registerServiceWorker from './registerServiceWorker'
 export withAppConfigs from './withAppConfigs'

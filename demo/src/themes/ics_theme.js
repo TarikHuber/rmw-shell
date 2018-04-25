@@ -16,6 +16,7 @@ export default {
     accent3Color: pinkA100,
     textColor: fullWhite,
     alternateTextColor: '#303030',
-    canvasColor: '#303030'
+    canvasColor: '#303030',
+    type: 'dark'
   }
 }

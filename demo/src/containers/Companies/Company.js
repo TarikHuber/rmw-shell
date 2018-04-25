@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { injectIntl, intlShape } from 'react-intl';
-import muiThemeable from 'material-ui/styles/muiThemeable';
 import { Activity } from '../../../../src'
-import { ResponsiveMenu } from 'material-ui-responsive-menu';
+//import { ResponsiveMenu } from 'material-ui-responsive-menu';
+import { withTheme } from 'material-ui/styles'
 import { setDialogIsOpen } from '../../../../src/store/dialogs/actions'
 import CompanyForm from '../../components/Forms/CompanyForm';
 import { withRouter } from 'react-router-dom';
-import FontIcon from 'material-ui/FontIcon';
-import FlatButton from 'material-ui/FlatButton';
+import Icon from 'material-ui/Icon';
+import Button from 'material-ui/Button';
 import Dialog from 'material-ui/Dialog';
 import { withFirebase } from 'firekit-provider'
 import FireForm from 'fireform'
@@ -64,7 +64,7 @@ class Company extends Component {
       dialogs,
       match,
       submit,
-      muiTheme,
+      theme,
       isGranted,
       firebaseApp
     } = this.props;
@@ -73,12 +73,12 @@ class Company extends Component {
 
 
     const actions = [
-      <FlatButton
+      <Button
         label={intl.formatMessage({ id: 'cancel' })}
         primary={true}
         onClick={this.handleClose}
       />,
-      <FlatButton
+      <Button
         label={intl.formatMessage({ id: 'delete' })}
         secondary={true}
         onClick={this.handleDelete}
@@ -89,14 +89,14 @@ class Company extends Component {
       {
         hidden: (uid === undefined && !isGranted(`create_${form_name}`)) || (uid !== undefined && !isGranted(`edit_${form_name}`)),
         text: intl.formatMessage({ id: 'save' }),
-        icon: <FontIcon className="material-icons" color={muiTheme.palette.canvasColor}>save</FontIcon>,
+        icon: <Icon className="material-icons" color={theme.palette.canvasColor}>save</Icon>,
         tooltip: intl.formatMessage({ id: 'save' }),
         onClick: () => { submit('company') }
       },
       {
         hidden: uid === undefined || !isGranted(`delete_${form_name}`),
         text: intl.formatMessage({ id: 'delete' }),
-        icon: <FontIcon className="material-icons" color={muiTheme.palette.canvasColor}>delete</FontIcon>,
+        icon: <Icon className="material-icons" color={theme.palette.canvasColor}>delete</Icon>,
         tooltip: intl.formatMessage({ id: 'delete' }),
         onClick: () => { setDialogIsOpen('delete_company', true); }
       }
@@ -107,10 +107,7 @@ class Company extends Component {
         iconStyleRight={{ width: '50%' }}
         iconElementRight={
           <div>
-            <ResponsiveMenu
-              iconMenuColor={muiTheme.palette.canvasColor}
-              menuList={menuList}
-            />
+
           </div>
         }
 
@@ -151,7 +148,7 @@ Company.propTypes = {
   dialogs: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   submit: PropTypes.func.isRequired,
-  muiTheme: PropTypes.object.isRequired,
+  theme: PropTypes.object.isRequired,
   isGranted: PropTypes.func.isRequired,
 };
 
@@ -168,4 +165,4 @@ const mapStateToProps = (state) => {
 
 export default connect(
   mapStateToProps, { setDialogIsOpen, change, submit }
-)(injectIntl(withRouter(withFirebase(muiThemeable()(Company)))));
+)(injectIntl(withRouter(withFirebase(withTheme()(Company)))));

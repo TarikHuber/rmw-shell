@@ -1,58 +1,65 @@
 import Avatar from 'material-ui/Avatar'
 import Icon from 'material-ui/Icon'
-import IconButton from 'material-ui/IconButton'
-import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List'
+import List, { ListItem, ListItemSecondaryAction, ListItemText, ListItemAvatar } from 'material-ui/List'
 import Paper from 'material-ui/Paper'
 import React from 'react'
-import { withTheme } from 'material-ui/styles'
+import { withTheme, withStyles } from 'material-ui/styles'
 import withAppConfigs from '../../withAppConfigs'
 import { injectIntl } from 'react-intl'
+import IconButton from 'material-ui/IconButton'
+import Hidden from 'material-ui/Hidden'
+import withWidth from 'material-ui/utils/withWidth'
 
-export const DrawerHeader = ({ theme, intl, auth, setAuthMenuOpen, fetchUser, dialogs, setDialogIsOpen, appConfig }) => {
-  const styles = {
-    header: {
-      padding: 5
-    },
-    header_content: {
-      padding: 5
-    },
-    paper: {
-      backgroundColor: theme.palette.primary2Color,
-      color: theme.palette.alternateTextColor,
-      margin: 0,
-      padding: 0
-    },
-    icon: {
-      width: 48,
-      height: 48,
-      top: 4
-    }
+const styles = theme => ({
+  paper: {
+    backgroundColor: theme.palette.primary.dark,
+    margin: 0,
+    padding: 0
+  },
+  listItem: {
+    color: theme.palette.primary.contrastText
+  },
+  icon: {
+    color: theme.palette.primary.contrastText
   }
 
-  const AppIcon = appConfig.appIcon
+})
 
-  console.log(theme)
-
+export const DrawerHeader = ({ theme, intl, auth, setAuthMenuOpen, fetchUser, dialogs, setDialogIsOpen, appConfig, classes, drawer, setDrawerOpen, width }) => {
   return (
-    <Paper style={styles.paper}>
+    <Paper className={classes.paper}>
       {auth.isAuthorised &&
         <div>
-          <List>
-            <ListItem
-              primary={auth.displayName}
-              secondary={auth.email}
-              /*
-              rightIconButton={
-                <IconButton onClick={() => { setDialogIsOpen('auth_menu', !dialogs.auth_menu) }}>
-                  <Icon className='material-icons' >{dialogs.auth_menu ? 'arrow_drop_up' : 'arrow_drop_down'}</Icon>
-                </IconButton>
+          <List >
+
+            <ListItem>
+              <ListItemAvatar>
+                <Avatar src={auth.photoURL} alt='person' />
+              </ListItemAvatar>
+
+              <Hidden smDown implementation='css'>
+                <ListItemSecondaryAction>
+                  <IconButton onClick={() => { setDrawerOpen(false) }}>
+                    <Icon classes={{ root: classes.icon }} >{theme.direction === 'rtl' ? 'chevron_right' : 'chevron_left'}</Icon>
+                  </IconButton>
+                </ListItemSecondaryAction>
+              </Hidden>
+            </ListItem>
+
+            <ListItem onClick={() => { setDialogIsOpen('auth_menu', !dialogs.auth_menu) }} >
+
+              {!drawer.open && width !== 'sm' && width !== 'xs' && <ListItemAvatar>
+                <Avatar src={auth.photoURL} alt='person' style={{ marginLeft: -7, marginTop: 3 }} />
+              </ListItemAvatar>
               }
-              */
-              style={{ backgroundColor: 'transparent' }}
-              onClick={() => { setDialogIsOpen('auth_menu', !dialogs.auth_menu) }}
-            >
-              <Avatar src={auth.photoURL} alt='person' icon={<Icon >person</Icon>} />
-              <ListItemText primary={auth.displayName} secondary={auth.email} />
+
+              <ListItemText classes={{ primary: classes.listItem, secondary: classes.listItem }} primary={auth.displayName} secondary={auth.email} />
+              {drawer.open && <ListItemSecondaryAction onClick={() => { setDialogIsOpen('auth_menu', !dialogs.auth_menu) }}>
+                <IconButton >
+                  <Icon classes={{ root: classes.icon }} >{dialogs.auth_menu ? 'arrow_drop_up' : 'arrow_drop_down'}</Icon>
+                </IconButton>
+              </ListItemSecondaryAction>
+              }
             </ListItem>
           </List>
         </div>
@@ -70,4 +77,4 @@ export const DrawerHeader = ({ theme, intl, auth, setAuthMenuOpen, fetchUser, di
   )
 }
 
-export default injectIntl(withTheme()(withAppConfigs(DrawerHeader)))
+export default injectIntl(withWidth()(withTheme()(withAppConfigs(withStyles(styles, { withTheme: true })(DrawerHeader)))))

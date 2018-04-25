@@ -4,11 +4,19 @@ import icsTheme from './ics_theme'
 const themes = [
   {
     id: 'light',
-    source: createMuiTheme()
+    source: createMuiTheme({
+      palette: {
+        type: 'light'
+      }
+    })
   },
   {
     id: 'dark',
-    source: createMuiTheme()
+    source: createMuiTheme({
+      palette: {
+        type: 'dark'
+      }
+    })
   },
   {
     id: 'ics',

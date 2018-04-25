@@ -5,10 +5,10 @@ import { injectIntl, intlShape } from 'react-intl';
 import firebase from 'firebase'
 import { Cropper } from 'react-image-cropper';
 import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
+import Button from 'material-ui/Button';
 import { withFirebase } from 'firekit-provider';
-import CircularProgress from 'material-ui/CircularProgress';
-import LinearProgress from 'material-ui/LinearProgress';
+import { CircularProgress } from 'material-ui/Progress';
+import { LinearProgress } from 'material-ui/Progress';
 
 const styles = {
   container: {
@@ -91,13 +91,13 @@ export class ImageCropDialog extends Component {
     const { intl, open, title } = this.props;
 
     const actions = [
-      <FlatButton
+      <Button
         disabled={!this.state.src || this.state.isLoading || this.state.isUploading}
         label={intl.formatMessage({ id: 'submit' })}
         primary={true}
         onClick={() => { this.handlePhotoURLUpload(this.cropper.crop()) }}
       />,
-      <FlatButton
+      <Button
         label={intl.formatMessage({ id: 'cancel' })}
         secondary={true}
         onClick={this.handleClose}
