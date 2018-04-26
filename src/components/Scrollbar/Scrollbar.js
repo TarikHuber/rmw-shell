@@ -6,7 +6,7 @@ const Scrollbar = (props) => {
   const { theme, ...rest } = props
 
   const thumbStyle = {
-    backgroundColor: theme.palette.primary1Color,
+    backgroundColor: theme.palette.primary.dark,
     borderRadius: 3
   }
 

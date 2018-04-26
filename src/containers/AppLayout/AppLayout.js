@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-//import Scrollbar from '../../components/Scrollbar'
+import Scrollbar from '../../components/Scrollbar'
 import getAppRoutes from '../../components/AppRoutes'
 //import withTheme from 'material-ui/styles'
 import withAppConfigs from '../../withAppConfigs'
@@ -124,7 +124,9 @@ export class AppLayout extends Component {
         <div className={classes.root}>
           <ResponsiveDrawer >
             <Header />
-            <DrawerContent path={path} history={history} />
+            <Scrollbar>
+              <DrawerContent path={path} history={history} />
+            </Scrollbar>
           </ResponsiveDrawer>
           <div style={{ width: '100%', height: '100%' }}>
             <Switch >
