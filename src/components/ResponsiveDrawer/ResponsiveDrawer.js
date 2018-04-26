@@ -14,7 +14,6 @@ import IconButton from 'material-ui/IconButton';
 import Hidden from 'material-ui/Hidden';
 import Divider from 'material-ui/Divider';
 import MenuIcon from '@material-ui/icons/Menu';
-import { mailFolderListItems, otherMailFolderListItems } from './tileData';
 import drawerActions from '../../store/drawer/actions'
 import withWidth from 'material-ui/utils/withWidth'
 
@@ -116,14 +115,15 @@ class ResponsiveDrawer extends React.Component {
 
     const smDown = width === 'sm' || width === 'xs'
 
+
     return (
-      <div className={classes.root2}>
+      <div>
         <Drawer
           variant={smDown ? "temporary" : "permanent"}
           onClose={this.handleDrawerToggle}
           anchor={smDown ? undefined : (theme.direction === 'rtl' ? 'right' : 'left')}
           classes={{
-            paper: smDown ? classes.drawerPaper : classNames(classes.drawerPaperOpen, !drawer.open && classes.drawerPaperClose),
+            paper: smDown ? classes.drawerPaper : classNames(classes.drawerPaperOpen, !drawer.open && classes.drawerPaperClose, !drawer.useMinified && classes.hide),
           }}
           open={smDown ? drawer.mobileOpen : drawer.open}
           ModalProps={{
@@ -132,9 +132,8 @@ class ResponsiveDrawer extends React.Component {
         >
           {children}
         </Drawer>
+      </div>
 
-
-      </div >
     );
   }
 }

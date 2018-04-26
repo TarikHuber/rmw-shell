@@ -14,4 +14,11 @@ export function setDrawerMobileOpen(mobileOpen) {
   }
 }
 
-export default { setDrawerMobileOpen, setDrawerOpen }
+export function setDrawerUseMinified(useMinified) {
+  return {
+    type: types.ON_DRAWER_USE_MINIFIED_CHANGED,
+    useMinified
+  }
+}
+
+export default { setDrawerMobileOpen, setDrawerOpen, setDrawerUseMinified }

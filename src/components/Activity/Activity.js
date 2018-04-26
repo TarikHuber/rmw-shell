@@ -127,6 +127,8 @@ class Activity extends React.Component {
       headerTitle = pageTitle;
     }
 
+    const smDown = width === 'sm' || width === 'xs'
+
     return (
       <div className={classes.root}>
         <Helmet>
@@ -143,21 +145,11 @@ class Activity extends React.Component {
             <IconButton
               color="inherit"
               aria-label="open drawer"
-              onClick={this.handleDrawerOpen}
-              className={classNames(classes.menuButton, drawer.open && classes.hide)}
+              onClick={!drawer.open ? this.handleDrawerOpen : this.handleDrawerToggle}
+              className={classNames(!smDown && classes.menuButton, drawer.open && !smDown && classes.hide)}
             >
               <MenuIcon />
             </IconButton>
-
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              onClick={this.handleDrawerToggle}
-              className={classNames(classes.navIconHide, (width !== 'sm' && width !== 'xs') && classes.hide)}
-            >
-              <MenuIcon />
-            </IconButton>
-
             <Typography variant="title" color="inherit" noWrap>
               {title}
             </Typography>

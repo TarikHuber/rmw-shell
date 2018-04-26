@@ -21,11 +21,27 @@ const styles = theme => ({
   },
   icon: {
     color: theme.palette.primary.contrastText
+  },
+  button: {
+    width: 20
   }
 
 })
 
-export const DrawerHeader = ({ theme, intl, auth, setAuthMenuOpen, fetchUser, dialogs, setDialogIsOpen, appConfig, classes, drawer, setDrawerOpen, width }) => {
+export const DrawerHeader = (props) => {
+  const {
+    theme,
+    intl,
+    auth,
+    dialogs,
+    setDialogIsOpen,
+    classes,
+    drawer,
+    setDrawerOpen,
+    setDrawerUseMinified,
+    width
+  } = props
+
   return (
     <Paper className={classes.paper}>
       {auth.isAuthorised &&
@@ -39,6 +55,9 @@ export const DrawerHeader = ({ theme, intl, auth, setAuthMenuOpen, fetchUser, di
 
               <Hidden smDown implementation='css'>
                 <ListItemSecondaryAction>
+                  <IconButton className={classes.button} onClick={() => { setDrawerUseMinified(false) }}>
+                    <Icon classes={{ root: classes.icon }} >{theme.direction === 'rtl' ? 'last_page' : 'first_page'}</Icon>
+                  </IconButton>
                   <IconButton onClick={() => { setDrawerOpen(false) }}>
                     <Icon classes={{ root: classes.icon }} >{theme.direction === 'rtl' ? 'chevron_right' : 'chevron_left'}</Icon>
                   </IconButton>
