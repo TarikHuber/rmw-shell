@@ -23,7 +23,7 @@ const styles = theme => ({
     color: theme.palette.primary.contrastText
   },
   button: {
-    width: 20
+    width: 15
   }
 
 })
@@ -56,10 +56,10 @@ export const DrawerHeader = (props) => {
               <Hidden smDown implementation='css'>
                 <ListItemSecondaryAction>
                   <IconButton className={classes.button} onClick={() => { setDrawerUseMinified(false) }}>
-                    <Icon classes={{ root: classes.icon }} >{theme.direction === 'rtl' ? 'last_page' : 'first_page'}</Icon>
+                    <Icon classes={{ root: classes.icon }} >{theme.direction === 'rtl' ? 'chevron_right' : 'chevron_left'}</Icon>
                   </IconButton>
                   <IconButton onClick={() => { setDrawerOpen(false) }}>
-                    <Icon classes={{ root: classes.icon }} >{theme.direction === 'rtl' ? 'chevron_right' : 'chevron_left'}</Icon>
+                    <Icon classes={{ root: classes.icon }} >chrome_reader_mode</Icon>
                   </IconButton>
                 </ListItemSecondaryAction>
               </Hidden>

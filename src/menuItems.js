@@ -117,16 +117,6 @@ const getMenuItems = (props) => {
           primarySwitchsNestedList: true,
           leftIcon: <Icon className='material-icons' >language</Icon>,
           nestedItems: localeItems
-        },
-        {
-          primaryText: intl.formatMessage({ id: 'responsive' }),
-          leftIcon: <Icon className='material-icons' >chrome_reader_mode</Icon>,
-          rightSwitch: <Switch
-            Switchd={responsiveDrawer.responsive}
-            onSwitch={
-              () => { setResponsive(!responsiveDrawer.responsive) }
-            }
-          />
         }
       ]
     }
