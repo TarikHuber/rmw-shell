@@ -35,6 +35,12 @@ const styles = theme => ({
     marginLeft: 12,
     marginRight: 36,
   },
+  flexRoot: {
+    flexGrow: 1,
+  },
+  flex: {
+    flex: 1,
+  },
   navIconHide: {
     [theme.breakpoints.up('md')]: {
       display: 'none',
@@ -91,6 +97,9 @@ const styles = theme => ({
   hide: {
     display: 'none',
   },
+  grow: {
+    flex: '1 1 auto',
+  },
 });
 
 class Activity extends React.Component {
@@ -115,16 +124,16 @@ class Activity extends React.Component {
   };
 
   render() {
-    const { classes, theme, children, drawer, title, pageTitle, width } = this.props;
+    const { classes, theme, children, drawer, title, pageTitle, width, appBarContent } = this.props;
 
     let headerTitle = ''
 
     if (typeof title === 'string' || title instanceof String) {
-      headerTitle = title;
+      headerTitle = title
     }
 
     if (pageTitle) {
-      headerTitle = pageTitle;
+      headerTitle = pageTitle
     }
 
     const smDown = width === 'sm' || width === 'xs'
@@ -141,7 +150,7 @@ class Activity extends React.Component {
           position={(width !== 'sm' && width !== 'xs') ? "absolute" : undefined}
           className={(width !== 'sm' && width !== 'xs') ? classNames(classes.appBar, drawer.open && classes.appBarShift) : classes.appBar}
         >
-          <Toolbar disableGutters={!drawer.open}>
+          <Toolbar disableGutters={!drawer.open} >
             <IconButton
               color="inherit"
               aria-label="open drawer"
@@ -150,9 +159,12 @@ class Activity extends React.Component {
             >
               <MenuIcon />
             </IconButton>
-            <Typography variant="title" color="inherit" noWrap>
-              {title}
+            <Typography variant="title" color="inherit" noWrap >
+              {headerTitle}
             </Typography>
+            <div className={classes.grow} />
+            {appBarContent}
+
           </Toolbar>
         </AppBar>
 

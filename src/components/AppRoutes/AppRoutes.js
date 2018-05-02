@@ -11,10 +11,16 @@ const getAppRoutes = (firebaseLoader) => {
 
   const AsyncSignIn = MyLoadable({ loader: () => import('../../containers/SignIn/SignIn') });
   const AsyncPageNotFound = MyLoadable({ loader: () => import('../../components/PageNotFound/PageNotFound') });
+  //const AsyncUsers = MyLoadable({ loader: () => import('../../containers/Users/Users') }, [AsyncUser]);
+  const AsyncUsers = MyLoadable({ loader: () => import('../../containers/Users/Users') });
+
 
   return [
     <RestrictedRoute type='public' path="/signin" component={AsyncSignIn} />,
+    <RestrictedRoute type='private' path="/users" exact component={AsyncUsers} />,
+    <RestrictedRoute type='private' path="/users/:select" exact component={AsyncUsers} />,
     <Route component={AsyncPageNotFound} />,
+
   ]
 
   /*

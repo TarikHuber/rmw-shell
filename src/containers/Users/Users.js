@@ -1,22 +1,25 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import muiThemeable from 'material-ui/styles/muiThemeable'
+import { withTheme, withStyles } from 'material-ui/styles'
 import { injectIntl, intlShape } from 'react-intl'
-import { List, ListItem } from 'material-ui/List'
+import List, { ListItem, ListItemText } from 'material-ui/List'
 import Divider from 'material-ui/Divider'
 import Avatar from 'material-ui/Avatar'
-import FontIcon from 'material-ui/FontIcon'
+import Icon from 'material-ui/Icon'
 import { withRouter } from 'react-router-dom'
 import { withFirebase } from 'firekit-provider'
 import ReactList from 'react-list'
 import { FilterDrawer, filterSelectors, filterActions } from 'material-ui-filter'
 import { GoogleIcon, FacebookIcon, GitHubIcon, TwitterIcon } from '../../components/Icons'
-import Activity from '../../containers/Activity'
+import Activity from '../../components/Activity'
 import Scrollbar from '../../components/Scrollbar'
-import SearchField from '../../containers/SearchField'
-import { ResponsiveMenu } from 'material-ui-responsive-menu'
+import SearchField from '../../components/SearchField'
+//import { ResponsiveMenu } from 'material-ui-responsive-menu'
 import { getList, isLoading } from 'firekit'
+import Toolbar from 'material-ui/Toolbar';
+import IconButton from 'material-ui/IconButton';
+import Tooltip from 'material-ui/Tooltip'
 
 const path = `users`
 
@@ -29,8 +32,8 @@ export class Users extends Component {
   }
 
   getProviderIcon = (provider) => {
-    const { muiTheme } = this.props;
-    const color = muiTheme.palette.primary2Color;
+    const { theme } = this.props;
+    const color = 'primary';
 
     switch (provider.providerId) {
       case 'google.com':
@@ -42,9 +45,9 @@ export class Users extends Component {
       case 'github.com':
         return <GitHubIcon color={color} />
       case 'phone':
-        return <FontIcon className="material-icons" color={color} >phone</FontIcon>
+        return <Icon color={color} >phone</Icon>
       case 'password':
-        return <FontIcon className="material-icons" color={color} >email</FontIcon>
+        return <Icon color={color} >email</Icon>
       default:
         return undefined
     }
@@ -57,59 +60,41 @@ export class Users extends Component {
 
 
   renderItem = (index, key) => {
-    const { list, intl, muiTheme } = this.props
+    const { list, intl, theme } = this.props
     const user = list[index].val
 
     return <div key={key}>
+
       <ListItem
         key={key}
-        id={key}
         onClick={() => { this.handleRowClick(list[index]) }}
-        leftAvatar={<Avatar style={{ marginTop: 10 }} src={user.photoURL} alt="person" icon={<FontIcon className="material-icons" >person</FontIcon>} />}
-        rightIcon={<FontIcon style={{ marginTop: 22 }} className="material-icons" color={user.connections ? muiTheme.palette.primary1Color : muiTheme.palette.disabledColor}>offline_pin</FontIcon>}>
+        id={key}>
+        {user.photoURL && <Avatar src={user.photoURL} alt='person' />}
+        {!user.photoURL && <Avatar> <Icon > person </Icon>  </Avatar>}
+        <ListItemText primary={user.displayName} secondary={(!user.connections && !user.lastOnline) ? intl.formatMessage({ id: 'offline' }) : intl.formatMessage({ id: 'online' })} />
 
-        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'stretch' }}>
-          <div style={{ display: 'flex', flexDirection: 'column', width: 120 }}>
-            <div>
-              {user.displayName}
-            </div>
-            <div
-              style={{
-                fontSize: 14,
-                lineHeight: '16px',
-                height: 16,
-                margin: 0,
-                marginTop: 4,
-                color: muiTheme.listItem.secondaryTextColor,
-              }}>
-              {(!user.connections && !user.lastOnline) ? intl.formatMessage({ id: 'offline' }) : intl.formatMessage({ id: 'online' })}
-              {' '}
-              {(!user.connections && user.lastOnline) ? intl.formatRelative(new Date(user.lastOnline)) : undefined}
-            </div>
-          </div>
-
-          <div style={{ marginLeft: 20, display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
-            {user.providerData && user.providerData.map(
-              (p, i) => {
-                return (
-                  <div key={i} style={{ paddingLeft: 10 }}>
-                    {this.getProviderIcon(p)}
-                  </div>
-                )
-              })
-            }
-          </div>
-        </div>
-
+        <Toolbar >
+          {user.providerData && user.providerData.map(
+            (p, i) => {
+              return (
+                <div key={i} >
+                  {this.getProviderIcon(p)}
+                </div>
+              )
+            })
+          }
+        </Toolbar>
+        <Icon color={user.connections ? 'primary' : 'disabled'}>offline_pin</Icon>
       </ListItem>
       <Divider inset={true} />
     </div>
+
   }
 
   render() {
     const {
       list,
-      muiTheme,
+      theme,
       setSearch,
       intl,
       setFilterIsOpen,
@@ -120,7 +105,7 @@ export class Users extends Component {
     const menuList = [
       {
         text: intl.formatMessage({ id: 'open_filter' }),
-        icon: <FontIcon className="material-icons" color={hasFilters ? muiTheme.palette.accent1Color : muiTheme.palette.canvasColor}>filter_list</FontIcon>,
+        icon: <Icon className="material-icons" color={hasFilters ? theme.palette.accent1Color : theme.palette.canvasColor}>filter_list</Icon>,
         tooltip: intl.formatMessage({ id: 'open_filter' }),
         onClick: () => { setFilterIsOpen('users', true) }
       }
@@ -140,6 +125,26 @@ export class Users extends Component {
 
     return (
       <Activity
+        title={'test'}
+        appBarContent={
+          <div style={{ display: 'flex' }}>
+
+            <SearchField
+              filterName={'users'}
+            />
+
+
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              onClick={() => { setFilterIsOpen('users', true) }}
+            >
+              <Icon className="material-icons" color={hasFilters ? theme.palette.accent1Color : theme.palette.canvasColor}>filter_list</Icon>
+            </IconButton>
+
+          </div>
+        }
+
         iconStyleLeft={{ width: 'auto' }}
         iconStyleRight={{ width: '100%', textAlign: 'center', marginLeft: 0 }}
         iconElementRight={
@@ -151,15 +156,12 @@ export class Users extends Component {
               />
             </div>
             <div style={{ position: 'absolute', right: 10, width: 100 }}>
-              <ResponsiveMenu
-                iconMenuColor={muiTheme.palette.canvasColor}
-                menuList={menuList}
-              />
+
             </div>
           </div>
         }
         isLoading={isLoading}>
-        <div style={{ height: '100%', overflow: 'none', backgroundColor: muiTheme.palette.canvasColor }}>
+        <div style={{ height: '100%', overflow: 'none', backgroundColor: theme.palette.canvasColor }}>
           <Scrollbar>
             <List id='test' ref={field => this.list = field}>
               <ReactList
@@ -173,7 +175,7 @@ export class Users extends Component {
         <FilterDrawer
           name={'users'}
           fields={filterFields}
-          formatMessage={intl.formatMessage}
+        //formatMessage={intl.formatMessage}
         />
       </Activity>
     )
@@ -183,7 +185,7 @@ export class Users extends Component {
 Users.propTypes = {
   users: PropTypes.array,
   intl: intlShape.isRequired,
-  muiTheme: PropTypes.object.isRequired,
+  theme: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
 }
 
@@ -208,4 +210,4 @@ const mapStateToProps = (state, ownProps) => {
 
 export default connect(
   mapStateToProps, { ...filterActions }
-)(injectIntl(muiThemeable()(withFirebase(withRouter(Users)))));
+)(injectIntl(withTheme()(withFirebase(withRouter(Users)))));

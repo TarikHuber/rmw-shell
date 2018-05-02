@@ -113,7 +113,7 @@ class SelectableMenuList extends Component {
 
           {item.nestedItems &&
             <ListItemSecondaryAction>
-              <Icon classes={{ root: classes.icon }}>keyboard_arrow_right</Icon>
+              <Icon color={'action'}>keyboard_arrow_right</Icon>
             </ListItemSecondaryAction>
           }
 
@@ -129,8 +129,6 @@ class SelectableMenuList extends Component {
     const { items, onIndexChange, index } = this.props
 
     const list = this.state.previousItems && this.state.previousItems.length > 0 ? this.state.items : items
-
-    console.log(this.state)
 
     return (
       <List

@@ -6,7 +6,7 @@ const themes = [
     id: 'light',
     source: createMuiTheme({
       palette: {
-        type: 'light'
+        // type: 'light'
       }
     })
   },

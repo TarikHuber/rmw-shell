@@ -5,7 +5,7 @@ export const themes = [
     id: 'light',
     source: createMuiTheme({
       palette: {
-        type: 'dark'
+        type: 'light'
       }
     })
   },
