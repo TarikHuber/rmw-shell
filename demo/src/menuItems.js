@@ -20,19 +20,13 @@ const getMenuItems = (props) => {
 
   const isAuthorised = auth.isAuthorised
 
-
   const themeItems = allThemes.map((t) => {
     return {
       value: undefined,
       visible: true,
       primaryText: intl.formatMessage({ id: t.id }),
       onClick: () => { updateTheme(t.id) },
-      rightIcon: <Icon
-        className='material-icons'
-      //color={t.id === theme ? muiTheme.palette.primary1Color : undefined}
-      >
-        style
-      </Icon >
+      leftIcon: <Icon >style</Icon>
     }
   })
 
@@ -42,12 +36,7 @@ const getMenuItems = (props) => {
       visible: true,
       primaryText: intl.formatMessage({ id: l.locale }),
       onClick: () => { updateLocale(l.locale) },
-      rightIcon: <Icon
-        className='material-icons'
-      //color={l.locale === locale ? muiTheme.palette.primary1Color : undefined}
-      >
-        language
-      </Icon >
+      leftIcon: <Icon >language</Icon>
     }
   })
 
@@ -166,7 +155,6 @@ const getMenuItems = (props) => {
       ]
     }
   ]
-
 }
 
 export default getMenuItems

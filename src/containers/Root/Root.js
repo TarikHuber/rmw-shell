@@ -149,6 +149,8 @@ const mapStateToProps = (state, ownProps) => {
 
   const source = getThemeSource(theme, appConfig.themes);
   const messages = { ...(getLocaleMessages(locale, locales)), ...(getLocaleMessages(locale, appConfig.locales)) }
+
+  console.log(createMuiTheme(source))
   const muiTheme = createMuiTheme(source);
 
   return {
