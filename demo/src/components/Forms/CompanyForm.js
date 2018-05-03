@@ -122,7 +122,7 @@ class Form extends Component {
               name="description"
               disabled={!initialized}
               component={TextField}
-              multiLine={true}
+              multiline={true}
               rows={2}
               placeholder={intl.formatMessage({ id: 'description_hint' })}
               label={intl.formatMessage({ id: 'description_label' })}
