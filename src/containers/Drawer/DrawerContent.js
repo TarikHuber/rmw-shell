@@ -7,6 +7,7 @@ import { DrawerContent } from '../../components/Drawer'
 import { setDialogIsOpen } from '../../store/dialogs/actions'
 import isGranted, { isAnyGranted } from '../../utils/auth'
 import { userLogout } from '../../store/auth/actions'
+import drawerActions from '../../store/drawer/actions'
 
 DrawerContent.propTypes = {
   responsiveDrawer: PropTypes.object.isRequired,
@@ -28,5 +29,5 @@ const mapStateToProps = (state) => {
 
 export default connect(
   mapStateToProps,
-  { setResponsive, setDrawerOpen, updateTheme, updateLocale, setDialogIsOpen, userLogout }
+  { setResponsive, setDrawerOpen, updateTheme, updateLocale, setDialogIsOpen, userLogout, ...drawerActions }
 )(DrawerContent)

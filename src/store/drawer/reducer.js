@@ -3,7 +3,7 @@ import * as types from './types'
 const initialState = {
   mobileOpen: false,
   open: false,
-  useMinified: true
+  useMinified: false
 }
 
 export default function drawer(state = initialState, action) {
