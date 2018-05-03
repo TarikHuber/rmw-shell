@@ -23,9 +23,9 @@ export const LoadingComponent = (props) => {
     // Reload page on first failed load
     if (window.location.href.indexOf('isReload') === -1) {
       if (window.location.href.indexOf('isReload') === -1) {
-        window.location.href = window.location.href + '?isReload=1'
+        // window.location.href = window.location.href + '?isReload=1'
       } else {
-        window.location.href = window.location.href + '&isReload=1'
+        // window.location.href = window.location.href + '&isReload=1'
       }
     }
 

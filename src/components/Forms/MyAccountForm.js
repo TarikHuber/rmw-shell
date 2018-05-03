@@ -10,7 +10,7 @@ import { AvatarImageField } from '../ReduxFormFields'
 import withAppConfigs from '../../withAppConfigs'
 
 class MyAccountForm extends Component {
-  render() {
+  render () {
     const {
       handleSubmit,
       intl,
@@ -85,6 +85,7 @@ class MyAccountForm extends Component {
             <div>
               <Field
                 name='email'
+                autocomplete='off'
                 disabled={!initialized}
                 component={TextField}
                 hintText={intl.formatMessage({ id: 'email' })}

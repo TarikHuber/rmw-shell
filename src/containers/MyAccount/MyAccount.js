@@ -2,42 +2,88 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { injectIntl, intlShape } from 'react-intl';
-import Activity from '../../containers/Activity'
+import Activity from '../../components/Activity'
 import { setSimpleValue } from '../../store/simpleValues/actions';
-import MyAccountForm from '../../components/Forms/MyAccountForm';
 import { withRouter } from 'react-router-dom';
-import FontIcon from 'material-ui/FontIcon';
-import FlatButton from 'material-ui/FlatButton';
-import Dialog from 'material-ui/Dialog';
+import Icon from 'material-ui/Icon';
+import Button from 'material-ui/Button';
+import { withStyles } from 'material-ui/styles';
+import classNames from 'classnames';
+import Dialog, {
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from 'material-ui/Dialog';
 import { withFirebase } from 'firekit-provider'
 import FireForm from 'fireform'
 import { GoogleIcon, FacebookIcon, GitHubIcon, TwitterIcon } from '../../components/Icons';
-import muiThemeable from 'material-ui/styles/muiThemeable';
+import { withTheme } from 'material-ui/styles'
 import { change, submit, formValueSelector } from 'redux-form';
-import { ResponsiveMenu } from 'material-ui-responsive-menu'
+import IconButton from 'material-ui/IconButton';
 import { setDialogIsOpen } from '../../store/dialogs/actions'
+import AvatarImageField from '../../components/ReduxFormFields/AvatarImageField'
+import withAppConfigs from '../../withAppConfigs'
+import Avatar from 'material-ui/Avatar';
+import TextField from 'material-ui/TextField';
+import Input, { InputLabel, InputAdornment } from 'material-ui/Input';
+import { FormControl, FormHelperText } from 'material-ui/Form';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import { ImageCropDialog } from '../../containers/ImageCropDialog'
 
 const path = '/users/'
 const form_name = 'my_account'
 
+const styles = theme => ({
+  avatar: {
+    margin: 10,
+  },
+  bigAvatar: {
+    width: 120,
+    height: 120,
+  },
+  margin: {
+    margin: theme.spacing.unit,
+  },
+  withoutLabel: {
+    marginTop: theme.spacing.unit * 3,
+  },
+  textField: {
+    //flexBasis: 200,
+  },
+})
+
 export class MyAccount extends Component {
 
+  state = {
+    values: {
+      displayName: '',
+      email: '',
+      photoURL: '',
+      password: '',
+      newPassword: '',
+      confirmPassword: ''
+    },
+    errors: {}
+  }
+
   getProviderIcon = (p) => {
-    const { muiTheme } = this.props
-    const color = muiTheme.palette.primary2Color
+    const { theme } = this.props
+    const color = 'primary'
 
     switch (p) {
       case 'google.com':
-        return <GoogleIcon color={color} />
+        return <GoogleIcon />
 
       case 'facebook.com':
-        return <FacebookIcon color={color} />
+        return <FacebookIcon />
 
       case 'twitter.com':
-        return <TwitterIcon color={color} />
+        return <TwitterIcon />
 
       case 'github.com':
-        return <GitHubIcon color={color} />
+        return <GitHubIcon />
 
       default:
         return undefined
@@ -53,15 +99,26 @@ export class MyAccount extends Component {
   }
 
   handlePhotoUploadSuccess = (snapshot) => {
-    const { setSimpleValue, change } = this.props;
-    change(form_name, 'photoURL', snapshot.downloadURL);
-    setSimpleValue('new_company_photo', undefined);
+    const { setSimpleValue } = this.props;
+
+    this.setState({ values: { ...this.state.values, photoURL: snapshot.downloadURL } }, () => {
+
+      console.log('should submit')
+      this.submit()
+    })
+
+    //setSimpleValue('new_user_photo', undefined);
   }
 
   handleUserDeletion = () => {
     const { change, submit } = this.props;
-    change(form_name, 'delete_user', true);
-    submit(form_name)
+
+    //submit(form_name)
+  }
+
+  handleValueChange = (name, value) => {
+
+    return this.setState({ values: { ...this.state.values, [name]: value } }, () => { this.validate() })
   }
 
   getProvider = (firebase, provider) => {
@@ -97,7 +154,7 @@ export class MyAccount extends Component {
       } else if (this.isLinkedWithProvider('password') && values) {
         const credential = firebase.auth.EmailAuthProvider.credential(
           auth.email,
-          values.old_password
+          values.password
         )
         firebaseApp.auth().currentUser.reauthenticateWithCredential(credential)
           .then(() => {
@@ -155,9 +212,10 @@ export class MyAccount extends Component {
   }
 
 
-  onSubmit = (values, dispatch, props) => {
-    const { auth, firebaseApp, authStateChanged, authError } = this.props;
+  submit = () => {
+    const { auth, firebaseApp, authStateChanged, authError, setSimpleValue } = this.props;
 
+    const values = this.state.values
 
     const simpleChange = (values.displayName && values.displayName.localeCompare(auth.displayName)) ||
       (values.photoURL && values.photoURL.localeCompare(auth.photoURL));
@@ -202,10 +260,10 @@ export class MyAccount extends Component {
     }
 
     //Change password
-    if (values.new_password) {
+    if (values.newPassword) {
 
       this.reauthenticateUser(values, () => {
-        firebaseApp.auth().currentUser.updatePassword(values.new_password).then(() => {
+        firebaseApp.auth().currentUser.updatePassword(values.newPassword).then(() => {
           firebaseApp.auth().signOut();
         }, e => {
           authError(e)
@@ -220,6 +278,8 @@ export class MyAccount extends Component {
         });
       })
     }
+
+    setSimpleValue('new_user_photo', undefined);
 
     // We manage the data saving above
     return false;
@@ -253,10 +313,11 @@ export class MyAccount extends Component {
   }
 
 
-  validate = (values) => {
+  validate = () => {
     const { auth } = this.props;
     const providerId = auth.providerData[0].providerId;
     const errors = {}
+    const values = this.state.values
 
     if (!values.displayName) {
       errors.displayName = 'Required'
@@ -266,24 +327,55 @@ export class MyAccount extends Component {
       errors.email = 'Required'
     } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
       errors.email = 'Invalid email address'
-    } else if (!values.old_password && providerId === 'password' && auth.email.localeCompare(values.email)) {
-      errors.old_password = 'For email change enter your password'
+    } else if (!values.password && providerId === 'password' && auth.email.localeCompare(values.email)) {
+      errors.password = 'For email change enter your password'
     }
 
-    if (values.new_password) {
-      if (values.new_password.length < 6) {
-        errors.new_password = 'Password should be at least 6 characters'
-      } else if (values.new_password.localeCompare(values.new_password_confirmation)) {
-        errors.new_password = 'Must be equal'
-        errors.new_password_confirmation = 'Must be equal'
+    if (values.newPassword) {
+      if (values.newPassword.length < 6) {
+        errors.newPassword = 'Password should be at least 6 characters'
+      } else if (values.newPassword.localeCompare(values.confirmPassword)) {
+        errors.newPassword = 'Must be equal'
+        errors.confirmPassword = 'Must be equal'
+      }
+
+      if (!values.password) {
+        errors.password = 'Required'
       }
 
     }
 
+    this.setState({ errors })
 
-    return errors
   }
 
+  canSave = () => {
+
+    const { auth } = this.props
+    const values = this.state.values
+
+    if (Object.keys(this.state.errors).length) {
+      return false
+    }
+
+    if (values.displayName !== auth.displayName || values.email !== auth.email || values.photoURL !== auth.photoURL) {
+      return true
+    }
+
+    if (values.newPassword) {
+      return true
+    }
+
+    return false
+
+  }
+
+  componentDidMount() {
+    const { auth } = this.props
+    const { displayName, email, photoURL } = auth
+
+    this.setState({ values: { ...this.state.values, displayName, email, photoURL } })
+  }
 
   render() {
     const {
@@ -292,79 +384,236 @@ export class MyAccount extends Component {
       setSimpleValue,
       delete_user,
       auth,
-      muiTheme,
+      theme,
       submit,
       firebaseApp,
-      setDialogIsOpen
+      setDialogIsOpen,
+      appConfig,
+      classes,
+      new_user_photo
     } = this.props;
 
-    const actions = [
-      <FlatButton
-        label={intl.formatMessage({ id: 'cancel' })}
-        primary={true}
-        onClick={this.handleClose}
-      />,
-      <FlatButton
-        label={intl.formatMessage({ id: 'delete' })}
-        secondary={true}
-        onClick={this.handleDelete}
-      />,
-    ]
-
-    const menuList = [
-      {
-        hidden: auth.uid === undefined,
-        text: intl.formatMessage({ id: 'save' }),
-        icon: <FontIcon className="material-icons" color={muiTheme.palette.canvasColor}>save</FontIcon>,
-        tooltip: intl.formatMessage({ id: 'save' }),
-        onClick: () => submit('my_account')
-      },
-      {
-        hidden: auth.uid === undefined,
-        text: intl.formatMessage({ id: 'delete' }),
-        icon: <FontIcon className="material-icons" color={muiTheme.palette.canvasColor}>delete</FontIcon>,
-        tooltip: intl.formatMessage({ id: 'delete' }),
-        onClick: () => setSimpleValue('delete_user', true)
-      }
-    ]
+    const showPasswords = this.isLinkedWithProvider('password')
 
     return (
       <Activity
         iconStyleRight={{ width: '50%' }}
-        iconElementRight={
-          <ResponsiveMenu
-            iconMenuColor={muiTheme.palette.canvasColor}
-            menuList={menuList}
-          />
+        appBarContent={
+          <div style={{ display: 'flex' }}>
+            {auth.uid &&
+              <IconButton
+                color="inherit"
+                disabled={!this.canSave()}
+                aria-label="open drawer"
+                onClick={() => { this.submit() }}
+              >
+                <Icon className="material-icons" >save</Icon>
+              </IconButton>
+            }
+
+            {auth.uid &&
+              <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                onClick={() => setSimpleValue('delete_user', true)}
+              >
+                <Icon className="material-icons" >delete</Icon>
+              </IconButton>
+            }
+          </ div>
         }
         title={intl.formatMessage({ id: 'my_account' })}>
 
         {
           auth.uid &&
-          <div style={{ margin: 15, display: 'flex' }}>
-            <MyAccountForm
-              validate={this.validate}
-              linkUserWithPopup={this.linkUserWithPopup}
-              isLinkedWithProvider={this.isLinkedWithProvider}
-              onSubmitSuccess={(values) => { history.push('/dashboard'); setDialogIsOpen('auth_menu', false) }}
-              onSubmit={this.onSubmit}
-              getProviderIcon={this.getProviderIcon}
-              initialValues={auth}
-              handleEmailVerificationsSend={this.handleEmailVerificationsSend}
-              handlePhotoUploadSuccess={this.handlePhotoUploadSuccess}
-              handleUserDeletion={this.handleUserDeletion}
-              {...this.props}
-            />
+          <div style={{ margin: 15, display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
+
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <Avatar
+                alt={auth.displayName}
+                src={this.state.values.photoURL}
+                className={classNames(classes.avatar, classes.bigAvatar)}
+              />
+
+              <IconButton color="primary" onClick={() => { setSimpleValue('new_user_photo', true) }}>
+                <Icon>photo_camera</Icon>
+              </IconButton>
+
+
+              <div>
+                {
+                  appConfig.firebase_providers.map((p, i) => {
+                    if (p !== 'email' && p !== 'password' && p !== 'phone') {
+                      return <IconButton
+                        key={i}
+                        disabled={this.isLinkedWithProvider(p)}
+                        color='primary'
+                        onClick={() => { this.linkUserWithPopup(p) }}
+                      >
+                        {this.getProviderIcon(p)}
+                      </IconButton>
+                    } else {
+                      return <div key={i} />
+                    }
+                  })
+                }
+              </div>
+            </div>
+
+            <div style={{ margin: 15, display: 'flex', flexDirection: 'column' }}>
+
+              <FormControl className={classNames(classes.margin, classes.textField)} error={!!this.state.errors.displayName}>
+                <InputLabel htmlFor="adornment-password">{intl.formatMessage({ id: 'name_label' })}</InputLabel>
+                <Input
+                  id="displayName"
+                  fullWidth
+                  value={this.state.values.displayName}
+                  placeholder={intl.formatMessage({ id: 'name_hint' })}
+                  onChange={(e) => { this.handleValueChange('displayName', e.target.value) }}
+                />
+                {this.state.errors.displayName &&
+                  <FormHelperText id="name-helper-text">{this.state.errors.displayName}</FormHelperText>
+                }
+              </FormControl>
+              <FormControl className={classNames(classes.margin, classes.textField)} error={!!this.state.errors.email}>
+                <InputLabel htmlFor="adornment-password">{intl.formatMessage({ id: 'email' })}</InputLabel>
+                <Input
+                  //id="email"
+                  label="Email"
+                  autoComplete="off"
+                  placeholder={intl.formatMessage({ id: 'email' })}
+                  fullWidth
+                  onChange={(e) => { this.handleValueChange('email', e.target.value) }}
+                  defaultValue={auth.email}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="Toggle password visibility"
+                        onClick={auth.emailVerified === true ? undefined : this.handleEmailVerificationsSend}
+                      //onMouseDown={this.handleMouseDownPassword}
+                      >
+                        {auth.emailVerified && <Icon color='primary'>verified_user</Icon>}
+                        {!auth.emailVerified && <Icon color='secondary'>error</Icon>}
+
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                />
+                {this.state.errors.email &&
+                  <FormHelperText id="name-helper-text">{this.state.errors.email}</FormHelperText>
+                }
+              </FormControl>
+
+              {showPasswords &&
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                  <FormControl className={classNames(classes.margin, classes.textField)} error={!!this.state.errors.password}>
+                    <InputLabel htmlFor="adornment-password">Password</InputLabel>
+                    <Input
+                      autoComplete="off"
+                      type={this.state.showPassword ? 'text' : 'password'}
+                      value={this.state.values.password}
+                      onChange={(e) => { this.handleValueChange('password', e.target.value) }}
+                      endAdornment={
+                        <InputAdornment position="end">
+                          <IconButton
+                            color='primary'
+                            aria-label="Toggle password visibility"
+                            onClick={() => this.setState({ showPassword: !this.state.showPassword })}
+                          >
+                            {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
+                          </IconButton>
+                        </InputAdornment>
+                      }
+                    />
+                    {this.state.errors.password &&
+                      <FormHelperText id="name-helper-text">{this.state.errors.password}</FormHelperText>
+                    }
+                  </FormControl>
+                  <FormControl className={classNames(classes.margin, classes.textField)} error={!!this.state.errors.newPassword}>
+                    <InputLabel htmlFor="adornment-password">{intl.formatMessage({ id: 'new_password' })}</InputLabel>
+                    <Input
+                      autoComplete="off"
+                      type={this.state.showNewPassword ? 'text' : 'password'}
+                      value={this.state.values.newPassword}
+                      onChange={(e) => { this.handleValueChange('newPassword', e.target.value) }}
+                      endAdornment={
+                        <InputAdornment position="end">
+                          <IconButton
+                            color='primary'
+                            aria-label="Toggle password visibility"
+                            onClick={() => this.setState({ showNewPassword: !this.state.showNewPassword })}
+                          >
+                            {this.state.showNewPassword ? <VisibilityOff /> : <Visibility />}
+                          </IconButton>
+                        </InputAdornment>
+                      }
+                    />
+                    {this.state.errors.newPassword &&
+                      <FormHelperText id="name-helper-text">{this.state.errors.newPassword}</FormHelperText>
+                    }
+                  </FormControl>
+                  <FormControl className={classNames(classes.margin, classes.textField)} error={!!this.state.errors.confirmPassword}>
+                    <InputLabel htmlFor="adornment-password">{intl.formatMessage({ id: 'confirm_password' })}</InputLabel>
+                    <Input
+                      autoComplete="off"
+                      type={this.state.showConfirmPassword ? 'text' : 'password'}
+                      value={this.state.values.confirmPassword}
+                      onChange={(e) => { this.handleValueChange('confirmPassword', e.target.value) }}
+                      endAdornment={
+                        <InputAdornment position="end">
+                          <IconButton
+                            color='primary'
+                            aria-label="Toggle password visibility"
+                            onClick={() => this.setState({ showConfirmPassword: !this.state.showConfirmPassword })}
+                          >
+                            {this.state.showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                          </IconButton>
+                        </InputAdornment>
+                      }
+                    />
+                    {this.state.errors.confirmPassword &&
+                      <FormHelperText id="name-helper-text">{this.state.errors.confirmPassword}</FormHelperText>
+                    }
+                  </FormControl>
+                </div>
+              }
+            </div>
+
+
           </div>
         }
+
         <Dialog
-          title={intl.formatMessage({ id: 'delete_account_dialog_title' })}
-          actions={actions}
-          modal={false}
           open={delete_user === true}
-          onRequestClose={this.handleClose}>
-          {intl.formatMessage({ id: 'delete_account_dialog_message' })}
+          onClose={this.handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">{intl.formatMessage({ id: 'delete_account_dialog_title' })}</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              {intl.formatMessage({ id: 'delete_account_dialog_message' })}
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleClose} color="primary" >
+              {intl.formatMessage({ id: 'cancel' })}
+            </Button>
+            <Button onClick={this.handleDelete} color="secondary" >
+              {intl.formatMessage({ id: 'delete' })}
+            </Button>
+          </DialogActions>
         </Dialog>
+
+        <ImageCropDialog
+          path={`users/${auth.uid}`}
+          fileName={`photoURL`}
+          onUploadSuccess={(s) => { this.handlePhotoUploadSuccess(s) }}
+          open={new_user_photo !== undefined}
+          src={new_user_photo}
+          handleClose={() => { setSimpleValue('new_user_photo', undefined) }}
+          title={intl.formatMessage({ id: 'change_photo' })}
+        />
       </Activity>
     );
   }
@@ -400,4 +649,4 @@ const mapStateToProps = (state) => {
 
 export default connect(
   mapStateToProps, { setSimpleValue, change, submit, setDialogIsOpen }
-)(injectIntl(withRouter(muiThemeable()(withFirebase(MyAccount)))))
+)(injectIntl(withRouter(withTheme()(withFirebase(withAppConfigs(withStyles(styles, { withTheme: true })(MyAccount)))))))

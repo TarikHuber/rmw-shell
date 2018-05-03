@@ -6,9 +6,10 @@ import AuthUI from './AuthUI'
 import { withFirebase } from 'firekit-provider'
 import { connect } from 'react-redux'
 import withAppConfigs from '../../withAppConfigs'
+import firebaseui from 'firebaseui'
 
 export class SignIn extends Component {
-  render() {
+  render () {
     const { intl, firebaseApp, appConfig } = this.props
 
     let uiConfig = {
@@ -23,7 +24,7 @@ export class SignIn extends Component {
         }
       },
       signInOptions: appConfig.firebase_providers,
-      //credentialHelper: firebaseui.auth.CredentialHelper.NONE
+      credentialHelper: firebaseui.auth.CredentialHelper.NONE
     }
 
     return (
