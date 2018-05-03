@@ -16,7 +16,7 @@ const monthsPath = `/user_registrations_per_month/${currentYear}`
 const providerPath = `/provider_count`
 
 class Dashboard extends Component {
-  componentDidMount () {
+  componentDidMount() {
     const { watchPath } = this.props
 
     watchPath(daysPath)
@@ -25,7 +25,7 @@ class Dashboard extends Component {
     watchPath('users_count')
   }
 
-  render () {
+  render() {
     const { theme, intl, days, months, providers, usersCount } = this.props
 
     let daysLabels = []
@@ -46,18 +46,18 @@ class Dashboard extends Component {
           label: intl.formatDate(Date.now(), { month: 'long' }),
           fill: false,
           lineTension: 0.1,
-          backgroundColor: theme.palette.primary1Color,
-          borderColor: theme.palette.primary1Color,
+          backgroundColor: theme.palette.primary.main,
+          borderColor: theme.palette.primary.main,
           borderCapStyle: 'butt',
           borderDash: [],
           borderDashOffset: 0.0,
           borderJoinStyle: 'miter',
-          pointBorderColor: theme.palette.accent1Color,
+          pointBorderColor: theme.palette.secondary.main,
           pointBackgroundColor: '#fff',
           pointBorderWidth: 1,
           pointHoverRadius: 5,
-          pointHoverBackgroundColor: theme.palette.primary1Color,
-          pointHoverBorderColor: theme.palette.accent1Color,
+          pointHoverBackgroundColor: theme.palette.primary.main,
+          pointHoverBorderColor: theme.palette.secondary.main,
           pointHoverBorderWidth: 2,
           pointRadius: 1,
           pointHitRadius: 10,
@@ -87,18 +87,18 @@ class Dashboard extends Component {
           fill: false,
           maintainAspectRatio: true,
           lineTension: 0.1,
-          backgroundColor: theme.palette.primary1Color,
-          borderColor: theme.palette.primary1Color,
+          backgroundColor: theme.palette.primary.main,
+          borderColor: theme.palette.primary.main,
           borderCapStyle: 'butt',
           borderDash: [],
           borderDashOffset: 0.0,
           borderJoinStyle: 'miter',
-          pointBorderColor: theme.palette.accent1Color,
+          pointBorderColor: theme.palette.secondary.main,
           pointBackgroundColor: '#fff',
           pointBorderWidth: 1,
           pointHoverRadius: 5,
-          pointHoverBackgroundColor: theme.palette.primary1Color,
-          pointHoverBorderColor: theme.palette.accent1Color,
+          pointHoverBackgroundColor: theme.palette.primary.main,
+          pointHoverBorderColor: theme.palette.secondary.main,
           pointHoverBorderWidth: 2,
           pointRadius: 1,
           pointHitRadius: 10,
@@ -177,7 +177,7 @@ class Dashboard extends Component {
             <CountUp
               style={{
                 fontSize: 100,
-                color: theme.palette.primary1Color,
+                color: theme.palette.primary.main,
                 fontFamily: theme.fontFamily
               }}
               start={0}
@@ -185,7 +185,7 @@ class Dashboard extends Component {
             />
             <div>
               <Icon
-                color={theme.palette.accent1Color}
+                color='secondary'
                 className='material-icons'
                 style={{ fontSize: 70, marginLeft: 16 }}>
                 group
@@ -195,7 +195,7 @@ class Dashboard extends Component {
           </div>
         </div>
 
-      </Activity>
+      </Activity >
     )
   }
 }
