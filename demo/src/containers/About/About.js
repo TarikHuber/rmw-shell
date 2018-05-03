@@ -8,14 +8,14 @@ import Scrollbar from '../../../../src/components/Scrollbar'
 class About extends Component {
   // Sorry for using setState here but I have to remove 'marked' from the dependencies
   // because of a vulnerability issue
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       text: ''
     }
   }
 
-  render () {
+  render() {
     const { intl } = this.props
 
     return (
@@ -26,7 +26,6 @@ class About extends Component {
             href='https://github.com/TarikHuber/react-most-wanted'
             target='_blank'
             rel='noopener'
-            secondary
           >
             <GitHubIcon />
           </IconButton>

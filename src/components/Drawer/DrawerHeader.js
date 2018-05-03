@@ -86,8 +86,18 @@ export const DrawerHeader = (props) => {
 
       {!auth.isAuthorised &&
         <List>
-          <ListItem disabled>
+          <ListItem >
             <ListItemText primary={intl.formatMessage({ id: 'app_name' })} />
+            <Hidden smDown implementation='css'>
+              <ListItemSecondaryAction>
+                <IconButton className={classes.button} onClick={() => { setDrawerUseMinified(false) }}>
+                  <Icon classes={{ root: classes.icon }} >{theme.direction === 'rtl' ? 'chevron_right' : 'chevron_left'}</Icon>
+                </IconButton>
+                <IconButton onClick={() => { setDrawerOpen(false) }}>
+                  <Icon classes={{ root: classes.icon }} >chrome_reader_mode</Icon>
+                </IconButton>
+              </ListItemSecondaryAction>
+            </Hidden>
           </ListItem>
         </List>
 

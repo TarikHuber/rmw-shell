@@ -8,7 +8,7 @@ import { connect } from 'react-redux'
 import withAppConfigs from '../../withAppConfigs'
 
 export class SignIn extends Component {
-  render () {
+  render() {
     const { intl, firebaseApp, appConfig } = this.props
 
     let uiConfig = {
@@ -23,12 +23,11 @@ export class SignIn extends Component {
         }
       },
       signInOptions: appConfig.firebase_providers,
-      credentialHelper: firebaseui.auth.CredentialHelper.NONE
+      //credentialHelper: firebaseui.auth.CredentialHelper.NONE
     }
 
     return (
-      <Activity
-        title={intl.formatMessage({ id: 'sign_in' })}>
+      <Activity title={intl.formatMessage({ id: 'sign_in' })}>
         <AuthUI firebaseApp={firebaseApp} uiConfig={uiConfig} />
       </Activity>
 

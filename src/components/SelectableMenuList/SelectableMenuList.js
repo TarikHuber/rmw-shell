@@ -97,6 +97,10 @@ class SelectableMenuList extends Component {
           onClick={(e) => {
             onIndexChange(e, item.value)
             this.handleNestedItemsClick(item)
+
+            if (item.onClick) {
+              item.onClick()
+            }
           }}
           onMouseDown={(e) => {
             if (e.button === 1) {

@@ -16,7 +16,8 @@ import Hidden from 'material-ui/Hidden';
 import Divider from 'material-ui/Divider';
 import MenuIcon from '@material-ui/icons/Menu';
 import drawerActions from '../../store/drawer/actions'
-import withWidth from 'material-ui/utils/withWidth'
+import withWidth, { isWidthDown } from 'material-ui/utils/withWidth'
+import Icon from 'material-ui/Icon';
 import { LinearProgress } from 'material-ui/Progress';
 
 const drawerWidth = 240;
@@ -36,7 +37,7 @@ const styles = theme => ({
   },
   menuButton: {
     marginLeft: 12,
-    marginRight: 36,
+    marginRight: 12,
   },
   toolbar: {
     alignItems: 'center',
@@ -47,8 +48,9 @@ const styles = theme => ({
     flex: 1,
     backgroundColor: theme.palette.background.default,
   },
+
   appBarShift: {
-    marginLeft: drawerWidth,
+    //marginLeft: drawerWidth,
     width: `calc(100% - ${drawerWidth}px)`,
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
@@ -81,7 +83,7 @@ class Activity extends React.Component {
   };
 
   render() {
-    const { classes, theme, children, drawer, title, pageTitle, width, appBarContent, isLoading } = this.props;
+    const { classes, theme, children, drawer, title, pageTitle, width, appBarContent, isLoading, onBackClick } = this.props;
 
     let headerTitle = ''
 
@@ -93,7 +95,8 @@ class Activity extends React.Component {
       headerTitle = pageTitle
     }
 
-    const smDown = width === 'sm' || width === 'xs'
+    //const smDown = width === 'sm' || width === 'xs'
+    const smDown = isWidthDown('sm', width)
 
     return (
       <div className={classes.root}>
@@ -108,15 +111,25 @@ class Activity extends React.Component {
           position={(width !== 'sm' && width !== 'xs') ? "absolute" : undefined}
           className={(width !== 'sm' && width !== 'xs') ? classNames(classes.appBar, drawer.open && classes.appBarShift) : classes.appBar}
         >
-          <Toolbar disableGutters={!drawer.open} >
+          <Toolbar disableGutters={true} >
             <IconButton
               color="inherit"
               aria-label="open drawer"
               onClick={!drawer.open ? this.handleDrawerOpen : this.handleDrawerToggle}
-              className={classNames(!smDown && classes.menuButton, drawer.open && !smDown && classes.hide)}
+              className={classNames(!smDown && classes.menuButton, drawer.open && !smDown && classes.hide, onBackClick && classes.hide)}
             >
               <MenuIcon />
             </IconButton>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              onClick={onBackClick}
+              className={classNames(!smDown && classes.menuButton, !onBackClick && classes.hide)}
+            >
+              <Icon >chevron_left</Icon>
+            </IconButton>
+            {!onBackClick && drawer.open && <div style={{ marginRight: 32 }} />}
+
             <Typography variant="title" color="inherit" noWrap >
               {headerTitle}
             </Typography>
@@ -129,7 +142,7 @@ class Activity extends React.Component {
         <main className={classes.content}>
           {children}
         </main>
-      </div>
+      </div >
     );
   }
 }
