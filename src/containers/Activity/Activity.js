@@ -10,6 +10,7 @@ import LinearProgress from 'material-ui/LinearProgress';
 import { injectIntl } from 'react-intl';
 import { deepOrange500, darkWhite } from 'material-ui/styles/colors';
 import { withRouter } from 'react-router-dom'
+import { LinearProgress } from 'material-ui/Progress';
 
 export class Activity extends Component {
 
@@ -75,6 +76,7 @@ export class Activity extends Component {
           <meta name="msapplication-navbutton-color" content={muiTheme.palette.primary1Color} />
           <title>{headerTitle}</title>
         </Helmet>
+        <LinearProgress />
         <ResponsiveAppBar
           width={drawerWidth}
           title={title}

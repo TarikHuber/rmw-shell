@@ -14,6 +14,7 @@ import Dialog from 'material-ui/Dialog'
 import Button from 'material-ui/Button'
 import moment from 'moment'
 import { app } from 'firebase/app'
+import 'react-toastify/dist/ReactToastify.css';
 
 export class NotificationLayout extends Component {
 
@@ -23,9 +24,11 @@ export class NotificationLayout extends Component {
 
     this.initMessaging(this.props)
 
+    /*
     style({
       //colorInfo: muiTheme.palette.primary1Color,
     })
+    */
   }
 
   componentWillReceiveProps(nextProps) {

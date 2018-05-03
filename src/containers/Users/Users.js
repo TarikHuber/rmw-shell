@@ -125,14 +125,10 @@ export class Users extends Component {
 
     return (
       <Activity
-        title={'test'}
+        title={intl.formatMessage({ id: 'users' })}
         appBarContent={
           <div style={{ display: 'flex' }}>
-
-            <SearchField
-              filterName={'users'}
-            />
-
+            <SearchField filterName={'users'} />
 
             <IconButton
               color="inherit"
@@ -144,24 +140,8 @@ export class Users extends Component {
 
           </div>
         }
-
-        iconStyleLeft={{ width: 'auto' }}
-        iconStyleRight={{ width: '100%', textAlign: 'center', marginLeft: 0 }}
-        iconElementRight={
-          <div style={{ display: 'flex' }}>
-            <div style={{ width: 'calc(100% - 84px)' }}>
-              <SearchField
-                filterName={'users'}
-                hintText={`${intl.formatMessage({ id: 'search' })}`}
-              />
-            </div>
-            <div style={{ position: 'absolute', right: 10, width: 100 }}>
-
-            </div>
-          </div>
-        }
         isLoading={isLoading}>
-        <div style={{ height: '100%', overflow: 'none', backgroundColor: theme.palette.canvasColor }}>
+        <div style={{ height: '100%', overflow: 'none' }}>
           <Scrollbar>
             <List id='test' ref={field => this.list = field}>
               <ReactList
@@ -175,7 +155,6 @@ export class Users extends Component {
         <FilterDrawer
           name={'users'}
           fields={filterFields}
-        //formatMessage={intl.formatMessage}
         />
       </Activity>
     )

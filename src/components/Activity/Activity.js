@@ -17,11 +17,14 @@ import Divider from 'material-ui/Divider';
 import MenuIcon from '@material-ui/icons/Menu';
 import drawerActions from '../../store/drawer/actions'
 import withWidth from 'material-ui/utils/withWidth'
+import { LinearProgress } from 'material-ui/Progress';
 
 const drawerWidth = 240;
 
 const styles = theme => ({
   root: {
+    display: 'flex',
+    flexDirection: 'column',
     height: `100vh`
   },
   appBar: {
@@ -35,56 +38,14 @@ const styles = theme => ({
     marginLeft: 12,
     marginRight: 36,
   },
-  flexRoot: {
-    flexGrow: 1,
-  },
-  flex: {
-    flex: 1,
-  },
-  navIconHide: {
-    [theme.breakpoints.up('md')]: {
-      display: 'none',
-    },
-  },
   toolbar: {
-    display: 'flex',
     alignItems: 'center',
     justifyContent: 'flex-end',
-    padding: '0 8px',
     ...theme.mixins.toolbar,
   },
-  drawerPaper: {
-    width: drawerWidth,
-    [theme.breakpoints.up('md')]: {
-      position: 'relative',
-    },
-  },
-  drawerPaperOpen: {
-    position: 'relative',
-    whiteSpace: 'nowrap',
-    width: drawerWidth,
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  drawerPaperClose: {
-    overflowX: 'hidden',
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    width: theme.spacing.unit * 7,
-    [theme.breakpoints.up('sm')]: {
-      width: theme.spacing.unit * 9,
-    },
-  },
   content: {
-    flexGrow: 1,
+    flex: 1,
     backgroundColor: theme.palette.background.default,
-    //padding: theme.spacing.unit * 3,
-    width: '100%',
-    height: '100%'
   },
   appBarShift: {
     marginLeft: drawerWidth,
@@ -103,10 +64,6 @@ const styles = theme => ({
 });
 
 class Activity extends React.Component {
-  state = {
-    mobileOpen: false,
-    open: false,
-  };
 
   handleDrawerToggle = () => {
     const { setDrawerMobileOpen, drawer } = this.props
@@ -124,7 +81,7 @@ class Activity extends React.Component {
   };
 
   render() {
-    const { classes, theme, children, drawer, title, pageTitle, width, appBarContent } = this.props;
+    const { classes, theme, children, drawer, title, pageTitle, width, appBarContent, isLoading } = this.props;
 
     let headerTitle = ''
 
@@ -146,6 +103,7 @@ class Activity extends React.Component {
           <meta name="msapplication-navbutton-color" content={theme.palette.primary1Color} />
           <title>{headerTitle}</title>
         </Helmet>
+
         <AppBar
           position={(width !== 'sm' && width !== 'xs') ? "absolute" : undefined}
           className={(width !== 'sm' && width !== 'xs') ? classNames(classes.appBar, drawer.open && classes.appBarShift) : classes.appBar}
@@ -164,12 +122,11 @@ class Activity extends React.Component {
             </Typography>
             <div className={classes.grow} />
             {appBarContent}
-
           </Toolbar>
         </AppBar>
-
+        <div className={classes.toolbar} />
+        {isLoading && <LinearProgress />}
         <main className={classes.content}>
-          <div className={classes.toolbar} />
           {children}
         </main>
       </div>
@@ -180,6 +137,7 @@ class Activity extends React.Component {
 Activity.propTypes = {
   classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
+  drawer: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => {
