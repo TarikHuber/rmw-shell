@@ -11,7 +11,7 @@ import drawerActions from '../../store/drawer/actions'
 
 DrawerContent.propTypes = {
   responsiveDrawer: PropTypes.object.isRequired,
-  theme: PropTypes.string.isRequired,
+  // theme: PropTypes.string.isRequired,
   locale: PropTypes.string.isRequired,
   setResponsive: PropTypes.func.isRequired,
   setDrawerOpen: PropTypes.func.isRequired,

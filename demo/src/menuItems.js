@@ -140,7 +140,7 @@ const getMenuItems = (props) => {
       nestedItems: [
         {
           primaryText: intl.formatMessage({ id: 'theme' }),
-          secondaryText: intl.formatMessage({ id: theme }),
+          secondaryText: intl.formatMessage({ id: themeSource }),
           primaryTogglesNestedList: true,
           leftIcon: <Icon className='material-icons' >style</Icon>,
           nestedItems: themeItems

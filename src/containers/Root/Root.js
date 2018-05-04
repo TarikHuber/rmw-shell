@@ -140,7 +140,7 @@ Root.propTypes = {
   locale: PropTypes.string.isRequired,
   source: PropTypes.object.isRequired,
   messages: PropTypes.object.isRequired,
-  //theme: PropTypes.object.isRequired,
+  //themeSource: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state, ownProps) => {

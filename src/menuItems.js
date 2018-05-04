@@ -28,7 +28,7 @@ const getMenuItems = (props) => {
       onClick: () => { updateTheme(t.id) },
       rightIcon: <Icon
         className='material-icons'
-        color={t.id === theme ? theme.palette.primary1Color : undefined}>
+        color={t.id === themeSource ? theme.palette.primary1Color : undefined}>
         style
       </Icon>
     }
@@ -106,7 +106,7 @@ const getMenuItems = (props) => {
       nestedItems: [
         {
           primaryText: intl.formatMessage({ id: 'theme' }),
-          secondaryText: intl.formatMessage({ id: theme }),
+          secondaryText: intl.formatMessage({ id: themeSource }),
           primarySwitchsNestedList: true,
           leftIcon: <Icon className='material-icons' >style</Icon>,
           nestedItems: themeItems

@@ -14,6 +14,8 @@ const getAppRoutes = (firebaseLoader) => {
   const AsyncUser = MyLoadable({ loader: () => import('../../containers/Users/User') });
   const AsyncUsers = MyLoadable({ loader: () => import('../../containers/Users/Users') }, [AsyncUser]);
   const AsyncMyAccount = MyLoadable({ loader: () => import('../../containers/MyAccount/MyAccount') });
+  //const AsyncRoles = MyLoadable({ loader: () => import('../../containers/Roles/Roles') }, [AsyncRole]);
+  const AsyncRoles = MyLoadable({ loader: () => import('../../containers/Roles/Roles') }, []);
 
 
   return [
@@ -22,6 +24,7 @@ const getAppRoutes = (firebaseLoader) => {
     <RestrictedRoute type='private' path="/users/:select" exact component={AsyncUsers} />,
     <RestrictedRoute type='private' path="/users/edit/:uid/:editType" exact component={AsyncUser} />,
     <RestrictedRoute type='private' path="/my_account" exact component={AsyncMyAccount} />,
+    <RestrictedRoute type='private' path="/roles" exact component={AsyncRoles} />,
     <Route component={AsyncPageNotFound} />,
 
   ]

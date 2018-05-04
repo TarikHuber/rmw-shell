@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { injectIntl, intlShape } from 'react-intl';
-import Activity from '../../containers/Activity';
-import { List, ListItem } from 'material-ui/List';
+import Activity from '../../components/Activity';
+import List, { ListItem, ListItemText } from 'material-ui/List'
 import Divider from 'material-ui/Divider';
 import { withFirebase } from 'firekit-provider';
 import { withRouter } from 'react-router-dom';
 import ReactList from 'react-list';
 import Avatar from 'material-ui/Avatar';
-import FloatingActionButton from 'material-ui/FloatingActionButton';
+import Button from 'material-ui/Button';
 import Icon from 'material-ui/Icon';
 import Scrollbar from '../../components/Scrollbar/Scrollbar';
 import { getList, isLoading } from 'firekit'
@@ -42,20 +42,14 @@ export class Roles extends Component {
 
     return <div key={key}>
       <ListItem
-        leftAvatar={
-          <Avatar
-            alt="person"
-            src={val.photoURL}
-            icon={<Icon className="material-icons" >account_box</Icon>}
-          />
-        }
+        key={i}
         onClick={() => { history.push(`/${path}/edit/${key}/main`) }}
-        key={key}
-        id={key}
-        primaryText={val.name}
-        secondaryText={val.description}
-      />
-      <Divider inset={true} />
+        id={i}>
+        {val.photoURL && <Avatar src={val.photoURL} alt='person' />}
+        {!val.photoURL && <Avatar> <Icon > account_box </Icon>  </Avatar>}
+        <ListItemText primary={val.name} secondary={val.description} />
+      </ListItem>
+      <Divider inset />
     </div>;
   }
 
@@ -81,12 +75,12 @@ export class Roles extends Component {
           <div
             style={{ float: "left", clear: "both" }}
           />
-          <FloatingActionButton
-            onClick={this.handleCreateClick}
-            style={{ position: 'fixed', bottom: 15, right: 20, zIndex: 99 }}
-            secondary={true}>
-            <Icon className="material-icons" >add</Icon>
-          </FloatingActionButton>
+
+          <div style={{ position: 'fixed', right: 18, zIndex: 3, bottom: 18 }}>
+            <Button variant='fab' color='secondary' onClick={this.handleCreateClick} >
+              <Icon className='material-icons' >add</Icon>
+            </Button>
+          </div>
         </div>
 
       </Activity>
