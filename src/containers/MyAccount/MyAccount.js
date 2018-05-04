@@ -7,7 +7,6 @@ import { setSimpleValue } from '../../store/simpleValues/actions';
 import { withRouter } from 'react-router-dom';
 import Icon from 'material-ui/Icon';
 import Button from 'material-ui/Button';
-import { withStyles } from 'material-ui/styles';
 import classNames from 'classnames';
 import Dialog, {
   DialogActions,
@@ -18,7 +17,7 @@ import Dialog, {
 import { withFirebase } from 'firekit-provider'
 import FireForm from 'fireform'
 import { GoogleIcon, FacebookIcon, GitHubIcon, TwitterIcon } from '../../components/Icons';
-import { withTheme } from 'material-ui/styles'
+import { withTheme, withStyles } from 'material-ui/styles'
 import { change, submit, formValueSelector } from 'redux-form';
 import IconButton from 'material-ui/IconButton';
 import { setDialogIsOpen } from '../../store/dialogs/actions'
@@ -484,7 +483,7 @@ export class MyAccount extends Component {
                   placeholder={intl.formatMessage({ id: 'email' })}
                   fullWidth
                   onChange={(e) => { this.handleValueChange('email', e.target.value) }}
-                  defaultValue={auth.email}
+                  value={this.state.values.email}
                   endAdornment={
                     <InputAdornment position="end">
                       <IconButton

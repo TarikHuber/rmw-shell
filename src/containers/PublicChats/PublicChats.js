@@ -11,11 +11,11 @@ import ChatMessages from '../../containers/ChatMessages/ChatMessages'
 
 export class Chat extends Component {
   render() {
-    const { muiTheme, intl, firebaseApp } = this.props
+    const { theme, intl, firebaseApp } = this.props
 
     return (
       <Activity
-        containerStyle={{ overflow: 'hidden', backgroundColor: muiTheme.chip.backgroundColor }}
+        containerStyle={{ overflow: 'hidden', backgroundColor: theme.chip.backgroundColor }}
         title={intl.formatMessage({ id: 'public_chats' })}>
 
         <ChatMessages
@@ -31,7 +31,7 @@ export class Chat extends Component {
 
 Chat.propTypes = {
   intl: intlShape.isRequired,
-  muiTheme: PropTypes.object.isRequired,
+  theme: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired
 }
 

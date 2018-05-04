@@ -58,13 +58,13 @@ class Document extends Component {
   }
 
   render() {
-    const { intl, muiTheme, sandwichData, isWatching }= this.props
+    const { intl, theme, sandwichData, isWatching }= this.props
 
     return (
       <Activity title={intl.formatMessage({id: 'document'})}>
 
         <div style={{padding: 15}}>
-          <h1 style={{color: muiTheme.palette.textColor}}>{`${intl.formatMessage({id: 'hot_dog_status'})}: ${sandwichData.hotDogStatus}`}</h1>
+          <h1 style={{color: theme.palette.textColor}}>{`${intl.formatMessage({id: 'hot_dog_status'})}: ${sandwichData.hotDogStatus}`}</h1>
           <TextField
             value={this.state.value}
             onChange={(ev, value)=>{

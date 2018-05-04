@@ -2,7 +2,7 @@ import Activity from '../../containers/Activity'
 import Avatar from 'material-ui/Avatar'
 import ChatMessages from '../../containers/ChatMessages'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
-import FontIcon from 'material-ui/FontIcon'
+import Icon from 'material-ui/Icon'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import muiThemeable from 'material-ui/styles/muiThemeable'
@@ -129,7 +129,7 @@ export class ChatMic extends Component {
   }
 
   render() {
-    const { muiTheme, containerStyle } = this.props
+    const { theme, containerStyle } = this.props
 
     return (
       <div>
@@ -139,7 +139,7 @@ export class ChatMic extends Component {
               onClick={this.cancelRecording}
               style={{ position: 'absolute', right: 20, bottom: 70, zIndex: 99 }}
               secondary>
-              <FontIcon className='material-icons' >close</FontIcon>
+              <Icon className='material-icons' >close</Icon>
             </FloatingActionButton>
             <ReactMic
               height={50}
@@ -149,8 +149,8 @@ export class ChatMic extends Component {
               mimeType={'audio/ogg; codecs=opus'}
               record={this.state.record}
               onStop={this.onStop}
-              strokeColor={muiTheme.palette.primary1Color}
-              backgroundColor={muiTheme.palette.accent1Color} />
+              strokeColor={theme.palette.primary1Color}
+              backgroundColor={theme.palette.accent1Color} />
           </div>
         }
         {this.state.sending &&
@@ -168,7 +168,7 @@ export class ChatMic extends Component {
           onClick={this.state.record ? this.stopRecording : this.startRecording}
           style={{ position: 'absolute', right: 20, bottom: 10, zIndex: 99 }}
           secondary={!this.state.record}>
-          <FontIcon className='material-icons' >{this.state.record ? 'send' : 'mic'}</FontIcon>
+          <Icon className='material-icons' >{this.state.record ? 'send' : 'mic'}</Icon>
         </FloatingActionButton>
       </div >
     )
@@ -177,7 +177,7 @@ export class ChatMic extends Component {
 
 ChatMic.propTypes = {
   intl: intlShape.isRequired,
-  muiTheme: PropTypes.object.isRequired,
+  theme: PropTypes.object.isRequired,
 }
 
 const mapStateToProps = (state, ownPops) => {

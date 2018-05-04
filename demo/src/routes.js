@@ -10,6 +10,7 @@ const AsyncDashboard = MyLoadable({ loader: () => import('./containers/Dashboard
 const AsyncAbout = MyLoadable({ loader: () => import('./containers/About/About') });
 const AsyncCompany = MyLoadable({ loader: () => import('./containers/Companies/Company') });
 const AsyncCompanies = MyLoadable({ loader: () => import('./containers/Companies/Companies') }, [AsyncCompany]);
+const AsyncUser = MyLoadable({ loader: () => import('../../src/containers/Users/User') });
 
 const routes = [
   <RestrictedRoute type='private' path="/" exact component={AsyncAbout} />,
@@ -18,6 +19,7 @@ const routes = [
   <RestrictedRoute type='private' path="/companies" exact component={AsyncCompanies} />,
   <RestrictedRoute type='private' path="/companies/edit/:uid" exact component={AsyncCompany} />,
   <RestrictedRoute type='private' path="/companies/create" exact component={AsyncCompany} />,
+  <RestrictedRoute type='private' path="/users/edit/:uid/:editType" exact component={AsyncUser} />,
 ]
 
 

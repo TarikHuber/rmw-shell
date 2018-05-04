@@ -1,7 +1,7 @@
 import Chip from 'material-ui/Chip'
 import Divider from 'material-ui/Divider'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
-import FontIcon from 'material-ui/FontIcon'
+import Icon from 'material-ui/Icon'
 import IconButton from 'material-ui/IconButton'
 import Image from 'material-ui-image'
 import PropTypes from 'prop-types'
@@ -86,7 +86,7 @@ class ChatMessages extends Component {
   }
 
   renderItem = (i, k) => {
-    const { predefinedMessages, muiTheme, setSimpleValue, setChatInputMessage } = this.props;
+    const { predefinedMessages, theme, setSimpleValue, setChatInputMessage } = this.props;
 
     const key = predefinedMessages[i].key;
     const message = predefinedMessages[i].val.message;
@@ -99,7 +99,7 @@ class ChatMessages extends Component {
               setSimpleValue('chatMessageMenuOpen', false)
               this.handleAddMessage("text", message)
             }}>
-            <FontIcon className="material-icons" color={muiTheme.palette.textColor}>send</FontIcon>
+            <Icon className="material-icons" color={theme.palette.textColor}>send</Icon>
           </IconButton>
         }
         onClick={() => {
@@ -156,7 +156,7 @@ class ChatMessages extends Component {
 
     const {
       messages,
-      muiTheme,
+      theme,
       intl,
       setSimpleValue,
       chatMessageMenuOpen,
@@ -176,7 +176,7 @@ class ChatMessages extends Component {
         alignItems: 'row',
         justifyContent: 'center',
         height: chatMessageMenuOpen ? 300 : 56,
-        backgroundColor: muiTheme.palette.canvasColor
+        backgroundColor: theme.palette.canvasColor
       }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <IconButton
@@ -187,11 +187,11 @@ class ChatMessages extends Component {
                 setSimpleValue('chatMessageMenuOpen', true);
               }
             }}>
-            <FontIcon className="material-icons" color={muiTheme.palette.borderColor}>{chatMessageMenuOpen === true ? 'keyboard_arrow_down' : 'keyboard_arrow_up'}</FontIcon>
+            <Icon className="material-icons" color={theme.palette.borderColor}>{chatMessageMenuOpen === true ? 'keyboard_arrow_down' : 'keyboard_arrow_up'}</Icon>
           </IconButton>
 
           <div style={{
-            backgroundColor: muiTheme.chip.backgroundColor,
+            backgroundColor: theme.chip.backgroundColor,
             flexGrow: 1,
             borderRadius: 8,
             paddingLeft: 8,
@@ -229,7 +229,7 @@ class ChatMessages extends Component {
                     },
                       (error) => console.log(error))
                   }>
-                  <FontIcon className="material-icons" color={muiTheme.palette.primary1Color}>my_location</FontIcon>
+                  <Icon className="material-icons" color={theme.palette.primary1Color}>my_location</Icon>
                 </IconButton>
               </div>
 
@@ -245,7 +245,7 @@ class ChatMessages extends Component {
                 <IconButton
                   containerElement='label'
                   onClick={() => this.fileInput.click()}>
-                  <FontIcon className="material-icons" color={muiTheme.palette.primary1Color}>photo</FontIcon>
+                  <Icon className="material-icons" color={theme.palette.primary1Color}>photo</Icon>
                 </IconButton>
               </div>
             </div>
@@ -253,12 +253,12 @@ class ChatMessages extends Component {
           <IconButton
             disabled={this.state.value === undefined || this.state.value === ''}
             onClick={() => this.handleAddMessage("text", this.state.value)}>
-            <FontIcon className="material-icons" color={muiTheme.palette.primary1Color}>send</FontIcon>
+            <Icon className="material-icons" color={theme.palette.primary1Color}>send</Icon>
           </IconButton>
         </div>
         {
           chatMessageMenuOpen &&
-          <Scrollbar style={{ height: 200, backgroundColor: muiTheme.chip.backgroundColor }}>
+          <Scrollbar style={{ height: 200, backgroundColor: theme.chip.backgroundColor }}>
             <div style={{ padding: 10, paddingRight: 0, }}>
               <ReactList
                 itemRenderer={this.renderItem}
@@ -283,7 +283,7 @@ class ChatMessages extends Component {
 
 ChatMessages.propTypes = {
   intl: intlShape.isRequired,
-  muiTheme: PropTypes.object.isRequired,
+  theme: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
 };
 

@@ -9,7 +9,7 @@ import { withRouter } from 'react-router-dom';
 import ReactList from 'react-list';
 import Avatar from 'material-ui/Avatar';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
-import FontIcon from 'material-ui/FontIcon';
+import Icon from 'material-ui/Icon';
 import Scrollbar from '../../components/Scrollbar/Scrollbar';
 import { getList, isLoading } from 'firekit'
 
@@ -46,7 +46,7 @@ export class Roles extends Component {
           <Avatar
             alt="person"
             src={val.photoURL}
-            icon={<FontIcon className="material-icons" >account_box</FontIcon>}
+            icon={<Icon className="material-icons" >account_box</Icon>}
           />
         }
         onClick={() => { history.push(`/${path}/edit/${key}/main`) }}
@@ -85,7 +85,7 @@ export class Roles extends Component {
             onClick={this.handleCreateClick}
             style={{ position: 'fixed', bottom: 15, right: 20, zIndex: 99 }}
             secondary={true}>
-            <FontIcon className="material-icons" >add</FontIcon>
+            <Icon className="material-icons" >add</Icon>
           </FloatingActionButton>
         </div>
 

@@ -13,7 +13,7 @@ const getMenuItems = (props) => {
     updateTheme,
     updateLocale,
     intl,
-    muiTheme,
+    themeSource,
     auth,
     isGranted
   } = props
@@ -28,7 +28,7 @@ const getMenuItems = (props) => {
       onClick: () => { updateTheme(t.id) },
       rightIcon: <Icon
         className='material-icons'
-        color={t.id === theme ? muiTheme.palette.primary1Color : undefined}>
+        color={t.id === theme ? theme.palette.primary1Color : undefined}>
         style
       </Icon>
     }
@@ -42,7 +42,7 @@ const getMenuItems = (props) => {
       onClick: () => { updateLocale(l.locale) },
       rightIcon: <Icon
         className='material-icons'
-        color={l.locale === locale ? muiTheme.palette.primary1Color : undefined}>
+        color={l.locale === locale ? theme.palette.primary1Color : undefined}>
         language
       </Icon>
     }

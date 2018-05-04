@@ -6,7 +6,7 @@ import { List, ListItem } from 'material-ui/List';
 import Divider from 'material-ui/Divider';
 import { withFirebase } from 'firekit-provider';
 import { withRouter } from 'react-router-dom';
-import FontIcon from 'material-ui/FontIcon';
+import Icon from 'material-ui/Icon';
 import isGranted from '../../utils/auth';
 import PropTypes from 'prop-types';
 import { setSimpleValue } from '../../store/simpleValues/actions'
@@ -75,7 +75,7 @@ export class PredefinedChatMessages extends Component {
           rightIconButton={
             <IconButton
               onClick={() => setSimpleValue('delete_predefined_chat_message', key)}>
-              <FontIcon className="material-icons" color={'red'}>{'delete'}</FontIcon>
+              <Icon className="material-icons" color={'red'}>{'delete'}</Icon>
             </IconButton>
           }
           id={key}
@@ -91,7 +91,7 @@ export class PredefinedChatMessages extends Component {
     const {
       intl,
       list,
-      muiTheme,
+      theme,
       delete_predefined_chat_message
     } = this.props;
 
@@ -114,7 +114,7 @@ export class PredefinedChatMessages extends Component {
         containerStyle={{ overflow: 'hidden' }}
         title={intl.formatMessage({ id: 'predefined_messages' })}>
 
-        <div style={{ overflow: 'auto', height: '100%', width: '100%', backgroundColor: muiTheme.palette.canvasColor, paddingBottom: 56 }}>
+        <div style={{ overflow: 'auto', height: '100%', width: '100%', backgroundColor: theme.palette.canvasColor, paddingBottom: 56 }}>
           <Scrollbar>
             <List ref={(field) => { this.list = field; }}>
               <ReactList
@@ -143,7 +143,7 @@ export class PredefinedChatMessages extends Component {
 
               <IconButton
                 onClick={this.handleAddMessage}>
-                <FontIcon className="material-icons" color={muiTheme.palette.primary1Color}>send</FontIcon>
+                <Icon className="material-icons" color={theme.palette.primary1Color}>send</Icon>
               </IconButton>
             </div>
           </BottomNavigation>

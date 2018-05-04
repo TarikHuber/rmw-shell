@@ -167,12 +167,12 @@ export class AppLayout extends Component {
 
   componentWillMount() {
 
-    const { muiTheme } = this.props;
+    const { theme } = this.props;
 
     /*
     style({
-      colorDefault: muiTheme.palette.primary1Color,
-      colorInfo: muiTheme.palette.primary1Color,
+      colorDefault: theme.palette.primary1Color,
+      colorInfo: theme.palette.primary1Color,
     })
 
     if (window.updateAvailable) {
@@ -212,7 +212,7 @@ export class AppLayout extends Component {
 
 
   render() {
-    const { muiTheme, history, appConfig, intl, classes } = this.props
+    const { theme, history, appConfig, intl, classes } = this.props
     const drawerWidth = appConfig.drawer_width
     const path = history.location.pathname
     const customRoutes = appConfig.routes ? appConfig.routes : []
@@ -246,8 +246,8 @@ const mapStateToProps = (state) => {
   const { theme, locale, messaging } = state
 
   return {
-    theme, // We need this so the theme change triggers rerendering
-    locale,
+    //theme, // We need this so the theme change triggers rerendering
+    //locale,
     messaging
   }
 }

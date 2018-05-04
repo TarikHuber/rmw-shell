@@ -2,35 +2,67 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { injectIntl, intlShape } from 'react-intl'
-import muiThemeable from 'material-ui/styles/muiThemeable'
-import Activity from '../../containers/Activity'
-import { ResponsiveMenu } from 'material-ui-responsive-menu'
+import { withTheme, withStyles } from 'material-ui/styles'
+import Activity from '../../components/Activity'
 import { setSimpleValue } from '../../store/simpleValues/actions'
 import { withRouter } from 'react-router-dom'
-import FontIcon from 'material-ui/FontIcon'
+import { change, submit } from 'redux-form'
+import Icon from 'material-ui/Icon'
 import { withFirebase } from 'firekit-provider'
 import FireForm from 'fireform'
-import { change, submit } from 'redux-form'
 import UserForm from '../../components/Forms/UserForm'
 import UserGrants from './UserGrants'
 import UserRoles from './UserRoles'
-import { Tabs, Tab } from 'material-ui/Tabs'
+import Tabs, { Tab } from 'material-ui/Tabs'
 import Scrollbar from '../../components/Scrollbar/Scrollbar'
 import { filterSelectors, filterActions } from 'material-ui-filter'
 import SearchField from '../../components/SearchField'
-import { getList, isLoading } from 'firekit'
+import { getList, isLoading, getPath } from 'firekit'
+import IconButton from 'material-ui/IconButton';
+import AppBar from 'material-ui/AppBar';
+import { formValueSelector } from 'redux-form';
 
 const path = '/users'
 const form_name = 'user'
 
+const styles = theme => ({
+  root: {
+    flexGrow: 1,
+    backgroundColor: theme.palette.background.default,
+  },
+  tabs: {
+    flex: 1,
+    width: '100%',
+  },
+  form: {
+    backgroundColor: theme.palette.background.default,
+    margin: 15,
+    display: 'flex',
+    justifyContent: 'center'
+  }
+});
+
 export class User extends Component {
 
-  componentWillMount() {
-    const { watchList, setSearch } = this.props
+  componentDidMount() {
+    const { watchList, watchPath, uid } = this.props
     watchList('admins')
+
+    console.log(watchPath)
+
+    watchPath(`users/${uid}`)
+    console.log('mounted')
   }
 
-  handleTabActive = (value) => {
+  componentWillUnmount() {
+    const { unwatchPath, uid } = this.props
+
+    console.log('unmounting')
+
+    //unwatchPath(`users/${uid}`)
+  }
+
+  handleTabActive = (e, value) => {
     const { history, uid } = this.props
 
     history.push(`${path}/edit/${uid}/${value}`)
@@ -53,7 +85,7 @@ export class User extends Component {
     const {
       history,
       intl,
-      muiTheme,
+      theme,
       match,
       admins,
       editType,
@@ -61,7 +93,9 @@ export class User extends Component {
       hasFilters,
       setSearch,
       firebaseApp,
-      isLoading
+      isLoading,
+      classes,
+      photoURL
     } = this.props
 
     const uid = match.params.uid
@@ -80,7 +114,7 @@ export class User extends Component {
       {
         hidden: editType !== 'grants',
         text: intl.formatMessage({ id: 'open_filter' }),
-        icon: <FontIcon className="material-icons" color={hasFilters ? muiTheme.palette.accent1Color : muiTheme.palette.canvasColor}>filter_list</FontIcon>,
+        icon: <Icon className="material-icons" color={hasFilters ? theme.palette.accent1Color : theme.palette.canvasColor}>filter_list</Icon>,
         tooltip: intl.formatMessage({ id: 'open_filter' }),
         onClick: () => setFilterIsOpen('user_grants', true)
       }
@@ -89,80 +123,59 @@ export class User extends Component {
     return (
       <Activity
         isLoading={isLoading}
-        iconStyleRight={{ width: '50%' }}
-        iconStyleLeft={{ width: 'auto' }}
-        iconStyleRight={{ width: '100%', textAlign: 'center', marginLeft: 0 }}
-        iconElementRight={
-          <div style={{ display: 'flex' }}>
-            {editType === 'grants' &&
-              <div style={{ width: 'calc(100% - 84px)' }}>
-                <SearchField
-                  onChange={(e, newVal) => {
-                    setSearch('user_grants', newVal)
-                  }}
-                  hintText={`${intl.formatMessage({ id: 'search' })}`}
-                />
-              </div>
-            }
-            <div style={{ position: 'absolute', right: 10, width: 100 }}>
-              <ResponsiveMenu
-                iconMenuColor={muiTheme.palette.canvasColor}
-                menuList={menuList}
-              />
+        appBarContent={
+          <div >
+            {editType === 'grants' && <div style={{ display: 'flex' }}>
+              <SearchField filterName={'user_grants'} />
+
+              <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                onClick={() => setFilterIsOpen('user_grants', true)}
+              >
+                <Icon className="material-icons" color={hasFilters ? theme.palette.accent1Color : theme.palette.canvasColor}>filter_list</Icon>
+              </IconButton>
+
             </div>
+            }
           </div>
         }
         onBackClick={() => history.push('/users')}
         title={intl.formatMessage({ id: 'edit_user' })}>
+        <Scrollbar style={{ height: '100%' }}>
+          <div className={classes.root}>
 
-        <Scrollbar>
-          <Tabs
-            value={editType}
-            onChange={this.handleTabActive}>
+            <AppBar position="static">
+              <Tabs value={editType} onChange={this.handleTabActive} fullWidth centered >
+                <Tab value="profile" icon={<Icon className="material-icons">person</Icon>} />
+                <Tab value="roles" icon={<Icon className="material-icons">account_box</Icon>} />
+                <Tab value="grants" icon={<Icon className="material-icons">lock</Icon>} />
+              </Tabs>
+            </AppBar>
 
+            {editType === 'profile' && <div className={classes.form}>
 
-            <Tab
-              value={'profile'}
-              icon={<FontIcon className="material-icons">person</FontIcon>}>
-              {
-                editType === 'profile' &&
-                <div style={{ margin: 15, display: 'flex', justifyContent: 'center' }}>
-                  <FireForm
-                    firebaseApp={firebaseApp}
-                    name={form_name}
-                    path={`${path}/`}
-                    onSubmitSuccess={(values) => { history.push(`${path}`) }}
-                    onDelete={(values) => { history.push(`${path}`) }}
-                    uid={uid}>
-                    <UserForm
-                      handleAdminChange={this.handleAdminChange}
-                      isAdmin={isAdmin}
-                      {...this.props}
-                    />
-                  </FireForm>
-                </div>
-              }
+              <FireForm
+                firebaseApp={firebaseApp}
+                name={form_name}
+                path={`${path}/`}
+                onSubmitSuccess={(values) => { history.push(`${path}`) }}
+                onDelete={(values) => { history.push(`${path}`) }}
+                uid={uid}>
+                <UserForm
+                  handleAdminChange={this.handleAdminChange}
+                  isAdmin={isAdmin}
+                  photoURL={photoURL}
+                  {...this.props}
+                />
+              </FireForm>
 
-            </Tab>
-            <Tab
-              value={'roles'}
-              icon={<FontIcon className="material-icons">account_box</FontIcon>}>
-              {
-                editType === 'roles' &&
-                <UserRoles {...this.props} />
-              }
-            </Tab>
-            <Tab
-              value={'grants'}
-              icon={<FontIcon className="material-icons">lock</FontIcon>}>
-              {
-                editType === 'grants' &&
-                <UserGrants {...this.props} />
-              }
-            </Tab>
-          </Tabs>
+            </div>}
+            {editType === 'roles' && <UserRoles {...this.props} />}
+            {editType === 'grants' && <UserGrants {...this.props} />}
+
+          </div>
         </Scrollbar>
-
 
       </Activity>
     )
@@ -173,12 +186,13 @@ export class User extends Component {
 User.propTypes = {
   history: PropTypes.object,
   intl: intlShape.isRequired,
-  submit: PropTypes.func.isRequired,
-  muiTheme: PropTypes.object.isRequired,
+  //submit: PropTypes.func.isRequired,
+  theme: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   admins: PropTypes.array.isRequired,
 }
 
+const selector = formValueSelector('user')
 
 const mapStateToProps = (state, ownProps) => {
   const { auth, intl, filters } = state
@@ -190,17 +204,28 @@ const mapStateToProps = (state, ownProps) => {
   const isLoadingRoles = isLoading(state, 'user_roles')
   const isLoadingGrants = isLoading(state, 'user_grants')
 
+  let photoURL = ''
+  let displayName = ''
+
+  if (selector) {
+    photoURL = selector(state, 'photoURL')
+    displayName = selector(state, 'displayName')
+  }
+
   return {
     hasFilters,
     auth,
     uid,
     editType,
     intl,
+    photoURL,
+    displayName,
     admins: getList(state, 'admins'),
+    user: getPath(state, `users/${uid}`),
     isLoading: isLoadingRoles || isLoadingGrants
   }
 }
 
 export default connect(
   mapStateToProps, { setSimpleValue, change, submit, ...filterActions }
-)(injectIntl(withRouter(withFirebase(muiThemeable()(User)))))
+)(injectIntl(withRouter(withFirebase(withStyles(styles, { withTheme: true })(withTheme()(User))))))

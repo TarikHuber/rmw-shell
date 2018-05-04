@@ -32,7 +32,7 @@ const styles = theme => ({
 
 })
 
-const PageNotFound = ({ muiTheme, intl, appConfig, classes }) => {
+const PageNotFound = ({ theme, intl, appConfig, classes }) => {
   const AppIcon = appConfig.appIcon
 
   return (

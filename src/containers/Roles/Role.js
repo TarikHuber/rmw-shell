@@ -4,7 +4,7 @@ import Dialog from 'material-ui/Dialog'
 import Divider from 'material-ui/Divider'
 import FireForm from 'fireform'
 import FlatButton from 'material-ui/FlatButton'
-import FontIcon from 'material-ui/FontIcon'
+import Icon from 'material-ui/Icon'
 import React, { Component } from 'react'
 import RoleForm from '../../components/Forms/RoleForm'
 import RoleGrants from './RoleGrants'
@@ -83,7 +83,7 @@ export class Role extends Component {
       dialogs,
       setDialogIsOpen,
       submit,
-      muiTheme,
+      theme,
       match,
       firebaseApp,
       appConfig,
@@ -113,21 +113,21 @@ export class Role extends Component {
       {
         hidden: uid === undefined || editType !== 'main',
         text: intl.formatMessage({ id: 'save' }),
-        icon: <FontIcon className="material-icons" color={muiTheme.palette.canvasColor}>save</FontIcon>,
+        icon: <Icon className="material-icons" color={theme.palette.canvasColor}>save</Icon>,
         tooltip: intl.formatMessage({ id: 'save' }),
         onClick: () => { submit('role') }
       },
       {
         hidden: uid === undefined || editType !== 'main',
         text: intl.formatMessage({ id: 'delete' }),
-        icon: <FontIcon className="material-icons" color={muiTheme.palette.canvasColor}>delete</FontIcon>,
+        icon: <Icon className="material-icons" color={theme.palette.canvasColor}>delete</Icon>,
         tooltip: intl.formatMessage({ id: 'delete' }),
         onClick: () => { setDialogIsOpen('delete_role', true); }
       },
       {
         hidden: editType !== 'grants',
         text: intl.formatMessage({ id: 'open_filter' }),
-        icon: <FontIcon className="material-icons" color={hasFilters ? muiTheme.palette.accent1Color : muiTheme.palette.canvasColor}>filter_list</FontIcon>,
+        icon: <Icon className="material-icons" color={hasFilters ? theme.palette.accent1Color : theme.palette.canvasColor}>filter_list</Icon>,
         tooltip: intl.formatMessage({ id: 'open_filter' }),
         onClick: () => setFilterIsOpen('role_grants', true)
       }
@@ -154,7 +154,7 @@ export class Role extends Component {
             }
             <div style={{ position: 'absolute', right: 10, width: 100 }}>
               <ResponsiveMenu
-                iconMenuColor={muiTheme.palette.canvasColor}
+                iconMenuColor={theme.palette.canvasColor}
                 menuList={menuList}
               />
             </div>
@@ -172,7 +172,7 @@ export class Role extends Component {
 
             <Tab
               value={'main'}
-              icon={<FontIcon className="material-icons">account_box</FontIcon>}>
+              icon={<Icon className="material-icons">account_box</Icon>}>
               {
                 editType === 'main' &&
 
@@ -197,7 +197,7 @@ export class Role extends Component {
 
             <Tab
               value={'grants'}
-              icon={<FontIcon className="material-icons">lock</FontIcon>}>
+              icon={<Icon className="material-icons">lock</Icon>}>
               {
                 editType === 'grants' &&
                 <RoleGrants {...this.props} />

@@ -1,4 +1,4 @@
-import FontIcon from 'material-ui/FontIcon'
+import Icon from 'material-ui/Icon'
 import IconButton from 'material-ui/IconButton'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
@@ -30,7 +30,7 @@ class ChatMessage extends Component {
     const {
       dataChanged,
       authorChanged,
-      muiTheme,
+      theme,
       auth,
       values,
       backgroundColor,
@@ -54,7 +54,7 @@ class ChatMessage extends Component {
           }}>
             <div>
               <Chip
-                backgroundColor={muiTheme.palette.primary3Color}>
+                backgroundColor={theme.palette.primary3Color}>
                 {`${values.created ? intl.formatRelative(new Date(values.created), { units: 'day' }) : undefined}`}
               </Chip>
             </div>
@@ -63,14 +63,14 @@ class ChatMessage extends Component {
 
         <div style={{ display: 'flex', width: '100%', justifyContent: values.authorUid === auth.uid ? 'flex-end' : 'flex-start' }}>
           <div style={{
-            ...muiTheme.chip,
+            ...theme.chip,
             margin: 1,
             marginTop: authorChanged === true ? 8 : 1,
-            boxShadow: muiTheme.chip.shadow,
+            boxShadow: theme.chip.shadow,
             borderRadius: authorChanged === true ? (values.authorUid === auth.uid ? '8px 0 8px 8px' : '0 8px 8px 8px') : '8px 8px 8px 8px',
             backgroundColor: backgroundColor,
             color: color,
-            fontFamily: muiTheme.fontFamily
+            fontFamily: theme.fontFamily
           }}>
             <div style={{
               display: 'flex',
@@ -87,12 +87,12 @@ class ChatMessage extends Component {
                 margin: 'auto',
                 whiteSpace: 'pre-wrap',
                 overflowWrap: 'break-word',
-                fontFamily: muiTheme.fontFamily
+                fontFamily: theme.fontFamily
               }}>
                 {values.authorUid !== auth.uid &&
                   <div
                     onClick={() => { history.push(`/chats/edit/${values.authorUid}`) }}
-                    style={{ color: muiTheme.palette.accent1Color, fontSize: 12, marginLeft: 0, cursor: 'pointer' }}>
+                    style={{ color: theme.palette.accent1Color, fontSize: 12, marginLeft: 0, cursor: 'pointer' }}>
                     {values.authorName}
                   </div>
                 }
@@ -104,7 +104,7 @@ class ChatMessage extends Component {
                         target='_blank'
                         href={values.location}
                       >
-                        <FontIcon className='material-icons' color={muiTheme.palette.accent1Color}>map</FontIcon>
+                        <Icon className='material-icons' color={theme.palette.accent1Color}>map</Icon>
                       </IconButton>
                       {intl.formatMessage({ id: 'my_location' })}
                     </div>
@@ -143,19 +143,19 @@ class ChatMessage extends Component {
               </div>
               <div style={{
                 fontSize: 9,
-                color: values.authorUid !== auth.uid ? muiTheme.palette.primary3Color : muiTheme.palette.canvasColor,
+                color: values.authorUid !== auth.uid ? theme.palette.primary3Color : theme.palette.canvasColor,
                 marginLeft: 8,
                 alignSelf: 'flex-end'
               }}>
                 {`${values.created ? intl.formatTime(new Date(values.created)) : undefined}`}
                 {values.isSend &&
-                  <FontIcon className='material-icons' style={{
+                  <Icon className='material-icons' style={{
                     fontSize: 11,
                     padding: 0,
                     paddingLeft: 2,
                     bottom: -2,
-                    color: values.isRead ? muiTheme.palette.accent1Color : muiTheme.palette.convasColor
-                  }} >{values.isReceived ? 'done_all' : 'done'}</FontIcon>
+                    color: values.isRead ? theme.palette.accent1Color : theme.palette.convasColor
+                  }} >{values.isReceived ? 'done_all' : 'done'}</Icon>
                 }
               </div>
             </div>
@@ -168,7 +168,7 @@ class ChatMessage extends Component {
 
 ChatMessage.propTypes = {
   intl: intlShape.isRequired,
-  muiTheme: PropTypes.object.isRequired
+  theme: PropTypes.object.isRequired
 }
 
 const mapStateToProps = (state, ownPops) => {

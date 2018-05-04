@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { ResponsiveAppBar } from 'material-ui-responsive-drawer';
 import { Helmet } from 'react-helmet';
 import IconButton from 'material-ui/IconButton';
-import FontIcon from 'material-ui/FontIcon';
+import Icon from 'material-ui/Icon';
 import muiThemeable from 'material-ui/styles/muiThemeable';
 import { BodyContainer } from 'material-ui-responsive-drawer';
 import LinearProgress from 'material-ui/LinearProgress';
@@ -20,7 +20,7 @@ export class Activity extends Component {
 
     if (onBackClick) {
       return <IconButton onClick={onBackClick}>
-        <FontIcon className="material-icons" >chevron_left</FontIcon>
+        <Icon className="material-icons" >chevron_left</Icon>
       </IconButton>
     } else {
       return undefined;
@@ -30,7 +30,7 @@ export class Activity extends Component {
   render() {
 
     const {
-      muiTheme,
+      theme,
       title,
       children,
       onBackClick,
@@ -51,7 +51,7 @@ export class Activity extends Component {
     const drawerWidth = customDrawerWidth ? customDrawerWidth : 256;
 
     const bodyContainerStyle = {
-      backgroundColor: muiTheme.palette.canvasColor,
+      backgroundColor: theme.palette.canvasColor,
       top: 64,
       bottom: 0,
       overflow: 'auto',
@@ -69,11 +69,11 @@ export class Activity extends Component {
     }
 
     return (
-      <div style={{ backgroundColor: muiTheme.palette.canvasColor, height: '100%' }}>
+      <div style={{ backgroundColor: theme.palette.canvasColor, height: '100%' }}>
         <Helmet>
-          <meta name="theme-color" content={muiTheme.palette.primary1Color} />
-          <meta name="apple-mobile-web-app-status-bar-style" content={muiTheme.palette.primary1Color} />
-          <meta name="msapplication-navbutton-color" content={muiTheme.palette.primary1Color} />
+          <meta name="theme-color" content={theme.palette.primary1Color} />
+          <meta name="apple-mobile-web-app-status-bar-style" content={theme.palette.primary1Color} />
+          <meta name="msapplication-navbutton-color" content={theme.palette.primary1Color} />
           <title>{headerTitle}</title>
         </Helmet>
         <LinearProgress />
@@ -109,7 +109,7 @@ export class Activity extends Component {
         }
 
         {isLoading &&
-          <LinearProgress mode="indeterminate" color={muiTheme.palette.accent1Color} style={{ zIndex: 9998, position: 'fixed', top: 0, height: height ? height : 5 }} />
+          <LinearProgress mode="indeterminate" color={theme.palette.accent1Color} style={{ zIndex: 9998, position: 'fixed', top: 0, height: height ? height : 5 }} />
         }
 
         <BodyContainer width={drawerWidth} id="bodyContainer" ref="bodyContainer" withRef style={bodyContainerStyle} >

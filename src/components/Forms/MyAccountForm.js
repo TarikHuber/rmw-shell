@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { intlShape } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import { TextField } from 'redux-form-material-ui'
-import FontIcon from 'material-ui/FontIcon'
+import Icon from 'material-ui/Icon'
 import { ImageCropDialog } from '../../containers/ImageCropDialog'
 import IconButton from 'material-ui/IconButton'
 import { AvatarImageField } from '../ReduxFormFields'
@@ -18,7 +18,7 @@ class MyAccountForm extends Component {
       setSimpleValue,
       new_company_photo,
       auth,
-      muiTheme,
+      theme,
       isLinkedWithProvider,
       linkUserWithPopup,
       getProviderIcon,
@@ -100,12 +100,12 @@ class MyAccountForm extends Component {
                 tabIndex={-1}
                 onClick={auth.emailVerified === true ? undefined : handleEmailVerificationsSend}
                 tooltip={intl.formatMessage({ id: auth.emailVerified === true ? 'email_verified' : 'email_not_verified' })}>
-                <FontIcon
-                  color={auth.emailVerified === true ? muiTheme.palette.primary1Color : muiTheme.palette.accent1Color}
+                <Icon
+                  color={auth.emailVerified === true ? theme.palette.primary1Color : theme.palette.accent1Color}
                   style={{ 'paddingLeft': 10 }}
                   className='material-icons'>
                   {auth.emailVerified === true ? 'verified_user' : 'error'}
-                </FontIcon>
+                </Icon>
               </IconButton>
             </div>
           </div>
@@ -180,7 +180,7 @@ MyAccountForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   initialized: PropTypes.bool.isRequired,
   setSimpleValue: PropTypes.func.isRequired,
-  muiTheme: PropTypes.object.isRequired,
+  theme: PropTypes.object.isRequired,
   isLinkedWithProvider: PropTypes.func.isRequired,
   linkUserWithPopup: PropTypes.func.isRequired,
   intl: intlShape.isRequired,

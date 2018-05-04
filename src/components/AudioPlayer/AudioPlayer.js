@@ -1,5 +1,5 @@
 import Avatar from 'material-ui/Avatar'
-import FontIcon from 'material-ui/FontIcon'
+import Icon from 'material-ui/Icon'
 import IconButton from 'material-ui/IconButton'
 import LinearProgress from 'material-ui/LinearProgress'
 import React, { Component } from 'react'
@@ -74,14 +74,14 @@ export class AudioPlayer extends Component {
   }
 
   render() {
-    const { src, authorPhotoUrl, muiTheme } = this.props
+    const { src, authorPhotoUrl, theme } = this.props
     const { playing, volume, muted, loop, played, loaded, duration, playbackRate, playedSeconds } = this.state
 
     return (
       <div style={{ display: 'flex', alignItems: 'center' }}>
-        <Avatar src={authorPhotoUrl} alt='person' icon={<FontIcon className='material-icons' >person</FontIcon>} />
+        <Avatar src={authorPhotoUrl} alt='person' icon={<Icon className='material-icons' >person</Icon>} />
         <IconButton onClick={this.state.playing ? this.onPause : this.onPlay} >
-          <FontIcon
+          <Icon
             style={
               {
                 width: 60,
@@ -89,9 +89,9 @@ export class AudioPlayer extends Component {
               }
             }
             className='material-icons'
-            color={muiTheme.palette.accent1Color}>
+            color={theme.palette.accent1Color}>
             {this.state.playing ? 'pause' : 'play_arrow'}
-          </FontIcon>
+          </Icon>
         </IconButton >
         <div style={{
           marginTop: 25,
@@ -103,10 +103,10 @@ export class AudioPlayer extends Component {
             mode="determinate"
             min={0} max={1}
             value={played}
-            color={muiTheme.palette.accent1Color}
+            color={theme.palette.accent1Color}
           />
 
-          <div style={{ marginTop: 5, color: muiTheme.palette.primary3Color }}>{moment().month(0).date(1).hours(0).minutes(0).seconds(playedSeconds).format('m:ss')}</div>
+          <div style={{ marginTop: 5, color: theme.palette.primary3Color }}>{moment().month(0).date(1).hours(0).minutes(0).seconds(playedSeconds).format('m:ss')}</div>
 
 
         </div>

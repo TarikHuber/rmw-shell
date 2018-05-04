@@ -11,7 +11,7 @@ import ChatMessagesList from './ChatMessagesList'
 
 class ChatMessages extends Component {
   render () {
-    const { muiTheme, uid, firebaseApp, auth } = this.props
+    const { theme, uid, firebaseApp, auth } = this.props
 
     return (
       <div
@@ -19,7 +19,7 @@ class ChatMessages extends Component {
           display: 'flex',
           flexDirection: 'column',
           height: '100%',
-          backgroundColor: muiTheme.chip.backgroundColor
+          backgroundColor: theme.chip.backgroundColor
         }}
         onClick={() => {
           firebaseApp.database().ref(`user_chats/${auth.uid}/${uid}/unread`).remove()
@@ -34,7 +34,7 @@ class ChatMessages extends Component {
 
 ChatMessages.propTypes = {
   intl: intlShape.isRequired,
-  muiTheme: PropTypes.object.isRequired,
+  theme: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired
 }
 

@@ -20,13 +20,13 @@ export class NotificationLayout extends Component {
 
 
   componentWillMount() {
-    const { muiTheme } = this.props
+    const { theme } = this.props
 
     this.initMessaging(this.props)
 
     /*
     style({
-      //colorInfo: muiTheme.palette.primary1Color,
+      //colorInfo: theme.palette.primary1Color,
     })
     */
   }
@@ -59,7 +59,7 @@ export class NotificationLayout extends Component {
       auth,
       notificationPermissionRequested,
       setPersistentValue,
-      muiTheme,
+      theme,
       intl,
       appConfig
     } = props
@@ -75,7 +75,7 @@ export class NotificationLayout extends Component {
             <Icon
               style={{ paddingRight: 8 }}
               className="material-icons"
-              color={muiTheme.palette.accent1Color}
+              color={theme.palette.accent1Color}
             >notifications</Icon>
             <div style={{ padding: undefined }}>{intl.formatMessage({ id: 'enable_notifications_message' })}</div>
           </div>
@@ -140,7 +140,7 @@ export class NotificationLayout extends Component {
   }
 
   handleMessageReceived = (payload) => {
-    const { muiTheme, location, appConfig } = this.props;
+    const { theme, location, appConfig } = this.props;
 
 
     const notification = payload.notification

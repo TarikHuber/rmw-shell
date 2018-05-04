@@ -71,7 +71,7 @@ class Collection extends Component {
   }
 
   render() {
-    const { intl, muiTheme, posts, isWatching } = this.props
+    const { intl, theme, posts, isWatching } = this.props
 
     return (
       <Activity title={intl.formatMessage({ id: 'collection' })}>
@@ -119,7 +119,7 @@ class Collection extends Component {
                 rightIconButton={<IconButton
                   onClick={() => { this.handleDelete(post.id) }}
                   tooltip="Delete">
-                  <FontIcon className="material-icons" color={muiTheme.palette.accent1Color}>delete</FontIcon>
+                  <FontIcon className="material-icons" color={theme.palette.accent1Color}>delete</FontIcon>
                 </IconButton>
                 } />
             })

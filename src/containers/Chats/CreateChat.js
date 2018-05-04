@@ -8,7 +8,7 @@ import Scrollbar from '../../components/Scrollbar'
 import { List, ListItem } from 'material-ui/List'
 import Divider from 'material-ui/Divider'
 import Avatar from 'material-ui/Avatar'
-import FontIcon from 'material-ui/FontIcon'
+import Icon from 'material-ui/Icon'
 import { withRouter } from 'react-router-dom'
 import { GoogleIcon, FacebookIcon, GitHubIcon, TwitterIcon } from '../../components/Icons'
 import { withFirebase } from 'firekit-provider'
@@ -56,7 +56,7 @@ export class Users extends Component {
     const {
       users,
       intl,
-      muiTheme,
+      theme,
       auth
     } = this.props
 
@@ -74,8 +74,8 @@ export class Users extends Component {
         onClick={() => { this.handleRowClick(users[index]) }}
         primaryText={user.displayName}
         secondaryText={(!user.connections && !user.lastOnline) ? intl.formatMessage({ id: 'offline' }) : intl.formatMessage({ id: 'online' })}
-        leftAvatar={<Avatar style={{ marginTop: 10 }} src={user.photoURL} alt="person" icon={<FontIcon className="material-icons" >person</FontIcon>} />}
-        rightIcon={<FontIcon style={{ marginTop: 22 }} className="material-icons" color={user.connections ? muiTheme.palette.primary1Color : muiTheme.palette.disabledColor}>offline_pin</FontIcon>}
+        leftAvatar={<Avatar style={{ marginTop: 10 }} src={user.photoURL} alt="person" icon={<Icon className="material-icons" >person</Icon>} />}
+        rightIcon={<Icon style={{ marginTop: 22 }} className="material-icons" color={user.connections ? theme.palette.primary1Color : theme.palette.disabledColor}>offline_pin</Icon>}
       />
       <Divider inset={true} />
     </div>
@@ -84,7 +84,7 @@ export class Users extends Component {
   render() {
     const {
       users,
-      muiTheme,
+      theme,
       setSearch,
       intl
     } = this.props
@@ -102,7 +102,7 @@ export class Users extends Component {
           </div>
         }
         isLoading={users === undefined}>
-        <div style={{ height: '100%', overflow: 'none', backgroundColor: muiTheme.palette.convasColor }}>
+        <div style={{ height: '100%', overflow: 'none', backgroundColor: theme.palette.convasColor }}>
           <Scrollbar>
             <List id='test' ref={(field) => { this.users = field; }}>
               <ReactList
@@ -121,7 +121,7 @@ export class Users extends Component {
 Users.propTypes = {
   users: PropTypes.array.isRequired,
   intl: intlShape.isRequired,
-  muiTheme: PropTypes.object.isRequired,
+  theme: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
 };
 

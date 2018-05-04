@@ -5,7 +5,7 @@ import muiThemeable from 'material-ui/styles/muiThemeable'
 import { injectIntl, intlShape } from 'react-intl'
 import { setSimpleValue } from '../../store/simpleValues/actions'
 import Activity from '../../containers/Activity'
-import FontIcon from 'material-ui/FontIcon'
+import Icon from 'material-ui/Icon'
 import Avatar from 'material-ui/Avatar'
 import { withRouter } from 'react-router-dom'
 import { withFirebase } from 'firekit-provider'
@@ -18,14 +18,14 @@ export class Chat extends Component {
   }
 
   render () {
-    const { messages, muiTheme, history, receiverDisplayName, receiverPhotoURL, path, receiverPath } = this.props
+    const { messages, theme, history, receiverDisplayName, receiverPhotoURL, path, receiverPath } = this.props
 
     return (
       <Activity
         isLoading={messages === undefined}
         containerStyle={{
           overflow: 'hidden',
-          backgroundColor: muiTheme.chip.backgroundColor
+          backgroundColor: theme.chip.backgroundColor
         }}
         onBackClick={() => { history.push('/chats') }}
         pageTitle={receiverDisplayName}
@@ -34,10 +34,10 @@ export class Chat extends Component {
             src={receiverPhotoURL}
             alt='person'
             icon={
-              <FontIcon
+              <Icon
                 className='material-icons'>
                 person
-            </FontIcon>
+            </Icon>
             }
           />
           <div style={{ paddingLeft: 8 }}>
@@ -57,7 +57,7 @@ export class Chat extends Component {
 
 Chat.propTypes = {
   intl: intlShape.isRequired,
-  muiTheme: PropTypes.object.isRequired,
+  theme: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired
 }
 

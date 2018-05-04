@@ -13,7 +13,7 @@ const getMenuItems = (props) => {
     updateTheme,
     updateLocale,
     intl,
-    muiTheme,
+    themeSource,
     auth,
     isGranted
   } = props

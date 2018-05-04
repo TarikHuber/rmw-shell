@@ -117,11 +117,11 @@ class Root extends Component {
   }
 
   render() {
-    const { locale, muiTheme, messages, appConfig } = this.props;
+    const { locale, theme, messages, appConfig } = this.props;
 
     return (
       <MuiPickersUtilsProvider utils={MomentUtils} >
-        <MuiThemeProvider theme={muiTheme} >
+        <MuiThemeProvider theme={theme} >
           <IntlProvider locale={locale} key={locale} messages={messages}>
             <Router history={history} >
               <Switch>
@@ -140,24 +140,23 @@ Root.propTypes = {
   locale: PropTypes.string.isRequired,
   source: PropTypes.object.isRequired,
   messages: PropTypes.object.isRequired,
-  muiTheme: PropTypes.object.isRequired,
+  //theme: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state, ownProps) => {
-  const { theme, locale } = state;
+  const { themeSource, locale } = state;
   const { appConfig } = ownProps
 
-  const source = getThemeSource(theme, appConfig.themes);
+  const source = getThemeSource(themeSource, appConfig.themes);
   const messages = { ...(getLocaleMessages(locale, locales)), ...(getLocaleMessages(locale, appConfig.locales)) }
 
-  console.log(createMuiTheme(source))
-  const muiTheme = createMuiTheme(source);
+  const theme = createMuiTheme(source);
 
   return {
     locale,
     source,
     messages,
-    muiTheme
+    theme
   };
 };
 

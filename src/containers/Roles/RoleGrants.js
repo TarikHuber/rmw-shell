@@ -5,7 +5,7 @@ import { injectIntl, intlShape } from 'react-intl';
 import muiThemeable from 'material-ui/styles/muiThemeable';
 import { setSimpleValue } from '../../store/simpleValues/actions';
 import { withRouter } from 'react-router-dom';
-import FontIcon from 'material-ui/FontIcon';
+import Icon from 'material-ui/Icon';
 import { withFirebase } from 'firekit-provider'
 import { ListItem } from 'material-ui/List';
 import Divider from 'material-ui/Divider';
@@ -62,7 +62,7 @@ export class RoleGrants extends Component {
 					<Avatar
 						alt="person"
 						src={undefined}
-						icon={<FontIcon className="material-icons" >checked</FontIcon>}
+						icon={<Icon className="material-icons" >checked</Icon>}
 					/>
 				}
 				rightToggle={
@@ -123,7 +123,7 @@ export class RoleGrants extends Component {
 
 RoleGrants.propTypes = {
 	intl: intlShape.isRequired,
-	muiTheme: PropTypes.object.isRequired,
+	theme: PropTypes.object.isRequired,
 	match: PropTypes.object.isRequired,
 };
 

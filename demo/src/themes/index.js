@@ -7,7 +7,7 @@ import green from 'material-ui/colors/green'
 
 const themes = [
   {
-    id: 'red',
+    id: 'light',
     source: {
       palette: {
         primary: red,

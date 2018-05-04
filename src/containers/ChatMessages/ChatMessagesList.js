@@ -4,7 +4,7 @@ import ChatMessage from './ChatMessage'
 import Chip from 'material-ui/Chip'
 import Divider from 'material-ui/Divider'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
-import FontIcon from 'material-ui/FontIcon'
+import Icon from 'material-ui/Icon'
 import IconButton from 'material-ui/IconButton'
 import Image from 'material-ui-image'
 import PropTypes from 'prop-types'
@@ -84,7 +84,7 @@ class ChatMessages extends Component {
   }
 
   renderList(messages) {
-    const { auth, intl, muiTheme, history, path } = this.props;
+    const { auth, intl, theme, history, path } = this.props;
 
     let currentDate = '';
     let currentAuthor = '';
@@ -104,8 +104,8 @@ class ChatMessages extends Component {
       const stringDate = values.created ? new Date(values.created).toISOString().slice(0, 10) : ''
       let dataChanged = false
       let authorChanged = false
-      const backgroundColor = values.authorUid === auth.uid ? muiTheme.palette.primary2Color : muiTheme.palette.canvasColor
-      const color = muiTheme.chip.textColor
+      const backgroundColor = values.authorUid === auth.uid ? theme.palette.primary2Color : theme.palette.canvasColor
+      const color = theme.chip.textColor
       let type = values.message ? 'text' : (values.link ? "link" : (values.location ? 'location' : (values.image ? 'image' : undefined)))
 
 
@@ -144,7 +144,7 @@ class ChatMessages extends Component {
 
     const {
       messages,
-      muiTheme,
+      theme,
       intl,
       setSimpleValue,
       chatMessageMenuOpen,
@@ -159,7 +159,7 @@ class ChatMessages extends Component {
     return (
       <Scrollbar
         style={{
-          backgroundColor: muiTheme.palette.canvasColor,
+          backgroundColor: theme.palette.canvasColor,
           width: '100%',
         }}>
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -167,7 +167,7 @@ class ChatMessages extends Component {
             <div style={{ display: 'flex', justifyContent: 'center' }}>
               <Chip
                 onClick={this.handleLoadMore}
-                backgroundColor={muiTheme.palette.primary3Color}>
+                backgroundColor={theme.palette.primary3Color}>
                 {intl.formatMessage({ id: 'load_more_label' })}
               </Chip>
             </div>
@@ -185,7 +185,7 @@ class ChatMessages extends Component {
 
 ChatMessages.propTypes = {
   intl: intlShape.isRequired,
-  muiTheme: PropTypes.object.isRequired,
+  theme: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
 };
 

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { injectIntl, intlShape } from 'react-intl';
 import { Activity } from '../../../../src'
 //import { ResponsiveMenu } from 'material-ui-responsive-menu';
-import { withTheme } from 'material-ui/styles'
+import { withTheme, withStyles } from 'material-ui/styles'
 import { setDialogIsOpen } from '../../../../src/store/dialogs/actions'
 import CompanyForm from '../../components/Forms/CompanyForm';
 import { withRouter } from 'react-router-dom';
@@ -18,12 +18,17 @@ import Dialog, {
 } from 'material-ui/Dialog';
 import { withFirebase } from 'firekit-provider'
 import FireForm from 'fireform'
+import { isLoading } from 'firekit'
 import { change, submit } from 'redux-form';
 import isGranted from '../../../../src/utils/auth';
 import IconButton from 'material-ui/IconButton';
 
 const path = '/companies/';
 const form_name = 'company';
+
+const styles = teheme => ({
+
+})
 
 
 class Company extends Component {
@@ -71,13 +76,16 @@ class Company extends Component {
       submit,
       theme,
       isGranted,
-      firebaseApp
+      firebaseApp,
+      uid,
+      isLoading
     } = this.props;
 
-    const uid = match.params.uid;
+    //const uid = match.params.uid;
 
     return (
       <Activity
+        isLoading={isLoading}
         iconStyleRight={{ width: '50%' }}
         appBarContent={
           <div style={{ display: 'flex' }}>
@@ -115,7 +123,7 @@ class Company extends Component {
             validate={this.validate}
             onSubmitSuccess={(values) => { history.push('/companies'); }}
             onDelete={(values) => { history.push('/companies'); }}
-            uid={match.params.uid}>
+            uid={uid}>
             <CompanyForm />
           </FireForm>
         </div>
@@ -162,16 +170,21 @@ Company.propTypes = {
 };
 
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   const { intl, dialogs } = state;
+  const { match } = ownProps
+
+  const uid = match.params.uid
 
   return {
     intl,
     dialogs,
-    isGranted: grant => isGranted(state, grant)
+    uid,
+    isGranted: grant => isGranted(state, grant),
+    isLoading: isLoading(state, `${path}/${uid}`)
   };
 };
 
 export default connect(
   mapStateToProps, { setDialogIsOpen, change, submit }
-)(injectIntl(withRouter(withFirebase(withTheme()(Company)))));
+)(injectIntl(withRouter(withFirebase(withTheme()(withStyles(styles, { withTheme: true })(Company))))))

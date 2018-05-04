@@ -3,10 +3,74 @@ import PropTypes from 'prop-types'
 import { intlShape } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import { TextField } from 'redux-form-material-ui'
-import { AvatarImageField } from '../ReduxFormFields'
-import Toggle from 'material-ui/Toggle'
+import Avatar from 'material-ui/Avatar'
+import IconButton from 'material-ui/IconButton'
+import Icon from 'material-ui/Icon'
+import Switch from 'material-ui/Switch'
+import classNames from 'classnames'
+import { withTheme, withStyles } from 'material-ui/styles'
+import withAppConfigs from '../../withAppConfigs'
+import { GoogleIcon, FacebookIcon, GitHubIcon, TwitterIcon } from '../../components/Icons';
+import { FormGroup, FormControlLabel } from 'material-ui/Form';
+import Typography from 'material-ui/Typography';
+
+const styles = theme => ({
+  avatar: {
+    margin: 10
+  },
+  bigAvatar: {
+    width: 120,
+    height: 120
+  },
+  margin: {
+    margin: theme.spacing.unit
+  },
+  withoutLabel: {
+    marginTop: theme.spacing.unit * 3
+  },
+  root: {
+    backgroundColor: theme.palette.background.default,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
+  }
+})
 
 class UserForm extends Component {
+
+
+  isLinkedWithProvider = (provider) => {
+    const { auth } = this.props;
+
+    try {
+      return auth && auth.providerData && auth.providerData.find((p) => { return p.providerId === provider }) !== undefined;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  getProviderIcon = (p) => {
+    const { theme } = this.props
+    const color = 'primary'
+
+    switch (p) {
+      case 'google.com':
+        return <GoogleIcon />
+
+      case 'facebook.com':
+        return <FacebookIcon />
+
+      case 'twitter.com':
+        return <TwitterIcon />
+
+      case 'github.com':
+        return <GitHubIcon />
+
+      default:
+        return undefined
+    }
+  }
+
 
   render() {
     const {
@@ -15,7 +79,11 @@ class UserForm extends Component {
       initialized,
       uid,
       handleAdminChange,
-      isAdmin
+      isAdmin,
+      photoURL,
+      classes,
+      appConfig,
+      displayName
     } = this.props
 
     return (
@@ -28,52 +96,48 @@ class UserForm extends Component {
       }}>
         <button type='submit' style={{ display: 'none' }} />
 
-        <div style={{ marginLeft: -10 }}>
-          <AvatarImageField
-            disabled
-            uid={uid}
-            change={this.props.change}
-            initialized={initialized}
-            intl={intl}
-            path={'users'}
+        <div className={classes.root}>
+          <Avatar
+            alt={''}
+            src={photoURL}
+            className={classNames(classes.avatar, classes.bigAvatar)}
           />
 
-        </div>
-
-        <div>
           <div>
-            <Field
-              name='displayName'
-              disabled
-              component={TextField}
-              hintText={intl.formatMessage({ id: 'name_hint' })}
-              floatingLabelText={intl.formatMessage({ id: 'name_label' })}
-              ref='displayName'
-              withRef
-            />
+            {
+              appConfig.firebase_providers.map((p, i) => {
+                if (p !== 'email' && p !== 'password' && p !== 'phone') {
+                  return <IconButton
+                    key={i}
+                    disabled={!this.isLinkedWithProvider(p)}
+                    color='primary'
+                  >
+                    {this.getProviderIcon(p)}
+                  </IconButton>
+                } else {
+                  return <div key={i} />
+                }
+              })
+            }
           </div>
-          <div>
-            <Field
-              name='email'
-              disabled
-              component={TextField}
-              hintText={intl.formatMessage({ id: 'email_hint' })}
-              floatingLabelText={intl.formatMessage({ id: 'email_label' })}
-              ref='email'
-              withRef
-            />
-          </div>
-
           <br />
 
-          <div>
-            <Toggle
-              label={intl.formatMessage({ id: 'is_admin_label' })}
-              toggled={isAdmin}
-              onToggle={handleAdminChange}
-            />
-          </div>
+          <Typography variant="display1" gutterBottom>
+            {displayName}
+          </Typography>
 
+          <div>
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={isAdmin}
+                  onChange={handleAdminChange}
+                />
+              }
+              label={intl.formatMessage({ id: 'is_admin_label' })}
+            />
+
+          </div>
         </div>
       </form>
     )
@@ -89,4 +153,4 @@ UserForm.propTypes = {
   uid: PropTypes.string.isRequired
 }
 
-export default reduxForm({ form: 'user' })(UserForm)
+export default withAppConfigs(withStyles(styles, { withTheme: true })(reduxForm({ form: 'user' })(UserForm)))
