@@ -1,20 +1,23 @@
-import Activity from '../../containers/Activity'
+import Activity from '../../components/Activity'
 import Avatar from 'material-ui/Avatar'
-import Dialog from 'material-ui/Dialog'
+import Dialog, {
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from 'material-ui/Dialog';
 import Divider from 'material-ui/Divider'
 import FireForm from 'fireform'
-import FlatButton from 'material-ui/FlatButton'
+import Button from 'material-ui/Button'
 import Icon from 'material-ui/Icon'
 import React, { Component } from 'react'
 import RoleForm from '../../components/Forms/RoleForm'
 import RoleGrants from './RoleGrants'
 import Scrollbar from '../../components/Scrollbar/Scrollbar'
-import Toggle from 'material-ui/Toggle'
-import muiThemeable from 'material-ui/styles/muiThemeable'
+import { withTheme, withStyles } from 'material-ui/styles'
 import withAppConfigs from '../../withAppConfigs'
 import { ListItem } from 'material-ui/List'
-import { ResponsiveMenu } from 'material-ui-responsive-menu'
-import { Tabs, Tab } from 'material-ui/Tabs'
+import Tabs, { Tab } from 'material-ui/Tabs'
 import { change, submit } from 'redux-form'
 import { connect } from 'react-redux'
 import { injectIntl } from 'react-intl'
@@ -24,13 +27,41 @@ import { withRouter } from 'react-router-dom'
 import SearchField from '../../components/SearchField'
 import { filterSelectors, filterActions } from 'material-ui-filter'
 import { isLoading } from 'firekit'
+import AppBar from 'material-ui/AppBar';
+import IconButton from 'material-ui/IconButton';
+import Input, { InputLabel, InputAdornment } from 'material-ui/Input';
+import { FormControl, FormHelperText } from 'material-ui/Form';
+import classNames from 'classnames';
 
 const path = '/roles';
 const form_name = 'role';
 
+const styles = theme => ({
+  root: {
+    flexGrow: 1,
+    backgroundColor: theme.palette.background.default,
+  },
+  tabs: {
+    flex: 1,
+    width: '100%',
+  },
+  form: {
+    backgroundColor: theme.palette.background.default,
+    margin: 15,
+    display: 'flex',
+    justifyContent: 'center',
+  }
+});
 
 export class Role extends Component {
 
+  state = {
+    values: {
+      name: '',
+      description: ''
+    },
+    errors: {}
+  }
 
   validate = (values) => {
     const { intl } = this.props;
@@ -41,17 +72,45 @@ export class Role extends Component {
     return errors
   }
 
-  handleTabActive = (value) => {
+  clean = (obj) => {
+    Object.keys(obj).forEach((key) => (obj[key] === undefined) && delete obj[key]);
+    return obj
+  }
+
+
+  submit = () => {
+    const { firebaseApp, uid, history } = this.props;
+
+    const values = this.state.values
+
+    firebaseApp.database().ref(`roles/${uid}`).update(this.clean(values)).then(() => {
+      history.push('/roles')
+    })
+  }
+
+  handleTabActive = (e, value) => {
     const { history, uid } = this.props
 
     history.push(`${path}/edit/${uid}/${value}`)
   }
 
+  handleValueChange = (name, value) => {
+
+    return this.setState({ values: { ...this.state.values, [name]: value } }, () => { this.validate() })
+  }
+
 
   componentWillMount() {
-    const { watchList, setSearch } = this.props
+    const { watchList, firebaseApp, setSearch, uid } = this.props
     watchList('grants')
-    setSearch('role_grants', '')
+    watchList('role_grants')
+
+    firebaseApp.database().ref(`roles/${uid}`).on('value', snap => {
+      this.setState({ values: snap.val() ? snap.val() : {} })
+    })
+
+    //watchPath(`roles/${uid}`)
+    //setSearch('role_grants', '')
   }
 
 
@@ -59,6 +118,21 @@ export class Role extends Component {
     const { setDialogIsOpen } = this.props;
 
     setDialogIsOpen('delete_role', false);
+
+  }
+
+  validate = () => {
+    const { auth } = this.props;
+
+    const errors = {}
+    const values = this.state.values
+
+    if (!values.name) {
+      errors.displayName = 'Required'
+    }
+
+
+    this.setState({ errors })
 
   }
 
@@ -73,6 +147,19 @@ export class Role extends Component {
         history.goBack();
       })
     }
+  }
+
+  canSave = () => {
+
+    const { auth } = this.props
+    const values = this.state.values
+
+    if (Object.keys(this.state.errors).length) {
+      return false
+    }
+
+    return true
+
   }
 
   render() {
@@ -91,130 +178,131 @@ export class Role extends Component {
       setSearch,
       hasFilters,
       setFilterIsOpen,
-      isLoading
+      isLoading,
+      classes
     } = this.props;
 
     const uid = match.params.uid;
 
-    const actions = [
-      <FlatButton
-        label={intl.formatMessage({ id: 'cancel' })}
-        primary={true}
-        onClick={this.handleClose}
-      />,
-      <FlatButton
-        label={intl.formatMessage({ id: 'delete' })}
-        secondary={true}
-        onClick={this.handleDelete}
-      />,
-    ];
-
-    const menuList = [
-      {
-        hidden: uid === undefined || editType !== 'main',
-        text: intl.formatMessage({ id: 'save' }),
-        icon: <Icon className="material-icons" color={theme.palette.canvasColor}>save</Icon>,
-        tooltip: intl.formatMessage({ id: 'save' }),
-        onClick: () => { submit('role') }
-      },
-      {
-        hidden: uid === undefined || editType !== 'main',
-        text: intl.formatMessage({ id: 'delete' }),
-        icon: <Icon className="material-icons" color={theme.palette.canvasColor}>delete</Icon>,
-        tooltip: intl.formatMessage({ id: 'delete' }),
-        onClick: () => { setDialogIsOpen('delete_role', true); }
-      },
-      {
-        hidden: editType !== 'grants',
-        text: intl.formatMessage({ id: 'open_filter' }),
-        icon: <Icon className="material-icons" color={hasFilters ? theme.palette.accent1Color : theme.palette.canvasColor}>filter_list</Icon>,
-        tooltip: intl.formatMessage({ id: 'open_filter' }),
-        onClick: () => setFilterIsOpen('role_grants', true)
-      }
-    ]
-
-
     return (
+
+
       <Activity
         isLoading={isLoading}
-        iconStyleRight={{ width: '50%' }}
-        iconStyleLeft={{ width: 'auto' }}
-        iconStyleRight={{ width: '100%', textAlign: 'center', marginLeft: 0 }}
-        iconElementRight={
-          <div style={{ display: 'flex' }}>
-            {editType === 'grants' &&
-              <div style={{ width: 'calc(100% - 84px)' }}>
-                <SearchField
-                  onChange={(e, newVal) => {
-                    setSearch('role_grants', newVal)
-                  }}
-                  hintText={`${intl.formatMessage({ id: 'search' })}`}
-                />
-              </div>
+        appBarContent={
+          <div >
+            {editType === 'main' &&
+              <IconButton
+                color="inherit"
+                disabled={!this.canSave()}
+                aria-label="open drawer"
+                onClick={() => { this.submit() }}
+              >
+                <Icon className="material-icons" >save</Icon>
+              </IconButton>
             }
-            <div style={{ position: 'absolute', right: 10, width: 100 }}>
-              <ResponsiveMenu
-                iconMenuColor={theme.palette.canvasColor}
-                menuList={menuList}
-              />
+
+            {editType === 'main' &&
+              <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                onClick={() => setDialogIsOpen('delete_role', true)}
+              >
+                <Icon className="material-icons" >delete</Icon>
+              </IconButton>
+            }
+
+            {editType === 'grants' && <div style={{ display: 'flex' }}>
+              <SearchField filterName={'role_grants'} />
+
+
+
+              <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                onClick={() => setFilterIsOpen('role_grants', true)}
+              >
+                <Icon className="material-icons" color={hasFilters ? theme.palette.accent1Color : theme.palette.canvasColor}>filter_list</Icon>
+              </IconButton>
+
             </div>
+            }
           </div>
         }
         onBackClick={() => history.push('/roles')}
-        title={intl.formatMessage({ id: 'edit_role' })} >
+        title={intl.formatMessage({ id: 'edit_role' })}>
+        <Scrollbar style={{ height: '100%' }}>
+          <div className={classes.root}>
+
+            <AppBar position="static">
+              <Tabs value={editType} onChange={this.handleTabActive} fullWidth centered >
+                <Tab value="main" icon={<Icon className="material-icons">account_box</Icon>} />
+                <Tab value="grants" icon={<Icon className="material-icons">lock</Icon>} />
+              </Tabs>
+            </AppBar>
+
+            {editType === 'main' && <div className={classes.form}>
 
 
-        <Scrollbar>
-          <Tabs
-            value={editType}
-            onChange={this.handleTabActive}>
+              <div style={{ margin: 15, display: 'flex', flexDirection: 'column' }}>
+                <FormControl className={classNames(classes.margin, classes.textField)} error={!!this.state.errors.name}>
+                  <InputLabel htmlFor="adornment-password">{intl.formatMessage({ id: 'name_label' })}</InputLabel>
+                  <Input
+                    id="name"
+                    fullWidth
+                    value={this.state.values.name}
+                    placeholder={intl.formatMessage({ id: 'name_hint' })}
+                    onChange={(e) => { this.handleValueChange('name', e.target.value) }}
+                  />
+                  {this.state.errors.displayName &&
+                    <FormHelperText id="name-helper-text">{this.state.errors.displayName}</FormHelperText>
+                  }
+                </FormControl>
+                <br />
+                <FormControl className={classNames(classes.margin, classes.textField)}>
+                  <InputLabel htmlFor="adornment-password">{intl.formatMessage({ id: 'description_label' })}</InputLabel>
+                  <Input
+                    id="description"
+                    fullWidth
+                    multiline
+                    value={this.state.values.description}
+                    placeholder={intl.formatMessage({ id: 'description_hint' })}
+                    onChange={(e) => { this.handleValueChange('description', e.target.value) }}
+                  />
+                </FormControl>
 
 
-            <Tab
-              value={'main'}
-              icon={<Icon className="material-icons">account_box</Icon>}>
-              {
-                editType === 'main' &&
+              </div>
+            </div>
+            }
+            {editType === 'grants' && <RoleGrants {...this.props} />}
 
-                <div style={{ margin: 15, display: 'flex' }}>
-                  <FireForm
-                    firebaseApp={firebaseApp}
-                    name={form_name}
-                    path={`${path}/`}
-                    validate={this.validate}
-                    onSubmitSuccess={(values) => { history.push(`${path}`); }}
-                    onDelete={(values) => { history.push(`${path}`); }}
-                    uid={this.props.match.params.uid}>
-                    <RoleForm
-                      grants={appConfig.grants}
-                      {...this.props}
-                    />
-                  </FireForm>
-                </div>
-              }
-
-            </Tab>
-
-            <Tab
-              value={'grants'}
-              icon={<Icon className="material-icons">lock</Icon>}>
-              {
-                editType === 'grants' &&
-                <RoleGrants {...this.props} />
-              }
-            </Tab>
-          </Tabs>
+          </div>
         </Scrollbar>
 
 
         <Dialog
-          title={intl.formatMessage({ id: 'delete_role_title' })}
-          actions={actions}
-          modal={false}
           open={dialogs.delete_role === true}
-          onRequestClose={this.handleClose}>
-          {intl.formatMessage({ id: 'delete_role_message' })}
+          onClose={this.handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">{intl.formatMessage({ id: 'delete_role_dialog_title' })}</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              {intl.formatMessage({ id: 'delete_role_dialog_message' })}
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleClose} color="primary" >
+              {intl.formatMessage({ id: 'cancel' })}
+            </Button>
+            <Button onClick={this.handleDelete} color="secondary" >
+              {intl.formatMessage({ id: 'delete' })}
+            </Button>
+          </DialogActions>
         </Dialog>
+
       </Activity>
     );
   }
@@ -243,4 +331,4 @@ const mapStateToProps = (state, ownProps) => {
 
 export default connect(
   mapStateToProps, { setDialogIsOpen, change, submit, ...filterActions }
-)(injectIntl(withRouter(withFirebase(withAppConfigs(muiThemeable()(Role))))))
+)(injectIntl(withRouter(withFirebase(withAppConfigs(withStyles(styles, { withTheme: true })(withTheme()(Role)))))))

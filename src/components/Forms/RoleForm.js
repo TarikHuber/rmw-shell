@@ -3,12 +3,10 @@ import PropTypes from 'prop-types'
 import { intlShape } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import { TextField } from 'redux-form-material-ui'
-import ReactList from 'react-list'
-import { List } from 'material-ui/List'
-import Subheader from 'material-ui/Subheader'
+
 
 class RoleForm extends Component {
-  render () {
+  render() {
     const {
       handleSubmit,
       intl,
