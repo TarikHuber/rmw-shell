@@ -19,7 +19,7 @@ const routes = [
   <RestrictedRoute type='private' path="/companies" exact component={AsyncCompanies} />,
   <RestrictedRoute type='private' path="/companies/edit/:uid" exact component={AsyncCompany} />,
   <RestrictedRoute type='private' path="/companies/create" exact component={AsyncCompany} />,
-  <RestrictedRoute type='private' path="/users/edit/:uid/:editType" exact component={AsyncUser} />,
+  //<RestrictedRoute type='private' path="/users/edit/:uid/:editType" exact component={AsyncUser} />,
 ]
 
 

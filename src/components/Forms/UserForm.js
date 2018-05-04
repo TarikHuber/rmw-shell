@@ -83,63 +83,56 @@ class UserForm extends Component {
       photoURL,
       classes,
       appConfig,
-      displayName
+      displayName,
+      values
     } = this.props
 
     return (
-      <form onSubmit={handleSubmit} style={{
-        height: '100%',
-        alignItems: 'stretch',
-        display: 'flex',
-        flexWrap: 'wrap',
-        justifyContent: 'flex-start'
-      }}>
-        <button type='submit' style={{ display: 'none' }} />
 
-        <div className={classes.root}>
-          <Avatar
-            alt={''}
-            src={photoURL}
-            className={classNames(classes.avatar, classes.bigAvatar)}
+      <div className={classes.root}>
+        <Avatar
+          alt={''}
+          src={values.photoURL}
+          className={classNames(classes.avatar, classes.bigAvatar)}
+        />
+
+        <div>
+          {
+            appConfig.firebase_providers.map((p, i) => {
+              if (p !== 'email' && p !== 'password' && p !== 'phone') {
+                return <IconButton
+                  key={i}
+                  disabled={!this.isLinkedWithProvider(p)}
+                  color='primary'
+                >
+                  {this.getProviderIcon(p)}
+                </IconButton>
+              } else {
+                return <div key={i} />
+              }
+            })
+          }
+        </div>
+        <br />
+
+        <Typography variant="display1" gutterBottom>
+          {values.displayName}
+        </Typography>
+
+        <div>
+          <FormControlLabel
+            control={
+              <Switch
+                checked={isAdmin}
+                onChange={handleAdminChange}
+              />
+            }
+            label={intl.formatMessage({ id: 'is_admin_label' })}
           />
 
-          <div>
-            {
-              appConfig.firebase_providers.map((p, i) => {
-                if (p !== 'email' && p !== 'password' && p !== 'phone') {
-                  return <IconButton
-                    key={i}
-                    disabled={!this.isLinkedWithProvider(p)}
-                    color='primary'
-                  >
-                    {this.getProviderIcon(p)}
-                  </IconButton>
-                } else {
-                  return <div key={i} />
-                }
-              })
-            }
-          </div>
-          <br />
-
-          <Typography variant="display1" gutterBottom>
-            {displayName}
-          </Typography>
-
-          <div>
-            <FormControlLabel
-              control={
-                <Switch
-                  checked={isAdmin}
-                  onChange={handleAdminChange}
-                />
-              }
-              label={intl.formatMessage({ id: 'is_admin_label' })}
-            />
-
-          </div>
         </div>
-      </form>
+      </div>
+
     )
   }
 }
@@ -153,4 +146,4 @@ UserForm.propTypes = {
   uid: PropTypes.string.isRequired
 }
 
-export default withAppConfigs(withStyles(styles, { withTheme: true })(reduxForm({ form: 'user' })(UserForm)))
+export default withAppConfigs(withStyles(styles, { withTheme: true })(UserForm))

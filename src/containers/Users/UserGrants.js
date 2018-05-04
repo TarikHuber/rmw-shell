@@ -21,8 +21,8 @@ export class UserGrants extends Component {
 
   componentWillMount() {
     const { watchList, setSearch } = this.props
-    watchList('user_grants')
-    setSearch('user_grants', '')
+    //watchList('user_grants')
+    //setSearch('user_grants', '')
   }
 
 

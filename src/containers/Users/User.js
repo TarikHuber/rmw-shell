@@ -9,7 +9,7 @@ import { withRouter } from 'react-router-dom'
 import { change, submit } from 'redux-form'
 import Icon from 'material-ui/Icon'
 import { withFirebase } from 'firekit-provider'
-import FireForm from 'fireform'
+import FireForm from '../../components/FireForm'
 import UserForm from '../../components/Forms/UserForm'
 import UserGrants from './UserGrants'
 import UserRoles from './UserRoles'
@@ -44,22 +44,25 @@ const styles = theme => ({
 
 export class User extends Component {
 
+  state = {
+    values: {}
+  }
+
   componentDidMount() {
-    const { watchList, watchPath, uid } = this.props
+    const { watchList, watchPath, uid, firebaseApp } = this.props
     watchList('admins')
+    watchList('user_grants')
 
-    console.log(watchPath)
+    firebaseApp.database().ref(`users/${uid}`).on('value', snap => {
+      this.setState({ values: snap.val() })
+    })
 
-    watchPath(`users/${uid}`)
-    console.log('mounted')
   }
 
   componentWillUnmount() {
-    const { unwatchPath, uid } = this.props
+    const { firebaseApp, uid } = this.props
 
-    console.log('unmounting')
-
-    //unwatchPath(`users/${uid}`)
+    firebaseApp.database().ref(`users/${uid}`).off()
   }
 
   handleTabActive = (e, value) => {
@@ -155,20 +158,14 @@ export class User extends Component {
 
             {editType === 'profile' && <div className={classes.form}>
 
-              <FireForm
-                firebaseApp={firebaseApp}
-                name={form_name}
-                path={`${path}/`}
-                onSubmitSuccess={(values) => { history.push(`${path}`) }}
-                onDelete={(values) => { history.push(`${path}`) }}
-                uid={uid}>
-                <UserForm
-                  handleAdminChange={this.handleAdminChange}
-                  isAdmin={isAdmin}
-                  photoURL={photoURL}
-                  {...this.props}
-                />
-              </FireForm>
+
+              <UserForm
+                handleAdminChange={this.handleAdminChange}
+                isAdmin={isAdmin}
+                values={this.state.values ? this.state.values : {}}
+                {...this.props}
+              />
+
 
             </div>}
             {editType === 'roles' && <UserRoles {...this.props} />}
