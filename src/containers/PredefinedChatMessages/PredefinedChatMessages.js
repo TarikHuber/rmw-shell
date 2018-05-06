@@ -124,7 +124,7 @@ export class PredefinedChatMessages extends Component {
 
 
         {list &&
-          <BottomNavigation style={{ width: '100%', position: 'absolute', bottom: 0, right: 0, left: 0, zIndex: 50 }}>
+          <BottomNavigation style={{ width: '100%', position: 'absolute', bottom: 0, right: 0, left: 0, zIndex: 50, backgroundColor: theme.palette.background.default }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 15 }}>
               <TextField
                 id="predefinedChatMessage"
