@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
-import muiThemeable from 'material-ui/styles/muiThemeable'
+import { withTheme, withStyles } from 'material-ui/styles'
 import { connect } from 'react-redux'
 import { injectIntl, intlShape } from 'react-intl'
 import { setSimpleValue } from '../../store/simpleValues/actions'
@@ -18,8 +18,8 @@ class ChatMessages extends Component {
         style={{
           display: 'flex',
           flexDirection: 'column',
-          height: '100%',
-          backgroundColor: theme.chip.backgroundColor
+          height: '100%'
+          // backgroundColor: theme.chip.backgroundColor
         }}
         onClick={() => {
           firebaseApp.database().ref(`user_chats/${auth.uid}/${uid}/unread`).remove()
@@ -58,4 +58,4 @@ const mapStateToProps = (state, ownPops) => {
 
 export default connect(
   mapStateToProps, { setSimpleValue }
-)(injectIntl(muiThemeable()(withRouter(withFirebase(ChatMessages)))))
+)(injectIntl(withTheme()(withRouter(withFirebase(ChatMessages)))))

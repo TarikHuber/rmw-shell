@@ -1,6 +1,6 @@
 import Chip from 'material-ui/Chip'
 import Divider from 'material-ui/Divider'
-import FloatingActionButton from 'material-ui/FloatingActionButton'
+import Button from 'material-ui/Button'
 import Icon from 'material-ui/Icon'
 import IconButton from 'material-ui/IconButton'
 import Image from 'material-ui-image'
@@ -12,8 +12,8 @@ import Scrollbar from '../../components/Scrollbar'
 import ChatMic from './ChatMic'
 import TextField from 'material-ui/TextField'
 import firebase from 'firebase'
-import muiThemeable from 'material-ui/styles/muiThemeable'
-import { ListItem } from 'material-ui/List'
+import { withTheme, withStyles } from 'material-ui/styles'
+import List, { ListItem, ListItemText } from 'material-ui/List'
 import { connect } from 'react-redux'
 import { getGeolocation } from '../../utils/googleMaps'
 import { injectIntl, intlShape } from 'react-intl'
@@ -21,8 +21,13 @@ import { setSimpleValue } from '../../store/simpleValues/actions'
 import { withFirebase } from 'firekit-provider'
 import { withRouter } from 'react-router-dom'
 import moment from 'moment'
+import Input, { InputLabel, InputAdornment } from 'material-ui/Input';
+import { FormControl, FormHelperText } from 'material-ui/Form';
 
 class ChatMessages extends Component {
+
+
+
 
   constructor(props) {
     super(props);
@@ -92,30 +97,27 @@ class ChatMessages extends Component {
     const message = predefinedMessages[i].val.message;
 
     return <div key={key}>
+
       <ListItem
-        rightIconButton={
-          <IconButton
-            onClick={() => {
-              setSimpleValue('chatMessageMenuOpen', false)
-              this.handleAddMessage("text", message)
-            }}>
-            <Icon className="material-icons" color={theme.palette.textColor}>send</Icon>
-          </IconButton>
-        }
+        key={key}
         onClick={() => {
           setSimpleValue('chatMessageMenuOpen', false);
           this.setState({ value: message })
-
-          //this.name.input.value = message;
-          this.name.state.hasValue = true;
-          this.name.state.isFocused = true;
-          this.name.focus();
         }}
-        key={key}
-        id={key}
-        primaryText={message}
-      />
-      <Divider />
+        id={key}>
+        <ListItemText primary={message} />
+
+
+        <IconButton
+          color='primary'
+          onClick={() => {
+            setSimpleValue('chatMessageMenuOpen', false)
+            this.handleAddMessage("text", message)
+          }}>
+          <Icon >send</Icon>
+        </IconButton>
+      </ListItem>
+      <Divider inset={true} />
     </div>;
   }
 
@@ -176,10 +178,11 @@ class ChatMessages extends Component {
         alignItems: 'row',
         justifyContent: 'center',
         height: chatMessageMenuOpen ? 300 : 56,
-        backgroundColor: theme.palette.canvasColor
+        backgroundColor: theme.palette.background.main
       }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <IconButton
+            color={'primary'}
             onClick={() => {
               if (chatMessageMenuOpen === true) {
                 setSimpleValue('chatMessageMenuOpen', false);
@@ -187,23 +190,23 @@ class ChatMessages extends Component {
                 setSimpleValue('chatMessageMenuOpen', true);
               }
             }}>
-            <Icon className="material-icons" color={theme.palette.borderColor}>{chatMessageMenuOpen === true ? 'keyboard_arrow_down' : 'keyboard_arrow_up'}</Icon>
+            <Icon>{chatMessageMenuOpen === true ? 'keyboard_arrow_down' : 'keyboard_arrow_up'} </Icon>
           </IconButton>
 
           <div style={{
-            backgroundColor: theme.chip.backgroundColor,
+            backgroundColor: theme.palette.type === 'light' ? theme.palette.grey[300] : theme.palette.grey[700],
             flexGrow: 1,
             borderRadius: 8,
             paddingLeft: 8,
             paddingRight: 8,
           }}>
             <div style={{ position: 'relative', display: 'inline-block', width: '100%' }}>
-              <TextField
+              <Input
                 id="message"
-                style={{ height: 42, width: 'calc(100% - 72px)', lineHeight: undefined }}
-                underlineShow={false}
+                style={{ height: 42, width: 'calc(100% - 72px)', lineHeight: undefined, marginTop: 8 }}
+                disableUnderline={true}
                 onChange={(e, val) => {
-                  this.setState({ value: val })
+                  this.setState({ value: e.target.value })
                 }}
                 fullWidth={true}
                 value={this.state.value}
@@ -213,8 +216,10 @@ class ChatMessages extends Component {
                 ref={(field) => { this.name = field }}
                 type="Text"
               />
+
               <div style={{ position: 'absolute', right: 25, top: -3, width: 20, height: 0 }}>
                 <IconButton
+                  color={'primary'}
                   onClick={() =>
                     getGeolocation((pos) => {
                       if (!pos) {
@@ -229,7 +234,7 @@ class ChatMessages extends Component {
                     },
                       (error) => console.log(error))
                   }>
-                  <Icon className="material-icons" color={theme.palette.primary1Color}>my_location</Icon>
+                  <Icon >my_location</Icon>
                 </IconButton>
               </div>
 
@@ -243,22 +248,24 @@ class ChatMessages extends Component {
 
               <div style={{ position: 'absolute', right: 55, top: -3, width: 20, height: 0 }}>
                 <IconButton
+                  color={'primary'}
                   containerElement='label'
                   onClick={() => this.fileInput.click()}>
-                  <Icon className="material-icons" color={theme.palette.primary1Color}>photo</Icon>
+                  <Icon >photo</Icon>
                 </IconButton>
               </div>
             </div>
           </div>
           <IconButton
+            color={'primary'}
             disabled={this.state.value === undefined || this.state.value === ''}
             onClick={() => this.handleAddMessage("text", this.state.value)}>
-            <Icon className="material-icons" color={theme.palette.primary1Color}>send</Icon>
+            <Icon >send</Icon>
           </IconButton>
         </div>
         {
           chatMessageMenuOpen &&
-          <Scrollbar style={{ height: 200, backgroundColor: theme.chip.backgroundColor }}>
+          <Scrollbar style={{ height: 200, backgroundColor: undefined }}>
             <div style={{ padding: 10, paddingRight: 0, }}>
               <ReactList
                 itemRenderer={this.renderItem}
@@ -310,4 +317,4 @@ const mapStateToProps = (state, ownPops) => {
 
 export default connect(
   mapStateToProps, { setSimpleValue }
-)(injectIntl(muiThemeable()(withRouter(withFirebase(ChatMessages)))));
+)(injectIntl(withTheme()(withRouter(withFirebase(ChatMessages)))));

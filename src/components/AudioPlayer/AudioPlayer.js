@@ -1,10 +1,10 @@
 import Avatar from 'material-ui/Avatar'
 import Icon from 'material-ui/Icon'
 import IconButton from 'material-ui/IconButton'
-import LinearProgress from 'material-ui/LinearProgress'
+import { LinearProgress } from 'material-ui/Progress'
 import React, { Component } from 'react'
 import ReactPlayer from 'react-player'
-import muiThemeable from 'material-ui/styles/muiThemeable'
+import { withTheme, withStyles } from 'material-ui/styles'
 import moment from 'moment'
 
 export class AudioPlayer extends Component {
@@ -132,4 +132,4 @@ export class AudioPlayer extends Component {
   }
 }
 
-export default muiThemeable()(AudioPlayer)
+export default withTheme()(AudioPlayer)

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import firebaseui from 'firebaseui'
+import 'firebase/auth'
 
 let authUi = null
 
@@ -9,17 +10,18 @@ export class AuthUI extends Component {
 
     // let authUi = null
 
+    console.log(firebaseApp.auth())
+
     try {
       if (!firebaseui.auth.AuthUI.getInstance()) {
         authUi = new firebaseui.auth.AuthUI(firebaseApp.auth())
+        authUi.start('#firebaseui-auth', uiConfig)
       } else {
         // console.log(firebaseui.auth)
       }
     } catch (err) {
       console.warn(err)
     }
-
-    authUi.start('#firebaseui-auth', uiConfig)
   }
 
   componentWillUnmount () {

@@ -10,14 +10,13 @@ const getAppRoutes = (firebaseLoader) => {
 
 
   const AsyncSignIn = MyLoadable({ loader: () => import('../../containers/SignIn/SignIn') });
-  //const AsyncPageNotFound = MyLoadable({ loader: () => import('../../components/PageNotFound/PageNotFound') });
   const AsyncUser = MyLoadable({ loader: () => import('../../containers/Users/User') });
   const AsyncUsers = MyLoadable({ loader: () => import('../../containers/Users/Users') }, [AsyncUser]);
   const AsyncMyAccount = MyLoadable({ loader: () => import('../../containers/MyAccount/MyAccount') });
   const AsyncRole = MyLoadable({ loader: () => import('../../containers/Roles/Role') });
   const AsyncRoles = MyLoadable({ loader: () => import('../../containers/Roles/Roles') }, [AsyncRole]);
   const AsyncPredefinedChatMessages = MyLoadable({ loader: () => import('../../containers/PredefinedChatMessages/PredefinedChatMessages') });
-  //const AsyncPublicChats = MyLoadable({ loader: () => import('../../containers/PublicChats/PublicChats') });
+  const AsyncPublicChats = MyLoadable({ loader: () => import('../../containers/PublicChats/PublicChats') });
 
   return [
     <RestrictedRoute type='public' path="/signin" component={AsyncSignIn} />,
@@ -28,7 +27,7 @@ const getAppRoutes = (firebaseLoader) => {
     <RestrictedRoute type='private' path="/roles" exact component={AsyncRoles} />,
     <RestrictedRoute type='private' path="/roles/edit/:uid/:editType" exact component={AsyncRole} />,
     <RestrictedRoute type='private' path="/predefined_chat_messages" exact component={AsyncPredefinedChatMessages} />,
-    //<RestrictedRoute type='private' path="/public_chats" exact component={AsyncPublicChats} />,
+    <RestrictedRoute type='private' path="/public_chats" exact component={AsyncPublicChats} />,
     <Route component={PageNotFound} />,
 
   ]

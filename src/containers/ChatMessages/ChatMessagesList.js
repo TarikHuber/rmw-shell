@@ -3,7 +3,7 @@ import ChatInput from './ChatInput'
 import ChatMessage from './ChatMessage'
 import Chip from 'material-ui/Chip'
 import Divider from 'material-ui/Divider'
-import FloatingActionButton from 'material-ui/FloatingActionButton'
+import Button from 'material-ui/Button'
 import Icon from 'material-ui/Icon'
 import IconButton from 'material-ui/IconButton'
 import Image from 'material-ui-image'
@@ -14,7 +14,7 @@ import Scrollbar from '../../components/Scrollbar'
 import TextField from 'material-ui/TextField'
 import firebase from 'firebase'
 import moment from 'moment'
-import muiThemeable from 'material-ui/styles/muiThemeable'
+import { withTheme, withStyles } from 'material-ui/styles'
 import { ListItem } from 'material-ui/List'
 import { connect } from 'react-redux'
 import { getGeolocation } from '../../utils/googleMaps'
@@ -101,11 +101,13 @@ class ChatMessages extends Component {
         return undefined
       }
 
+      const myBColor = theme.palette.type === 'light' ? theme.palette.grey[300] : theme.palette.grey[700]
+
       const stringDate = values.created ? new Date(values.created).toISOString().slice(0, 10) : ''
       let dataChanged = false
       let authorChanged = false
-      const backgroundColor = values.authorUid === auth.uid ? theme.palette.primary2Color : theme.palette.canvasColor
-      const color = theme.chip.textColor
+      const backgroundColor = values.authorUid === auth.uid ? theme.palette.primary.main : myBColor
+      const color = theme.palette.text.primary
       let type = values.message ? 'text' : (values.link ? "link" : (values.location ? 'location' : (values.image ? 'image' : undefined)))
 
 
@@ -159,17 +161,17 @@ class ChatMessages extends Component {
     return (
       <Scrollbar
         style={{
-          backgroundColor: theme.palette.canvasColor,
+          backgroundColor: theme.palette.background.default,
           width: '100%',
         }}>
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
           <div style={{ maxWidth: 600, margin: 8, width: '100%' }} >
             <div style={{ display: 'flex', justifyContent: 'center' }}>
               <Chip
+                label={intl.formatMessage({ id: 'load_more_label' })}
                 onClick={this.handleLoadMore}
-                backgroundColor={theme.palette.primary3Color}>
-                {intl.formatMessage({ id: 'load_more_label' })}
-              </Chip>
+                backgroundColor={theme.palette.primary.main}
+              />
             </div>
             {this.renderList(messages)}
           </div>
@@ -213,4 +215,4 @@ const mapStateToProps = (state, ownPops) => {
 
 export default connect(
   mapStateToProps, { setSimpleValue }
-)(injectIntl(muiThemeable()(withRouter(withFirebase(ChatMessages)))));
+)(injectIntl(withTheme()(withRouter(withFirebase(ChatMessages)))));

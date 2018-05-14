@@ -2,7 +2,7 @@ import Icon from 'material-ui/Icon'
 import IconButton from 'material-ui/IconButton'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
-import muiThemeable from 'material-ui/styles/muiThemeable'
+import { withTheme, withStyles } from 'material-ui/styles'
 import { connect } from 'react-redux'
 import { injectIntl, intlShape } from 'react-intl'
 import { setSimpleValue } from '../../store/simpleValues/actions'
@@ -13,7 +13,7 @@ import Image from 'material-ui-image'
 import Chip from 'material-ui/Chip'
 
 class ChatMessage extends Component {
-  componentDidMount () {
+  componentDidMount() {
     const { row, auth, firebaseApp, path } = this.props
 
     const values = row.val
@@ -26,7 +26,7 @@ class ChatMessage extends Component {
     }
   }
 
-  render () {
+  render() {
     const {
       dataChanged,
       authorChanged,
@@ -39,6 +39,8 @@ class ChatMessage extends Component {
       history,
       type
     } = this.props
+
+    const bColor = theme.palette.type === 'light' ? theme.palette.grey[300] : theme.palette.grey[700]
 
     return <div style={{ width: '100%' }}>
 
@@ -54,9 +56,8 @@ class ChatMessage extends Component {
           }}>
             <div>
               <Chip
-                backgroundColor={theme.palette.primary3Color}>
-                {`${values.created ? intl.formatRelative(new Date(values.created), { units: 'day' }) : undefined}`}
-              </Chip>
+                label={`${values.created ? intl.formatRelative(new Date(values.created), { units: 'day' }) : undefined}`}
+                backgroundColor={bColor} />
             </div>
           </div>
         }
@@ -66,11 +67,11 @@ class ChatMessage extends Component {
             ...theme.chip,
             margin: 1,
             marginTop: authorChanged === true ? 8 : 1,
-            boxShadow: theme.chip.shadow,
+            boxShadow: theme.shadows[3],
             borderRadius: authorChanged === true ? (values.authorUid === auth.uid ? '8px 0 8px 8px' : '0 8px 8px 8px') : '8px 8px 8px 8px',
             backgroundColor: backgroundColor,
             color: color,
-            fontFamily: theme.fontFamily
+            fontFamily: theme.typography.fontFamily
           }}>
             <div style={{
               display: 'flex',
@@ -87,12 +88,12 @@ class ChatMessage extends Component {
                 margin: 'auto',
                 whiteSpace: 'pre-wrap',
                 overflowWrap: 'break-word',
-                fontFamily: theme.fontFamily
+                fontFamily: theme.typography.fontFamily
               }}>
                 {values.authorUid !== auth.uid &&
                   <div
                     onClick={() => { history.push(`/chats/edit/${values.authorUid}`) }}
-                    style={{ color: theme.palette.accent1Color, fontSize: 12, marginLeft: 0, cursor: 'pointer' }}>
+                    style={{ color: theme.palette.secondary.main, fontSize: 12, marginLeft: 0, cursor: 'pointer' }}>
                     {values.authorName}
                   </div>
                 }
@@ -104,7 +105,7 @@ class ChatMessage extends Component {
                         target='_blank'
                         href={values.location}
                       >
-                        <Icon className='material-icons' color={theme.palette.accent1Color}>map</Icon>
+                        <Icon className='material-icons' color={theme.palette.secondary.main}>map</Icon>
                       </IconButton>
                       {intl.formatMessage({ id: 'my_location' })}
                     </div>
@@ -143,18 +144,18 @@ class ChatMessage extends Component {
               </div>
               <div style={{
                 fontSize: 9,
-                color: values.authorUid !== auth.uid ? theme.palette.primary3Color : theme.palette.canvasColor,
+                color: values.authorUid !== auth.uid ? theme.palette.text.secondary : theme.palette.text.secondary,
                 marginLeft: 8,
                 alignSelf: 'flex-end'
               }}>
                 {`${values.created ? intl.formatTime(new Date(values.created)) : undefined}`}
                 {values.isSend &&
-                  <Icon className='material-icons' style={{
+                  <Icon style={{
                     fontSize: 11,
                     padding: 0,
                     paddingLeft: 2,
                     bottom: -2,
-                    color: values.isRead ? theme.palette.accent1Color : theme.palette.convasColor
+                    color: values.isRead ? theme.palette.secondary.main : theme.palette.text.primary
                   }} >{values.isReceived ? 'done_all' : 'done'}</Icon>
                 }
               </div>
@@ -162,7 +163,7 @@ class ChatMessage extends Component {
           </div>
         </div>
       </div>
-    </div>
+    </div >
   }
 }
 
@@ -181,4 +182,4 @@ const mapStateToProps = (state, ownPops) => {
 
 export default connect(
   mapStateToProps, { setSimpleValue }
-)(injectIntl(muiThemeable()(withRouter(withFirebase(ChatMessage)))))
+)(injectIntl(withTheme()(withRouter(withFirebase(ChatMessage)))))

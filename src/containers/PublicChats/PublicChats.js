@@ -1,21 +1,21 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import muiThemeable from 'material-ui/styles/muiThemeable'
+import { withTheme, withStyles } from 'material-ui/styles'
 import { injectIntl, intlShape } from 'react-intl'
 import { setSimpleValue } from '../../store/simpleValues/actions'
-import Activity from '../../containers/Activity'
+import Activity from '../../components/Activity'
 import { withRouter } from 'react-router-dom'
 import { withFirebase } from 'firekit-provider'
 import ChatMessages from '../../containers/ChatMessages/ChatMessages'
 
 export class Chat extends Component {
-  render() {
+  render () {
     const { theme, intl, firebaseApp } = this.props
 
     return (
       <Activity
-        containerStyle={{ overflow: 'hidden', backgroundColor: theme.chip.backgroundColor }}
+        // containerStyle={{ overflow: 'hidden', backgroundColor: theme.chip.backgroundColor }}
         title={intl.formatMessage({ id: 'public_chats' })}>
 
         <ChatMessages
@@ -48,4 +48,4 @@ const mapStateToProps = (state, ownPops) => {
 
 export default connect(
   mapStateToProps, { setSimpleValue }
-)(injectIntl(muiThemeable()(withRouter(withFirebase(Chat)))))
+)(injectIntl(withTheme()(withRouter(withFirebase(Chat)))))

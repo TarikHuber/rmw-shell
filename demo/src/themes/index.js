@@ -10,8 +10,7 @@ const themes = [
     id: 'light',
     source: {
       palette: {
-        primary: red,
-        secondary: green
+        type: 'light'
       }
     }
   },
