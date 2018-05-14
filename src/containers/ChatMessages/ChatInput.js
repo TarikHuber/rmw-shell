@@ -211,7 +211,7 @@ class ChatMessages extends Component {
                 fullWidth={true}
                 value={this.state.value}
                 autoComplete="off"
-                hintText={intl.formatMessage({ id: 'write_message_hint' })}
+                placeholder={intl.formatMessage({ id: 'write_message_hint' })}
                 onKeyDown={(event) => { this.handleKeyDown(event, () => this.handleAddMessage("text", this.state.value)) }}
                 ref={(field) => { this.name = field }}
                 type="Text"
