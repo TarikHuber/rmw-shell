@@ -17,6 +17,10 @@ const getAppRoutes = (firebaseLoader) => {
   const AsyncRoles = MyLoadable({ loader: () => import('../../containers/Roles/Roles') }, [AsyncRole]);
   const AsyncPredefinedChatMessages = MyLoadable({ loader: () => import('../../containers/PredefinedChatMessages/PredefinedChatMessages') });
   const AsyncPublicChats = MyLoadable({ loader: () => import('../../containers/PublicChats/PublicChats') });
+  const AsyncChat = MyLoadable({ loader: () => import('../../containers/Chats/Chat') });
+  const AsyncCreateChat = MyLoadable({ loader: () => import('../../containers/Chats/CreateChat') });
+  const AsyncChats = MyLoadable({ loader: () => import('../../containers/Chats/Chats') }, [AsyncChat, AsyncCreateChat]);
+
 
   return [
     <RestrictedRoute type='public' path="/signin" component={AsyncSignIn} />,
@@ -28,22 +32,13 @@ const getAppRoutes = (firebaseLoader) => {
     <RestrictedRoute type='private' path="/roles/edit/:uid/:editType" exact component={AsyncRole} />,
     <RestrictedRoute type='private' path="/predefined_chat_messages" exact component={AsyncPredefinedChatMessages} />,
     <RestrictedRoute type='private' path="/public_chats" exact component={AsyncPublicChats} />,
+    <RestrictedRoute type='private' path="/chats" exact component={AsyncChats} />,
+    <RestrictedRoute type='private' path="/chats/create" exact component={AsyncCreateChat} />,
+    <RestrictedRoute type='private' path="/chats/edit/:uid" exact component={AsyncChat} />,
     <Route component={PageNotFound} />,
 
   ]
 
-  /*
-  const AsyncChat = MyLoadable({ loader: () => import('../../containers/Chats/Chat') });
-  const AsyncCreateChat = MyLoadable({ loader: () => import('../../containers/Chats/CreateChat') });
-  const AsyncChats = MyLoadable({ loader: () => import('../../containers/Chats/Chats') }, [AsyncChat, AsyncCreateChat]);
-
-  return [
-    <RestrictedRoute type='private' path="/chats" exact component={AsyncChats} />,
-    <RestrictedRoute type='private' path="/chats/create" exact component={AsyncCreateChat} />,
-    <RestrictedRoute type='private' path="/chats/edit/:uid" exact component={AsyncChat} />,
-  ]
-
-  */
 }
 
 export default getAppRoutes

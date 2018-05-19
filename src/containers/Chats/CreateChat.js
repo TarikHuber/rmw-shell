@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import muiThemeable from 'material-ui/styles/muiThemeable'
+import { withTheme, withStyles } from 'material-ui/styles'
 import { injectIntl, intlShape } from 'react-intl'
-import Activity from '../../containers/Activity'
+import Activity from '../../components/Activity'
 import Scrollbar from '../../components/Scrollbar'
-import { List, ListItem } from 'material-ui/List'
+import List, { ListItem, ListItemText } from 'material-ui/List'
 import Divider from 'material-ui/Divider'
 import Avatar from 'material-ui/Avatar'
 import Icon from 'material-ui/Icon'
@@ -15,7 +15,7 @@ import { withFirebase } from 'firekit-provider'
 import ReactList from 'react-list'
 import { filterSelectors, filterActions } from 'material-ui-filter'
 import { setPersistentValue } from '../../store/persistentValues/actions'
-import SearchField from '../../containers/SearchField'
+import SearchField from '../../components/SearchField'
 import { getList } from 'firekit'
 
 const path = `users`;
@@ -66,6 +66,19 @@ export class Users extends Component {
     if (user.uid === auth.uid) {
       return <div key={key}></div>
     }
+
+
+    return <div key={key}>
+      <ListItem
+        key={key}
+        onClick={() => { this.handleRowClick(users[index]) }}
+        id={key}>
+        {user.photoURL && <Avatar src={user.photoURL} alt='person' />}
+        {!user.photoURL && <Avatar> <Icon > person </Icon>  </Avatar>}
+        <ListItemText primary={user.displayName} secondary={(!user.connections && !user.lastOnline) ? intl.formatMessage({ id: 'offline' }) : intl.formatMessage({ id: 'online' })} />
+      </ListItem>
+      <Divider inset />
+    </div>
 
     return <div key={key}>
       < ListItem
@@ -141,4 +154,4 @@ const mapStateToProps = (state) => {
 
 export default connect(
   mapStateToProps, { ...filterActions, setPersistentValue }
-)(injectIntl(muiThemeable()(withFirebase(withRouter(Users)))));
+)(injectIntl(withTheme()(withFirebase(withRouter(Users)))));

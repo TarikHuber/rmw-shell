@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import muiThemeable from 'material-ui/styles/muiThemeable'
+import { withTheme, withStyles } from 'material-ui/styles'
 import { injectIntl, intlShape } from 'react-intl'
 import { setSimpleValue } from '../../store/simpleValues/actions'
-import Activity from '../../containers/Activity'
+import Activity from '../../components/Activity'
 import Icon from 'material-ui/Icon'
 import Avatar from 'material-ui/Avatar'
 import { withRouter } from 'react-router-dom'
@@ -37,7 +37,7 @@ export class Chat extends Component {
               <Icon
                 className='material-icons'>
                 person
-            </Icon>
+              </Icon>
             }
           />
           <div style={{ paddingLeft: 8 }}>
@@ -96,4 +96,4 @@ const mapStateToProps = (state, ownPops) => {
 
 export default connect(
   mapStateToProps, { setSimpleValue }
-)(injectIntl(muiThemeable()(withRouter(withFirebase(Chat)))))
+)(injectIntl(withTheme()(withStyles(() => { }, { withTheme: true })(((withRouter(withFirebase(Chat))))))))

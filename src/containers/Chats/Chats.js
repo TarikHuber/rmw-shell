@@ -1,32 +1,39 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { injectIntl, intlShape } from 'react-intl';
-import { List, ListItem } from 'material-ui/List';
+import List, { ListItem, ListItemText } from 'material-ui/List';
 import Divider from 'material-ui/Divider';
-import muiThemeable from 'material-ui/styles/muiThemeable';
+import { withTheme, withStyles } from 'material-ui/styles'
 import { withFirebase } from 'firekit-provider';
 import { withRouter } from 'react-router-dom';
 import ReactList from 'react-list';
 import Avatar from 'material-ui/Avatar';
-import FloatingActionButton from 'material-ui/FloatingActionButton';
+import Button from 'material-ui/Button';
 import Icon from 'material-ui/Icon';
 import PropTypes from 'prop-types';
-import Activity from '../../containers/Activity'
+import Activity from '../../components/Activity'
 import Scrollbar from '../../components/Scrollbar'
 import ChatMessages from '../../containers/ChatMessages'
 import { setPersistentValue } from '../../store/persistentValues/actions'
 import { filterSelectors } from 'material-ui-filter'
-import IconMenu from 'material-ui/IconMenu'
-import MenuItem from 'material-ui/MenuItem'
+import Menu, { MenuItem } from 'material-ui/Menu'
 import IconButton from 'material-ui/IconButton'
 import { getList } from 'firekit'
 
 export class Chats extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = { hasError: false };
-  }
+  state = {
+    anchorEl: null,
+    hasError: false
+  };
+
+  handleClick = event => {
+    this.setState({ anchorEl: event.currentTarget });
+  };
+
+  handleClose = () => {
+    this.setState({ anchorEl: null });
+  };
 
   componentDidMount() {
     const { watchList, path } = this.props;
@@ -120,7 +127,20 @@ export class Chats extends Component {
               </Avatar>
             </div>
           }
-          <IconMenu
+          <IconButton
+            aria-label="More"
+            aria-owns={anchorEl ? 'long-menu' : null}
+            aria-haspopup="true"
+            onClick={this.handleClick}
+          >
+            <Icon >more_vert</Icon>
+          </IconButton>
+
+          <Menu
+            id="long-menu"
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={this.handleClose}
             style={{ marginTop: -18, marginRight: -10 }}
             anchorOrigin={{ horizontal: 'middle', vertical: 'top' }}
             targetOrigin={{ horizontal: 'right', vertical: 'top' }}
@@ -134,7 +154,7 @@ export class Chats extends Component {
               onClick={() => { this.handleMarkAsUnread(key, val) }}>
               {intl.formatMessage({ id: 'mark_chat_as_unread' })}
             </MenuItem>
-          </IconMenu>
+          </Menu>
         </div>
         <div style={{
           width: 'auto',
@@ -149,6 +169,20 @@ export class Chats extends Component {
       </div>
     }
 
+
+    return <div key={i}>
+      <ListItem
+        key={i}
+        onClick={() => { this.handleItemClick(val, key) }}
+        id={i}>
+        {val.photoURL && <Avatar src={val.photoURL} alt='person' />}
+        {!val.photoURL && <Avatar> <Icon > person </Icon>  </Avatar>}
+        <ListItemText primary={val.unread > 0 ? <div><b>{val.displayName}</b></div> : val.displayName} secondary={this.renderIcons(val)} />
+      </ListItem>
+      <Divider inset />
+    </div>
+
+    //TODO: migrate old code
     return <div key={i}>
       <ListItem
         leftAvatar={
@@ -215,12 +249,14 @@ export class Chats extends Component {
 
 
           <div style={{ position: 'absolute', width: usePreview ? 300 : '100%', bottom: 5 }}>
-            <FloatingActionButton
+            <Button
+              variant='fab'
+              color="secondary"
               onClick={() => { history.push(`/chats/create`) }}
               style={{ position: 'absolute', right: 20, bottom: 10, zIndex: 99 }}
-              secondary={true}>
+            >
               <Icon className="material-icons" >chat</Icon>
-            </FloatingActionButton>
+            </Button>
           </div>
 
           <div style={{ marginLeft: 0, flexGrow: 1 }}>
@@ -268,4 +304,4 @@ const mapStateToProps = (state, ownPops) => {
 
 export default connect(
   mapStateToProps, { setPersistentValue }
-)(injectIntl(withFirebase(withRouter(muiThemeable()(Chats)))));
+)(injectIntl(withFirebase(withRouter(withTheme()(Chats)))));

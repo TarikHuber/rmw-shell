@@ -9,14 +9,14 @@ import withAppConfigs from '../../withAppConfigs'
 import firebaseui from 'firebaseui'
 
 export class SignIn extends Component {
-  render () {
+  render() {
     const { intl, firebaseApp, appConfig } = this.props
 
-    let uiConfig = {
+    const uiConfig = {
       signInSuccessUrl: '/',
       signInFlow: 'popup',
       callbacks: {
-        signInSuccess: (user, credentials, redirect) => {
+        signInSuccessWithAuthResult: (user, credentials, redirect) => {
           // initMessaging()
 
           // To avoid page reload on single page applications

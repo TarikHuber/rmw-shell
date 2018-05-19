@@ -80,7 +80,7 @@ class ChatMessages extends Component {
 
     this.name.state.hasValue = false
 
-    if (message.length > 0) {
+    if (message && message.length > 0) {
       if (key) {
         firebaseApp.database().ref(`${path}/${key}`).update(newMessage)
       } else {
