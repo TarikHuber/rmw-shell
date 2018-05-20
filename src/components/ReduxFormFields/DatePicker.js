@@ -1,4 +1,4 @@
-import DatePicker from 'material-ui/DatePicker'
+import DatePicker from '@material-ui/core/DatePicker'
 import { Component, createElement } from 'react'
 import { mapError } from '../../utils/mapError'
 
@@ -10,14 +10,14 @@ function createComponent(MaterialUIComponent, mapProps) {
 
     render() {
 
-      const {input, ...rest} = this.props;
-      const {value, ...inputRest} = input;
+      const { input, ...rest } = this.props;
+      const { value, ...inputRest } = input;
 
       let newProps = this.props;
 
-      if(typeof value === 'string' || value instanceof String){
+      if (typeof value === 'string' || value instanceof String) {
 
-        if(value){
+        if (value) {
           let newValue = new Date(value);
 
           newProps = {
@@ -27,7 +27,7 @@ function createComponent(MaterialUIComponent, mapProps) {
             },
             ...rest
           }
-        }else {
+        } else {
           newProps = {
             input: {
               value: null,

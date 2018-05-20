@@ -1,6 +1,6 @@
 import React from 'react'
-import Icon from 'material-ui/Icon'
-import Switch from 'material-ui/Switch'
+import Icon from '@material-ui/core/Icon'
+import Switch from '@material-ui/core/Switch'
 import allLocales from './locales'
 import allThemes from './themes'
 

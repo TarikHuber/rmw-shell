@@ -1,5 +1,5 @@
-import Button from 'material-ui/Button'
-import Icon from 'material-ui/Icon'
+import Button from '@material-ui/core/Button'
+import Icon from '@material-ui/core/Icon'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { Avatar } from '../../containers/Avatar'

@@ -1,19 +1,19 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { withTheme } from 'material-ui/styles'
+import { withTheme } from '@material-ui/core/styles'
 import { injectIntl } from 'react-intl'
-import List, { ListItem, ListItemText } from 'material-ui/List'
-import Divider from 'material-ui/Divider'
-import Icon from 'material-ui/Icon'
-import Button from 'material-ui/Button'
+import List from '@material-ui/core/List'
+import ListItem from '@material-ui/core/ListItem'
+import ListItemText from '@material-ui/core/ListItemText'
+import Divider from '@material-ui/core/Divider'
+import Icon from '@material-ui/core/Icon'
+import Button from '@material-ui/core/Button'
 import { withRouter } from 'react-router-dom'
-import Avatar from 'material-ui/Avatar'
+import Avatar from '@material-ui/core/Avatar'
 import { withFirebase } from 'firekit-provider'
 import isGranted from '../../../../src/utils/auth'
 import { Activity, Scrollbar } from '../../../../src'
-
-
 
 class Companies extends Component {
   componentDidMount() {

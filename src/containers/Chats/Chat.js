@@ -1,23 +1,23 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { withTheme, withStyles } from 'material-ui/styles'
+import { withTheme, withStyles } from '@material-ui/core/styles'
 import { injectIntl, intlShape } from 'react-intl'
 import { setSimpleValue } from '../../store/simpleValues/actions'
 import Activity from '../../components/Activity'
-import Icon from 'material-ui/Icon'
-import Avatar from 'material-ui/Avatar'
+import Icon from '@material-ui/core/Icon'
+import Avatar from '@material-ui/core/Avatar'
 import { withRouter } from 'react-router-dom'
 import { withFirebase } from 'firekit-provider'
 import ChatMessages from '../../containers/ChatMessages'
 
 export class Chat extends Component {
-  componentDidMount () {
+  componentDidMount() {
     const { watchList, chatsPath } = this.props
     watchList(chatsPath)
   }
 
-  render () {
+  render() {
     const { messages, theme, history, receiverDisplayName, receiverPhotoURL, path, receiverPath } = this.props
 
     return (

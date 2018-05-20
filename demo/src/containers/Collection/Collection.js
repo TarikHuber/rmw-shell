@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import muiThemeable from 'material-ui/styles/muiThemeable';
+import muiThemeable from '@material-ui/core/styles/muiThemeable';
 import { injectIntl, intlShape } from 'react-intl'
 import { Activity } from '../../../../src'
-import RaisedButton from 'material-ui/RaisedButton'
+import RaisedButton from '@material-ui/core/RaisedButton'
 import { withFirebase } from 'firekit-provider';
-import TextField from 'material-ui/TextField'
-import { List, ListItem } from 'material-ui/List';
-import FontIcon from 'material-ui/FontIcon';
-import IconButton from 'material-ui/IconButton';
+import TextField from '@material-ui/core/TextField'
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import FontIcon from '@material-ui/core/FontIcon';
+import IconButton from '@material-ui/core/IconButton';
 // eslint-disable-next-line
 import firestore from 'firebase/firestore'
 

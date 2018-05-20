@@ -1,17 +1,17 @@
-import Avatar from 'material-ui/Avatar'
+import Avatar from '@material-ui/core/Avatar'
 import ChatMessages from '../../containers/ChatMessages'
-import Button from 'material-ui/Button'
-import Icon from 'material-ui/Icon'
+import Button from '@material-ui/core/Button'
+import Icon from '@material-ui/core/Icon'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
-import { withTheme, withStyles } from 'material-ui/styles'
+import { withTheme, withStyles } from '@material-ui/core/styles'
 import { ReactMic } from 'react-mic'
 import { connect } from 'react-redux'
 import { injectIntl, intlShape } from 'react-intl'
 import { setSimpleValue } from '../../store/simpleValues/actions'
 import { withFirebase } from 'firekit-provider'
 import { withRouter } from 'react-router-dom'
-import { CircularProgress } from 'material-ui/Progress'
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 export class ChatMic extends Component {
 

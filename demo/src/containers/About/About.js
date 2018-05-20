@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import IconButton from 'material-ui/IconButton'
+import IconButton from '@material-ui/core/IconButton'
 import { injectIntl, intlShape } from 'react-intl'
 import { GitHubIcon } from '../../../../src/components/Icons'
 import Activity from '../../../../src/components/Activity'

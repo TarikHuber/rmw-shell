@@ -1,9 +1,9 @@
-import { createMuiTheme } from 'material-ui/styles'
+import { createMuiTheme } from '@material-ui/core/styles'
 import icsTheme from './ics_theme'
-import red from 'material-ui/colors/red'
-import pink from 'material-ui/colors/pink'
-import green from 'material-ui/colors/green'
-// import red from 'material-ui/colors/red'
+import red from '@material-ui/core/colors/red'
+import pink from '@material-ui/core/colors/pink'
+import green from '@material-ui/core/colors/green'
+// import red from '@material-ui/core/colors/red'
 
 const themes = [
   {

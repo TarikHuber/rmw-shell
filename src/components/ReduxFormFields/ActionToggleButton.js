@@ -1,5 +1,5 @@
 import React from 'react'
-import IconButton from 'material-ui/IconButton'
+import IconButton from '@material-ui/core/IconButton'
 
 const ActionToggleButton = (props) => {
   const { isToggled, getIcon, onClick, meta, input, ...rest } = props

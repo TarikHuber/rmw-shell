@@ -3,14 +3,14 @@ import PropTypes from 'prop-types'
 import { intlShape } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import { TextField } from 'redux-form-material-ui'
-import Icon from 'material-ui/Icon'
+import Icon from '@material-ui/core/Icon'
 import { ImageCropDialog } from '../../containers/ImageCropDialog'
-import IconButton from 'material-ui/IconButton'
+import IconButton from '@material-ui/core/IconButton'
 import { AvatarImageField } from '../ReduxFormFields'
 import withAppConfigs from '../../withAppConfigs'
 
 class MyAccountForm extends Component {
-  render () {
+  render() {
     const {
       handleSubmit,
       intl,

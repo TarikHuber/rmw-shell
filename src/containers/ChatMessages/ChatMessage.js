@@ -1,8 +1,8 @@
-import Icon from 'material-ui/Icon'
-import IconButton from 'material-ui/IconButton'
+import Icon from '@material-ui/core/Icon'
+import IconButton from '@material-ui/core/IconButton'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
-import { withTheme, withStyles } from 'material-ui/styles'
+import { withTheme, withStyles } from '@material-ui/core/styles'
 import { connect } from 'react-redux'
 import { injectIntl, intlShape } from 'react-intl'
 import { setSimpleValue } from '../../store/simpleValues/actions'
@@ -10,7 +10,7 @@ import { withFirebase } from 'firekit-provider'
 import { withRouter } from 'react-router-dom'
 import AudioPlayer from '../../components/AudioPlayer/AudioPlayer'
 import Image from 'material-ui-image'
-import Chip from 'material-ui/Chip'
+import Chip from '@material-ui/core/Chip'
 
 class ChatMessage extends Component {
   componentDidMount() {

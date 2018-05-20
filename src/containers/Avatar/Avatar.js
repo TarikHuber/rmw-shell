@@ -1,4 +1,4 @@
-import Avatar from 'material-ui/Avatar'
+import Avatar from '@material-ui/core/Avatar'
 import { Component, createElement } from 'react'
 
 function createComponent(MaterialUIComponent, mapProps) {
@@ -27,13 +27,13 @@ const mapError = (
   },
   errorProp = 'errorText'
 ) =>
-(touched && (error || warning)
-? {
-  ...props,
-  ...input,
-  [errorProp]: error || warning
-}
-: { ...input, ...props })
+  (touched && (error || warning)
+    ? {
+      ...props,
+      ...input,
+      [errorProp]: error || warning
+    }
+    : { ...input, ...props })
 
 
 export default createComponent(Avatar, ({
@@ -42,6 +42,6 @@ export default createComponent(Avatar, ({
   ...props
 }) => ({
   ...props,
-  src: input ? input.value: undefined,
+  src: input ? input.value : undefined,
   ...mapError(props),
 }))

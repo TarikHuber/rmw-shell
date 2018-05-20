@@ -1,6 +1,6 @@
 import React from 'react'
 import { Scrollbars } from 'react-custom-scrollbars'
-import { withTheme } from 'material-ui/styles'
+import { withTheme } from '@material-ui/core/styles'
 
 const Scrollbar = (props) => {
   const { theme, ...rest } = props

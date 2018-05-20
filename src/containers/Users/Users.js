@@ -1,12 +1,16 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { withTheme, withStyles } from 'material-ui/styles'
+import { withTheme, withStyles } from '@material-ui/core/styles'
 import { injectIntl, intlShape } from 'react-intl'
-import List, { ListItem, ListItemText } from 'material-ui/List'
-import Divider from 'material-ui/Divider'
-import Avatar from 'material-ui/Avatar'
-import Icon from 'material-ui/Icon'
+import List from '@material-ui/core/List'
+import ListItem from '@material-ui/core/ListItem'
+import ListItemIcon from '@material-ui/core/ListItemIcon'
+import ListItemText from '@material-ui/core/ListItemText'
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
+import Divider from '@material-ui/core/Divider'
+import Avatar from '@material-ui/core/Avatar'
+import Icon from '@material-ui/core/Icon'
 import { withRouter } from 'react-router-dom'
 import { withFirebase } from 'firekit-provider'
 import ReactList from 'react-list'
@@ -17,9 +21,9 @@ import Scrollbar from '../../components/Scrollbar'
 import SearchField from '../../components/SearchField'
 //import { ResponsiveMenu } from 'material-ui-responsive-menu'
 import { getList, isLoading } from 'firekit'
-import Toolbar from 'material-ui/Toolbar';
-import IconButton from 'material-ui/IconButton';
-import Tooltip from 'material-ui/Tooltip'
+import Toolbar from '@material-ui/core/Toolbar';
+import IconButton from '@material-ui/core/IconButton';
+import Tooltip from '@material-ui/core/Tooltip'
 
 const path = `users`
 

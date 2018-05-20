@@ -1,6 +1,6 @@
-import Icon from 'material-ui/Icon'
+import Icon from '@material-ui/core/Icon'
 import React from 'react'
-import { withTheme } from 'material-ui/styles'
+import { withTheme } from '@material-ui/core/styles'
 import withAppConfigs from '../../withAppConfigs'
 import { SelectableMenuList } from '../../components/SelectableMenuList'
 import { injectIntl } from 'react-intl'

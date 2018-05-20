@@ -1,10 +1,10 @@
-import Avatar from 'material-ui/Avatar'
-import Icon from 'material-ui/Icon'
-import IconButton from 'material-ui/IconButton'
-import { LinearProgress } from 'material-ui/Progress'
+import Avatar from '@material-ui/core/Avatar'
+import Icon from '@material-ui/core/Icon'
+import IconButton from '@material-ui/core/IconButton'
+import LinearProgress from '@material-ui/core/LinearProgress';
 import React, { Component } from 'react'
 import ReactPlayer from 'react-player'
-import { withTheme, withStyles } from 'material-ui/styles'
+import { withTheme, withStyles } from '@material-ui/core/styles'
 import moment from 'moment'
 
 export class AudioPlayer extends Component {

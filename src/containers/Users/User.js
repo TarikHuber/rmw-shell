@@ -2,24 +2,25 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { injectIntl, intlShape } from 'react-intl'
-import { withTheme, withStyles } from 'material-ui/styles'
+import { withTheme, withStyles } from '@material-ui/core/styles'
 import Activity from '../../components/Activity'
 import { setSimpleValue } from '../../store/simpleValues/actions'
 import { withRouter } from 'react-router-dom'
 import { change, submit } from 'redux-form'
-import Icon from 'material-ui/Icon'
+import Icon from '@material-ui/core/Icon'
 import { withFirebase } from 'firekit-provider'
 import FireForm from '../../components/FireForm'
 import UserForm from '../../components/Forms/UserForm'
 import UserGrants from './UserGrants'
 import UserRoles from './UserRoles'
-import Tabs, { Tab } from 'material-ui/Tabs'
+import Tabs from '@material-ui/core/Tabs'
+import Tab from '@material-ui/core/Tab'
 import Scrollbar from '../../components/Scrollbar/Scrollbar'
 import { filterSelectors, filterActions } from 'material-ui-filter'
 import SearchField from '../../components/SearchField'
 import { getList, isLoading, getPath } from 'firekit'
-import IconButton from 'material-ui/IconButton';
-import AppBar from 'material-ui/AppBar';
+import IconButton from '@material-ui/core/IconButton';
+import AppBar from '@material-ui/core/AppBar';
 import { formValueSelector } from 'redux-form';
 
 const path = '/users'

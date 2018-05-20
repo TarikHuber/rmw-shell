@@ -3,10 +3,10 @@ import { connect } from 'react-redux'
 import { injectIntl } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import { TextField } from 'redux-form-material-ui'
-import RaisedButton from 'material-ui/RaisedButton'
+import RaisedButton from '@material-ui/core/RaisedButton'
 import { SuperSelectField } from '../../../../src/components/ReduxFormFields'
-import Avatar from 'material-ui/Avatar'
-import FontIcon from 'material-ui/FontIcon'
+import Avatar from '@material-ui/core/Avatar'
+import FontIcon from '@material-ui/core/FontIcon'
 
 class TaskForm extends Component {
   componentDidMount () {
