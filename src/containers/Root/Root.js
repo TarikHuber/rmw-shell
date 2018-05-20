@@ -3,8 +3,11 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import locales, { getLocaleMessages } from '../../locales'
 import getThemeSource from '../../themes'
-import getMuiTheme from 'material-ui/styles/getMuiTheme'
+import { createMuiTheme } from 'material-ui/styles'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import MuiPickersUtilsProvider from 'material-ui-pickers/utils/MuiPickersUtilsProvider'
+import MomentUtils from 'material-ui-pickers/utils/moment-utils'
+import moment from 'moment'
 import { IntlProvider } from 'react-intl'
 import AppLayout from '../../containers/AppLayout'
 import {
@@ -114,18 +117,20 @@ class Root extends Component {
   }
 
   render() {
-    const { locale, muiTheme, messages, appConfig } = this.props;
+    const { locale, theme, messages, appConfig } = this.props;
 
     return (
-      <MuiThemeProvider muiTheme={muiTheme} >
-        <IntlProvider locale={locale} key={locale} messages={messages}>
-          <Router history={history} >
-            <Switch>
-              <Route children={(props) => <AppLayout {...props} />} />
-            </Switch>
-          </Router>
-        </IntlProvider>
-      </MuiThemeProvider>
+      <MuiPickersUtilsProvider utils={MomentUtils} >
+        <MuiThemeProvider theme={theme} >
+          <IntlProvider locale={locale} key={locale} messages={messages}>
+            <Router history={history} >
+              <Switch>
+                <Route children={(props) => <AppLayout {...props} />} />
+              </Switch>
+            </Router>
+          </IntlProvider>
+        </MuiThemeProvider>
+      </MuiPickersUtilsProvider>
     );
   }
 
@@ -135,22 +140,23 @@ Root.propTypes = {
   locale: PropTypes.string.isRequired,
   source: PropTypes.object.isRequired,
   messages: PropTypes.object.isRequired,
-  muiTheme: PropTypes.object.isRequired,
+  //themeSource: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state, ownProps) => {
-  const { theme, locale } = state;
+  const { themeSource, locale } = state;
   const { appConfig } = ownProps
 
-  const source = getThemeSource(theme, appConfig.themes);
+  const source = getThemeSource(themeSource, appConfig.themes);
   const messages = { ...(getLocaleMessages(locale, locales)), ...(getLocaleMessages(locale, appConfig.locales)) }
-  const muiTheme = getMuiTheme(source);
+
+  const theme = createMuiTheme(source);
 
   return {
     locale,
     source,
     messages,
-    muiTheme
+    theme
   };
 };
 

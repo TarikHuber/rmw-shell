@@ -1,5 +1,5 @@
-import FlatButton from 'material-ui/FlatButton'
-import FontIcon from 'material-ui/FontIcon'
+import Button from 'material-ui/Button'
+import Icon from 'material-ui/Icon'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { Avatar } from '../../containers/Avatar'
@@ -43,17 +43,17 @@ export default class AvatarImageField extends Component {
             size={120}
             component={Avatar}
             icon={
-              <FontIcon
+              <Icon
                 className="material-icons">
                 {altIconName}
-              </FontIcon>
+              </Icon>
             }
             ref="photoURL"
             withRef
           />
         </div>
         <div>
-          <FlatButton
+          <Button
             style={{ width: '100%' }}
             onClick={() => {
               this.setState({ selected_avatar_image: 'true' })
@@ -62,10 +62,10 @@ export default class AvatarImageField extends Component {
             containerElement='label'
             primary={true}
             icon={
-              <FontIcon
+              <Icon
                 className="material-icons">
                 photo_camera
-              </FontIcon>
+              </Icon>
             }
           />
         </div>
@@ -86,10 +86,10 @@ export default class AvatarImageField extends Component {
 }
 
 AvatarImageField.propTypes = {
-  disabled: PropTypes.bool.isRequired,
-  initialized: PropTypes.bool.isRequired,
+  //disabled: PropTypes.bool.isRequired,
+  //initialized: PropTypes.bool.isRequired,
   uid: PropTypes.string.isRequired,
-  intl: intlShape.isRequired,
+  //intl: intlShape.isRequired,
   altIconName: PropTypes.string,
   path: PropTypes.string.isRequired
 };

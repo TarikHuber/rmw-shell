@@ -1,21 +1,21 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import muiThemeable from 'material-ui/styles/muiThemeable'
+import { withTheme, withStyles } from 'material-ui/styles'
 import { injectIntl, intlShape } from 'react-intl'
-import Activity from '../../containers/Activity'
+import Activity from '../../components/Activity'
 import Scrollbar from '../../components/Scrollbar'
-import { List, ListItem } from 'material-ui/List'
+import List, { ListItem, ListItemText } from 'material-ui/List'
 import Divider from 'material-ui/Divider'
 import Avatar from 'material-ui/Avatar'
-import FontIcon from 'material-ui/FontIcon'
+import Icon from 'material-ui/Icon'
 import { withRouter } from 'react-router-dom'
 import { GoogleIcon, FacebookIcon, GitHubIcon, TwitterIcon } from '../../components/Icons'
 import { withFirebase } from 'firekit-provider'
 import ReactList from 'react-list'
 import { filterSelectors, filterActions } from 'material-ui-filter'
 import { setPersistentValue } from '../../store/persistentValues/actions'
-import SearchField from '../../containers/SearchField'
+import SearchField from '../../components/SearchField'
 import { getList } from 'firekit'
 
 const path = `users`;
@@ -56,7 +56,7 @@ export class Users extends Component {
     const {
       users,
       intl,
-      muiTheme,
+      theme,
       auth
     } = this.props
 
@@ -67,6 +67,19 @@ export class Users extends Component {
       return <div key={key}></div>
     }
 
+
+    return <div key={key}>
+      <ListItem
+        key={key}
+        onClick={() => { this.handleRowClick(users[index]) }}
+        id={key}>
+        {user.photoURL && <Avatar src={user.photoURL} alt='person' />}
+        {!user.photoURL && <Avatar> <Icon > person </Icon>  </Avatar>}
+        <ListItemText primary={user.displayName} secondary={(!user.connections && !user.lastOnline) ? intl.formatMessage({ id: 'offline' }) : intl.formatMessage({ id: 'online' })} />
+      </ListItem>
+      <Divider inset />
+    </div>
+
     return <div key={key}>
       < ListItem
         key={key}
@@ -74,8 +87,8 @@ export class Users extends Component {
         onClick={() => { this.handleRowClick(users[index]) }}
         primaryText={user.displayName}
         secondaryText={(!user.connections && !user.lastOnline) ? intl.formatMessage({ id: 'offline' }) : intl.formatMessage({ id: 'online' })}
-        leftAvatar={<Avatar style={{ marginTop: 10 }} src={user.photoURL} alt="person" icon={<FontIcon className="material-icons" >person</FontIcon>} />}
-        rightIcon={<FontIcon style={{ marginTop: 22 }} className="material-icons" color={user.connections ? muiTheme.palette.primary1Color : muiTheme.palette.disabledColor}>offline_pin</FontIcon>}
+        leftAvatar={<Avatar style={{ marginTop: 10 }} src={user.photoURL} alt="person" icon={<Icon className="material-icons" >person</Icon>} />}
+        rightIcon={<Icon style={{ marginTop: 22 }} className="material-icons" color={user.connections ? theme.palette.primary1Color : theme.palette.disabledColor}>offline_pin</Icon>}
       />
       <Divider inset={true} />
     </div>
@@ -84,7 +97,7 @@ export class Users extends Component {
   render() {
     const {
       users,
-      muiTheme,
+      theme,
       setSearch,
       intl
     } = this.props
@@ -102,7 +115,7 @@ export class Users extends Component {
           </div>
         }
         isLoading={users === undefined}>
-        <div style={{ height: '100%', overflow: 'none', backgroundColor: muiTheme.palette.convasColor }}>
+        <div style={{ height: '100%', overflow: 'none', backgroundColor: theme.palette.convasColor }}>
           <Scrollbar>
             <List id='test' ref={(field) => { this.users = field; }}>
               <ReactList
@@ -121,7 +134,7 @@ export class Users extends Component {
 Users.propTypes = {
   users: PropTypes.array.isRequired,
   intl: intlShape.isRequired,
-  muiTheme: PropTypes.object.isRequired,
+  theme: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
 };
 
@@ -141,4 +154,4 @@ const mapStateToProps = (state) => {
 
 export default connect(
   mapStateToProps, { ...filterActions, setPersistentValue }
-)(injectIntl(muiThemeable()(withFirebase(withRouter(Users)))));
+)(injectIntl(withTheme()(withFirebase(withRouter(Users)))));

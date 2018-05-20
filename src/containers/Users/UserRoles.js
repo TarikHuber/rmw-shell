@@ -2,19 +2,18 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { injectIntl, intlShape } from 'react-intl';
-import muiThemeable from 'material-ui/styles/muiThemeable';
+import { withTheme, withStyles } from 'material-ui/styles'
 import { setSimpleValue } from '../../store/simpleValues/actions';
 import { withRouter } from 'react-router-dom';
-import FontIcon from 'material-ui/FontIcon';
+import Icon from 'material-ui/Icon';
 import { withFirebase } from 'firekit-provider'
-import { ListItem } from 'material-ui/List';
+import List, { ListItem, ListItemText } from 'material-ui/List';
 import Divider from 'material-ui/Divider';
 import Avatar from 'material-ui/Avatar';
-import Toggle from 'material-ui/Toggle';
+import Switch from 'material-ui/Switch';
 import ReactList from 'react-list';
-import { List } from 'material-ui/List';
 import { getList } from 'firekit'
-
+import Scrollbar from '../../components/Scrollbar'
 
 export class UserRoles extends Component {
 
@@ -55,26 +54,20 @@ export class UserRoles extends Component {
     }
 
     return <div key={key}>
+
       <ListItem
-        leftAvatar={
-          <Avatar
-            alt="person"
-            src={val.photoURL}
-            icon={<FontIcon className="material-icons" >account_box</FontIcon>}
-          />
-        }
-        rightToggle={
-          <Toggle
-            toggled={userRoles[key] === true}
-            onToggle={(e, isInputChecked) => { this.handleRoleToggleChange(e, isInputChecked, key) }}
-          />
-        }
-        key={key}
-        id={key}
-        primaryText={val.name}
-        secondaryText={val.description}
-      />
-      <Divider inset={true} />
+        key={i}
+        id={i}>
+        {val.photoURL && <Avatar src={val.photoURL} alt='person' />}
+        {!val.photoURL && <Avatar> <Icon >account_box </Icon>  </Avatar>}
+        <ListItemText primary={val.name} secondary={val.description} />
+        <Switch
+          checked={userRoles[key] === true}
+          onChange={(e, isInputChecked) => { this.handleRoleToggleChange(e, isInputChecked, key) }}
+        />
+      </ListItem>
+      <Divider inset />
+
     </div>
   }
 
@@ -98,7 +91,7 @@ export class UserRoles extends Component {
 
 UserRoles.propTypes = {
   intl: intlShape.isRequired,
-  muiTheme: PropTypes.object.isRequired,
+  theme: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
 };
 
@@ -121,4 +114,4 @@ const mapStateToProps = (state, ownProps) => {
 
 export default connect(
   mapStateToProps, { setSimpleValue }
-)(injectIntl(withRouter(withFirebase(muiThemeable()(UserRoles)))));
+)(injectIntl(withRouter(withFirebase(withTheme()(UserRoles)))));

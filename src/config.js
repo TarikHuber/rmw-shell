@@ -34,7 +34,7 @@ const config = {
     theme: 'dark',
     locale: 'en'
   },
-  drawer_width: 256,
+  drawer_width: 240,
   appIcon: RMWIcon,
   configureStore,
   getMenuItems,

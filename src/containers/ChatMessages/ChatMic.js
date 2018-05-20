@@ -1,18 +1,17 @@
-import Activity from '../../containers/Activity'
 import Avatar from 'material-ui/Avatar'
 import ChatMessages from '../../containers/ChatMessages'
-import FloatingActionButton from 'material-ui/FloatingActionButton'
-import FontIcon from 'material-ui/FontIcon'
+import Button from 'material-ui/Button'
+import Icon from 'material-ui/Icon'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
-import muiThemeable from 'material-ui/styles/muiThemeable'
+import { withTheme, withStyles } from 'material-ui/styles'
 import { ReactMic } from 'react-mic'
 import { connect } from 'react-redux'
 import { injectIntl, intlShape } from 'react-intl'
 import { setSimpleValue } from '../../store/simpleValues/actions'
 import { withFirebase } from 'firekit-provider'
 import { withRouter } from 'react-router-dom'
-import CircularProgress from 'material-ui/CircularProgress'
+import { CircularProgress } from 'material-ui/Progress'
 
 export class ChatMic extends Component {
 
@@ -129,18 +128,20 @@ export class ChatMic extends Component {
   }
 
   render() {
-    const { muiTheme, containerStyle } = this.props
+    const { theme, containerStyle } = this.props
 
     return (
       <div>
         {this.state.visible &&
-          < div style={{ marginBottom: 9, marginRight: 40, borderRadius: 50 }}>
-            <FloatingActionButton
+          <div style={{ marginBottom: 9, marginRight: 40, borderRadius: 50 }}>
+            <Button
+              color='secondary'
+              variant='fab'
               onClick={this.cancelRecording}
               style={{ position: 'absolute', right: 20, bottom: 70, zIndex: 99 }}
               secondary>
-              <FontIcon className='material-icons' >close</FontIcon>
-            </FloatingActionButton>
+              <Icon className='material-icons' >close</Icon>
+            </Button>
             <ReactMic
               height={50}
               width={200}
@@ -149,8 +150,8 @@ export class ChatMic extends Component {
               mimeType={'audio/ogg; codecs=opus'}
               record={this.state.record}
               onStop={this.onStop}
-              strokeColor={muiTheme.palette.primary1Color}
-              backgroundColor={muiTheme.palette.accent1Color} />
+              strokeColor={theme.palette.primary.main}
+              backgroundColor={theme.palette.secondary.main} />
           </div>
         }
         {this.state.sending &&
@@ -158,18 +159,20 @@ export class ChatMic extends Component {
             style={{ position: 'absolute', right: 15, bottom: 5, zIndex: 90 }}
             mode="determinate"
             value={this.state.uploadCompleted}
-            size={67}
-            thickness={10}
+            size={62}
+            thickness={8}
           />
         }
 
-        <FloatingActionButton
+        <Button
+          color='secondary'
+          variant='fab'
           disabled={this.state.sending}
           onClick={this.state.record ? this.stopRecording : this.startRecording}
           style={{ position: 'absolute', right: 20, bottom: 10, zIndex: 99 }}
           secondary={!this.state.record}>
-          <FontIcon className='material-icons' >{this.state.record ? 'send' : 'mic'}</FontIcon>
-        </FloatingActionButton>
+          <Icon className='material-icons' >{this.state.record ? 'send' : 'mic'}</Icon>
+        </Button>
       </div >
     )
   }
@@ -177,7 +180,7 @@ export class ChatMic extends Component {
 
 ChatMic.propTypes = {
   intl: intlShape.isRequired,
-  muiTheme: PropTypes.object.isRequired,
+  theme: PropTypes.object.isRequired,
 }
 
 const mapStateToProps = (state, ownPops) => {
@@ -190,4 +193,4 @@ const mapStateToProps = (state, ownPops) => {
 
 export default connect(
   mapStateToProps, { setSimpleValue }
-)(injectIntl(muiThemeable()(withRouter(withFirebase(ChatMic)))))
+)(injectIntl(withTheme()(withRouter(withFirebase(ChatMic)))))

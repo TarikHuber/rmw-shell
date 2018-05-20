@@ -1,32 +1,39 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { injectIntl, intlShape } from 'react-intl';
-import { List, ListItem } from 'material-ui/List';
+import List, { ListItem, ListItemText } from 'material-ui/List';
 import Divider from 'material-ui/Divider';
-import muiThemeable from 'material-ui/styles/muiThemeable';
+import { withTheme, withStyles } from 'material-ui/styles'
 import { withFirebase } from 'firekit-provider';
 import { withRouter } from 'react-router-dom';
 import ReactList from 'react-list';
 import Avatar from 'material-ui/Avatar';
-import FloatingActionButton from 'material-ui/FloatingActionButton';
-import FontIcon from 'material-ui/FontIcon';
+import Button from 'material-ui/Button';
+import Icon from 'material-ui/Icon';
 import PropTypes from 'prop-types';
-import Activity from '../../containers/Activity'
+import Activity from '../../components/Activity'
 import Scrollbar from '../../components/Scrollbar'
 import ChatMessages from '../../containers/ChatMessages'
 import { setPersistentValue } from '../../store/persistentValues/actions'
 import { filterSelectors } from 'material-ui-filter'
-import IconMenu from 'material-ui/IconMenu'
-import MenuItem from 'material-ui/MenuItem'
+import Menu, { MenuItem } from 'material-ui/Menu'
 import IconButton from 'material-ui/IconButton'
 import { getList } from 'firekit'
 
 export class Chats extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = { hasError: false };
-  }
+  state = {
+    anchorEl: null,
+    hasError: false
+  };
+
+  handleClick = event => {
+    this.setState({ anchorEl: event.currentTarget });
+  };
+
+  handleClose = () => {
+    this.setState({ anchorEl: null });
+  };
 
   componentDidMount() {
     const { watchList, path } = this.props;
@@ -69,18 +76,18 @@ export class Chats extends Component {
   }
 
   renderIcons = (val) => {
-    const { muiTheme, auth } = this.props;
+    const { theme, auth } = this.props;
 
     return <div>
       {
         val.isSend && auth.uid === val.authorUid &&
-        <FontIcon className="material-icons" style={{
+        <Icon className="material-icons" style={{
           fontSize: 14,
           padding: 0,
           paddingRight: 2,
           bottom: -1,
-          color: val.isRead ? muiTheme.palette.accent1Color : muiTheme.palette.secondary1Color
-        }} >{val.isReceived ? 'done_all' : 'done'}</FontIcon>
+          color: val.isRead ? theme.palette.accent1Color : theme.palette.secondary1Color
+        }} >{val.isReceived ? 'done_all' : 'done'}</Icon>
       }
       {val.unread > 0 && <b>{val.lastMessage}</b>}
       {!val.unread && val.lastMessage}
@@ -94,7 +101,7 @@ export class Chats extends Component {
 
 
   renderItem = (i, k) => {
-    const { list, intl, currentChatUid, usePreview, muiTheme } = this.props;
+    const { list, intl, currentChatUid, usePreview, theme } = this.props;
 
     const key = list[i].key;
     const val = list[i].val;
@@ -105,26 +112,39 @@ export class Chats extends Component {
     const MenuButton = (props) => {
       const { onKeyboardFocus, ...rest } = props
 
-      return <div style={{ width: 'auto', fontSize: 11, color: muiTheme.listItem.secondaryTextColor }} {...rest} >
+      return <div style={{ width: 'auto', fontSize: 11, color: theme.listItem.secondaryTextColor }} {...rest} >
         <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
           {val.unread > 0 &&
             <div style={{ textAlign: 'right' }}>
               <Avatar
                 size={20}
-                backgroundColor={muiTheme.palette.primary1Color}
-                color={muiTheme.palette.primaryTextColor}
+                backgroundColor={theme.palette.primary1Color}
+                color={theme.palette.primaryTextColor}
                 alt="unread">
-                <div style={{ color: muiTheme.listItem.secondaryTextColor }} >
+                <div style={{ color: theme.listItem.secondaryTextColor }} >
                   {val.unread}
                 </div>
               </Avatar>
             </div>
           }
-          <IconMenu
+          <IconButton
+            aria-label="More"
+            aria-owns={anchorEl ? 'long-menu' : null}
+            aria-haspopup="true"
+            onClick={this.handleClick}
+          >
+            <Icon >more_vert</Icon>
+          </IconButton>
+
+          <Menu
+            id="long-menu"
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={this.handleClose}
             style={{ marginTop: -18, marginRight: -10 }}
             anchorOrigin={{ horizontal: 'middle', vertical: 'top' }}
             targetOrigin={{ horizontal: 'right', vertical: 'top' }}
-            iconButtonElement={<IconButton><FontIcon className="material-icons">more_horiz</FontIcon></IconButton>}
+            iconButtonElement={<IconButton><Icon className="material-icons">more_horiz</Icon></IconButton>}
           >
             <MenuItem
               onClick={() => { this.handleDeleteChat(key, val) }}>
@@ -134,11 +154,11 @@ export class Chats extends Component {
               onClick={() => { this.handleMarkAsUnread(key, val) }}>
               {intl.formatMessage({ id: 'mark_chat_as_unread' })}
             </MenuItem>
-          </IconMenu>
+          </Menu>
         </div>
         <div style={{
           width: 'auto',
-          color: val.unread > 0 ? muiTheme.palette.primary1Color : muiTheme.listItem.secondaryTextColor,
+          color: val.unread > 0 ? theme.palette.primary1Color : theme.listItem.secondaryTextColor,
           textAlign: 'right',
           marginRight: 5,
           fontSize: 11
@@ -149,16 +169,30 @@ export class Chats extends Component {
       </div>
     }
 
+
+    return <div key={i}>
+      <ListItem
+        key={i}
+        onClick={() => { this.handleItemClick(val, key) }}
+        id={i}>
+        {val.photoURL && <Avatar src={val.photoURL} alt='person' />}
+        {!val.photoURL && <Avatar> <Icon > person </Icon>  </Avatar>}
+        <ListItemText primary={val.unread > 0 ? <div><b>{val.displayName}</b></div> : val.displayName} secondary={this.renderIcons(val)} />
+      </ListItem>
+      <Divider inset />
+    </div>
+
+    //TODO: migrate old code
     return <div key={i}>
       <ListItem
         leftAvatar={
           <Avatar
             alt="person"
             src={val.photoURL}
-            icon={<FontIcon className="material-icons">person</FontIcon>}
+            icon={<Icon className="material-icons">person</Icon>}
           />
         }
-        style={isPreviewed ? { backgroundColor: muiTheme.toolbar.separatorColor } : undefined}
+        style={isPreviewed ? { backgroundColor: theme.toolbar.separatorColor } : undefined}
         onClick={() => { this.handleItemClick(val, key) }}
         key={key}
         id={key}
@@ -215,12 +249,14 @@ export class Chats extends Component {
 
 
           <div style={{ position: 'absolute', width: usePreview ? 300 : '100%', bottom: 5 }}>
-            <FloatingActionButton
+            <Button
+              variant='fab'
+              color="secondary"
               onClick={() => { history.push(`/chats/create`) }}
               style={{ position: 'absolute', right: 20, bottom: 10, zIndex: 99 }}
-              secondary={true}>
-              <FontIcon className="material-icons" >chat</FontIcon>
-            </FloatingActionButton>
+            >
+              <Icon className="material-icons" >chat</Icon>
+            </Button>
           </div>
 
           <div style={{ marginLeft: 0, flexGrow: 1 }}>
@@ -268,4 +304,4 @@ const mapStateToProps = (state, ownPops) => {
 
 export default connect(
   mapStateToProps, { setPersistentValue }
-)(injectIntl(withFirebase(withRouter(muiThemeable()(Chats)))));
+)(injectIntl(withFirebase(withRouter(withTheme()(Chats)))));

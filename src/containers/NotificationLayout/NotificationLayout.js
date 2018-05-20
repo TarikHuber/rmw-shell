@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import FontIcon from 'material-ui/FontIcon'
+import Icon from 'material-ui/Icon'
 import { injectIntl } from 'react-intl'
-import muiThemeable from 'material-ui/styles/muiThemeable'
+import { withTheme } from 'material-ui/styles'
 import { withFirebase } from 'firekit-provider'
 import { withRouter } from 'react-router-dom'
 import withAppConfigs from '../../withAppConfigs'
@@ -11,21 +11,24 @@ import { setPersistentValue } from '../../store/persistentValues/actions'
 import Avatar from 'material-ui/Avatar'
 import { ListItem } from 'material-ui/List'
 import Dialog from 'material-ui/Dialog'
-import FlatButton from 'material-ui/FlatButton'
+import Button from 'material-ui/Button'
 import moment from 'moment'
-import { app } from 'firebase/app';
+import { app } from 'firebase/app'
+import 'react-toastify/dist/ReactToastify.css';
 
 export class NotificationLayout extends Component {
 
 
   componentWillMount() {
-    const { muiTheme } = this.props
+    const { theme } = this.props
 
     this.initMessaging(this.props)
 
+    /*
     style({
-      colorInfo: muiTheme.palette.primary1Color,
+      //colorInfo: theme.palette.primary1Color,
     })
+    */
   }
 
   componentWillReceiveProps(nextProps) {
@@ -56,7 +59,7 @@ export class NotificationLayout extends Component {
       auth,
       notificationPermissionRequested,
       setPersistentValue,
-      muiTheme,
+      theme,
       intl,
       appConfig
     } = props
@@ -69,15 +72,15 @@ export class NotificationLayout extends Component {
       if (!toast.isActive(this.toastId)) {
         this.toastId = toast.info(({ closeToast }) => (<div>
           <div style={{ display: 'flex', alignItems: 'center', padding: 8 }}>
-            <FontIcon
+            <Icon
               style={{ paddingRight: 8 }}
               className="material-icons"
-              color={muiTheme.palette.accent1Color}
-            >notifications</FontIcon>
+              color={theme.palette.accent1Color}
+            >notifications</Icon>
             <div style={{ padding: undefined }}>{intl.formatMessage({ id: 'enable_notifications_message' })}</div>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
-            <FlatButton
+            <Button
               onClick={() => {
                 setPersistentValue('notificationPermissionRequested', moment())
                 initMessaging(token => { this.handleTokenChange(token) }, this.handleMessageReceived)
@@ -85,7 +88,7 @@ export class NotificationLayout extends Component {
               }}
               label={intl.formatMessage({ id: 'enable' })}
             />
-            <FlatButton
+            <Button
               onClick={() => {
                 setPersistentValue('notificationPermissionRequested', moment())
                 closeToast()
@@ -137,7 +140,7 @@ export class NotificationLayout extends Component {
   }
 
   handleMessageReceived = (payload) => {
-    const { muiTheme, location, appConfig } = this.props;
+    const { theme, location, appConfig } = this.props;
 
 
     const notification = payload.notification
@@ -184,4 +187,4 @@ const mapStateToProps = (state, ownProps) => {
 
 export default connect(
   mapStateToProps, { setPersistentValue }
-)(muiThemeable()(injectIntl(withFirebase(withRouter(withAppConfigs(NotificationLayout))))))
+)(withTheme()(injectIntl(withFirebase(withRouter(withAppConfigs(NotificationLayout))))))

@@ -1,24 +1,21 @@
-import React from 'react';
-import { Scrollbars } from 'react-custom-scrollbars';
-import muiThemeable from 'material-ui/styles/muiThemeable';
-import {fade} from 'material-ui/utils/colorManipulator';
-
+import React from 'react'
+import { Scrollbars } from 'react-custom-scrollbars'
+import { withTheme } from 'material-ui/styles'
 
 const Scrollbar = (props) => {
-  const {  muiTheme, ...rest } = props;
+  const { theme, ...rest } = props
 
   const thumbStyle = {
-    backgroundColor: fade(muiTheme.palette.primary1Color, 0.65),
+    backgroundColor: theme.palette.primary.dark,
     borderRadius: 3
-  };
+  }
 
   return (
     <Scrollbars
-      renderThumbVertical={({ style, ...p }) => <div style={{...style, ...thumbStyle}} {...p} />}
+      renderThumbVertical={({ style, ...p }) => <div style={{ ...style, ...thumbStyle }} {...p} />}
       {...rest}
     />
-  );
-
+  )
 }
 
-export default muiThemeable()(Scrollbar);
+export default withTheme()(Scrollbar)

@@ -1,21 +1,22 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { injectIntl } from 'react-intl'
-import Activity from '../../containers/Activity'
+import Activity from '../../components/Activity'
 import AuthUI from './AuthUI'
 import { withFirebase } from 'firekit-provider'
 import { connect } from 'react-redux'
 import withAppConfigs from '../../withAppConfigs'
+import firebaseui from 'firebaseui'
 
 export class SignIn extends Component {
-  render () {
+  render() {
     const { intl, firebaseApp, appConfig } = this.props
 
-    let uiConfig = {
+    const uiConfig = {
       signInSuccessUrl: '/',
       signInFlow: 'popup',
       callbacks: {
-        signInSuccess: (user, credentials, redirect) => {
+        signInSuccessWithAuthResult: (user, credentials, redirect) => {
           // initMessaging()
 
           // To avoid page reload on single page applications
@@ -27,8 +28,7 @@ export class SignIn extends Component {
     }
 
     return (
-      <Activity
-        title={intl.formatMessage({ id: 'sign_in' })}>
+      <Activity title={intl.formatMessage({ id: 'sign_in' })}>
         <AuthUI firebaseApp={firebaseApp} uiConfig={uiConfig} />
       </Activity>
 

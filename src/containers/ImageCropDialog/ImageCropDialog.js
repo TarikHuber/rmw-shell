@@ -4,11 +4,17 @@ import PropTypes from 'prop-types';
 import { injectIntl, intlShape } from 'react-intl';
 import firebase from 'firebase'
 import { Cropper } from 'react-image-cropper';
-import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
+import Dialog, {
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  withMobileDialog,
+} from 'material-ui/Dialog';
+import Button from 'material-ui/Button';
 import { withFirebase } from 'firekit-provider';
-import CircularProgress from 'material-ui/CircularProgress';
-import LinearProgress from 'material-ui/LinearProgress';
+import { CircularProgress } from 'material-ui/Progress';
+import { LinearProgress } from 'material-ui/Progress';
 
 const styles = {
   container: {
@@ -88,16 +94,16 @@ export class ImageCropDialog extends Component {
   }
 
   render() {
-    const { intl, open, title } = this.props;
+    const { intl, open, title, fullScreen } = this.props;
 
     const actions = [
-      <FlatButton
+      <Button
         disabled={!this.state.src || this.state.isLoading || this.state.isUploading}
         label={intl.formatMessage({ id: 'submit' })}
         primary={true}
         onClick={() => { this.handlePhotoURLUpload(this.cropper.crop()) }}
       />,
-      <FlatButton
+      <Button
         label={intl.formatMessage({ id: 'cancel' })}
         secondary={true}
         onClick={this.handleClose}
@@ -106,51 +112,68 @@ export class ImageCropDialog extends Component {
 
     return (
 
+
       <Dialog
-        contentStyle={styles.dialog}
-        title={title}
-        actions={actions}
-        onRequestClose={this.handleClose}
-        open={open}>
-        <div style={styles.container}>
+        fullScreen={fullScreen}
+        open={open}
+        onClose={this.handleClose}
+        aria-labelledby="responsive-dialog-title"
+      >
+        <DialogTitle id="responsive-dialog-title">{title}</DialogTitle>
+        <DialogContent>
 
-          <div style={styles.cropper}>
+          <div style={styles.container}>
 
-            {(!this.state.src || this.state.isLoading) &&
-              <input
-                ref={(field) => {
-                  if (field !== null) {
-                    field.click()
-                  }
-                }}
-                type="file"
-                accept="image/*"
-                //style={{visibility:'hidden'}}
-                onChange={this.handlePhotoULRChange}
-              />
-            }
+            <div style={styles.cropper}>
 
-            {this.state.isLoading &&
-              <CircularProgress size={80} thickness={5} />
-            }
+              {(!this.state.src || this.state.isLoading) &&
+                <input
+                  ref={(field) => {
+                    if (field !== null) {
+                      field.click()
+                    }
+                  }}
+                  type="file"
+                  accept="image/*"
+                  //style={{visibility:'hidden'}}
+                  onChange={this.handlePhotoULRChange}
+                />
+              }
 
-            {this.state.isUploading &&
-              <LinearProgress mode="determinate" value={this.state.uploadProgress} />
-            }
+              {this.state.isLoading &&
+                <CircularProgress size={80} thickness={5} />
+              }
 
-            {this.state.src &&
-              <Cropper
-                ref={(field) => { this.cropper = field; }}
-                src={this.state ? this.state.src : undefined}
-                aspectRatio={9 / 9}
-              />
-            }
+              {this.state.isUploading &&
+                <LinearProgress mode="determinate" value={this.state.uploadProgress} />
+              }
+
+              {this.state.src &&
+                <Cropper
+                  ref={(field) => { this.cropper = field; }}
+                  src={this.state ? this.state.src : undefined}
+                  aspectRatio={9 / 9}
+                />
+              }
+
+            </div>
 
           </div>
 
-        </div>
-
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => { this.handlePhotoURLUpload(this.cropper.crop()) }} color="primary" disabled={!this.state.src || this.state.isLoading || this.state.isUploading}>
+            {intl.formatMessage({ id: 'submit' })}
+          </Button>
+          <Button onClick={this.handleClose} color="secondary" autoFocus>
+            {intl.formatMessage({ id: 'cancel' })}
+          </Button>
+        </DialogActions>
       </Dialog>
+
+
+
+
     );
 
   }
@@ -177,4 +200,4 @@ const mapStateToProps = (state) => {
 
 export default connect(
   mapStateToProps
-)(injectIntl(withFirebase(ImageCropDialog)));
+)(injectIntl(withFirebase(withMobileDialog()(ImageCropDialog))))

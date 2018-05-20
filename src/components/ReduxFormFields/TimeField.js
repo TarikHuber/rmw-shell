@@ -3,7 +3,7 @@ import { TimePicker }  from '../../components/ReduxFormFields';
 import { Field } from 'redux-form';
 import { TextField } from 'redux-form-material-ui';
 import muiThemeable from 'material-ui/styles/muiThemeable';
-import FontIcon from 'material-ui/FontIcon';
+import Icon from 'material-ui/Icon';
 import IconButton from 'material-ui/IconButton';
 import { formatTimeToObject, formatTimeToString } from '../../utils/dateTime'
 import PropTypes from 'prop-types';
@@ -68,7 +68,7 @@ class TimeField extends Component {
 
   render() {
     const {
-      muiTheme,
+      theme,
       input,
       floatingLabelText,
       timePickerText,
@@ -108,12 +108,12 @@ class TimeField extends Component {
           tabIndex={-1}
           disabled={disabled}
           tooltip={timePickerText}>
-          <FontIcon
+          <Icon
             className="material-icons"
             style={{fontSize: 12}}
-            color={muiTheme.palette.primary1Color}>
+            color={theme.palette.primary1Color}>
             access_time
-          </FontIcon>
+          </Icon>
         </IconButton>
       </div>
     );
@@ -126,7 +126,7 @@ TimeField.propTypes = {
   input: PropTypes.object.isRequired,
   floatingLabelText: PropTypes.string.isRequired,
   timePickerText: PropTypes.string.isRequired,
-  muiTheme: PropTypes.object.isRequired,
+  theme: PropTypes.object.isRequired,
 };
 
 export default muiThemeable()(injectIntl(TimeField));

@@ -165,7 +165,7 @@ class Tasks extends Component {
   }
 
   render() {
-    const { intl, tasks, muiTheme, dialogs } = this.props;
+    const { intl, tasks, theme, dialogs } = this.props;
 
 
     const actions = [
@@ -189,7 +189,7 @@ class Tasks extends Component {
 
         <Scrollbar>
 
-          <div style={{ overflow: 'none', backgroundColor: muiTheme.palette.convasColor, paddingBottom: 56 }}>
+          <div style={{ overflow: 'none', backgroundColor: theme.palette.convasColor, paddingBottom: 56 }}>
             <List id='test' style={{ height: '100%' }} ref={(field) => { this.list = field; }}>
               {this.renderList(tasks)}
             </List>
@@ -213,7 +213,7 @@ class Tasks extends Component {
               />
               <IconButton
                 onClick={this.handleAddTask}>
-                <FontIcon className="material-icons" color={muiTheme.palette.primary1Color}>send</FontIcon>
+                <FontIcon className="material-icons" color={theme.palette.primary1Color}>send</FontIcon>
               </IconButton>
             </div>
           </BottomNavigation>
@@ -240,7 +240,7 @@ class Tasks extends Component {
 
 Tasks.propTypes = {
   intl: intlShape.isRequired,
-  muiTheme: PropTypes.object.isRequired,
+  theme: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
 };
 

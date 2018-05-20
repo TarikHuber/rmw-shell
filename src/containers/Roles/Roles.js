@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { injectIntl, intlShape } from 'react-intl';
-import Activity from '../../containers/Activity';
-import { List, ListItem } from 'material-ui/List';
+import Activity from '../../components/Activity';
+import List, { ListItem, ListItemText } from 'material-ui/List'
 import Divider from 'material-ui/Divider';
 import { withFirebase } from 'firekit-provider';
 import { withRouter } from 'react-router-dom';
 import ReactList from 'react-list';
 import Avatar from 'material-ui/Avatar';
-import FloatingActionButton from 'material-ui/FloatingActionButton';
-import FontIcon from 'material-ui/FontIcon';
+import Button from 'material-ui/Button';
+import Icon from 'material-ui/Icon';
 import Scrollbar from '../../components/Scrollbar/Scrollbar';
 import { getList, isLoading } from 'firekit'
 
@@ -28,8 +28,8 @@ export class Roles extends Component {
 
     const newRole = firebaseApp.database().ref(`/${path}`).push();
 
-    newRole.update({ description: ' ' }).then(() => {
-      history.push(`/${path}/edit/${newRole.key}`);
+    newRole.update({ name: 'New Role' }).then(() => {
+      history.push(`/${path}/edit/${newRole.key}/main`);
     })
 
   }
@@ -42,20 +42,14 @@ export class Roles extends Component {
 
     return <div key={key}>
       <ListItem
-        leftAvatar={
-          <Avatar
-            alt="person"
-            src={val.photoURL}
-            icon={<FontIcon className="material-icons" >account_box</FontIcon>}
-          />
-        }
+        key={i}
         onClick={() => { history.push(`/${path}/edit/${key}/main`) }}
-        key={key}
-        id={key}
-        primaryText={val.name}
-        secondaryText={val.description}
-      />
-      <Divider inset={true} />
+        id={i}>
+        {val.photoURL && <Avatar src={val.photoURL} alt='person' />}
+        {!val.photoURL && <Avatar> <Icon > account_box </Icon>  </Avatar>}
+        <ListItemText primary={val.name} secondary={val.description} />
+      </ListItem>
+      <Divider inset />
     </div>;
   }
 
@@ -81,12 +75,12 @@ export class Roles extends Component {
           <div
             style={{ float: "left", clear: "both" }}
           />
-          <FloatingActionButton
-            onClick={this.handleCreateClick}
-            style={{ position: 'fixed', bottom: 15, right: 20, zIndex: 99 }}
-            secondary={true}>
-            <FontIcon className="material-icons" >add</FontIcon>
-          </FloatingActionButton>
+
+          <div style={{ position: 'fixed', right: 18, zIndex: 3, bottom: 18 }}>
+            <Button variant='fab' color='secondary' onClick={this.handleCreateClick} >
+              <Icon className='material-icons' >add</Icon>
+            </Button>
+          </div>
         </div>
 
       </Activity>

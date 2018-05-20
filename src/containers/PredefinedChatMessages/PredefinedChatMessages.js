@@ -1,21 +1,26 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { injectIntl, intlShape } from 'react-intl';
-import Activity from '../../containers/Activity'
-import { List, ListItem } from 'material-ui/List';
+import Activity from '../../components/Activity'
+import List, { ListItem, ListItemText } from 'material-ui/List';
 import Divider from 'material-ui/Divider';
 import { withFirebase } from 'firekit-provider';
 import { withRouter } from 'react-router-dom';
-import FontIcon from 'material-ui/FontIcon';
+import Icon from 'material-ui/Icon';
 import isGranted from '../../utils/auth';
 import PropTypes from 'prop-types';
 import { setSimpleValue } from '../../store/simpleValues/actions'
 import { TextField } from 'redux-form-material-ui';
-import FlatButton from 'material-ui/FlatButton';
+import Button from 'material-ui/Button';
 import IconButton from 'material-ui/IconButton';
-import { BottomNavigation } from 'material-ui/BottomNavigation';
-import Dialog from 'material-ui/Dialog';
-import muiThemeable from 'material-ui/styles/muiThemeable';
+import BottomNavigation from 'material-ui/BottomNavigation';
+import Dialog, {
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from 'material-ui/Dialog';
+import { withTheme, withStyles } from 'material-ui/styles'
 import ReactList from 'react-list';
 import Scrollbar from '../../components/Scrollbar'
 import { getList } from 'firekit'
@@ -23,6 +28,10 @@ import { getList } from 'firekit'
 const path = `predefined_chat_messages`;
 
 export class PredefinedChatMessages extends Component {
+
+  state = {
+    value: ''
+  }
 
   componentWillMount() {
     const { watchList } = this.props;
@@ -52,12 +61,11 @@ export class PredefinedChatMessages extends Component {
 
   handleAddMessage = () => {
     const { firebaseApp } = this.props;
-    const message = this.refs["predefinedChatMessage"].refs.component.input.value;
-    this.refs["predefinedChatMessage"].refs.component.input.value = '';
 
-    if (message.length > 0) {
-      firebaseApp.database().ref(`/${path}/`).push({ message });
-    }
+    firebaseApp.database().ref(`/${path}/`).push({ message: this.state.value }).then(() => {
+      this.setState({ value: '' })
+    })
+
   }
 
 
@@ -69,18 +77,16 @@ export class PredefinedChatMessages extends Component {
 
     return (
       <div key={key}>
+
         <ListItem
           key={key}
-          primaryText={message}
-          rightIconButton={
-            <IconButton
-              onClick={() => setSimpleValue('delete_predefined_chat_message', key)}>
-              <FontIcon className="material-icons" color={'red'}>{'delete'}</FontIcon>
-            </IconButton>
-          }
-          id={key}
-        />
-
+          id={key}>
+          <ListItemText primary={message} />
+          <IconButton
+            onClick={() => setSimpleValue('delete_predefined_chat_message', key)}>
+            <Icon color={'secondary'}>{'delete'}</Icon>
+          </IconButton>
+        </ListItem>
         <Divider />
       </div>
     );
@@ -91,22 +97,9 @@ export class PredefinedChatMessages extends Component {
     const {
       intl,
       list,
-      muiTheme,
+      theme,
       delete_predefined_chat_message
     } = this.props;
-
-    const actions = [
-      <FlatButton
-        label={intl.formatMessage({ id: 'cancel' })}
-        primary={true}
-        onClick={this.handleClose}
-      />,
-      <FlatButton
-        label={intl.formatMessage({ id: 'delete' })}
-        secondary={true}
-        onClick={this.handleDelete}
-      />,
-    ];
 
     return (
       <Activity
@@ -114,7 +107,7 @@ export class PredefinedChatMessages extends Component {
         containerStyle={{ overflow: 'hidden' }}
         title={intl.formatMessage({ id: 'predefined_messages' })}>
 
-        <div style={{ overflow: 'auto', height: '100%', width: '100%', backgroundColor: muiTheme.palette.canvasColor, paddingBottom: 56 }}>
+        <div style={{ overflow: 'auto', height: '100%', width: '100%', backgroundColor: theme.palette.canvasColor, paddingBottom: 56 }}>
           <Scrollbar>
             <List ref={(field) => { this.list = field; }}>
               <ReactList
@@ -131,32 +124,49 @@ export class PredefinedChatMessages extends Component {
 
 
         {list &&
-          <BottomNavigation style={{ width: '100%', position: 'absolute', bottom: 0, right: 0, left: 0, zIndex: 50 }}>
+          <BottomNavigation style={{ width: '100%', position: 'absolute', bottom: 0, right: 0, left: 0, zIndex: 50, backgroundColor: theme.palette.background.default }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 15 }}>
               <TextField
                 id="predefinedChatMessage"
                 fullWidth={true}
+                value={this.state.value}
+                onChange={e => { this.setState({ value: e.target.value }) }}
                 onKeyDown={(event) => { this.handleKeyDown(event, this.handleAddMessage) }}
                 ref='predefinedChatMessage'
                 type="Text"
               />
 
               <IconButton
+                disabled={!this.state.value}
                 onClick={this.handleAddMessage}>
-                <FontIcon className="material-icons" color={muiTheme.palette.primary1Color}>send</FontIcon>
+                <Icon className="material-icons" color={theme.palette.primary1Color}>send</Icon>
               </IconButton>
             </div>
           </BottomNavigation>
         }
 
         <Dialog
-          title={intl.formatMessage({ id: 'delete_predefined_chat_message_title' })}
-          actions={actions}
-          modal={false}
           open={delete_predefined_chat_message !== undefined}
-          onRequestClose={this.handleClose}>
-          {intl.formatMessage({ id: 'delete_predefined_chat_message_message' })}
+          onClose={this.handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">{intl.formatMessage({ id: 'delete_predefined_chat_message_title' })}</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              {intl.formatMessage({ id: 'delete_predefined_chat_message_message' })}
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleClose} color="primary" >
+              {intl.formatMessage({ id: 'cancel' })}
+            </Button>
+            <Button onClick={this.handleDelete} color="secondary" >
+              {intl.formatMessage({ id: 'delete' })}
+            </Button>
+          </DialogActions>
         </Dialog>
+
       </Activity>
 
     );
@@ -188,4 +198,4 @@ const mapStateToProps = (state) => {
 
 export default connect(
   mapStateToProps, { setSimpleValue }
-)(injectIntl(muiThemeable()(withRouter(withFirebase(PredefinedChatMessages)))));
+)(injectIntl(withTheme()(withRouter(withFirebase(PredefinedChatMessages)))));

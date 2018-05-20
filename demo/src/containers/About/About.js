@@ -1,34 +1,34 @@
 import React, { Component } from 'react'
-import FlatButton from 'material-ui/FlatButton'
+import IconButton from 'material-ui/IconButton'
 import { injectIntl, intlShape } from 'react-intl'
 import { GitHubIcon } from '../../../../src/components/Icons'
-import Activity from '../../../../src/containers/Activity'
+import Activity from '../../../../src/components/Activity'
 import Scrollbar from '../../../../src/components/Scrollbar'
 
 class About extends Component {
   // Sorry for using setState here but I have to remove 'marked' from the dependencies
   // because of a vulnerability issue
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       text: ''
     }
   }
 
-  render () {
+  render() {
     const { intl } = this.props
 
     return (
       <Activity
-        iconElementRight={
-          <FlatButton
-            style={{ marginTop: 4 }}
+        appBarContent={
+          <IconButton
+
             href='https://github.com/TarikHuber/react-most-wanted'
             target='_blank'
             rel='noopener'
-            secondary
-            icon={<GitHubIcon />}
-          />
+          >
+            <GitHubIcon />
+          </IconButton>
         }
         title={intl.formatMessage({ id: 'about' })}>
 

@@ -1,4 +1,4 @@
-import FontIcon from 'material-ui/FontIcon'
+import Icon from 'material-ui/Icon'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import TextField from 'material-ui/TextField'
@@ -13,7 +13,7 @@ export class SearchField extends Component {
     const {
       filterName,
       hintText,
-      muiTheme,
+      theme,
       intl,
       setSearch,
       searchValue
@@ -30,13 +30,13 @@ export class SearchField extends Component {
       >
         <div style={{
           display: 'flex',
-          backgroundColor: fade(muiTheme.palette.primary1Color, 0.70),
+          backgroundColor: fade(theme.palette.primary1Color, 0.70),
           borderRadius: 4,
           paddingLeft: 10,
           paddingRight: 10
         }}
         >
-          <FontIcon style={{ marginLeft: 10, marginTop: 12, marginRight: 15 }} className='material-icons' color={muiTheme.palette.textColor}>search</FontIcon>
+          <Icon style={{ marginLeft: 10, marginTop: 12, marginRight: 15 }} className='material-icons' color={theme.palette.textColor}>search</Icon>
           <TextField
             style={{ width: '100%' }}
             underlineShow={false}

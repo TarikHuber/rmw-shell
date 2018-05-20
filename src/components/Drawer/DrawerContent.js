@@ -1,8 +1,8 @@
-import FontIcon from 'material-ui/FontIcon'
+import Icon from 'material-ui/Icon'
 import React from 'react'
-import muiThemeable from 'material-ui/styles/muiThemeable'
+import { withTheme } from 'material-ui/styles'
 import withAppConfigs from '../../withAppConfigs'
-import { SelectableMenuList } from 'material-ui-selectable-menu-list'
+import { SelectableMenuList } from '../../components/SelectableMenuList'
 import { injectIntl } from 'react-intl'
 import { withRouter } from 'react-router-dom'
 
@@ -16,10 +16,10 @@ export const DrawerContent = (props, context) => {
   } = props
 
   const handleChange = (event, index) => {
-    const { history, responsiveDrawer, setDrawerOpen } = props
+    const { history, responsiveDrawer, setDrawerMobileOpen } = props
 
-    if (responsiveDrawer.open && index !== undefined) {
-      setDrawerOpen(false)
+    if (index !== undefined) {
+      setDrawerMobileOpen(false)
     }
 
     if (index !== undefined && index !== Object(index)) {
@@ -48,13 +48,13 @@ export const DrawerContent = (props, context) => {
     {
       value: '/my_account',
       primaryText: intl.formatMessage({ id: 'my_account' }),
-      leftIcon: <FontIcon className='material-icons' >account_box</FontIcon>
+      leftIcon: <Icon className='material-icons' >account_box</Icon>
     },
     {
       value: '/signin',
       onClick: handleSignOut,
       primaryText: intl.formatMessage({ id: 'sign_out' }),
-      leftIcon: <FontIcon className='material-icons' >lock</FontIcon>
+      leftIcon: <Icon className='material-icons' >lock</Icon>
     }
 
   ]
@@ -75,4 +75,4 @@ export const DrawerContent = (props, context) => {
   )
 }
 
-export default injectIntl(muiThemeable()(withRouter(withAppConfigs(DrawerContent))))
+export default injectIntl(withTheme()(withRouter(withAppConfigs(DrawerContent))))

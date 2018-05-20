@@ -4,7 +4,7 @@ import { Field } from 'redux-form';
 import { TextField } from 'redux-form-material-ui';
 import muiThemeable from 'material-ui/styles/muiThemeable';
 import { injectIntl, intlShape } from 'react-intl';
-import FontIcon from 'material-ui/FontIcon';
+import Icon from 'material-ui/Icon';
 import IconButton from 'material-ui/IconButton';
 import { formatDateToObject, formatDateToString } from '../../utils/dateTime'
 import PropTypes from 'prop-types';
@@ -75,7 +75,7 @@ class DateField extends Component {
       input,
       floatingLabelText,
       datePickerText,
-      muiTheme,
+      theme,
       intl,
     } = this.props;
 
@@ -115,12 +115,12 @@ class DateField extends Component {
           tabIndex={-1}
           disabled={disabled}
           tooltip={datePickerText}>
-          <FontIcon
+          <Icon
             className="material-icons"
             style={{fontSize: 12}}
-            color={muiTheme.palette.primary1Color}>
+            color={theme.palette.primary1Color}>
             event
-          </FontIcon>
+          </Icon>
         </IconButton>
       </div>
     );
@@ -132,7 +132,7 @@ DateField.propTypes = {
   input: PropTypes.object.isRequired,
   floatingLabelText: PropTypes.string.isRequired,
   datePickerText: PropTypes.string.isRequired,
-  muiTheme: PropTypes.object.isRequired,
+  theme: PropTypes.object.isRequired,
   intl: intlShape.isRequired,
 };
 

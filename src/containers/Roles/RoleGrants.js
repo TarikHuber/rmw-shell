@@ -2,17 +2,16 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { injectIntl, intlShape } from 'react-intl';
-import muiThemeable from 'material-ui/styles/muiThemeable';
+import { withTheme, withStyles } from 'material-ui/styles'
 import { setSimpleValue } from '../../store/simpleValues/actions';
 import { withRouter } from 'react-router-dom';
-import FontIcon from 'material-ui/FontIcon';
+import Icon from 'material-ui/Icon';
 import { withFirebase } from 'firekit-provider'
-import { ListItem } from 'material-ui/List';
+import List, { ListItem, ListItemText } from 'material-ui/List';
 import Divider from 'material-ui/Divider';
 import Avatar from 'material-ui/Avatar';
-import Toggle from 'material-ui/Toggle';
+import Switch from 'material-ui/Switch';
 import ReactList from 'react-list';
-import { List } from 'material-ui/List';
 import { FilterDrawer, filterSelectors, filterActions } from 'material-ui-filter'
 import withAppConfigs from '../../withAppConfigs'
 import { getList } from 'firekit'
@@ -21,8 +20,8 @@ export class RoleGrants extends Component {
 
 	componentWillMount() {
 		const { watchList, setSearch } = this.props;
-		watchList('role_grants')
-		setSearch('role_grants', '')
+		//watchList('role_grants')
+		//setSearch('role_grants', '')
 	}
 
 	handleGrantToggleChange = (e, isInputChecked, key) => {
@@ -58,25 +57,17 @@ export class RoleGrants extends Component {
 
 		return <div key={key}>
 			<ListItem
-				leftAvatar={
-					<Avatar
-						alt="person"
-						src={undefined}
-						icon={<FontIcon className="material-icons" >checked</FontIcon>}
-					/>
-				}
-				rightToggle={
-					<Toggle
-						toggled={userGrants[val] === true}
-						onToggle={(e, isInputChecked) => { this.handleGrantToggleChange(e, isInputChecked, val) }}
-					/>
-				}
-				key={key}
-				id={key}
-				primaryText={intl.formatMessage({ id: `grant_${val}` })}
-				secondaryText={val}
-			/>
-			<Divider inset={true} />
+				key={i}
+				id={i}>
+				<Avatar> <Icon > checked </Icon>  </Avatar>
+				<ListItemText primary={intl.formatMessage({ id: `grant_${val}` })} secondary={val} />
+				<Switch
+					checked={userGrants[val] === true}
+					onChange={(e, isInputChecked) => { this.handleGrantToggleChange(e, isInputChecked, val) }}
+				/>
+			</ListItem>
+			<Divider inset />
+
 		</div>;
 	}
 
@@ -123,7 +114,7 @@ export class RoleGrants extends Component {
 
 RoleGrants.propTypes = {
 	intl: intlShape.isRequired,
-	muiTheme: PropTypes.object.isRequired,
+	theme: PropTypes.object.isRequired,
 	match: PropTypes.object.isRequired,
 };
 
@@ -145,4 +136,4 @@ const mapStateToProps = (state, ownProps) => {
 
 export default connect(
 	mapStateToProps, { setSimpleValue, ...filterActions }
-)(injectIntl(withRouter(withFirebase(withAppConfigs(muiThemeable()(RoleGrants))))))
+)(injectIntl(withRouter(withFirebase(withAppConfigs(withTheme()(RoleGrants))))))
