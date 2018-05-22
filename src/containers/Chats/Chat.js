@@ -12,20 +12,20 @@ import { withFirebase } from 'firekit-provider'
 import ChatMessages from '../../containers/ChatMessages'
 
 export class Chat extends Component {
-  componentDidMount() {
+  componentDidMount () {
     const { watchList, chatsPath } = this.props
     watchList(chatsPath)
   }
 
-  render() {
+  render () {
     const { messages, theme, history, receiverDisplayName, receiverPhotoURL, path, receiverPath } = this.props
 
     return (
       <Activity
         isLoading={messages === undefined}
         containerStyle={{
-          overflow: 'hidden',
-          backgroundColor: theme.chip.backgroundColor
+          overflow: 'hidden'
+          // backgroundColor: theme.chip.backgroundColor
         }}
         onBackClick={() => { history.push('/chats') }}
         pageTitle={receiverDisplayName}

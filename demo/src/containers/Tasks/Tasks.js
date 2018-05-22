@@ -19,6 +19,7 @@ import FlatButton from '@material-ui/core/FlatButton';
 import Dialog from '@material-ui/core/Dialog';
 import { withFirebase } from 'firekit-provider'
 import Scrollbar from '../../../../src/components/Scrollbar'
+import withWidth, { isWidthDown } from '@material-ui/core/withWidth'
 
 class Tasks extends Component {
 
@@ -109,7 +110,7 @@ class Tasks extends Component {
   }
 
   renderList(tasks) {
-    const { auth, intl, history, browser, setDialogIsOpen } = this.props;
+    const { auth, intl, history, width, setDialogIsOpen } = this.props;
 
     if (tasks === undefined) {
       return <div></div>
@@ -131,7 +132,7 @@ class Tasks extends Component {
           rightIconButton={
             task.userId === auth.uid ?
               <IconButton
-                style={{ display: browser.lessThan.medium ? 'none' : undefined }}
+                style={{ display: isWidthDown('md', width) ? 'none' : undefined }}
                 onClick={() => { setDialogIsOpen('delete_task_from_list', key); }}>
                 <FontIcon className="material-icons" color={'red'}>{'delete'}</FontIcon>
               </IconButton> : undefined
@@ -245,12 +246,11 @@ Tasks.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-  const { lists, auth, browser, dialogs } = state;
+  const { lists, auth, dialogs } = state;
 
   return {
     tasks: lists.public_tasks,
     auth,
-    browser,
     dialogs
   };
 };
@@ -261,4 +261,4 @@ const mapStateToProps = (state) => {
 export default connect(
   mapStateToProps,
   { setDialogIsOpen }
-)(injectIntl(muiThemeable()(withRouter(withFirebase(Tasks)))));
+)(injectIntl(withWidth()(muiThemeable()(withRouter(withFirebase(Tasks))))))

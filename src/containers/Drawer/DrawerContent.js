@@ -9,7 +9,6 @@ import { userLogout } from '../../store/auth/actions'
 import drawerActions from '../../store/drawer/actions'
 
 DrawerContent.propTypes = {
-  responsiveDrawer: PropTypes.object.isRequired,
   locale: PropTypes.string.isRequired,
   updateTheme: PropTypes.func.isRequired,
   updateLocale: PropTypes.func.isRequired

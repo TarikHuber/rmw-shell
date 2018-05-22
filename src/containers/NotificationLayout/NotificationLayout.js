@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Icon from '@material-ui/core/Icon'
 import { injectIntl } from 'react-intl'
-import { withTheme } from '@material-ui/core/styles'
+import { withTheme, withStyles } from '@material-ui/core/styles'
 import { withFirebase } from 'firekit-provider'
 import { withRouter } from 'react-router-dom'
 import withAppConfigs from '../../withAppConfigs'
@@ -170,7 +170,7 @@ export class NotificationLayout extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const { theme, locale, messaging, browser, intl, auth, persistentValues } = state;
+  const { theme, locale, messaging, intl, auth, persistentValues } = state;
 
   const notificationPermissionRequested = persistentValues.notificationPermissionRequested
 
@@ -178,7 +178,6 @@ const mapStateToProps = (state, ownProps) => {
     theme, //We need this so the theme change triggers rerendering
     locale,
     messaging,
-    isDesktop: browser.greaterThan.medium,
     auth,
     notificationPermissionRequested,
     intl

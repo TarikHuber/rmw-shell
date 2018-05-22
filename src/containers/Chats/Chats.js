@@ -24,6 +24,7 @@ import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
 import IconButton from '@material-ui/core/IconButton'
 import { getList } from 'firekit'
+import withWidth, { isWidthUp } from '@material-ui/core/withWidth'
 
 export class Chats extends Component {
 
@@ -67,7 +68,9 @@ export class Chats extends Component {
   }
 
   handleItemClick = (val, key) => {
-    const { usePreview, history, setPersistentValue, firebaseApp, auth } = this.props;
+    const { width, history, setPersistentValue, firebaseApp, auth } = this.props;
+
+    const usePreview = isWidthUp('sm', width);
 
     if (val.unread > 0) {
       //firebaseApp.database().ref(`user_chats/${auth.uid}/${key}/unread`).remove();
@@ -106,7 +109,9 @@ export class Chats extends Component {
 
 
   renderItem = (i, k) => {
-    const { list, intl, currentChatUid, usePreview, theme } = this.props;
+    const { list, intl, currentChatUid, width, theme } = this.props;
+
+    const usePreview = isWidthUp('sm', width);
 
     const key = list[i].key;
     const val = list[i].val;
@@ -216,14 +221,18 @@ export class Chats extends Component {
       list,
       history,
       currentChatUid,
-      usePreview,
-      auth
+      //usePreview,
+      auth,
+      width
     } = this.props;
 
     if (this.state.hasError) {
       // You can render any custom fallback UI
       return <h1>Something went wrong.</h1>;
     }
+
+    const usePreview = isWidthUp('sm', width);
+
 
     const isDisplayingMessages = usePreview && currentChatUid;
 
@@ -289,18 +298,15 @@ Chats.propTypes = {
 };
 
 const mapStateToProps = (state, ownPops) => {
-  const { lists, auth, browser, persistentValues } = state;
+  const { lists, auth, persistentValues } = state;
 
   const path = `user_chats/${auth.uid}`;
-  const usePreview = browser.greaterThan.small;
   const currentChatUid = persistentValues['current_chat_uid'] ? persistentValues['current_chat_uid'] : undefined
-
   const list = getList(state, path).sort(filterSelectors.dynamicSort('lastCreated', false, fieldValue => fieldValue.val))
 
   return {
     auth,
     path,
-    usePreview,
     currentChatUid,
     list,
   };
@@ -309,4 +315,4 @@ const mapStateToProps = (state, ownPops) => {
 
 export default connect(
   mapStateToProps, { setPersistentValue }
-)(injectIntl(withFirebase(withRouter(withTheme()(Chats)))));
+)(injectIntl(withFirebase(withRouter(withWidth()(withTheme()(withStyles(theme => { }, { withTheme: true })(Chats)))))))

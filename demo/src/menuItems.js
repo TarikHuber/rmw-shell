@@ -6,7 +6,6 @@ import allThemes from './themes'
 
 const getMenuItems = (props) => {
   const {
-    responsiveDrawer,
     setResponsive,
     theme,
     locale,

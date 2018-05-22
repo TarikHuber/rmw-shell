@@ -186,12 +186,11 @@ PredefinedChatMessages.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-  const { lists, simpleValues, browser } = state;
+  const { lists, simpleValues } = state;
 
   const delete_predefined_chat_message = simpleValues.delete_predefined_chat_message;
 
   return {
-    browser,
     delete_predefined_chat_message,
     list: getList(state, path),
     isGranted: grant => isGranted(state, grant)

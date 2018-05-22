@@ -10,11 +10,9 @@ import simpleValues from './simpleValues/reducer'
 import themeSource from './themeSource/reducer'
 import drawer from './drawer/reducer'
 import { combineReducers } from 'redux'
-import { responsiveStateReducer } from 'redux-responsive'
 
 export const appReducers = {
   ...firekitReducers,
-  browser: responsiveStateReducer,
   dialogs,
   filters: filterReducer,
   form: formReducer,

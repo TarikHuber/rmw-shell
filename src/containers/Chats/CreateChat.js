@@ -21,6 +21,7 @@ import { filterSelectors, filterActions } from 'material-ui-filter'
 import { setPersistentValue } from '../../store/persistentValues/actions'
 import SearchField from '../../components/SearchField'
 import { getList } from 'firekit'
+import withWidth, { isWidthUp } from '@material-ui/core/withWidth'
 
 const path = `users`;
 
@@ -142,11 +143,12 @@ Users.propTypes = {
   auth: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = (state) => {
-  const { auth, filters, browser } = state;
+const mapStateToProps = (state, ownProps) => {
+  const { auth, filters } = state;
+  const { width } = ownProps;
 
   const users = filterSelectors.getFilteredList('select_user', filters, getList(state, 'users'), fieldValue => fieldValue.val);
-  const usePreview = browser.greaterThan.small;
+  const usePreview = isWidthUp('sm', width);
 
   return {
     usePreview,
@@ -158,4 +160,4 @@ const mapStateToProps = (state) => {
 
 export default connect(
   mapStateToProps, { ...filterActions, setPersistentValue }
-)(injectIntl(withTheme()(withFirebase(withRouter(Users)))));
+)(injectIntl(withWidth()(withTheme()(withStyles(theme => { }, { withTheme: true })(withFirebase(withRouter(Users)))))))

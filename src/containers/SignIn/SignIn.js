@@ -4,12 +4,11 @@ import { injectIntl } from 'react-intl'
 import Activity from '../../components/Activity'
 import AuthUI from './AuthUI'
 import { withFirebase } from 'firekit-provider'
-import { connect } from 'react-redux'
 import withAppConfigs from '../../withAppConfigs'
 import firebaseui from 'firebaseui'
 
 export class SignIn extends Component {
-  render() {
+  render () {
     const { intl, firebaseApp, appConfig } = this.props
 
     const uiConfig = {
@@ -40,13 +39,4 @@ SignIn.propTypes = {
   intl: PropTypes.object.isRequired
 }
 
-const mapStateToProps = (state) => {
-  const { browser } = state
-  return {
-    browser
-  }
-}
-
-export default connect(
-  mapStateToProps
-)(injectIntl(withFirebase(withAppConfigs(SignIn))))
+export default injectIntl(withFirebase(withAppConfigs(SignIn)))

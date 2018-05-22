@@ -192,7 +192,7 @@ ChatMessages.propTypes = {
 };
 
 const mapStateToProps = (state, ownPops) => {
-  const { lists, auth, browser, simpleValues } = state;
+  const { lists, auth, simpleValues } = state;
   const { uid, path } = ownPops;
 
   const chatMessageMenuOpen = simpleValues['chatMessageMenuOpen'] === true
@@ -206,8 +206,7 @@ const mapStateToProps = (state, ownPops) => {
     chatMessageMenuOpen,
     messages: getList(state, path),
     predefinedMessages: getList(state, 'predefined_chat_messages'),
-    auth,
-    browser
+    auth
   };
 };
 

@@ -16,7 +16,7 @@ export const DrawerContent = (props, context) => {
   } = props
 
   const handleChange = (event, index) => {
-    const { history, responsiveDrawer, setDrawerMobileOpen } = props
+    const { history, setDrawerMobileOpen } = props
 
     if (index !== undefined) {
       setDrawerMobileOpen(false)
