@@ -5,28 +5,30 @@ import { injectIntl, intlShape } from 'react-intl';
 import Activity from '../../components/Activity'
 import { setSimpleValue } from '../../store/simpleValues/actions';
 import { withRouter } from 'react-router-dom';
-import Icon from 'material-ui/Icon';
-import Button from 'material-ui/Button';
+import Icon from '@material-ui/core/Icon';
+import Button from '@material-ui/core/Button';
 import classNames from 'classnames';
-import Dialog, {
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-} from 'material-ui/Dialog';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 import { withFirebase } from 'firekit-provider'
 import FireForm from 'fireform'
 import { GoogleIcon, FacebookIcon, GitHubIcon, TwitterIcon } from '../../components/Icons';
-import { withTheme, withStyles } from 'material-ui/styles'
+import { withTheme, withStyles } from '@material-ui/core/styles'
 import { change, submit, formValueSelector } from 'redux-form';
-import IconButton from 'material-ui/IconButton';
+import IconButton from '@material-ui/core/IconButton';
 import { setDialogIsOpen } from '../../store/dialogs/actions'
 import AvatarImageField from '../../components/ReduxFormFields/AvatarImageField'
 import withAppConfigs from '../../withAppConfigs'
-import Avatar from 'material-ui/Avatar';
-import TextField from 'material-ui/TextField';
-import Input, { InputLabel, InputAdornment } from 'material-ui/Input';
-import { FormControl, FormHelperText } from 'material-ui/Form';
+import Avatar from '@material-ui/core/Avatar';
+import TextField from '@material-ui/core/TextField';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import FormControl from '@material-ui/core/FormControl';
+import FormHelperText from '@material-ui/core/FormHelperText';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import { ImageCropDialog } from '../../containers/ImageCropDialog'
@@ -422,6 +424,7 @@ export class MyAccount extends Component {
           </ div>
         }
         title={intl.formatMessage({ id: 'my_account' })}>
+
 
         {
           auth.uid &&

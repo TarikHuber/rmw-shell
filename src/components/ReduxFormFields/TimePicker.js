@@ -1,4 +1,4 @@
-import TimePicker from 'material-ui/TimePicker'
+import TimePicker from '@material-ui/core/TimePicker'
 import { Component, createElement } from 'react'
 import { mapError } from '../../utils/mapError'
 
@@ -10,26 +10,26 @@ function createComponent(MaterialUIComponent, mapProps) {
 
     render() {
 
-      const {input, ...rest} = this.props;
-      const {value, ...inputRest} = input;
+      const { input, ...rest } = this.props;
+      const { value, ...inputRest } = input;
 
-      let newProps=this.props;
+      let newProps = this.props;
 
-      if(typeof value === 'string' || value instanceof String){
+      if (typeof value === 'string' || value instanceof String) {
 
-        if(value){
-          let newValue=new Date(value);
+        if (value) {
+          let newValue = new Date(value);
 
 
-          newProps={
+          newProps = {
             input: {
               value: newValue,
               ...inputRest
             },
             ...rest
           }
-        }else{
-          newProps={
+        } else {
+          newProps = {
             input: {
               value: null,
               ...inputRest
@@ -61,7 +61,7 @@ export default createComponent(TimePicker, ({
   ...inputProps,
   ...mapError(props),
   onChange: (event, value) => {
-    const newValue=new Date(value).toISOString();
+    const newValue = new Date(value).toISOString();
     inputProps.onChange(newValue)
     if (onChange) {
       onChange(newValue)

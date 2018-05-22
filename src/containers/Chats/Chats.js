@@ -1,23 +1,28 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { injectIntl, intlShape } from 'react-intl';
-import List, { ListItem, ListItemText } from 'material-ui/List';
-import Divider from 'material-ui/Divider';
-import { withTheme, withStyles } from 'material-ui/styles'
+import List from '@material-ui/core/List'
+import ListItem from '@material-ui/core/ListItem'
+import ListItemText from '@material-ui/core/ListItemText'
+import ListItemAvatar from '@material-ui/core/ListItemAvatar'
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
+import Divider from '@material-ui/core/Divider';
+import { withTheme, withStyles } from '@material-ui/core/styles'
 import { withFirebase } from 'firekit-provider';
 import { withRouter } from 'react-router-dom';
 import ReactList from 'react-list';
-import Avatar from 'material-ui/Avatar';
-import Button from 'material-ui/Button';
-import Icon from 'material-ui/Icon';
+import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button';
+import Icon from '@material-ui/core/Icon';
 import PropTypes from 'prop-types';
 import Activity from '../../components/Activity'
 import Scrollbar from '../../components/Scrollbar'
 import ChatMessages from '../../containers/ChatMessages'
 import { setPersistentValue } from '../../store/persistentValues/actions'
 import { filterSelectors } from 'material-ui-filter'
-import Menu, { MenuItem } from 'material-ui/Menu'
-import IconButton from 'material-ui/IconButton'
+import Menu from '@material-ui/core/Menu'
+import MenuItem from '@material-ui/core/MenuItem'
+import IconButton from '@material-ui/core/IconButton'
 import { getList } from 'firekit'
 
 export class Chats extends Component {

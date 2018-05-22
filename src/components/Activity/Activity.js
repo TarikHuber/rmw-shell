@@ -1,24 +1,24 @@
 import React from 'react';
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types';
-import { withTheme, withStyles } from 'material-ui/styles';
+import { withTheme, withStyles } from '@material-ui/core/styles';
 import { Helmet } from 'react-helmet';
-import Drawer from 'material-ui/Drawer';
-import AppBar from 'material-ui/AppBar';
-import Toolbar from 'material-ui/Toolbar';
-import List from 'material-ui/List';
-import Typography from 'material-ui/Typography';
+import Drawer from '@material-ui/core/Drawer';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import List from '@material-ui/core/List';
+import Typography from '@material-ui/core/Typography';
 import classNames from 'classnames';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import IconButton from 'material-ui/IconButton';
-import Hidden from 'material-ui/Hidden';
-import Divider from 'material-ui/Divider';
+import IconButton from '@material-ui/core/IconButton';
+import Hidden from '@material-ui/core/Hidden';
+import Divider from '@material-ui/core/Divider';
 import MenuIcon from '@material-ui/icons/Menu';
 import drawerActions from '../../store/drawer/actions'
-import withWidth, { isWidthDown } from 'material-ui/utils/withWidth'
-import Icon from 'material-ui/Icon';
-import { LinearProgress } from 'material-ui/Progress';
+import withWidth, { isWidthDown } from '@material-ui/core/withWidth'
+import Icon from '@material-ui/core/Icon';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 const drawerWidth = 240;
 

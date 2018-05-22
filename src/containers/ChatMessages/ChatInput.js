@@ -1,8 +1,8 @@
-import Chip from 'material-ui/Chip'
-import Divider from 'material-ui/Divider'
-import Button from 'material-ui/Button'
-import Icon from 'material-ui/Icon'
-import IconButton from 'material-ui/IconButton'
+import Chip from '@material-ui/core/Chip'
+import Divider from '@material-ui/core/Divider'
+import Button from '@material-ui/core/Button'
+import Icon from '@material-ui/core/Icon'
+import IconButton from '@material-ui/core/IconButton'
 import Image from 'material-ui-image'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
@@ -10,10 +10,14 @@ import ReactDOM from 'react-dom'
 import ReactList from 'react-list'
 import Scrollbar from '../../components/Scrollbar'
 import ChatMic from './ChatMic'
-import TextField from 'material-ui/TextField'
+import TextField from '@material-ui/core/TextField'
 import firebase from 'firebase'
-import { withTheme, withStyles } from 'material-ui/styles'
-import List, { ListItem, ListItemText } from 'material-ui/List'
+import { withTheme, withStyles } from '@material-ui/core/styles'
+import List from '@material-ui/core/List'
+import ListItem from '@material-ui/core/ListItem'
+import ListItemIcon from '@material-ui/core/ListItemIcon'
+import ListItemText from '@material-ui/core/ListItemText'
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
 import { connect } from 'react-redux'
 import { getGeolocation } from '../../utils/googleMaps'
 import { injectIntl, intlShape } from 'react-intl'
@@ -21,8 +25,9 @@ import { setSimpleValue } from '../../store/simpleValues/actions'
 import { withFirebase } from 'firekit-provider'
 import { withRouter } from 'react-router-dom'
 import moment from 'moment'
-import Input, { InputLabel, InputAdornment } from 'material-ui/Input';
-import { FormControl, FormHelperText } from 'material-ui/Form';
+import Input, { InputLabel, InputAdornment } from '@material-ui/core/Input';
+import FormControl from '@material-ui/core/FormControl';
+import FormHelperText from '@material-ui/core/FormHelperText';
 
 class ChatMessages extends Component {
 

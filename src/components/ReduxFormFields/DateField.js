@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
-import DatePicker  from './DatePicker';
+import DatePicker from './DatePicker';
 import { Field } from 'redux-form';
 import { TextField } from 'redux-form-material-ui';
-import muiThemeable from 'material-ui/styles/muiThemeable';
+import muiThemeable from '@material-ui/core/styles/muiThemeable';
 import { injectIntl, intlShape } from 'react-intl';
-import Icon from 'material-ui/Icon';
-import IconButton from 'material-ui/IconButton';
+import Icon from '@material-ui/core/Icon';
+import IconButton from '@material-ui/core/IconButton';
 import { formatDateToObject, formatDateToString } from '../../utils/dateTime'
 import PropTypes from 'prop-types';
 
-const defaultFormatOptions = {day: '2-digit', month: '2-digit', year: 'numeric'};
+const defaultFormatOptions = { day: '2-digit', month: '2-digit', year: 'numeric' };
 
 
 class DateField extends Component {
@@ -25,10 +25,10 @@ class DateField extends Component {
   handleOnDatePickerChange = (e, newVal) => {
     const { change, name, formatOptions } = this.props;
 
-    const format = formatOptions?formatOptions:defaultFormatOptions;
+    const format = formatOptions ? formatOptions : defaultFormatOptions;
 
-    if(newVal !== null) {
-      this.setState({value: new Date(newVal).toLocaleString('de-DE', format)});
+    if (newVal !== null) {
+      this.setState({ value: new Date(newVal).toLocaleString('de-DE', format) });
       change(name, new Date(newVal).toISOString());
     }
   }
@@ -39,34 +39,34 @@ class DateField extends Component {
     const { name } = input;
 
     const newVal = this.state.value;
-    const format = formatOptions?formatOptions:defaultFormatOptions;
+    const format = formatOptions ? formatOptions : defaultFormatOptions;
 
-    if(!newVal) {
+    if (!newVal) {
       return;
     }
 
-    this.setState({value: formatDateToString(newVal, format)});
+    this.setState({ value: formatDateToString(newVal, format) });
     change(name, formatDateToObject(newVal, format).toISOString());
   }
 
-  componentWillReceiveProps(nextProps){
+  componentWillReceiveProps(nextProps) {
     const { formatOptions } = this.props;
 
     const format = formatOptions ? formatOptions : defaultFormatOptions;
 
-    if(nextProps !== undefined){
+    if (nextProps !== undefined) {
       const { input } = nextProps;
       const { value } = input;
 
-      if(value !== undefined && value !== null && value.length > 0){
-        this.setState({value: new Date(value).toLocaleString('de-DE', format)});
+      if (value !== undefined && value !== null && value.length > 0) {
+        this.setState({ value: new Date(value).toLocaleString('de-DE', format) });
       }
     }
 
   }
 
   handleDateTextChange = (evt) => {
-    this.setState({value: evt.target.value});
+    this.setState({ value: evt.target.value });
   }
 
   render() {
@@ -82,7 +82,7 @@ class DateField extends Component {
     const { name } = input;
 
     return (
-      <div style={{display: 'flex', alignItems: 'flex-end'}}>
+      <div style={{ display: 'flex', alignItems: 'flex-end' }}>
 
         <TextField
           name={`${name}Text`}
@@ -91,18 +91,18 @@ class DateField extends Component {
           onChange={this.handleDateTextChange}
           disabled={disabled}
           floatingLabelText={floatingLabelText}
-          style={{width: 90, alignItems: 'center'}}
+          style={{ width: 90, alignItems: 'center' }}
           ref={`${name}Text`}
         />
         <Field
           name={name}
-          textFieldStyle={{display: 'none'}}
+          textFieldStyle={{ display: 'none' }}
           autoOk={true}
           tabIndex={-1}
           DateTimeFormat={global.Intl.DateTimeFormat}
           okLabel="OK"
-          cancelLabel={intl.formatMessage({id: 'cancel'})}
-          locale={intl.formatMessage({id: 'current_locale'})}
+          cancelLabel={intl.formatMessage({ id: 'cancel' })}
+          locale={intl.formatMessage({ id: 'current_locale' })}
           disabled={disabled}
           component={DatePicker}
           onChange={this.handleOnDatePickerChange}
@@ -111,13 +111,13 @@ class DateField extends Component {
           withRef
         />
         <IconButton
-          onClick={()=>{this.refs[name].getRenderedComponent().refs.component.openDialog();}}
+          onClick={() => { this.refs[name].getRenderedComponent().refs.component.openDialog(); }}
           tabIndex={-1}
           disabled={disabled}
           tooltip={datePickerText}>
           <Icon
             className="material-icons"
-            style={{fontSize: 12}}
+            style={{ fontSize: 12 }}
             color={theme.palette.primary1Color}>
             event
           </Icon>

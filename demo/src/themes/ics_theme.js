@@ -1,6 +1,6 @@
 import {
   red
-} from 'material-ui/colors/red'
+} from '@material-ui/core/colors/red'
 
 export default {
   palette: {

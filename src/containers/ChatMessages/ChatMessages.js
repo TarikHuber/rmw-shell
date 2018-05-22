@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
-import { withTheme, withStyles } from 'material-ui/styles'
+import { withTheme, withStyles } from '@material-ui/core/styles'
 import { connect } from 'react-redux'
 import { injectIntl, intlShape } from 'react-intl'
 import { setSimpleValue } from '../../store/simpleValues/actions'
@@ -10,7 +10,7 @@ import ChatInput from './ChatInput'
 import ChatMessagesList from './ChatMessagesList'
 
 class ChatMessages extends Component {
-  render () {
+  render() {
     const { theme, uid, firebaseApp, auth } = this.props
 
     return (

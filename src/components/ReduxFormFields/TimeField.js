@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
-import { TimePicker }  from '../../components/ReduxFormFields';
+import { TimePicker } from '../../components/ReduxFormFields';
 import { Field } from 'redux-form';
 import { TextField } from 'redux-form-material-ui';
-import muiThemeable from 'material-ui/styles/muiThemeable';
-import Icon from 'material-ui/Icon';
-import IconButton from 'material-ui/IconButton';
+import muiThemeable from '@material-ui/core/styles/muiThemeable';
+import Icon from '@material-ui/core/Icon';
+import IconButton from '@material-ui/core/IconButton';
 import { formatTimeToObject, formatTimeToString } from '../../utils/dateTime'
 import PropTypes from 'prop-types';
 import { injectIntl } from 'react-intl';
 
 class TimeField extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props);
 
     this.state = {
@@ -39,11 +39,11 @@ class TimeField extends Component {
 
     const newVal = this.state.value;
 
-    if(!newVal) {
+    if (!newVal) {
       return;
     }
 
-    this.setState({value: formatTimeToString(newVal, formatOptions)});
+    this.setState({ value: formatTimeToString(newVal, formatOptions) });
     change(name, formatTimeToObject(newVal, formatOptions).toISOString());
   }
 
@@ -54,15 +54,15 @@ class TimeField extends Component {
       const { input } = nextProps;
       const { value } = input;
 
-      if(value !== undefined && value !== null && value.length > 0){
-          this.setState({value: new Date(value).toLocaleString('de-DE', formatOptions)});
+      if (value !== undefined && value !== null && value.length > 0) {
+        this.setState({ value: new Date(value).toLocaleString('de-DE', formatOptions) });
       }
     }
 
   }
 
   handleTimeTextChange = (evt) => {
-    this.setState({value: evt.target.value});
+    this.setState({ value: evt.target.value });
   }
 
 
@@ -75,11 +75,11 @@ class TimeField extends Component {
       disabled
     } = this.props;
 
-    const { name }= input;
+    const { name } = input;
 
 
     return (
-      <div style={{display: 'flex', alignItems: 'flex-end'}}>
+      <div style={{ display: 'flex', alignItems: 'flex-end' }}>
         <TextField
           name={`${name}Text`}
           value={this.state.value}
@@ -87,12 +87,12 @@ class TimeField extends Component {
           onChange={this.handleTimeTextChange}
           disabled={disabled}
           floatingLabelText={floatingLabelText}
-          style={{width: 50, alignItems: 'center'}}
+          style={{ width: 50, alignItems: 'center' }}
           ref={`${name}Text`}
         />
         <Field
           name={name}
-          textFieldStyle={{display: 'none'}}
+          textFieldStyle={{ display: 'none' }}
           autoOk={true}
           tabIndex={-1}
           minutesStep={5}
@@ -104,13 +104,13 @@ class TimeField extends Component {
           withRef
         />
         <IconButton
-          onClick={()=>{this.refs[name].getRenderedComponent().refs.component.openDialog();}}
+          onClick={() => { this.refs[name].getRenderedComponent().refs.component.openDialog(); }}
           tabIndex={-1}
           disabled={disabled}
           tooltip={timePickerText}>
           <Icon
             className="material-icons"
-            style={{fontSize: 12}}
+            style={{ fontSize: 12 }}
             color={theme.palette.primary1Color}>
             access_time
           </Icon>

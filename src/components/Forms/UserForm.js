@@ -3,16 +3,17 @@ import PropTypes from 'prop-types'
 import { intlShape } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import { TextField } from 'redux-form-material-ui'
-import Avatar from 'material-ui/Avatar'
-import IconButton from 'material-ui/IconButton'
-import Icon from 'material-ui/Icon'
-import Switch from 'material-ui/Switch'
+import Avatar from '@material-ui/core/Avatar'
+import IconButton from '@material-ui/core/IconButton'
+import Icon from '@material-ui/core/Icon'
+import Switch from '@material-ui/core/Switch'
 import classNames from 'classnames'
-import { withTheme, withStyles } from 'material-ui/styles'
+import { withTheme, withStyles } from '@material-ui/core/styles'
 import withAppConfigs from '../../withAppConfigs'
 import { GoogleIcon, FacebookIcon, GitHubIcon, TwitterIcon } from '../../components/Icons';
-import { FormGroup, FormControlLabel } from 'material-ui/Form';
-import Typography from 'material-ui/Typography';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Typography from '@material-ui/core/Typography';
 
 const styles = theme => ({
   avatar: {

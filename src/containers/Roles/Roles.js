@@ -1,15 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { injectIntl, intlShape } from 'react-intl';
-import Activity from '../../components/Activity';
-import List, { ListItem, ListItemText } from 'material-ui/List'
-import Divider from 'material-ui/Divider';
+import Activity from '../../components/Activity'
+import List from '@material-ui/core/List'
+import ListItem from '@material-ui/core/ListItem'
+import ListItemText from '@material-ui/core/ListItemText'
+import ListItemAvatar from '@material-ui/core/ListItemAvatar'
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
+import Divider from '@material-ui/core/Divider';
 import { withFirebase } from 'firekit-provider';
 import { withRouter } from 'react-router-dom';
 import ReactList from 'react-list';
-import Avatar from 'material-ui/Avatar';
-import Button from 'material-ui/Button';
-import Icon from 'material-ui/Icon';
+import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button';
+import Icon from '@material-ui/core/Icon';
 import Scrollbar from '../../components/Scrollbar/Scrollbar';
 import { getList, isLoading } from 'firekit'
 

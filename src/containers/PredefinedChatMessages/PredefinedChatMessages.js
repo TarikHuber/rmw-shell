@@ -2,25 +2,28 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { injectIntl, intlShape } from 'react-intl';
 import Activity from '../../components/Activity'
-import List, { ListItem, ListItemText } from 'material-ui/List';
-import Divider from 'material-ui/Divider';
+import List from '@material-ui/core/List'
+import ListItem from '@material-ui/core/ListItem'
+import ListItemText from '@material-ui/core/ListItemText'
+import ListItemAvatar from '@material-ui/core/ListItemAvatar'
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
+import Divider from '@material-ui/core/Divider';
 import { withFirebase } from 'firekit-provider';
 import { withRouter } from 'react-router-dom';
-import Icon from 'material-ui/Icon';
+import Icon from '@material-ui/core/Icon';
 import isGranted from '../../utils/auth';
 import PropTypes from 'prop-types';
 import { setSimpleValue } from '../../store/simpleValues/actions'
 import { TextField } from 'redux-form-material-ui';
-import Button from 'material-ui/Button';
-import IconButton from 'material-ui/IconButton';
-import BottomNavigation from 'material-ui/BottomNavigation';
-import Dialog, {
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-} from 'material-ui/Dialog';
-import { withTheme, withStyles } from 'material-ui/styles'
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import BottomNavigation from '@material-ui/core/BottomNavigation';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import { withTheme, withStyles } from '@material-ui/core/styles'
 import ReactList from 'react-list';
 import Scrollbar from '../../components/Scrollbar'
 import { getList } from 'firekit'

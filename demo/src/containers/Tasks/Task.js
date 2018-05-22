@@ -5,9 +5,9 @@ import Activity from '../../../../src/containers/Activity'
 import { setDialogIsOpen } from '../../../../src/store/dialogs/actions'
 import Form from './Form';
 import { withRouter } from 'react-router-dom';
-import FontIcon from 'material-ui/FontIcon';
-import FlatButton from 'material-ui/FlatButton';
-import Dialog from 'material-ui/Dialog';
+import FontIcon from '@material-ui/core/FontIcon';
+import FlatButton from '@material-ui/core/FlatButton';
+import Dialog from '@material-ui/core/Dialog';
 import { withFirebase } from 'firekit-provider'
 import FireForm from 'fireform'
 

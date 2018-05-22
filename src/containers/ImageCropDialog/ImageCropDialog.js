@@ -4,17 +4,16 @@ import PropTypes from 'prop-types';
 import { injectIntl, intlShape } from 'react-intl';
 import firebase from 'firebase'
 import { Cropper } from 'react-image-cropper';
-import Dialog, {
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  withMobileDialog,
-} from 'material-ui/Dialog';
-import Button from 'material-ui/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Button from '@material-ui/core/Button';
 import { withFirebase } from 'firekit-provider';
-import { CircularProgress } from 'material-ui/Progress';
-import { LinearProgress } from 'material-ui/Progress';
+import CircularProgress from '@material-ui/core/CircularProgress'
+import LinearProgress from '@material-ui/core/LinearProgress'
+import withMobileDialog from '@material-ui/core/withMobileDialog';
 
 const styles = {
   container: {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { withTheme, withStyles } from 'material-ui/styles'
+import { withTheme, withStyles } from '@material-ui/core/styles'
 import { injectIntl, intlShape } from 'react-intl'
 import { setSimpleValue } from '../../store/simpleValues/actions'
 import Activity from '../../components/Activity'

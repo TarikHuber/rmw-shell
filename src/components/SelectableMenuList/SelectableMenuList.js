@@ -1,16 +1,19 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import List from 'material-ui/List'
-import { ListItem, ListItemIcon, ListItemText, ListItemSecondaryAction } from 'material-ui/List'
-import Divider from 'material-ui/Divider'
+import List from '@material-ui/core/List'
+import ListItem from '@material-ui/core/ListItem'
+import ListItemIcon from '@material-ui/core/ListItemIcon'
+import ListItemText from '@material-ui/core/ListItemText'
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
+import Divider from '@material-ui/core/Divider'
 import InboxIcon from '@material-ui/icons/MoveToInbox'
-import Icon from 'material-ui/Icon'
-import Collapse from 'material-ui/transitions/Collapse';
-import { withTheme, withStyles } from 'material-ui/styles';
+import Icon from '@material-ui/core/Icon'
+import Collapse from '@material-ui/core/Collapse';
+import { withTheme, withStyles } from '@material-ui/core/styles';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import StarBorder from '@material-ui/icons/StarBorder';
-import IconButton from 'material-ui/IconButton'
+import IconButton from '@material-ui/core/IconButton'
 
 const styles = theme => ({
   root: {

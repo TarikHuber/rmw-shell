@@ -1,23 +1,24 @@
 import Activity from '../../components/Activity'
-import Avatar from 'material-ui/Avatar'
-import Dialog, {
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-} from 'material-ui/Dialog';
-import Divider from 'material-ui/Divider'
+import Avatar from '@material-ui/core/Avatar'
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Divider from '@material-ui/core/Divider'
 import FireForm from 'fireform'
-import Button from 'material-ui/Button'
-import Icon from 'material-ui/Icon'
+import Button from '@material-ui/core/Button'
+import Icon from '@material-ui/core/Icon'
 import React, { Component } from 'react'
 import RoleForm from '../../components/Forms/RoleForm'
 import RoleGrants from './RoleGrants'
 import Scrollbar from '../../components/Scrollbar/Scrollbar'
-import { withTheme, withStyles } from 'material-ui/styles'
+import { withTheme, withStyles } from '@material-ui/core/styles'
 import withAppConfigs from '../../withAppConfigs'
-import { ListItem } from 'material-ui/List'
-import Tabs, { Tab } from 'material-ui/Tabs'
+import ListItem from '@material-ui/core/ListItem'
+import Tabs from '@material-ui/core/Tabs'
+import Tab from '@material-ui/core/Tab'
+import Input from '@material-ui/core/Input'
 import { change, submit } from 'redux-form'
 import { connect } from 'react-redux'
 import { injectIntl } from 'react-intl'
@@ -27,10 +28,12 @@ import { withRouter } from 'react-router-dom'
 import SearchField from '../../components/SearchField'
 import { filterSelectors, filterActions } from 'material-ui-filter'
 import { isLoading } from 'firekit'
-import AppBar from 'material-ui/AppBar';
-import IconButton from 'material-ui/IconButton';
-import Input, { InputLabel, InputAdornment } from 'material-ui/Input';
-import { FormControl, FormHelperText } from 'material-ui/Form';
+import AppBar from '@material-ui/core/AppBar';
+import IconButton from '@material-ui/core/IconButton';
+import InputLabel from '@material-ui/core/InputLabel';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import FormControl from '@material-ui/core/FormControl';
+import FormHelperText from '@material-ui/core/FormHelperText';
 import classNames from 'classnames';
 
 const path = '/roles';

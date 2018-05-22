@@ -2,21 +2,21 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
-import muiThemeable from 'material-ui/styles/muiThemeable';
+import muiThemeable from '@material-ui/core/styles/muiThemeable';
 import { injectIntl, intlShape } from 'react-intl';
 import Activity from '../../../../src/containers/Activity'
 import { setDialogIsOpen } from '../../../../src/store/dialogs/actions'
-import { List, ListItem } from 'material-ui/List';
-import Divider from 'material-ui/Divider';
-import FontIcon from 'material-ui/FontIcon';
-import IconButton from 'material-ui/IconButton';
-import TextField from 'material-ui/TextField';
-import Avatar from 'material-ui/Avatar';
-import { green800 } from 'material-ui/styles/colors';
-import { BottomNavigation } from 'material-ui/BottomNavigation';
+import { List, ListItem } from '@material-ui/core/List';
+import Divider from '@material-ui/core/Divider';
+import FontIcon from '@material-ui/core/FontIcon';
+import IconButton from '@material-ui/core/IconButton';
+import TextField from '@material-ui/core/TextField';
+import Avatar from '@material-ui/core/Avatar';
+import { green800 } from '@material-ui/core/styles/colors';
+import { BottomNavigation } from '@material-ui/core/BottomNavigation';
 import { withRouter } from 'react-router-dom';
-import FlatButton from 'material-ui/FlatButton';
-import Dialog from 'material-ui/Dialog';
+import FlatButton from '@material-ui/core/FlatButton';
+import Dialog from '@material-ui/core/Dialog';
 import { withFirebase } from 'firekit-provider'
 import Scrollbar from '../../../../src/components/Scrollbar'
 

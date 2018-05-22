@@ -1,23 +1,23 @@
 import React, { Component } from 'react'
 import Scrollbar from '../../components/Scrollbar'
 import getAppRoutes from '../../components/AppRoutes'
-//import withTheme from 'material-ui/styles'
+//import withTheme from '@material-ui/core/styles'
 import withAppConfigs from '../../withAppConfigs'
 import { DrawerContent } from '../../containers/Drawer'
 import { DrawerHeader } from '../../containers/Drawer'
 //import { ResponsiveDrawer } from 'material-ui-responsive-drawer'
 import ResponsiveDrawer from '../../components/ResponsiveDrawer'
-import { withStyles } from 'material-ui/styles';
+import { withStyles } from '@material-ui/core/styles';
 import Activity from '../../components/ResponsiveDrawer'
 import { Switch } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { injectIntl } from 'react-intl'
 import { ToastContainer, toast, style } from 'react-toastify'
-import Avatar from 'material-ui/Avatar'
-import { ListItem } from 'material-ui/List'
-import Button from 'material-ui/Button';
-import Typography from 'material-ui/Typography';
+import Avatar from '@material-ui/core/Avatar'
+import ListItem from '@material-ui/core/ListItem'
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
 import 'react-select/dist/react-select.css';
 
 const ITEM_HEIGHT = 48;
