@@ -5,7 +5,6 @@ import formReducer from 'redux-form/lib/reducer'
 import initState from './init'
 import locale from './locale/reducer'
 import persistentValues from './persistentValues/reducer'
-import responsiveDrawer from 'material-ui-responsive-drawer/lib/store/reducer'
 import rootReducer from './rootReducer'
 import simpleValues from './simpleValues/reducer'
 import themeSource from './themeSource/reducer'
@@ -21,7 +20,6 @@ export const appReducers = {
   form: formReducer,
   locale,
   persistentValues,
-  responsiveDrawer,
   simpleValues,
   drawer,
   themeSource
