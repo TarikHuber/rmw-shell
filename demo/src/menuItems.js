@@ -18,18 +18,12 @@ const getMenuItems = (props) => {
   const isAuthorised = auth.isAuthorised
 
   const themeItems = allThemes.map((t) => {
-    let color
-
-    if (t.source.palette.primary) {
-      color = t.source.palette.primary.main
-    }
-
     return {
       value: undefined,
       visible: true,
       primaryText: intl.formatMessage({ id: t.id }),
       onClick: () => { updateTheme(t.id) },
-      leftIcon: <Icon style={{ color }} >style</Icon>
+      leftIcon: <Icon style={{ color: t.color }} >style</Icon>
     }
   })
 
@@ -163,7 +157,7 @@ const getMenuItems = (props) => {
       },
       visible: isAuthorised,
       primaryText: intl.formatMessage({ id: themeSource.isNightModeOn ? 'day_mode' : 'night_mode' }),
-      leftIcon: <Icon className='material-icons' >{themeSource.isNightModeOn ? 'brightness_5' : 'brightness_2'}</Icon>
+      leftIcon: <Icon className='material-icons' >{themeSource.isNightModeOn ? 'brightness_7' : 'brightness_2'}</Icon>
     }
   ]
 }

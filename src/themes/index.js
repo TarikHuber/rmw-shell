@@ -3,19 +3,19 @@ import { createMuiTheme } from '@material-ui/core/styles'
 export const themes = [
   {
     id: 'light',
-    source: createMuiTheme({
+    source: {
       palette: {
         type: 'light'
       }
-    })
+    }
   },
   {
     id: 'dark',
-    source: createMuiTheme({
+    source: {
       palette: {
         type: 'dark'
       }
-    })
+    }
   }
 ]
 
@@ -24,8 +24,9 @@ const getThemeSource = (t, ts) => {
     for (let i = 0; i < ts.length; i++) {
       if (ts[i]['id'] === t.source) {
         const source = ts[i]['source']
+        const palette = source.palette ? source.palette : {}
 
-        return createMuiTheme({ ...source, palette: { type: t.isNightModeOn ? 'dark' : 'light' } })
+        return createMuiTheme({ ...source, palette: { ...palette, type: t.isNightModeOn ? 'dark' : 'light' } })
       }
     }
   }

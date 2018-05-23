@@ -1,9 +1,9 @@
 import {
-  red
-} from '@material-ui/core/colors/red'
+  blue
+} from '@material-ui/core/colors/blue'
 
 export default {
   palette: {
-    primary: red
+    primary: blue
   }
 }
