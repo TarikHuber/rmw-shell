@@ -11,8 +11,7 @@ module.exports = {
       template: 'demo/public/index.html'
     },
     aliases: {
-      'rmw-shell': path.resolve('src'),
-      'rmw-shell/lib': path.resolve('src')
+      'rmw-shell': path.resolve('src')
     }
   }
 }

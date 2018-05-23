@@ -8,25 +8,25 @@ import green from '@material-ui/core/colors/green'
 const themes = [
   {
     id: 'light',
-    source: {
+    source: createMuiTheme({
       palette: {
         type: 'light'
       }
-    }
+    })
   },
   {
     id: 'dark',
-    source: {
+    source: createMuiTheme({
       palette: {
         primary: red,
         secondary: pink,
         error: red
       }
-    }
+    })
   },
   {
     id: 'ics',
-    source: icsTheme
+    source: createMuiTheme(icsTheme)
   }
 ]
 

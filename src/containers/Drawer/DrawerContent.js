@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { updateTheme } from '../../store/themeSource/actions'
+import { updateTheme, switchNightMode } from '../../store/themeSource/actions'
 import { updateLocale } from '../../store/locale/actions'
 import { DrawerContent } from '../../components/Drawer'
 import { setDialogIsOpen } from '../../store/dialogs/actions'
@@ -24,5 +24,5 @@ const mapStateToProps = (state) => {
 
 export default connect(
   mapStateToProps,
-  { updateTheme, updateLocale, setDialogIsOpen, userLogout, ...drawerActions }
+  { updateTheme, switchNightMode, updateLocale, setDialogIsOpen, userLogout, ...drawerActions }
 )(DrawerContent)

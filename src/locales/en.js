@@ -153,7 +153,9 @@ const messages = defineMessages({
   enable_notifications_message: 'Enable notifications?',
   enable: 'Enable',
   no_thanks: 'No, thanks',
-  creation_time: 'Creation time'
+  creation_time: 'Creation time',
+  night_mode: 'Night mode',
+  day_mode: 'Day mode'
 
 })
 

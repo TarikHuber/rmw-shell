@@ -6,3 +6,10 @@ export function updateTheme (theme) {
     theme
   }
 }
+
+export function switchNightMode (isNightModeOn) {
+  return {
+    type: types.SWITCH_NIGHT_MODE,
+    isNightModeOn
+  }
+}

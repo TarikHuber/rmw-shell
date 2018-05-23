@@ -1,4 +1,4 @@
-import { defineMessages } from 'react-intl';
+import { defineMessages } from 'react-intl'
 
 const messages = defineMessages({
   app_name: 'React Most Wanted',
@@ -144,7 +144,9 @@ const messages = defineMessages({
   user_label_search: 'Search user',
   document: 'Document',
   collection: 'Collection',
+  night_mode: 'Night mode',
+  day_mode: 'Day mode'
 
-});
+})
 
-export default messages;
+export default messages
