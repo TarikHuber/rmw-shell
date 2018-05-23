@@ -28,7 +28,7 @@
     "firebase": "^5.0.3",
     "firebaseui": "^3.0.0",
     "fireform": "^0.2.13",
-    "firekit": "^1.0.10",
+    "firekit": "^1.0.13",
     "firekit-provider": "^0.2.20",
     "github-markdown-css": "^2.10.0",
     "intl": "^1.2.5",

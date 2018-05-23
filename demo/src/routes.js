@@ -13,6 +13,8 @@ const AsyncCompanies = MyLoadable({ loader: () => import('./containers/Companies
 const AsyncUser = MyLoadable({ loader: () => import('../../src/containers/Users/User') });
 const AsyncTask = MyLoadable({ loader: () => import('./containers/Tasks/Task') });
 const AsyncTasks = MyLoadable({ loader: () => import('./containers/Tasks/Tasks') }, [AsyncTask]);
+const AsyncDocument = MyLoadable({ loader: () => import('./containers/Document/Document') });
+const AsyncCollection = MyLoadable({ loader: () => import('./containers/Collection/Collection') });
 
 const routes = [
   <RestrictedRoute type='private' path="/" exact component={AsyncAbout} />,
@@ -23,18 +25,9 @@ const routes = [
   <RestrictedRoute type='private' path="/companies/create" exact component={AsyncCompany} />,
   <RestrictedRoute type='private' path="/tasks" exact component={AsyncTasks} />,
   <RestrictedRoute type='private' path="/tasks/edit/:uid" exact component={AsyncTask} />,
-]
-
-/*
-const AsyncDocument = MyLoadable({ loader: () => import('./containers/Document/Document') });
-const AsyncCollection = MyLoadable({ loader: () => import('./containers/Collection/Collection') });
-
-const routes = [
-
   <RestrictedRoute type='private' path="/document" exact component={AsyncDocument} />,
   <RestrictedRoute type='private' path="/collection" exact component={AsyncCollection} />,
 ]
 
-*/
 
 export default routes;

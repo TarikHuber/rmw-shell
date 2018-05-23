@@ -155,7 +155,10 @@ const messages = defineMessages({
   no_thanks: 'No, thanks',
   creation_time: 'Creation time',
   night_mode: 'Night mode',
-  day_mode: 'Day mode'
+  day_mode: 'Day mode',
+  default: 'Default',
+  red: 'Red',
+  green: 'Green'
 
 })
 

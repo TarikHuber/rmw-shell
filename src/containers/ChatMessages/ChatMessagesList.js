@@ -23,6 +23,9 @@ import { setSimpleValue } from '../../store/simpleValues/actions'
 import { withFirebase } from 'firekit-provider'
 import { withRouter } from 'react-router-dom'
 import { getList } from 'firekit'
+import requestNotificationPermission from '../../utils/messaging'
+import withAppConfigs from '../../withAppConfigs'
+import { setPersistentValue } from '../../store/persistentValues/actions'
 
 const pageStep = 20;
 
@@ -61,6 +64,9 @@ class ChatMessages extends Component {
   componentDidMount() {
     this.initMessages(this.props);
     this.scrollToBottom();
+
+    requestNotificationPermission(this.props)
+
   }
 
   initMessages = (props) => {
@@ -213,5 +219,5 @@ const mapStateToProps = (state, ownPops) => {
 
 
 export default connect(
-  mapStateToProps, { setSimpleValue }
-)(injectIntl(withTheme()(withRouter(withFirebase(ChatMessages)))));
+  mapStateToProps, { setSimpleValue, setPersistentValue }
+)(injectIntl(withTheme()(withRouter(withFirebase(withAppConfigs(ChatMessages))))))

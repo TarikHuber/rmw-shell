@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import muiThemeable from '@material-ui/core/styles/muiThemeable';
+import { withTheme, withStyles } from '@material-ui/core/styles'
 import { injectIntl, intlShape } from 'react-intl'
 import { Activity } from '../../../../src'
-import RaisedButton from '@material-ui/core/RaisedButton'
+import Button from '@material-ui/core/Button'
 import { withFirebase } from 'firekit-provider';
 import TextField from '@material-ui/core/TextField'
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import FontIcon from '@material-ui/core/FontIcon';
+import List from '@material-ui/core/List'
+import ListItem from '@material-ui/core/ListItem'
+import ListItemText from '@material-ui/core/ListItemText'
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
+import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
 // eslint-disable-next-line
 import firestore from 'firebase/firestore'
@@ -39,13 +41,13 @@ class Collection extends Component {
 
     docRef.add({
       title: this.state.value
+    }).then(() => {
+      this.setState({ value: '' })
     })
   }
 
   handleDelete = (id) => {
     const { firebaseApp } = this.props
-
-    console.log(id);
 
     let firestore = firebaseApp.firestore()
 
@@ -81,48 +83,32 @@ class Collection extends Component {
 
           <TextField
             value={this.state.value}
-            onChange={(ev, value) => {
-              this.setState({ value })
+            onChange={(e) => {
+              this.setState({ value: e.target.value })
             }}
             hintText={intl.formatMessage({ id: 'hot_dog_status' })}
             ref={(input) => { if (input) { this.input = input } }}
           />
-          <RaisedButton
-            onClick={this.handleAdd}
-            label="Add"
-            primary={true}
-            style={{ margin: 12 }}
-          />
-          <RaisedButton
-            disabled={isWatching}
-            onClick={this.handleWatch}
-            label="Watch"
-            primary={true}
-            style={{ margin: 12, marginLeft: 0 }}
-          />
-          <RaisedButton
-            disabled={!isWatching}
-            onClick={this.handleUnwatch}
-            label="Unwatch"
-            primary={true}
-            style={{ margin: 12, marginLeft: 0 }}
-          />
-          <RaisedButton
-            onClick={this.handleDestroy}
-            label="Destroy"
-            primary={true}
-            style={{ margin: 12, marginLeft: 0 }}
-          /><br />
+          <Button variant="raised" color="primary" onClick={this.handleAdd} disabled={this.state.value === ''} style={{ margin: 12 }} > Add </Button>
+          <Button variant="raised" color="primary" onClick={this.handleWatch} disabled={isWatching} style={{ margin: 12 }} > Watch </Button>
+          <Button variant="raised" color="primary" onClick={this.handleUnwatch} disabled={!isWatching} style={{ margin: 12 }} > Unwatch </Button>
+          <Button variant="raised" color="secondary" onClick={this.handleDestroy} style={{ margin: 12 }} > Destroy </Button>
+          <br />
           <List>
             {posts.map((post, i) => {
               return <ListItem
-                primaryText={post.data.title}
-                rightIconButton={<IconButton
-                  onClick={() => { this.handleDelete(post.id) }}
-                  tooltip="Delete">
-                  <FontIcon className="material-icons" color={theme.palette.accent1Color}>delete</FontIcon>
-                </IconButton>
-                } />
+                id={i}
+                key={i}>
+                <ListItemText primary={post.data.title} />
+                <ListItemSecondaryAction>
+                  <IconButton
+                    color='secondary'
+                    onClick={() => { this.handleDelete(post.id) }}>
+                    <Icon >{'delete'}</Icon>
+                  </IconButton>
+                </ListItemSecondaryAction>
+              </ListItem>
+
             })
 
             }
@@ -153,4 +139,4 @@ const mapStateToProps = (state) => {
 
 export default connect(
   mapStateToProps, {}
-)(injectIntl(withFirebase(muiThemeable()(Collection))));
+)(injectIntl(withFirebase(withTheme()(Collection))));
