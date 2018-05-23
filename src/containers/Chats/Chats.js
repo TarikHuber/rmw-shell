@@ -50,7 +50,7 @@ export class Chats extends Component {
     // Display fallback UI
     this.setState({ hasError: true });
     // You can also log the error to an error reporting service
-    logErrorToMyService(error, info);
+    //logErrorToMyService(error, info);
   }
 
   handleDeleteChat = (key, val) => {

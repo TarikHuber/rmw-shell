@@ -1,25 +1,33 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import ReactDOM from 'react-dom';
-import PropTypes from 'prop-types';
-import muiThemeable from '@material-ui/core/styles/muiThemeable';
-import { injectIntl, intlShape } from 'react-intl';
-import Activity from '../../../../src/containers/Activity'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import ReactDOM from 'react-dom'
+import PropTypes from 'prop-types'
+import { withTheme, withStyles } from '@material-ui/core/styles'
+import { injectIntl, intlShape } from 'react-intl'
+import Activity from '../../../../src/components/Activity'
 import { setDialogIsOpen } from '../../../../src/store/dialogs/actions'
-import { List, ListItem } from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
-import FontIcon from '@material-ui/core/FontIcon';
-import IconButton from '@material-ui/core/IconButton';
-import TextField from '@material-ui/core/TextField';
-import Avatar from '@material-ui/core/Avatar';
-import { green800 } from '@material-ui/core/styles/colors';
-import { BottomNavigation } from '@material-ui/core/BottomNavigation';
-import { withRouter } from 'react-router-dom';
-import FlatButton from '@material-ui/core/FlatButton';
+import List from '@material-ui/core/List'
+import ListItem from '@material-ui/core/ListItem'
+import ListItemText from '@material-ui/core/ListItemText'
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
+import Divider from '@material-ui/core/Divider'
+import Icon from '@material-ui/core/Icon'
+import IconButton from '@material-ui/core/IconButton'
+import TextField from '@material-ui/core/TextField'
+import Avatar from '@material-ui/core/Avatar'
+import BottomNavigation from '@material-ui/core/BottomNavigation'
+import { withRouter } from 'react-router-dom'
+import Button from '@material-ui/core/Button'
 import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 import { withFirebase } from 'firekit-provider'
+import green from '@material-ui/core/colors/green'
 import Scrollbar from '../../../../src/components/Scrollbar'
 import withWidth, { isWidthDown } from '@material-ui/core/withWidth'
+import moment from 'moment'
 
 class Tasks extends Component {
 
@@ -33,7 +41,10 @@ class Tasks extends Component {
 
   scrollToBottom = () => {
     const node = ReactDOM.findDOMNode(this.listEnd);
-    node.scrollIntoView({ behavior: "smooth" });
+    if (node) {
+      node.scrollIntoView({ behavior: "smooth" });
+    }
+
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -59,21 +70,19 @@ class Tasks extends Component {
   handleAddTask = () => {
     const { auth, firebaseApp } = this.props;
 
-    const title = this.name.getValue();
-
     const newTask = {
-      title: title,
-      created: firebase.database.ServerValue.TIMESTAMP,
+      title: this.state.value,
+      created: moment.now(),
       userName: auth.displayName,
       userPhotoURL: auth.photoURL,
       userId: auth.uid,
       completed: false
     }
 
-    this.name.input.value = '';
-
-    if (title.length > 0) {
-      firebaseApp.database().ref('public_tasks').push(newTask);
+    if (this.state.value.length > 0) {
+      firebaseApp.database().ref('public_tasks').push(newTask).then(() => {
+        this.setState({ value: '' })
+      })
     }
 
 
@@ -89,24 +98,13 @@ class Tasks extends Component {
   userAvatar = (key, task) => {
     const { auth } = this.props;
 
-    return task.completed ?
-      <Avatar
-        onClick={auth.uid === task.userId ? () => { this.handleUpdateTask(key, { ...task, completed: !task.completed }) } : undefined}
-        alt="person"
-        icon={<FontIcon className="material-icons" >done</FontIcon>}
-        backgroundColor={green800}
-      />
-      :
-      <Avatar
-        src={task.userPhotoURL}
-        onClick={auth.uid === task.userId ? () => { this.handleUpdateTask(key, { ...task, completed: !task.completed }) } : undefined}
-        alt="person"
-        icon={
-          <FontIcon className="material-icons">
-            person
-        </FontIcon>
-        }
-      />
+    if (task.completed) {
+      return <Avatar style={{ backgroundColor: green[500] }}> <Icon > done </Icon>  </Avatar>
+    }
+    return <div>
+      {task.userPhotoURL && <Avatar src={task.userPhotoURL} alt='person' />}
+      {!task.userPhotoURL && <Avatar> <Icon > person </Icon>  </Avatar>}
+    </div>
   }
 
   renderList(tasks) {
@@ -124,25 +122,33 @@ class Tasks extends Component {
       return <div key={key}>
 
         <ListItem
-          key={key}
-          onClick={task.userId === auth.uid ? () => { history.push(`/tasks/edit/${key}`) } : undefined}
-          primaryText={task.title}
-          secondaryText={`${task.userName} ${task.created ? intl.formatRelative(new Date(task.created)) : undefined}`}
-          leftAvatar={this.userAvatar(key, task)}
-          rightIconButton={
-            task.userId === auth.uid ?
-              <IconButton
-                style={{ display: isWidthDown('md', width) ? 'none' : undefined }}
-                onClick={() => { setDialogIsOpen('delete_task_from_list', key); }}>
-                <FontIcon className="material-icons" color={'red'}>{'delete'}</FontIcon>
-              </IconButton> : undefined
-          }
           id={key}
-        />
-
-
+          key={key}
+          onClick={auth.uid === task.userId ? () => { this.handleUpdateTask(key, { ...task, completed: !task.completed }) } : undefined}>
+          {this.userAvatar(key, task)}
+          <ListItemText primary={task.title} secondary={`${task.userName} ${task.created ? intl.formatRelative(new Date(task.created)) : undefined}`} />
+          <ListItemSecondaryAction>
+            {
+              task.userId === auth.uid ?
+                <IconButton
+                  color='primary'
+                  onClick={task.userId === auth.uid ? () => { history.push(`/tasks/edit/${key}`) } : undefined}>
+                  <Icon >{'edit'}</Icon>
+                </IconButton> : undefined
+            }
+            {
+              task.userId === auth.uid ?
+                <IconButton
+                  color='secondary'
+                  //style={{ display: isWidthDown('md', width) ? 'none' : undefined }}
+                  onClick={() => { setDialogIsOpen('delete_task_from_list', key); }}>
+                  <Icon >{'delete'}</Icon>
+                </IconButton> : undefined
+            }
+          </ListItemSecondaryAction>
+        </ListItem>
         <Divider inset={true} />
-      </div>
+      </div >
     });
   }
 
@@ -167,20 +173,6 @@ class Tasks extends Component {
 
   render() {
     const { intl, tasks, theme, dialogs } = this.props;
-
-
-    const actions = [
-      <FlatButton
-        label={intl.formatMessage({ id: 'cancel' })}
-        primary={true}
-        onClick={this.handleClose}
-      />,
-      <FlatButton
-        label={intl.formatMessage({ id: 'delete' })}
-        secondary={true}
-        onClick={this.handleDelete}
-      />,
-    ];
 
     return (
       <Activity
@@ -208,26 +200,45 @@ class Tasks extends Component {
               <TextField
                 id="public_task"
                 fullWidth={true}
+                value={this.state.value}
                 onKeyDown={(event) => { this.handleKeyDown(event, this.handleAddTask) }}
-                ref={(field) => { this.name = field; this.name && this.name.focus(); }}
+                onChange={e => this.setState({ value: e.target.value })}
                 type="Text"
               />
               <IconButton
+                disabled={this.state.value === ''}
                 onClick={this.handleAddTask}>
-                <FontIcon className="material-icons" color={theme.palette.primary1Color}>send</FontIcon>
+                <Icon className="material-icons" color={theme.palette.primary1Color}>send</Icon>
               </IconButton>
             </div>
           </BottomNavigation>
         }
 
+
+
+
         <Dialog
-          title={intl.formatMessage({ id: 'delete_task_title' })}
-          actions={actions}
-          modal={false}
           open={dialogs.delete_task_from_list !== undefined}
-          onRequestClose={this.handleClose}>
-          {intl.formatMessage({ id: 'delete_task_message' })}
+          onClose={this.handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">{intl.formatMessage({ id: 'delete_task_title' })}</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              {intl.formatMessage({ id: 'delete_task_message' })}
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleClose} color="primary" >
+              {intl.formatMessage({ id: 'cancel' })}
+            </Button>
+            <Button onClick={this.handleDelete} color="secondary" >
+              {intl.formatMessage({ id: 'delete' })}
+            </Button>
+          </DialogActions>
         </Dialog>
+
 
 
 
@@ -261,4 +272,4 @@ const mapStateToProps = (state) => {
 export default connect(
   mapStateToProps,
   { setDialogIsOpen }
-)(injectIntl(withWidth()(muiThemeable()(withRouter(withFirebase(Tasks))))))
+)(injectIntl(withWidth()(withTheme()(withRouter(withFirebase(Tasks))))))
