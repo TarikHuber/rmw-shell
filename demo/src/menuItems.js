@@ -152,10 +152,7 @@ const getMenuItems = (props) => {
       ]
     },
     {
-      onClick: () => {
-        switchNightMode(!themeSource.isNightModeOn)
-      },
-      visible: isAuthorised,
+      onClick: () => { switchNightMode(!themeSource.isNightModeOn) },
       primaryText: intl.formatMessage({ id: themeSource.isNightModeOn ? 'day_mode' : 'night_mode' }),
       leftIcon: <Icon className='material-icons' >{themeSource.isNightModeOn ? 'brightness_7' : 'brightness_2'}</Icon>
     }

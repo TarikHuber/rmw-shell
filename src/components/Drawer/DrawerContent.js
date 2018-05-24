@@ -12,7 +12,8 @@ export const DrawerContent = (props, context) => {
     dialogs,
     intl,
     match,
-    messaging
+    messaging,
+    drawer
   } = props
 
   const handleChange = (event, index) => {
@@ -68,6 +69,7 @@ export const DrawerContent = (props, context) => {
         items={dialogs.auth_menu ? authItems : menuItems}
         onIndexChange={handleChange}
         index={match ? match.path : '/'}
+        useMinified={drawer.useMinified && !drawer.open}
       />
 
     </div>

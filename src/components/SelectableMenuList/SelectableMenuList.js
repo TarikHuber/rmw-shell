@@ -8,11 +8,11 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
 import Divider from '@material-ui/core/Divider'
 import InboxIcon from '@material-ui/icons/MoveToInbox'
 import Icon from '@material-ui/core/Icon'
-import Collapse from '@material-ui/core/Collapse';
-import { withTheme, withStyles } from '@material-ui/core/styles';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
-import StarBorder from '@material-ui/icons/StarBorder';
+import Collapse from '@material-ui/core/Collapse'
+import { withTheme, withStyles } from '@material-ui/core/styles'
+import ExpandLess from '@material-ui/icons/ExpandLess'
+import ExpandMore from '@material-ui/icons/ExpandMore'
+import StarBorder from '@material-ui/icons/StarBorder'
 import IconButton from '@material-ui/core/IconButton'
 
 const styles = theme => ({
@@ -20,9 +20,6 @@ const styles = theme => ({
     width: '100%',
     maxWidth: 360,
     backgroundColor: theme.palette.background.paper,
-  },
-  nested: {
-    paddingLeft: theme.spacing.unit * 4,
   },
   icon: {
     color: theme.palette.primary.contrastText,
@@ -75,7 +72,7 @@ class SelectableMenuList extends Component {
   };
 
   getItem = (item, i) => {
-    const { onIndexChange, classes } = this.props
+    const { onIndexChange, classes, useMinified } = this.props
 
     delete item.visible
 
@@ -120,7 +117,9 @@ class SelectableMenuList extends Component {
 
           {item.nestedItems &&
             <ListItemSecondaryAction>
-              <Icon color={'action'}>keyboard_arrow_right</Icon>
+              <IconButton style={{ paddingLeft: useMinified ? 30 : undefined }}>
+                <Icon color={'action'}>keyboard_arrow_right</Icon>
+              </IconButton>
             </ListItemSecondaryAction>
           }
 
@@ -150,9 +149,9 @@ class SelectableMenuList extends Component {
               }}
             >
               <ListItemIcon>
-                <IconButton >
-                  <Icon >arrow_back</Icon>
-                </IconButton>
+
+                <Icon >arrow_back</Icon>
+
               </ListItemIcon>
               <ListItemText primary={this.state.title} />
             </ListItem>

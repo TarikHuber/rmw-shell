@@ -13,7 +13,6 @@ const mapStateToProps = (state) => {
 
   return {
     auth,
-    // theme,
     locale,
     dialogs,
     drawer

@@ -8,15 +8,14 @@ import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import Avatar from '@material-ui/core/Avatar'
 
-export default function requestNotificationPermission(props) {
+export default function requestNotificationPermission (props) {
   const {
     initMessaging,
     auth,
     notificationPermissionRequested,
     setPersistentValue,
     intl,
-    appConfig,
-    firebaseApp
+    appConfig
   } = props
 
   const reengagingHours = appConfig.notificationsReengagingHours ? appConfig.notificationsReengagingHours : 48
@@ -30,7 +29,6 @@ export default function requestNotificationPermission(props) {
       </div>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
         <Button color='primary' onClick={() => {
-          console.log(initMessaging)
           setPersistentValue('notificationPermissionRequested', moment())
           initMessaging(
             token => { handleTokenChange(props, token) }
@@ -48,16 +46,17 @@ export default function requestNotificationPermission(props) {
         </Button>
       </div>
 
-    </div>), {
-        position: toast.POSITION.TOP_CENTER,
-        autoClose: false,
-        closeButton: false,
-        closeOnClick: false
-      })
+    </div>),
+    {
+      position: toast.POSITION.TOP_CENTER,
+      autoClose: false,
+      closeButton: false,
+      closeOnClick: false
+    })
   }
 }
 
-export function handleMessageReceived(props, payload) {
+export function handleMessageReceived (props, payload) {
   const { location, appConfig } = props
 
   const notification = payload.notification
@@ -79,13 +78,13 @@ export function handleMessageReceived(props, payload) {
   }
 }
 
-export function handleTokenChange(props, token) {
+export function handleTokenChange (props, token) {
   const { firebaseApp, auth } = props
 
   firebaseApp.database().ref(`notification_tokens/${auth.uid}/${token}`).set(true)
 }
 
-export function getNotification(notification, closeToast) {
+export function getNotification (notification, closeToast) {
   if (notification.getNotification) {
     return notification.getNotification(notification, closeToast)
   }
@@ -94,7 +93,7 @@ export function getNotification(notification, closeToast) {
     onClick={() => {
       notification.onClick()
     }}>
-    <ListItem  >
+    <ListItem >
       <Avatar src={notification.icon} />
       <ListItemText primary={notification.title} secondary={notification.body} />
     </ListItem>
