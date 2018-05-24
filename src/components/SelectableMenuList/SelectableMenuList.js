@@ -14,6 +14,8 @@ import ExpandLess from '@material-ui/icons/ExpandLess'
 import ExpandMore from '@material-ui/icons/ExpandMore'
 import StarBorder from '@material-ui/icons/StarBorder'
 import IconButton from '@material-ui/core/IconButton'
+import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight'
+import ArrowBack from '@material-ui/icons/ArrowBack'
 
 const styles = theme => ({
   root: {
@@ -118,7 +120,7 @@ class SelectableMenuList extends Component {
           {item.nestedItems &&
             <ListItemSecondaryAction>
               <IconButton style={{ paddingLeft: useMinified ? 30 : undefined }}>
-                <Icon color={'action'}>keyboard_arrow_right</Icon>
+                <KeyboardArrowRight color={'action'} />
               </IconButton>
             </ListItemSecondaryAction>
           }
@@ -149,9 +151,7 @@ class SelectableMenuList extends Component {
               }}
             >
               <ListItemIcon>
-
-                <Icon >arrow_back</Icon>
-
+                <ArrowBack />
               </ListItemIcon>
               <ListItemText primary={this.state.title} />
             </ListItem>

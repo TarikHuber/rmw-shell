@@ -13,6 +13,8 @@ import { injectIntl } from 'react-intl'
 import IconButton from '@material-ui/core/IconButton'
 import Hidden from '@material-ui/core/Hidden'
 import withWidth from '@material-ui/core/withWidth'
+import ChevronLeft from '@material-ui/icons/ChevronLeft'
+import ChevronRight from '@material-ui/icons/ChevronRight'
 
 const styles = theme => ({
   paper: {
@@ -96,7 +98,10 @@ export const DrawerHeader = (props) => {
             <Hidden smDown implementation='css'>
               <ListItemSecondaryAction>
                 <IconButton className={classes.button} onClick={() => { setDrawerUseMinified(false) }}>
-                  <Icon classes={{ root: classes.icon }} >{theme.direction === 'rtl' ? 'chevron_right' : 'chevron_left'}</Icon>
+
+                  {theme.direction === 'rtl' && <ChevronRight classes={{ root: classes.icon }} />}
+                  {theme.direction !== 'rtl' && <ChevronLeft classes={{ root: classes.icon }} />}
+
                 </IconButton>
               </ListItemSecondaryAction>
             </Hidden>
