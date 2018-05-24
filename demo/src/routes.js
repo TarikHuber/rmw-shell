@@ -1,9 +1,11 @@
 import React from 'react'
 import RestrictedRoute from '../../src/containers/RestrictedRoute'
 import makeLoadable from '../../src/containers/MyLoadable'
+import makeSlimLoadable from '../../src/containers/SlimLoadable'
 import { Route } from 'react-router-dom'
 
 const MyLoadable = (opts, preloadComponents) => makeLoadable({ ...opts, firebase: () => import('./firebase') }, preloadComponents)
+const SlimLoadable = (opts) => makeSlimLoadable({ ...opts })
 
 
 const AsyncDashboard = MyLoadable({ loader: () => import('./containers/Dashboard/Dashboard') });
@@ -14,7 +16,7 @@ const AsyncTask = MyLoadable({ loader: () => import('./containers/Tasks/Task') }
 const AsyncTasks = MyLoadable({ loader: () => import('./containers/Tasks/Tasks') }, [AsyncTask]);
 const AsyncDocument = MyLoadable({ loader: () => import('./containers/Document/Document') });
 const AsyncCollection = MyLoadable({ loader: () => import('./containers/Collection/Collection') });
-const AsyncLandingPage = MyLoadable({ loader: () => import('./containers/LandingPage/LandingPage') });
+const AsyncLandingPage = SlimLoadable({ loader: () => import('./containers/LandingPage/LandingPage') });
 
 const routes = [
   <Route path="/" exact component={AsyncLandingPage} />,
