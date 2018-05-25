@@ -1,15 +1,18 @@
 import React from 'react'
 import Icon from '@material-ui/core/Icon'
-import Switch from '@material-ui/core/Switch'
-import locales from './locales'
-import { themes } from './themes'
+import allLocales from './locales'
+import allThemes from './themes'
+import LanguageIcon from '@material-ui/icons/Language'
+import StyleIcon from '@material-ui/icons/Style'
+import Brightness2 from '@material-ui/icons/Brightness2'
+import Brightness7 from '@material-ui/icons/Brightness7'
+import SettingsIcon from '@material-ui/icons/Settings'
 
 const getMenuItems = (props) => {
   const {
-    setResponsive,
-    theme,
     locale,
     updateTheme,
+    switchNightMode,
     updateLocale,
     intl,
     themeSource,
@@ -19,39 +22,37 @@ const getMenuItems = (props) => {
 
   const isAuthorised = auth.isAuthorised
 
-  const themeItems = themes.map((t) => {
+  const themeItems = allThemes.map((t) => {
     return {
       value: undefined,
       visible: true,
       primaryText: intl.formatMessage({ id: t.id }),
       onClick: () => { updateTheme(t.id) },
-      rightIcon: <Icon
-        className='material-icons'
-        color={t.id === themeSource ? theme.palette.primary1Color : undefined}>
-        style
-      </Icon>
+      leftIcon: <StyleIcon style={{ color: t.color }} />
     }
   })
 
-  const localeItems = locales.map((l) => {
+  const localeItems = allLocales.map((l) => {
     return {
       value: undefined,
       visible: true,
       primaryText: intl.formatMessage({ id: l.locale }),
       onClick: () => { updateLocale(l.locale) },
-      rightIcon: <Icon
-        className='material-icons'
-        color={l.locale === locale ? theme.palette.primary1Color : undefined}>
-        language
-      </Icon>
+      leftIcon: <LanguageIcon />
     }
   })
 
   return [
     {
+      value: '/dashboard',
+      visible: isAuthorised,
+      primaryText: intl.formatMessage({ id: 'dashboard' }),
+      leftIcon: <Icon className='material-icons' >dashboard</Icon>
+    },
+    {
       visible: isAuthorised,
       primaryText: intl.formatMessage({ id: 'chats' }),
-      primarySwitchsNestedList: true,
+      primaryTogglesNestedList: true,
       leftIcon: <Icon className='material-icons' >chats</Icon>,
       nestedItems: [
         {
@@ -75,8 +76,44 @@ const getMenuItems = (props) => {
       ]
     },
     {
+      value: '/companies',
+      visible: isGranted('read_companies'),
+      primaryText: intl.formatMessage({ id: 'companies' }),
+      leftIcon: <Icon className='material-icons' >business</Icon>
+    },
+    {
+      value: '/tasks',
+      visible: isAuthorised,
+      primaryText: intl.formatMessage({ id: 'tasks' }),
+      leftIcon: <Icon className='material-icons' >list</Icon>
+    },
+    {
+      visible: isAuthorised,
+      primaryTogglesNestedList: true,
+      primaryText: intl.formatMessage({ id: 'firestore' }),
+      leftIcon: <Icon className='material-icons' >flash_on</Icon>,
+      nestedItems: [
+        {
+          value: '/document',
+          primaryText: intl.formatMessage({ id: 'document' }),
+          leftIcon: <Icon className='material-icons' >flash_on</Icon>
+        },
+        {
+          value: '/collection',
+          primaryText: intl.formatMessage({ id: 'collection' }),
+          leftIcon: <Icon className='material-icons' >flash_on</Icon>
+        }
+      ]
+    },
+    {
+      value: '/about',
+      visible: isAuthorised,
+      primaryText: intl.formatMessage({ id: 'about' }),
+      leftIcon: <Icon className='material-icons' >info_outline</Icon>
+    },
+    {
       visible: isAuthorised, // In prod: isGranted('administration'),
-      primarySwitchsNestedList: true,
+      primaryTogglesNestedList: true,
       primaryText: intl.formatMessage({ id: 'administration' }),
       leftIcon: <Icon className='material-icons' >security</Icon>,
       nestedItems: [
@@ -100,24 +137,29 @@ const getMenuItems = (props) => {
     },
     {
       primaryText: intl.formatMessage({ id: 'settings' }),
-      primarySwitchsNestedList: true,
-      leftIcon: <Icon className='material-icons' >settings</Icon>,
+      primaryTogglesNestedList: true,
+      leftIcon: <SettingsIcon />,
       nestedItems: [
         {
           primaryText: intl.formatMessage({ id: 'theme' }),
-          secondaryText: intl.formatMessage({ id: themeSource }),
-          primarySwitchsNestedList: true,
-          leftIcon: <Icon className='material-icons' >style</Icon>,
+          secondaryText: intl.formatMessage({ id: themeSource.source }),
+          primaryTogglesNestedList: true,
+          leftIcon: <StyleIcon />,
           nestedItems: themeItems
         },
         {
           primaryText: intl.formatMessage({ id: 'language' }),
           secondaryText: intl.formatMessage({ id: locale }),
-          primarySwitchsNestedList: true,
-          leftIcon: <Icon className='material-icons' >language</Icon>,
+          primaryTogglesNestedList: true,
+          leftIcon: <LanguageIcon />,
           nestedItems: localeItems
         }
       ]
+    },
+    {
+      onClick: () => { switchNightMode(!themeSource.isNightModeOn) },
+      primaryText: intl.formatMessage({ id: themeSource.isNightModeOn ? 'day_mode' : 'night_mode' }),
+      leftIcon: themeSource.isNightModeOn ? <Brightness7 /> : <Brightness2 />
     }
   ]
 }

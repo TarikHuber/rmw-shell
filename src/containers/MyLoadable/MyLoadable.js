@@ -2,7 +2,6 @@ import React from 'react';
 import Loadable from 'react-loadable';
 import LoadingComponent from '../../components/LoadingComponent/LoadingComponent';
 import FirebaseProvider from 'firekit-provider';
-import { Helmet } from 'react-helmet'
 
 export default function makeLoadable(opts, preloadComponents) {
 
@@ -25,9 +24,6 @@ export default function makeLoadable(opts, preloadComponents) {
 
       return <FirebaseProvider firebaseApp={firebaseApp}>
         <div>
-          <Helmet>
-            <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-          </Helmet>
           <Component {...props} />
           <NotificationLayout />
         </div>

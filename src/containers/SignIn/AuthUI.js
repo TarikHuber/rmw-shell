@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
 import firebaseui from 'firebaseui'
-import { Helmet } from 'react-helmet'
 
 let authUi = null
 
 export class AuthUI extends Component {
-  componentDidMount () {
+  componentDidMount() {
     const { firebaseApp, uiConfig } = this.props
 
     // let authUi = null
@@ -23,7 +22,7 @@ export class AuthUI extends Component {
     authUi.start('#firebaseui-auth', uiConfig)
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     try {
       authUi.reset()
     } catch (err) {
@@ -31,12 +30,9 @@ export class AuthUI extends Component {
     }
   }
 
-  render () {
+  render() {
     return (
       <div style={{ paddingTop: 35, width: '100%' }}>
-        <Helmet>
-          <link type='text/css' rel='stylesheet' href='https://cdn.firebase.com/libs/firebaseui/3.0.0/firebaseui.css' />
-        </Helmet>
         <div id='firebaseui-auth' style={{ width: '100%' }} />
       </div>
 
