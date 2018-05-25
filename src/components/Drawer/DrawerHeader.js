@@ -15,6 +15,7 @@ import Hidden from '@material-ui/core/Hidden'
 import withWidth from '@material-ui/core/withWidth'
 import ChevronLeft from '@material-ui/icons/ChevronLeft'
 import ChevronRight from '@material-ui/icons/ChevronRight'
+import PersonIcon from '@material-ui/icons/Person'
 
 const styles = theme => ({
   paper: {
@@ -55,10 +56,8 @@ export const DrawerHeader = (props) => {
           <List >
 
             <ListItem>
-              <ListItemAvatar>
-                <Avatar src={auth.photoURL} alt='person' />
-              </ListItemAvatar>
-
+              {auth.photoURL && <ListItemAvatar><Avatar src={auth.photoURL} alt='user' /></ListItemAvatar>}
+              {!auth.photoURL && <ListItemAvatar><Avatar> <PersonIcon />  </Avatar></ListItemAvatar>}
               <Hidden smDown implementation='css'>
                 <ListItemSecondaryAction>
                   <IconButton onClick={() => { setDrawerOpen(false) }}>
@@ -74,8 +73,13 @@ export const DrawerHeader = (props) => {
 
             <ListItem onClick={() => { setDialogIsOpen('auth_menu', !dialogs.auth_menu) }} >
 
-              {!drawer.open && width !== 'sm' && width !== 'xs' && <ListItemAvatar>
+              {!drawer.open && width !== 'sm' && width !== 'xs' && auth.photoURL && <ListItemAvatar>
                 <Avatar src={auth.photoURL} alt='person' style={{ marginLeft: -7, marginTop: 3 }} />
+              </ListItemAvatar>
+              }
+
+              {!drawer.open && width !== 'sm' && width !== 'xs' && !auth.photoURL && <ListItemAvatar>
+                <Avatar style={{ marginLeft: -7, marginTop: 3 }}> <PersonIcon />  </Avatar>
               </ListItemAvatar>
               }
 
