@@ -91,11 +91,16 @@ class UserForm extends Component {
     return (
 
       <div className={classes.root}>
-        <Avatar
-          alt={''}
-          src={values.photoURL}
-          className={classNames(classes.avatar, classes.bigAvatar)}
-        />
+        {values.photoURL &&
+          <Avatar
+            alt={''}
+            src={values.photoURL}
+            className={classNames(classes.avatar, classes.bigAvatar)}
+          />
+        }
+        {!values.photoURL &&
+          <Avatar className={classNames(classes.avatar, classes.bigAvatar)}> <Icon style={{ fontSize: 60 }}> person </Icon>  </Avatar>
+        }
 
         <div>
           {

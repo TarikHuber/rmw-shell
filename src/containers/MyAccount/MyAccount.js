@@ -431,11 +431,16 @@ export class MyAccount extends Component {
           <div style={{ margin: 15, display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
 
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-              <Avatar
-                alt={auth.displayName}
-                src={this.state.values.photoURL}
-                className={classNames(classes.avatar, classes.bigAvatar)}
-              />
+              {this.state.values.photoURL &&
+                <Avatar
+                  alt={auth.displayName}
+                  src={this.state.values.photoURL}
+                  className={classNames(classes.avatar, classes.bigAvatar)}
+                />
+              }
+              {!this.state.values.photoURL &&
+                <Avatar className={classNames(classes.avatar, classes.bigAvatar)}> <Icon style={{ fontSize: 60 }}> person </Icon>  </Avatar>
+              }
 
               <IconButton color="primary" onClick={() => { setSimpleValue('new_user_photo', true) }}>
                 <Icon>photo_camera</Icon>
