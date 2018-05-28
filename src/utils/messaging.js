@@ -10,10 +10,10 @@ import Avatar from '@material-ui/core/Avatar'
 
 export default function requestNotificationPermission (props) {
   const {
-    initMessaging,
     auth,
     notificationPermissionRequested,
     setPersistentValue,
+    messaging,
     intl,
     appConfig
   } = props
@@ -30,10 +30,7 @@ export default function requestNotificationPermission (props) {
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
         <Button color='primary' onClick={() => {
           setPersistentValue('notificationPermissionRequested', moment())
-          initMessaging(
-            token => { handleTokenChange(props, token) }
-            , payload => { handleMessageReceived(props, payload) }
-          )
+          initializeMessaging(props)
           closeToast()
         }} >
           {intl.formatMessage({ id: 'enable' })}
@@ -46,21 +43,31 @@ export default function requestNotificationPermission (props) {
         </Button>
       </div>
 
-    </div>),
-    {
-      position: toast.POSITION.TOP_CENTER,
-      autoClose: false,
-      closeButton: false,
-      closeOnClick: false
-    })
+    </div>), { position: toast.POSITION.TOP_CENTER, autoClose: false, closeButton: false, closeOnClick: false })
+  } else if ('Notification' in window && Notification.permission === 'granted' && auth.uid && !messaging.isInitialized) {
+    initializeMessaging(props)
   }
+}
+
+export function initializeMessaging (props) {
+  const { initMessaging, firebaseApp, auth } = props
+
+  firebaseApp.database().ref(`disable_notifications/${auth.uid}`).once('value', snap => {
+    if (snap.val()) {
+      console.log('Notifications disabled by user')
+    } else {
+      console.log('test3', props)
+      initMessaging(firebaseApp,
+        token => { handleTokenChange(props, token) }
+        , payload => { handleMessageReceived(props, payload) }
+      )
+    }
+  })
 }
 
 export function handleMessageReceived (props, payload) {
   const { location, appConfig } = props
-
   const notification = payload.notification
-  const data = payload.data
   const pathname = location ? location.pathname : ''
   const tag = payload.notification ? payload.notification.tag : ''
   const notifications = appConfig.getNotifications(notification, props)
@@ -81,7 +88,11 @@ export function handleMessageReceived (props, payload) {
 export function handleTokenChange (props, token) {
   const { firebaseApp, auth } = props
 
-  firebaseApp.database().ref(`notification_tokens/${auth.uid}/${token}`).set(true)
+  console.log('handleTokenChange', props)
+
+  firebaseApp.database().ref(`notification_tokens/${auth.uid}/${token}`).set(true).then(() => {
+    console.log('Notification token saved')
+  })
 }
 
 export function getNotification (notification, closeToast) {

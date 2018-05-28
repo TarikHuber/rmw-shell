@@ -15,10 +15,14 @@ import {
   clearInitialization,
   initConnection,
   watchList,
+  initMessaging,
   watchPath
 } from 'firekit'
 import createHistory from 'history/createBrowserHistory'
 import { Router, Route, Switch } from 'react-router-dom'
+import { initializeMessaging } from '../../utils/messaging'
+import { setPersistentValue } from '../../store/persistentValues/actions'
+
 
 const history = createHistory();
 
@@ -93,6 +97,8 @@ class Root extends Component {
 
       firebaseApp.database().ref(`users/${user.uid}`).update(publicUserData);
 
+      initializeMessaging({ ...this.props, firebaseApp, history, auth: userData })
+
       return userData;
 
     } else {
@@ -144,23 +150,34 @@ Root.propTypes = {
 };
 
 const mapStateToProps = (state, ownProps) => {
-  const { themeSource, locale } = state;
+  const { themeSource, locale, auth, messaging, persistentValues } = state;
   const { appConfig } = ownProps
 
   const source = getThemeSource(themeSource, appConfig.themes);
   const messages = { ...(getLocaleMessages(locale, locales)), ...(getLocaleMessages(locale, appConfig.locales)) }
-
+  const notificationPermissionRequested = persistentValues.notificationPermissionRequested
   const theme = createMuiTheme(source);
 
   return {
     locale,
     source,
     messages,
-    theme
+    messaging,
+    theme,
+    notificationPermissionRequested,
+    auth
   };
 };
 
 
 export default connect(
-  mapStateToProps, { watchAuth, clearInitialization, watchConnection: initConnection, watchList, watchPath }
-)(Root);
+  mapStateToProps, {
+    watchAuth,
+    clearInitialization,
+    watchConnection: initConnection,
+    watchList,
+    watchPath,
+    initMessaging,
+    setPersistentValue
+  }
+)(Root)

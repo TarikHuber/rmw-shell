@@ -158,7 +158,10 @@ const messages = defineMessages({
   day_mode: 'Tagmodus',
   default: 'Standard',
   red: 'Rot',
-  green: 'Grün'
+  green: 'Grün',
+  notifications: 'Benachrichtigungen',
+  disable_notifications_dialog_title: 'Benachrichtigungen abschalten',
+  disable_notifications_dialog_message: 'Alle Benachrichtigungen auf all deinen Geräten werden abgeschaltet!'
 
 })
 

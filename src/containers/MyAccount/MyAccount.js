@@ -1,37 +1,43 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { injectIntl, intlShape } from 'react-intl';
 import Activity from '../../components/Activity'
-import { setSimpleValue } from '../../store/simpleValues/actions';
-import { withRouter } from 'react-router-dom';
-import Icon from '@material-ui/core/Icon';
-import Button from '@material-ui/core/Button';
-import classNames from 'classnames';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import { withFirebase } from 'firekit-provider'
-import FireForm from 'fireform'
-import { GoogleIcon, FacebookIcon, GitHubIcon, TwitterIcon } from '../../components/Icons';
-import { withTheme, withStyles } from '@material-ui/core/styles'
-import { change, submit, formValueSelector } from 'redux-form';
-import IconButton from '@material-ui/core/IconButton';
-import { setDialogIsOpen } from '../../store/dialogs/actions'
+import Avatar from '@material-ui/core/Avatar'
 import AvatarImageField from '../../components/ReduxFormFields/AvatarImageField'
+import Button from '@material-ui/core/Button'
+import Dialog from '@material-ui/core/Dialog'
+import DialogActions from '@material-ui/core/DialogActions'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogContentText from '@material-ui/core/DialogContentText'
+import DialogTitle from '@material-ui/core/DialogTitle'
+import FireForm from 'fireform'
+import FormControl from '@material-ui/core/FormControl'
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormHelperText from '@material-ui/core/FormHelperText'
+import Icon from '@material-ui/core/Icon'
+import IconButton from '@material-ui/core/IconButton'
+import Input from '@material-ui/core/Input'
+import InputAdornment from '@material-ui/core/InputAdornment'
+import InputLabel from '@material-ui/core/InputLabel'
+import PropTypes from 'prop-types'
+import React, { Component } from 'react'
+import Switch from '@material-ui/core/Switch';
+import TextField from '@material-ui/core/TextField'
+import Visibility from '@material-ui/icons/Visibility'
+import VisibilityOff from '@material-ui/icons/VisibilityOff'
+import classNames from 'classnames'
+import requestNotificationPermission from '../../utils/messaging'
 import withAppConfigs from '../../withAppConfigs'
-import Avatar from '@material-ui/core/Avatar';
-import TextField from '@material-ui/core/TextField';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import FormControl from '@material-ui/core/FormControl';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import Visibility from '@material-ui/icons/Visibility';
-import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import { GoogleIcon, FacebookIcon, GitHubIcon, TwitterIcon } from '../../components/Icons'
 import { ImageCropDialog } from '../../containers/ImageCropDialog'
+import { change, submit, formValueSelector } from 'redux-form'
+import { connect } from 'react-redux'
+import { getList } from 'firekit'
+import { injectIntl, intlShape } from 'react-intl'
+import { setDialogIsOpen } from '../../store/dialogs/actions'
+import { setPersistentValue } from '../../store/persistentValues/actions'
+import { setSimpleValue } from '../../store/simpleValues/actions'
+import { withFirebase } from 'firekit-provider'
+import { withRouter } from 'react-router-dom'
+import { withTheme, withStyles } from '@material-ui/core/styles'
 
 const path = '/users/'
 const form_name = 'my_account'
@@ -292,6 +298,11 @@ export class MyAccount extends Component {
     setDialogIsOpen('auth_menu', false);
   }
 
+  handleNotificationsClose = () => {
+    const { setSimpleValue } = this.props;
+    setSimpleValue('disable_notifications', false);
+  }
+
   handleDelete = () => {
     const { firebaseApp, authError } = this.props;
 
@@ -371,11 +382,39 @@ export class MyAccount extends Component {
 
   }
 
+  componentWillMount() {
+    const { watchList, auth } = this.props
+    watchList(`notification_tokens/${auth.uid}`)
+  }
+
   componentDidMount() {
     const { auth } = this.props
     const { displayName, email, photoURL } = auth
 
     this.setState({ values: { ...this.state.values, displayName, email, photoURL } })
+  }
+
+  handleDisableNotifications = () => {
+    const { firebaseApp, auth, setSimpleValue, clearMessaging } = this.props
+
+    firebaseApp.database().ref(`disable_notifications/${auth.uid}`).set(true).then(() => {
+      firebaseApp.database().ref(`notification_tokens/${auth.uid}`).remove().then(() => {
+        setSimpleValue('disable_notifications', false);
+      })
+    })
+  }
+
+  handleEnableNotificationsChange = (e) => {
+    const { firebaseApp, auth, setSimpleValue } = this.props
+
+    if (!e.target.checked) {
+      setSimpleValue('disable_notifications', true);
+    } else {
+      firebaseApp.database().ref(`disable_notifications/${auth.uid}`).remove(() => {
+        requestNotificationPermission(this.props)
+      })
+
+    }
   }
 
   render() {
@@ -384,6 +423,7 @@ export class MyAccount extends Component {
       intl,
       setSimpleValue,
       delete_user,
+      disable_notifications,
       auth,
       theme,
       submit,
@@ -391,7 +431,8 @@ export class MyAccount extends Component {
       setDialogIsOpen,
       appConfig,
       classes,
-      new_user_photo
+      new_user_photo,
+      notificationTokens
     } = this.props;
 
     const showPasswords = this.isLinkedWithProvider('password')
@@ -464,6 +505,21 @@ export class MyAccount extends Component {
                     }
                   })
                 }
+              </div>
+
+              <div>
+                <FormGroup row>
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={notificationTokens.length > 0}
+                        onChange={this.handleEnableNotificationsChange}
+                        value="checkedA"
+                      />
+                    }
+                    label={intl.formatMessage({ id: 'notifications' })}
+                  />
+                </FormGroup>
               </div>
             </div>
 
@@ -612,6 +668,28 @@ export class MyAccount extends Component {
           </DialogActions>
         </Dialog>
 
+        <Dialog
+          open={disable_notifications === true}
+          onClose={this.handleNotificationsClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">{intl.formatMessage({ id: 'disable_notifications_dialog_title' })}</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              {intl.formatMessage({ id: 'disable_notifications_dialog_message' })}
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleNotificationsClose} color="primary" >
+              {intl.formatMessage({ id: 'cancel' })}
+            </Button>
+            <Button onClick={this.handleDisableNotifications} color="secondary" >
+              {intl.formatMessage({ id: 'delete' })}
+            </Button>
+          </DialogActions>
+        </Dialog>
+
         <ImageCropDialog
           path={`users/${auth.uid}`}
           fileName={`photoURL`}
@@ -638,22 +716,26 @@ MyAccount.propTypes = {
 const selector = formValueSelector(form_name)
 
 const mapStateToProps = (state) => {
-  const { intl, simpleValues, auth } = state
+  const { intl, simpleValues, auth, messaging } = state
 
   const delete_user = simpleValues.delete_user
+  const disable_notifications = simpleValues.disable_notifications
   const new_user_photo = simpleValues.new_user_photo
 
   return {
     new_user_photo,
     intl,
     delete_user,
+    disable_notifications,
     auth,
+    messaging,
     photoURL: selector(state, 'photoURL'),
-    old_password: selector(state, 'old_password')
+    old_password: selector(state, 'old_password'),
+    notificationTokens: getList(state, `notification_tokens/${auth.uid}`)
   };
 };
 
 
 export default connect(
-  mapStateToProps, { setSimpleValue, change, submit, setDialogIsOpen }
+  mapStateToProps, { setSimpleValue, change, submit, setDialogIsOpen, setPersistentValue }
 )(injectIntl(withRouter(withTheme()(withFirebase(withAppConfigs(withStyles(styles, { withTheme: true })(MyAccount)))))))

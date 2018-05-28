@@ -158,7 +158,10 @@ const messages = defineMessages({
   day_mode: 'Day mode',
   default: 'Default',
   red: 'Red',
-  green: 'Green'
+  green: 'Green',
+  notifications: 'Notifications',
+  disable_notifications_dialog_title: 'Disable all notifications',
+  disable_notifications_dialog_message: 'All notifications on all of your devices will be disabled!'
 
 })
 

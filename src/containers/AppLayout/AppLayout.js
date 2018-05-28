@@ -13,12 +13,14 @@ import { Switch } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { injectIntl } from 'react-intl'
-import { ToastContainer, toast, style } from 'react-toastify'
 import Avatar from '@material-ui/core/Avatar'
 import ListItem from '@material-ui/core/ListItem'
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import 'react-select/dist/react-select.css';
+import 'react-toastify/dist/ReactToastify.css'
+import { initializeMessaging } from '../../utils/messaging'
+import { ToastContainer } from 'react-toastify'
 
 const ITEM_HEIGHT = 48;
 
@@ -211,8 +213,11 @@ export class AppLayout extends Component {
   };
 
 
+
+
   render() {
-    const { theme, history, appConfig, intl, classes } = this.props
+    const { theme, history, appConfig, intl, classes, auth } = this.props
+
     const drawerWidth = appConfig.drawer_width
     const path = history.location.pathname
     const customRoutes = appConfig.routes ? appConfig.routes : []
@@ -236,6 +241,7 @@ export class AppLayout extends Component {
           </div>
 
           <ToastContainer />
+
         </div>
       </div >
     )
@@ -243,11 +249,16 @@ export class AppLayout extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { theme, locale, messaging } = state
+  const { theme, locale, messaging, persistentValues, auth } = state
+
+  const notificationPermissionRequested = persistentValues.notificationPermissionRequested
+
 
   return {
     //theme, // We need this so the theme change triggers rerendering
     //locale,
+    auth,
+    notificationPermissionRequested,
     messaging
   }
 }
