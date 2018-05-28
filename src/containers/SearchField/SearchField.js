@@ -9,7 +9,7 @@ import { filterActions } from 'material-ui-filter'
 import { injectIntl } from 'react-intl'
 
 export class SearchField extends Component {
-  render() {
+  render () {
     const {
       filterName,
       hintText,
@@ -25,7 +25,8 @@ export class SearchField extends Component {
         backgroundColor: '#fff',
         borderRadius: 5,
         width: 600,
-        maxWidth: '100%'
+        maxWidth: '100%',
+        minHeight: 48
       }}
       >
         <div style={{

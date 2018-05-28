@@ -1,27 +1,28 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
-import { withTheme, withStyles } from '@material-ui/core/styles'
-import { injectIntl, intlShape } from 'react-intl'
 import Activity from '../../components/Activity'
-import Scrollbar from '../../components/Scrollbar'
+import Avatar from '@material-ui/core/Avatar'
+import Divider from '@material-ui/core/Divider'
+import Icon from '@material-ui/core/Icon'
+import IconButton from '@material-ui/core/IconButton'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
-import ListItemText from '@material-ui/core/ListItemText'
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
-import Divider from '@material-ui/core/Divider'
-import Avatar from '@material-ui/core/Avatar'
-import Icon from '@material-ui/core/Icon'
-import { withRouter } from 'react-router-dom'
-import { GoogleIcon, FacebookIcon, GitHubIcon, TwitterIcon } from '../../components/Icons'
-import { withFirebase } from 'firekit-provider'
+import ListItemText from '@material-ui/core/ListItemText'
+import PropTypes from 'prop-types'
+import React, { Component } from 'react'
 import ReactList from 'react-list'
-import { filterSelectors, filterActions } from 'material-ui-filter'
-import { setPersistentValue } from '../../store/persistentValues/actions'
+import Scrollbar from '../../components/Scrollbar'
 import SearchField from '../../components/SearchField'
-import { getList } from 'firekit'
 import withWidth, { isWidthUp } from '@material-ui/core/withWidth'
+import { GoogleIcon, FacebookIcon, GitHubIcon, TwitterIcon } from '../../components/Icons'
+import { connect } from 'react-redux'
+import { filterSelectors, filterActions } from 'material-ui-filter'
+import { getList, isLoading } from 'firekit'
+import { injectIntl, intlShape } from 'react-intl'
+import { setPersistentValue } from '../../store/persistentValues/actions'
+import { withFirebase } from 'firekit-provider'
+import { withRouter } from 'react-router-dom'
+import { withTheme, withStyles } from '@material-ui/core/styles'
 
 const path = `users`;
 
@@ -101,25 +102,25 @@ export class Users extends Component {
 
   render() {
     const {
-      users,
-      theme,
+      hasFilters,
+      intl,
+      isLoading,
       setSearch,
-      intl
+      theme,
+      users
     } = this.props
 
     return (
       <Activity
-        iconStyleLeft={{ width: 'auto' }}
-        iconStyleRight={{ width: '100%', textAlign: 'center', marginLeft: 0 }}
-        iconElementRight={
-          <div style={{ width: 'calc(100% - 48px)' }}>
-            <SearchField
-              filterName={'select_user'}
-              hintText={`${intl.formatMessage({ id: 'search' })}`}
-            />
+        title={intl.formatMessage({ id: 'users' })}
+        appBarContent={
+          <div style={{ display: 'flex' }}>
+            <SearchField filterName={'select_user'} />
+
+
           </div>
         }
-        isLoading={users === undefined}>
+        isLoading={isLoading}>
         <div style={{ height: '100%', overflow: 'none', backgroundColor: theme.palette.convasColor }}>
           <Scrollbar>
             <List id='test' ref={(field) => { this.users = field; }}>
@@ -147,11 +148,14 @@ const mapStateToProps = (state, ownProps) => {
   const { auth, filters } = state;
   const { width } = ownProps;
 
+  const { hasFilters } = filterSelectors.selectFilterProps('select_user', filters)
   const users = filterSelectors.getFilteredList('select_user', filters, getList(state, 'users'), fieldValue => fieldValue.val);
   const usePreview = isWidthUp('sm', width);
 
   return {
     usePreview,
+    hasFilters,
+    isLoading: isLoading(state, 'users'),
     users,
     auth
   };

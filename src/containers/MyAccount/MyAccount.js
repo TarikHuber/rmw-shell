@@ -412,6 +412,7 @@ export class MyAccount extends Component {
     } else {
       firebaseApp.database().ref(`disable_notifications/${auth.uid}`).remove(() => {
         requestNotificationPermission(this.props)
+        window.location.href = window.location.href
       })
 
     }

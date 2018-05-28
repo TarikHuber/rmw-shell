@@ -16,6 +16,7 @@ const styles = theme => ({
     marginLeft: theme.spacing.unit,
     flex: 1,
     borderRadius: 4,
+    minHeight: 48,
     display: 'block',
     '&:hover': {
       background: fade(theme.palette.common.white, 0.25)
@@ -31,6 +32,7 @@ const styles = theme => ({
   rootOpen: {
     fontFamily: theme.typography.fontFamily,
     position: 'relative',
+    minHeight: 48,
     marginRight: theme.spacing.unit,
     marginLeft: theme.spacing.unit,
     flex: 1,
