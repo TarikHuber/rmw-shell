@@ -9,10 +9,10 @@ import config from './config'
 
 addLocalizationData(locales)
 
+
 class Demo extends Component {
-  render () {
+  render() {
     return <App appConfig={{ configureStore, ...config }} />
-    // return <App />
   }
 }
 

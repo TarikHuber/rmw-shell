@@ -7,12 +7,18 @@ import Icon from '@material-ui/core/Icon'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import Avatar from '@material-ui/core/Avatar'
+import ListItemIcon from '@material-ui/core/ListItemIcon'
+import UpdateIcon from '@material-ui/icons/Update'
+
+let updateMessageShown = false
 
 export default function requestNotificationPermission (props) {
   const {
     auth,
     notificationPermissionRequested,
     setPersistentValue,
+    simpleValues,
+    setSimpleValue,
     messaging,
     intl,
     appConfig
@@ -21,7 +27,10 @@ export default function requestNotificationPermission (props) {
   const reengagingHours = appConfig.notificationsReengagingHours ? appConfig.notificationsReengagingHours : 48
   const requestNotificationPermission = notificationPermissionRequested ? moment().diff(notificationPermissionRequested, 'hours') > reengagingHours : true
 
-  if ('Notification' in window && window.Notification.permission !== 'granted' && auth.uid && requestNotificationPermission) {
+  console.log(props)
+
+  if ('Notification' in window && window.Notification.permission !== 'granted' && auth.uid && requestNotificationPermission && !simpleValues['notificationPermissionShown']) {
+    setSimpleValue('notificationPermissionShown', true)
     toast.info(({ closeToast }) => (<div>
       <div style={{ display: 'flex', alignItems: 'center', padding: 8 }}>
         <Icon style={{ paddingRight: 8 }} className='material-icons' color='secondary' >   notifications  </Icon>
@@ -45,7 +54,7 @@ export default function requestNotificationPermission (props) {
 
     </div>), { position: toast.POSITION.TOP_CENTER, autoClose: false, closeButton: false, closeOnClick: false })
   } else if ('Notification' in window && Notification.permission === 'granted' && auth.uid && !messaging.isInitialized) {
-    initializeMessaging(props)
+    // initializeMessaging(props)
   }
 }
 
@@ -56,7 +65,6 @@ export function initializeMessaging (props) {
     if (snap.val()) {
       console.log('Notifications disabled by user')
     } else {
-      console.log('test3', props)
       initMessaging(firebaseApp,
         token => { handleTokenChange(props, token) }
         , payload => { handleMessageReceived(props, payload) }
@@ -100,6 +108,10 @@ export function getNotification (notification, closeToast) {
     return notification.getNotification(notification, closeToast)
   }
 
+  return createNotifgication(notification, closeToast)
+}
+
+export function createNotifgication (notification, closeToast) {
   return (<div
     onClick={() => {
       notification.onClick()
@@ -109,4 +121,32 @@ export function getNotification (notification, closeToast) {
       <ListItemText primary={notification.title} secondary={notification.body} />
     </ListItem>
   </div>)
+}
+
+export function checkForUpdate (intl) {
+  const title = intl ? intl.formatMessage({ id: 'update_title' }) : 'Update available!'
+  const message = intl ? intl.formatMessage({ id: 'update_message' }) : 'Click here to get the new version.'
+
+  if (window.updateAvailable && !updateMessageShown) {
+    updateMessageShown = true
+    toast.info(({ closeToast }) => <div
+      onClick={() => {
+        handleUpdate()
+      }}>
+      <ListItem button >
+        <ListItemIcon>
+          <UpdateIcon />
+        </ListItemIcon>
+        <ListItemText primary={title} secondary={message} />
+      </ListItem>
+    </div>, {
+      position: toast.POSITION.BOTTOM_CENTER,
+      autoClose: false
+    })
+  }
+}
+
+export function handleUpdate () {
+  window.updateAvailable = false
+  window.location.href = window.location.href
 }

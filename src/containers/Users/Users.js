@@ -32,7 +32,9 @@ export class Users extends Component {
     const { watchList } = this.props;
 
     watchList(path)
+
   }
+
 
   getProviderIcon = (provider) => {
     const { theme } = this.props;
@@ -143,7 +145,8 @@ export class Users extends Component {
 
           </div>
         }
-        isLoading={isLoading}>
+        isLoading={isLoading}
+      >
         <div style={{ height: '100%', overflow: 'none' }}>
           <Scrollbar>
             <List id='test' ref={field => this.list = field}>
@@ -172,7 +175,7 @@ Users.propTypes = {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const { lists, auth, filters } = state
+  const { auth, filters } = state
   const { match } = ownProps
 
   const isSelecting = match.params.select ? match.params.select : false
@@ -183,7 +186,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     isSelecting,
     hasFilters,
-    isLoading: isLoading(state, path),
+    //isLoading: isLoading(state, path),
     list,
     auth
   }

@@ -1,30 +1,32 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { injectIntl, intlShape } from 'react-intl';
-import List from '@material-ui/core/List'
-import ListItem from '@material-ui/core/ListItem'
-import ListItemText from '@material-ui/core/ListItemText'
-import ListItemAvatar from '@material-ui/core/ListItemAvatar'
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
-import Divider from '@material-ui/core/Divider';
-import { withTheme, withStyles } from '@material-ui/core/styles'
-import { withFirebase } from 'firekit-provider';
-import { withRouter } from 'react-router-dom';
-import ReactList from 'react-list';
+import Activity from '../../components/Activity'
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
-import Icon from '@material-ui/core/Icon';
-import PropTypes from 'prop-types';
-import Activity from '../../components/Activity'
-import Scrollbar from '../../components/Scrollbar'
 import ChatMessages from '../../containers/ChatMessages'
-import { setPersistentValue } from '../../store/persistentValues/actions'
-import { filterSelectors } from 'material-ui-filter'
+import Divider from '@material-ui/core/Divider';
+import Icon from '@material-ui/core/Icon';
+import IconButton from '@material-ui/core/IconButton'
+import List from '@material-ui/core/List'
+import ListItem from '@material-ui/core/ListItem'
+import ListItemAvatar from '@material-ui/core/ListItemAvatar'
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
+import ListItemText from '@material-ui/core/ListItemText'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
-import IconButton from '@material-ui/core/IconButton'
-import { getList } from 'firekit'
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import ReactList from 'react-list';
+import Scrollbar from '../../components/Scrollbar'
+import requestNotificationPermission from '../../utils/messaging'
+import withAppConfigs from '../../withAppConfigs'
 import withWidth, { isWidthUp } from '@material-ui/core/withWidth'
+import { connect } from 'react-redux';
+import { filterSelectors } from 'material-ui-filter'
+import { getList } from 'firekit'
+import { injectIntl, intlShape } from 'react-intl';
+import { setPersistentValue } from '../../store/persistentValues/actions'
+import { withFirebase } from 'firekit-provider';
+import { withRouter } from 'react-router-dom';
+import { withTheme, withStyles } from '@material-ui/core/styles'
 
 export class Chats extends Component {
 
@@ -43,7 +45,10 @@ export class Chats extends Component {
 
   componentDidMount() {
     const { watchList, path } = this.props;
-    watchList(path);
+    watchList(path)
+    console.log('Chats did mount', path)
+
+    //requestNotificationPermission(this.props)
   }
 
   componentDidCatch(error, info) {
@@ -109,10 +114,10 @@ export class Chats extends Component {
 
 
   renderItem = (i, k) => {
-    const { list, intl, currentChatUid, width, theme } = this.props;
+    const { list, intl, persistentValues, width, theme } = this.props;
 
     const usePreview = isWidthUp('sm', width);
-
+    const currentChatUid = persistentValues['current_chat_uid'] ? persistentValues['current_chat_uid'] : ''
     const key = list[i].key;
     const val = list[i].val;
     const isPreviewed = usePreview && currentChatUid === key;
@@ -220,20 +225,21 @@ export class Chats extends Component {
       intl,
       list,
       history,
-      currentChatUid,
+      persistentValues,
       //usePreview,
       auth,
       width
     } = this.props;
 
+    console.log(this.props)
+
     if (this.state.hasError) {
       // You can render any custom fallback UI
       return <h1>Something went wrong.</h1>;
     }
-
+    const path = `user_chats/${auth.uid}`;
+    const currentChatUid = persistentValues['current_chat_uid'] ? persistentValues['current_chat_uid'] : ''
     const usePreview = isWidthUp('sm', width);
-
-
     const isDisplayingMessages = usePreview && currentChatUid;
 
     return (
@@ -274,7 +280,7 @@ export class Chats extends Component {
           </div>
 
           <div style={{ marginLeft: 0, flexGrow: 1 }}>
-            {(isDisplayingMessages && currentChatUid) &&
+            {isDisplayingMessages && currentChatUid &&
               <ChatMessages
                 path={`user_chat_messages/${auth.uid}/${currentChatUid}`}
                 receiverPath={`user_chat_messages/${currentChatUid}/${auth.uid}`}
@@ -301,13 +307,12 @@ const mapStateToProps = (state, ownPops) => {
   const { lists, auth, persistentValues } = state;
 
   const path = `user_chats/${auth.uid}`;
-  const currentChatUid = persistentValues['current_chat_uid'] ? persistentValues['current_chat_uid'] : undefined
   const list = getList(state, path).sort(filterSelectors.dynamicSort('lastCreated', false, fieldValue => fieldValue.val))
 
   return {
     auth,
     path,
-    currentChatUid,
+    persistentValues,
     list,
   };
 };
@@ -315,4 +320,4 @@ const mapStateToProps = (state, ownPops) => {
 
 export default connect(
   mapStateToProps, { setPersistentValue }
-)(injectIntl(withFirebase(withRouter(withWidth()(withTheme()(withStyles(theme => { }, { withTheme: true })(Chats)))))))
+)(injectIntl(withFirebase(withAppConfigs(withRouter(withWidth()(withTheme()(withStyles(theme => { }, { withTheme: true })(Chats))))))))

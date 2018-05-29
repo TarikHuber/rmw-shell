@@ -31,6 +31,11 @@ const pageStep = 20;
 
 class ChatMessages extends Component {
 
+  state = {
+    anchorEl: null,
+    hasError: false
+  };
+
   constructor(props) {
     super(props);
     this.name = null;
@@ -72,8 +77,13 @@ class ChatMessages extends Component {
   initMessages = (props) => {
     const { watchList, firebaseApp, path } = props;
 
-    let messagesRef = firebaseApp.database().ref(path).orderByKey().limitToLast(pageStep);
-    watchList(messagesRef);
+    try {
+      let messagesRef = firebaseApp.database().ref(path).orderByKey().limitToLast(pageStep);
+      watchList(messagesRef);
+    } catch (error) {
+      console.log(error)
+    }
+
   }
 
   handleLoadMore = () => {
@@ -87,6 +97,13 @@ class ChatMessages extends Component {
     let messagesRef = firebaseApp.database().ref(path).orderByKey().limitToLast(nextAmount);
     watchList(messagesRef);
 
+  }
+
+  componentDidCatch(error, info) {
+    // Display fallback UI
+    this.setState({ hasError: true });
+    // You can also log the error to an error reporting service
+    //logErrorToMyService(error, info);
   }
 
   renderList(messages) {
@@ -163,6 +180,11 @@ class ChatMessages extends Component {
       path,
       receiverPath
     } = this.props
+
+    if (this.state.hasError) {
+      // You can render any custom fallback UI
+      return <h1>Something went wrong.</h1>;
+    }
 
     return (
       <Scrollbar

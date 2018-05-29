@@ -16,7 +16,7 @@ import isGranted from '../../../../src/utils/auth'
 import { Activity, Scrollbar } from '../../../../src'
 
 class Companies extends Component {
-  componentDidMount () {
+  componentDidMount() {
     const { watchList, firebaseApp } = this.props
 
     let ref = firebaseApp.database().ref('companies').limitToFirst(20)
@@ -24,7 +24,7 @@ class Companies extends Component {
     watchList(ref)
   }
 
-  renderList (companies) {
+  renderList(companies) {
     const { history } = this.props
 
     if (companies === undefined) {
@@ -46,7 +46,7 @@ class Companies extends Component {
     })
   }
 
-  render () {
+  render() {
     const { intl, companies, theme, history, isGranted, classes } = this.props
 
     return (

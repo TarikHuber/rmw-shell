@@ -110,7 +110,6 @@ export class MyAccount extends Component {
 
     this.setState({ values: { ...this.state.values, photoURL: snapshot.downloadURL } }, () => {
 
-      console.log('should submit')
       this.submit()
     })
 
