@@ -163,7 +163,8 @@ const messages = defineMessages({
   disable_notifications_dialog_title: 'Disable all notifications',
   disable_notifications_dialog_message: 'All notifications on all of your devices will be disabled!',
   update_title: 'Update available!',
-  update_message: 'Click here to get the new version.'
+  update_message: 'Click here to get the new version.',
+  install: 'Install'
 
 })
 

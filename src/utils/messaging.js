@@ -94,11 +94,7 @@ export function handleMessageReceived(props, payload) {
 export function handleTokenChange(props, token) {
   const { firebaseApp, auth } = props
 
-  console.log('handleTokenChange', props)
-
-  firebaseApp.database().ref(`notification_tokens/${auth.uid}/${token}`).set(true).then(() => {
-    console.log('Notification token saved')
-  })
+  firebaseApp.database().ref(`notification_tokens/${auth.uid}/${token}`).set(true)
 }
 
 export function getNotification(notification, closeToast) {

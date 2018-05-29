@@ -5,6 +5,7 @@ import withAppConfigs from '../../withAppConfigs'
 import { SelectableMenuList } from '../../components/SelectableMenuList'
 import { injectIntl } from 'react-intl'
 import { withRouter } from 'react-router-dom'
+import witchA2HS from '../../utils/withA2HS'
 
 export const DrawerContent = (props, context) => {
   const {
@@ -77,4 +78,4 @@ export const DrawerContent = (props, context) => {
   )
 }
 
-export default injectIntl(withTheme()(withRouter(withAppConfigs(DrawerContent))))
+export default injectIntl(withTheme()(withRouter(withAppConfigs(witchA2HS(DrawerContent)))))
