@@ -46,7 +46,6 @@ export class Chats extends Component {
   componentDidMount() {
     const { watchList, path } = this.props;
     watchList(path)
-    console.log('Chats did mount', path)
 
     //requestNotificationPermission(this.props)
   }
@@ -230,8 +229,6 @@ export class Chats extends Component {
       auth,
       width
     } = this.props;
-
-    console.log(this.props)
 
     if (this.state.hasError) {
       // You can render any custom fallback UI

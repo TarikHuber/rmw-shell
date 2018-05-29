@@ -12,7 +12,7 @@ import UpdateIcon from '@material-ui/icons/Update'
 
 let updateMessageShown = false
 
-export default function requestNotificationPermission (props) {
+export default function requestNotificationPermission(props) {
   const {
     auth,
     notificationPermissionRequested,
@@ -26,8 +26,6 @@ export default function requestNotificationPermission (props) {
 
   const reengagingHours = appConfig.notificationsReengagingHours ? appConfig.notificationsReengagingHours : 48
   const requestNotificationPermission = notificationPermissionRequested ? moment().diff(notificationPermissionRequested, 'hours') > reengagingHours : true
-
-  console.log(props)
 
   if ('Notification' in window && window.Notification.permission !== 'granted' && auth.uid && requestNotificationPermission && !simpleValues['notificationPermissionShown']) {
     setSimpleValue('notificationPermissionShown', true)
@@ -58,7 +56,7 @@ export default function requestNotificationPermission (props) {
   }
 }
 
-export function initializeMessaging (props) {
+export function initializeMessaging(props) {
   const { initMessaging, firebaseApp, auth } = props
 
   firebaseApp.database().ref(`disable_notifications/${auth.uid}`).once('value', snap => {
@@ -73,7 +71,7 @@ export function initializeMessaging (props) {
   })
 }
 
-export function handleMessageReceived (props, payload) {
+export function handleMessageReceived(props, payload) {
   const { location, appConfig } = props
   const notification = payload.notification
   const pathname = location ? location.pathname : ''
@@ -93,7 +91,7 @@ export function handleMessageReceived (props, payload) {
   }
 }
 
-export function handleTokenChange (props, token) {
+export function handleTokenChange(props, token) {
   const { firebaseApp, auth } = props
 
   console.log('handleTokenChange', props)
@@ -103,7 +101,7 @@ export function handleTokenChange (props, token) {
   })
 }
 
-export function getNotification (notification, closeToast) {
+export function getNotification(notification, closeToast) {
   if (notification.getNotification) {
     return notification.getNotification(notification, closeToast)
   }
@@ -111,7 +109,7 @@ export function getNotification (notification, closeToast) {
   return createNotifgication(notification, closeToast)
 }
 
-export function createNotifgication (notification, closeToast) {
+export function createNotifgication(notification, closeToast) {
   return (<div
     onClick={() => {
       notification.onClick()
@@ -123,7 +121,7 @@ export function createNotifgication (notification, closeToast) {
   </div>)
 }
 
-export function checkForUpdate (intl) {
+export function checkForUpdate(intl) {
   const title = intl ? intl.formatMessage({ id: 'update_title' }) : 'Update available!'
   const message = intl ? intl.formatMessage({ id: 'update_message' }) : 'Click here to get the new version.'
 
@@ -140,13 +138,13 @@ export function checkForUpdate (intl) {
         <ListItemText primary={title} secondary={message} />
       </ListItem>
     </div>, {
-      position: toast.POSITION.BOTTOM_CENTER,
-      autoClose: false
-    })
+        position: toast.POSITION.BOTTOM_CENTER,
+        autoClose: false
+      })
   }
 }
 
-export function handleUpdate () {
+export function handleUpdate() {
   window.updateAvailable = false
   window.location.href = window.location.href
 }
