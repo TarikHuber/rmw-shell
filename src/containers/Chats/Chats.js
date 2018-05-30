@@ -12,20 +12,22 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
 import ListItemText from '@material-ui/core/ListItemText'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
-import PropTypes from 'prop-types';
-import React, { Component } from 'react';
-import ReactList from 'react-list';
+import MoreHorizIcon from '@material-ui/icons/MoreHoriz'
+import PropTypes from 'prop-types'
+import React, { Component } from 'react'
+import ReactList from 'react-list'
 import Scrollbar from '../../components/Scrollbar'
+import Typography from '@material-ui/core/Typography'
 import requestNotificationPermission from '../../utils/messaging'
 import withAppConfigs from '../../withAppConfigs'
 import withWidth, { isWidthUp } from '@material-ui/core/withWidth'
-import { connect } from 'react-redux';
+import { connect } from 'react-redux'
 import { filterSelectors } from 'material-ui-filter'
 import { getList } from 'firekit'
-import { injectIntl, intlShape } from 'react-intl';
+import { injectIntl, intlShape } from 'react-intl'
 import { setPersistentValue } from '../../store/persistentValues/actions'
-import { withFirebase } from 'firekit-provider';
-import { withRouter } from 'react-router-dom';
+import { withFirebase } from 'firekit-provider'
+import { withRouter } from 'react-router-dom'
 import { withTheme, withStyles } from '@material-ui/core/styles'
 
 export class Chats extends Component {
@@ -193,6 +195,23 @@ export class Chats extends Component {
         {val.photoURL && <Avatar src={val.photoURL} alt='person' />}
         {!val.photoURL && <Avatar> <Icon > person </Icon>  </Avatar>}
         <ListItemText primary={val.unread > 0 ? <div><b>{val.displayName}</b></div> : val.displayName} secondary={this.renderIcons(val)} />
+
+        <ListItemSecondaryAction style={{ paddingTop: 24 }}>
+
+          <Typography variant="caption" style={{ paddingRight: 12 }}>
+            {val.lastCreated ? intl.formatTime(new Date(val.lastCreated), 'hh:mm') : undefined}
+          </Typography>
+        </ListItemSecondaryAction>
+
+        <ListItemSecondaryAction style={{ paddingBottom: 24 }}>
+          <IconButton onClick={() => { console.log('click2') }} >
+            <MoreHorizIcon />
+          </IconButton>
+
+        </ListItemSecondaryAction>
+
+
+
       </ListItem>
       <Divider inset />
     </div>

@@ -156,7 +156,7 @@ Root.propTypes = {
 
 const mapStateToProps = (state, ownProps) => {
 
-  const { locale, themeSource, persistentValues } = state;
+  const { locale, themeSource, persistentValues, simpleValues } = state;
 
   const notificationPermissionRequested = persistentValues.notificationPermissionRequested
 
@@ -164,6 +164,7 @@ const mapStateToProps = (state, ownProps) => {
     locale,
     themeSource,
     notificationPermissionRequested,
+    simpleValues
   };
 };
 

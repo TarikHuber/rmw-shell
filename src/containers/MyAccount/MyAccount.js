@@ -731,7 +731,8 @@ const mapStateToProps = (state) => {
     messaging,
     photoURL: selector(state, 'photoURL'),
     old_password: selector(state, 'old_password'),
-    notificationTokens: getList(state, `notification_tokens/${auth.uid}`)
+    notificationTokens: getList(state, `notification_tokens/${auth.uid}`),
+    simpleValues
   };
 };
 
