@@ -33,6 +33,7 @@ const getAppRoutes = (firebaseLoader) => {
     <RestrictedRoute type='private' path="/predefined_chat_messages" exact component={AsyncPredefinedChatMessages} />,
     <RestrictedRoute type='private' path="/public_chats" exact component={AsyncPublicChats} />,
     <RestrictedRoute type='private' path="/chats" exact component={AsyncChats} />,
+    <RestrictedRoute type='private' path="/chats/view/:uid" exact component={AsyncChats} />,
     <RestrictedRoute type='private' path="/chats/create" exact component={AsyncCreateChat} />,
     <RestrictedRoute type='private' path="/chats/edit/:uid" exact component={AsyncChat} />,
     <Route component={PageNotFound} />,

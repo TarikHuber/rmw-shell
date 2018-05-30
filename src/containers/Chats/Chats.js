@@ -81,7 +81,8 @@ export class Chats extends Component {
     }
 
     if (usePreview) {
-      setPersistentValue('current_chat_uid', key);
+      history.push(`/chats/view/${key}`);
+      //setPersistentValue('current_chat_uid', key);
     } else {
       history.push(`/chats/edit/${key}`);
     }
@@ -227,7 +228,8 @@ export class Chats extends Component {
       persistentValues,
       //usePreview,
       auth,
-      width
+      width,
+      uid
     } = this.props;
 
     if (this.state.hasError) {
@@ -235,7 +237,7 @@ export class Chats extends Component {
       return <h1>Something went wrong.</h1>;
     }
     const path = `user_chats/${auth.uid}`;
-    const currentChatUid = persistentValues['current_chat_uid'] ? persistentValues['current_chat_uid'] : ''
+    const currentChatUid = uid //persistentValues['current_chat_uid'] ? persistentValues['current_chat_uid'] : ''
     const usePreview = isWidthUp('sm', width);
     const isDisplayingMessages = usePreview && currentChatUid;
 
@@ -302,11 +304,14 @@ Chats.propTypes = {
 
 const mapStateToProps = (state, ownPops) => {
   const { lists, auth, persistentValues } = state;
+  const { match } = ownPops
+  const uid = match.params.uid
 
   const path = `user_chats/${auth.uid}`;
   const list = getList(state, path).sort(filterSelectors.dynamicSort('lastCreated', false, fieldValue => fieldValue.val))
 
   return {
+    uid,
     auth,
     path,
     persistentValues,
