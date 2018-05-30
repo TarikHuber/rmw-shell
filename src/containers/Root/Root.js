@@ -123,13 +123,18 @@ class Root extends Component {
   }
 
   render() {
-    const { locale, theme, messages, appConfig } = this.props;
+    const { appConfig, locale, themeSource } = this.props;
+
+
+    const messages = { ...(getLocaleMessages(locale, locales)), ...(getLocaleMessages(locale, appConfig.locales)) }
+    const source = getThemeSource(themeSource, appConfig.themes);
+    const theme = createMuiTheme(source);
 
     return (
       <MuiPickersUtilsProvider utils={MomentUtils} >
         <MuiThemeProvider theme={theme} >
           <A2HSProvider>
-            <IntlProvider locale={locale} key={locale} messages={messages}>
+            <IntlProvider locale={locale} key={locale} messages={messages} >
               <Router history={history} >
                 <Switch>
                   <Route children={(props) => <AppLayout {...props} />} />
@@ -146,28 +151,19 @@ class Root extends Component {
 
 Root.propTypes = {
   locale: PropTypes.string.isRequired,
-  source: PropTypes.object.isRequired,
-  messages: PropTypes.object.isRequired,
-  //themeSource: PropTypes.object.isRequired,
+  themeSource: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state, ownProps) => {
-  const { themeSource, locale, auth, messaging, persistentValues } = state;
-  const { appConfig } = ownProps
 
-  const source = getThemeSource(themeSource, appConfig.themes);
-  const messages = { ...(getLocaleMessages(locale, locales)), ...(getLocaleMessages(locale, appConfig.locales)) }
+  const { locale, themeSource, persistentValues } = state;
+
   const notificationPermissionRequested = persistentValues.notificationPermissionRequested
-  const theme = createMuiTheme(source);
 
   return {
     locale,
-    source,
-    messages,
-    messaging,
-    theme,
+    themeSource,
     notificationPermissionRequested,
-    auth
   };
 };
 

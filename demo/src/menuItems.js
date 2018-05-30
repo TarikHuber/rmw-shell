@@ -166,7 +166,7 @@ const getMenuItems = (props) => {
       leftIcon: themeSource.isNightModeOn ? <Brightness7 /> : <Brightness2 />
     },
     {
-      visible: true, // && isAppInstallable && !isAppInstalled,
+      visible: isAppInstallable && !isAppInstalled,
       onClick: () => { deferredPrompt.prompt() },
       primaryText: intl.formatMessage({ id: 'install' }),
       leftIcon: <VerticalAlignBottomIcon />

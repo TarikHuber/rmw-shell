@@ -186,7 +186,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     isSelecting,
     hasFilters,
-    //isLoading: isLoading(state, path),
+    isLoading: isLoading(state, path),
     list,
     auth
   }
