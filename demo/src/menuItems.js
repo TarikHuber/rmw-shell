@@ -8,6 +8,8 @@ import Brightness2 from '@material-ui/icons/Brightness2'
 import Brightness7 from '@material-ui/icons/Brightness7'
 import SettingsIcon from '@material-ui/icons/Settings'
 import VerticalAlignBottomIcon from '@material-ui/icons/VerticalAlignBottom'
+import AccountBoxIcon from '@material-ui/icons/AccountBox'
+import LockIcon from '@material-ui/icons/Lock'
 
 const getMenuItems = (props) => {
   const {
@@ -21,7 +23,9 @@ const getMenuItems = (props) => {
     isGranted,
     deferredPrompt,
     isAppInstallable,
-    isAppInstalled
+    isAppInstalled,
+    isAuthMenu,
+    handleSignOut
   } = props
 
   const isAuthorised = auth.isAuthorised
@@ -45,6 +49,22 @@ const getMenuItems = (props) => {
       leftIcon: <LanguageIcon />
     }
   })
+
+  if (isAuthMenu) {
+    return [
+      {
+        value: '/my_account',
+        primaryText: intl.formatMessage({ id: 'my_account' }),
+        leftIcon: <AccountBoxIcon />
+      },
+      {
+        value: '/signin',
+        onClick: handleSignOut,
+        primaryText: intl.formatMessage({ id: 'sign_out' }),
+        leftIcon: <LockIcon />
+      }
+    ]
+  }
 
   return [
     {

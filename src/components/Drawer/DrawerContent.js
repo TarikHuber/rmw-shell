@@ -1,4 +1,3 @@
-import Icon from '@material-ui/core/Icon'
 import React from 'react'
 import { withTheme } from '@material-ui/core/styles'
 import withAppConfigs from '../../withAppConfigs'
@@ -11,7 +10,6 @@ export const DrawerContent = (props, context) => {
   const {
     appConfig,
     dialogs,
-    intl,
     match,
     messaging,
     drawer
@@ -29,8 +27,6 @@ export const DrawerContent = (props, context) => {
     }
   }
 
-  const menuItems = appConfig.getMenuItems(props)
-
   const handleSignOut = () => {
     const { userLogout, setDialogIsOpen, appConfig, setDrawerOpen } = props
 
@@ -46,20 +42,7 @@ export const DrawerContent = (props, context) => {
     })
   }
 
-  const authItems = [
-    {
-      value: '/my_account',
-      primaryText: intl.formatMessage({ id: 'my_account' }),
-      leftIcon: <Icon className='material-icons' >account_box</Icon>
-    },
-    {
-      value: '/signin',
-      onClick: handleSignOut,
-      primaryText: intl.formatMessage({ id: 'sign_out' }),
-      leftIcon: <Icon className='material-icons' >lock</Icon>
-    }
-
-  ]
+  const menuItems = appConfig.getMenuItems({ ...props, isAuthMenu: !!dialogs.auth_menu, handleSignOut })
 
   return (
     <div style={{
@@ -67,7 +50,7 @@ export const DrawerContent = (props, context) => {
       flexDirection: 'column'
     }}>
       <SelectableMenuList
-        items={dialogs.auth_menu ? authItems : menuItems}
+        items={menuItems}
         onIndexChange={handleChange}
         index={match ? match.path : '/'}
         useMinified={drawer.useMinified && !drawer.open}
