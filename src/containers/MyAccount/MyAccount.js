@@ -72,7 +72,8 @@ export class MyAccount extends Component {
       newPassword: '',
       confirmPassword: ''
     },
-    errors: {}
+    errors: {},
+    isPhotoDialogOpen: false
   }
 
   getProviderIcon = (p) => {
@@ -108,12 +109,17 @@ export class MyAccount extends Component {
   handlePhotoUploadSuccess = (snapshot) => {
     const { setSimpleValue } = this.props;
 
-    this.setState({ values: { ...this.state.values, photoURL: snapshot.downloadURL } }, () => {
+    snapshot.ref.getDownloadURL().then(downloadURL => {
 
-      this.submit()
+      this.setState({ values: { ...this.state.values, photoURL: downloadURL } }, () => {
+
+
+        this.setState({ isPhotoDialogOpen: false })
+        //setSimpleValue('new_user_photo', undefined);
+        //this.submit()
+      })
     })
 
-    //setSimpleValue('new_user_photo', undefined);
   }
 
   handleUserDeletion = () => {
@@ -285,7 +291,7 @@ export class MyAccount extends Component {
       })
     }
 
-    setSimpleValue('new_user_photo', undefined);
+    //setSimpleValue('new_user_photo', undefined);
 
     // We manage the data saving above
     return false;
@@ -483,7 +489,7 @@ export class MyAccount extends Component {
                 <Avatar className={classNames(classes.avatar, classes.bigAvatar)}> <Icon style={{ fontSize: 60 }}> person </Icon>  </Avatar>
               }
 
-              <IconButton color="primary" onClick={() => { setSimpleValue('new_user_photo', true) }}>
+              <IconButton color="primary" onClick={() => { this.setState({ isPhotoDialogOpen: true }) }}>
                 <Icon>photo_camera</Icon>
               </IconButton>
 
@@ -694,9 +700,9 @@ export class MyAccount extends Component {
           path={`users/${auth.uid}`}
           fileName={`photoURL`}
           onUploadSuccess={(s) => { this.handlePhotoUploadSuccess(s) }}
-          open={new_user_photo !== undefined}
+          open={this.state.isPhotoDialogOpen}
           src={new_user_photo}
-          handleClose={() => { setSimpleValue('new_user_photo', undefined) }}
+          handleClose={() => { this.setState({ isPhotoDialogOpen: false }) }}
           title={intl.formatMessage({ id: 'change_photo' })}
         />
       </Activity>
