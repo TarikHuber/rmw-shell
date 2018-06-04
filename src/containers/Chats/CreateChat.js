@@ -113,6 +113,7 @@ export class Users extends Component {
     return (
       <Activity
         title={intl.formatMessage({ id: 'users' })}
+        onBackClick={() => history.back()}
         appBarContent={
           <div style={{ display: 'flex' }}>
             <SearchField filterName={'select_user'} />
