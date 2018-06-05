@@ -43,7 +43,7 @@ const getThemeSource = (t, ts) => {
     for (let i = 0; i < ts.length; i++) {
       if (ts[i]['id'] === t.source) {
         const source = ts[i]['source']
-        const palette = source.palette ? source.palette : {}
+        const palette = source != null ? source.palette : {}
 
         return createMuiTheme({ ...source, palette: { ...palette, type: t.isNightModeOn ? 'dark' : 'light' } })
       }
