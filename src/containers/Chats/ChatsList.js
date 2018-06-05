@@ -194,7 +194,10 @@ export class Chats extends Component {
         id={i}>
         {val.photoURL && <Avatar src={val.photoURL} alt='person' />}
         {!val.photoURL && <Avatar> <Icon > person </Icon>  </Avatar>}
-        <ListItemText primary={val.unread > 0 ? <div><b>{val.displayName}</b></div> : val.displayName} secondary={this.renderIcons(val)} />
+        <ListItemText
+          primary={val.unread > 0 ? <div><b>{val.displayName}</b></div> : val.displayName}
+          secondary={this.renderIcons(val)}
+        />
 
         <ListItemSecondaryAction style={{ paddingTop: 24 }}>
 
@@ -259,6 +262,8 @@ export class Chats extends Component {
     const currentChatUid = uid //persistentValues['current_chat_uid'] ? persistentValues['current_chat_uid'] : ''
     const usePreview = isWidthUp('sm', width);
     const isDisplayingMessages = usePreview && currentChatUid;
+
+    console.log(uid)
 
     return (
 

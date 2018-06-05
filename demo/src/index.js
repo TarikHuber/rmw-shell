@@ -6,13 +6,15 @@ import locales from './locales'
 import registerServiceWorker from '../../src'
 import App from '../../src'
 import config from './config'
+import A2HSProvider from '../../src/containers/A2HSProvider'
 
 addLocalizationData(locales)
 
-
 class Demo extends Component {
-  render() {
-    return <App appConfig={{ configureStore, ...config }} />
+  render () {
+    return <A2HSProvider>
+      <App appConfig={{ configureStore, ...config }} />
+    </A2HSProvider>
   }
 }
 

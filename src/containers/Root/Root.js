@@ -22,7 +22,6 @@ import createHistory from 'history/createBrowserHistory'
 import { Router, Route, Switch } from 'react-router-dom'
 import { initializeMessaging } from '../../utils/messaging'
 import { setPersistentValue } from '../../store/persistentValues/actions'
-import A2HSProvider from '../../containers/A2HSProvider'
 
 const history = createHistory();
 
@@ -133,15 +132,13 @@ class Root extends Component {
     return (
       <MuiPickersUtilsProvider utils={MomentUtils} >
         <MuiThemeProvider theme={theme} >
-          <A2HSProvider>
-            <IntlProvider locale={locale} key={locale} messages={messages} >
-              <Router history={history} >
-                <Switch>
-                  <Route children={(props) => <AppLayout {...props} />} />
-                </Switch>
-              </Router>
-            </IntlProvider>
-          </A2HSProvider>
+          <IntlProvider locale={locale} key={locale} messages={messages} >
+            <Router history={history} >
+              <Switch>
+                <Route children={(props) => <AppLayout {...props} />} />
+              </Switch>
+            </Router>
+          </IntlProvider>
         </MuiThemeProvider>
       </MuiPickersUtilsProvider>
     );

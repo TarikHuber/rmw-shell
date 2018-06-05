@@ -102,8 +102,8 @@ class Activity extends React.Component {
       <div className={classes.root}>
         <Helmet>
           <meta name="theme-color" content={theme.palette.primary1Color} />
-          <meta name="apple-mobile-web-app-status-bar-style" content={theme.palette.primary1Color} />
-          <meta name="msapplication-navbutton-color" content={theme.palette.primary1Color} />
+          <meta name="apple-mobile-web-app-status-bar-style" content={theme.palette.primary.main} />
+          <meta name="msapplication-navbutton-color" content={theme.palette.primary.main} />
           <title>{headerTitle}</title>
         </Helmet>
 
