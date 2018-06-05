@@ -27,7 +27,6 @@ export class Chat extends Component {
           overflow: 'hidden'
           // backgroundColor: theme.chip.backgroundColor
         }}
-        onBackClick={() => { history.push('/chats') }}
         pageTitle={receiverDisplayName}
         title={<div style={{ display: 'flex', flexOrientation: 'row', flexWrap: 'wrap', alignItems: 'center' }}>
           <Avatar

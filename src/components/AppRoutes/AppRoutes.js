@@ -19,7 +19,8 @@ const getAppRoutes = (firebaseLoader) => {
   const AsyncPublicChats = MyLoadable({ loader: () => import('../../containers/PublicChats/PublicChats') });
   const AsyncChat = MyLoadable({ loader: () => import('../../containers/Chats/Chat') });
   const AsyncCreateChat = MyLoadable({ loader: () => import('../../containers/Chats/CreateChat') });
-  const AsyncChats = MyLoadable({ loader: () => import('../../containers/Chats/Chats') }, [AsyncChat, AsyncCreateChat]);
+  const AsyncChats = MyLoadable({ loader: () => import('../../containers/Chats/Chats') });
+  //const AsyncChats = MyLoadable({ loader: () => import('../../containers/Chats/ChatsList') });
 
 
   return [

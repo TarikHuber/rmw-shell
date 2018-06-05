@@ -19,6 +19,7 @@ export class Chat extends Component {
         title={intl.formatMessage({ id: 'public_chats' })}>
 
         <ChatMessages
+          isChatsHidden
           path={'public_chats'}
           receiverPath={'public_chats'}
           firebaseApp={firebaseApp}

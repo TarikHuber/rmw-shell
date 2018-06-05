@@ -8,25 +8,29 @@ import { withFirebase } from 'firekit-provider'
 import { withRouter } from 'react-router-dom'
 import ChatInput from './ChatInput'
 import ChatMessagesList from './ChatMessagesList'
+import ChatsList from '../../containers/Chats/ChatsList'
+import withWidth, { isWidthUp } from '@material-ui/core/withWidth'
 
 class ChatMessages extends Component {
   render() {
-    const { theme, uid, firebaseApp, auth } = this.props
+    const { width, uid, firebaseApp, auth, isChatsHidden } = this.props
 
     return (
       <div
         style={{
           display: 'flex',
-          flexDirection: 'column',
+          flexDirection: 'row',
           height: '100%'
-          // backgroundColor: theme.chip.backgroundColor
         }}
         onClick={() => {
           firebaseApp.database().ref(`user_chats/${auth.uid}/${uid}/unread`).remove()
         }}>
 
-        <ChatMessagesList {...this.props} />
-        <ChatInput {...this.props} />
+        {isWidthUp('sm', width) && !isChatsHidden && <ChatsList {...this.props} />}
+        <div style={{ display: 'flex', flexDirection: 'column', marginLeft: 0, flexGrow: 1 }}>
+          <ChatMessagesList {...this.props} />
+          <ChatInput {...this.props} />
+        </div>
       </div>
     )
   }
@@ -34,7 +38,6 @@ class ChatMessages extends Component {
 
 ChatMessages.propTypes = {
   intl: intlShape.isRequired,
-  theme: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired
 }
 
@@ -57,4 +60,4 @@ const mapStateToProps = (state, ownPops) => {
 
 export default connect(
   mapStateToProps, { setSimpleValue }
-)(injectIntl(withTheme()(withRouter(withFirebase(ChatMessages)))))
+)(injectIntl(withTheme()(withRouter(withFirebase(withWidth()(ChatMessages))))))
