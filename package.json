@@ -19,12 +19,16 @@
     "test:watch": "nwb test-react --server"
   },
   "dependencies": {},
-  "peerDependencies": {},
+  "peerDependencies": {
+    "downshift": "^1.31.15",
+    "match-sorter": "^2.2.3"
+  },
   "devDependencies": {
-    "@material-ui/core": "^1.2.0",
+    "@material-ui/core": "^1.2.1",
     "@material-ui/icons": "^1.1.0",
     "a2hs": "^1.0.2",
     "chart.js": "^2.7.2",
+    "downshift": "^1.31.15",
     "enzyme": "^3.3.0",
     "firebase": "^5.0.4",
     "firebaseui": "^3.0.0",
@@ -34,6 +38,7 @@
     "github-markdown-css": "^2.10.0",
     "intl": "^1.2.5",
     "intl-locales-supported": "^1.0.0",
+    "match-sorter": "^2.2.3",
     "material-ui": "^1.0.0-beta.47",
     "material-ui-filter": "^2.0.1",
     "material-ui-image": "^3.0.0-pre.7",

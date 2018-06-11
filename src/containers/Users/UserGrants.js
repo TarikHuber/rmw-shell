@@ -46,9 +46,11 @@ export class UserGrants extends Component {
     const { user_grants, match, intl, appConfig } = this.props
 
     const uid = match.params.uid
-    const key = list[i].key
+    const key = list[i].val ? list[i].val.value : ''
     const val = appConfig.grants[list[i].key]
     let userGrants = []
+
+    console.log(key)
 
     if (user_grants !== undefined) {
       user_grants.map(role => {
