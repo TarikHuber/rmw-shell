@@ -79,17 +79,10 @@ export class AudioPlayer extends Component {
 
     return (
       <div style={{ display: 'flex', alignItems: 'center' }}>
-        <Avatar src={authorPhotoUrl} alt='person' icon={<Icon className='material-icons' >person</Icon>} />
+        <Avatar src={authorPhotoUrl} alt='person' icon={<Icon  >person</Icon>} />
         <IconButton onClick={this.state.playing ? this.onPause : this.onPlay} >
           <Icon
-            style={
-              {
-                width: 60,
-                height: 60,
-              }
-            }
-            className='material-icons'
-            color={theme.palette.accent1Color}>
+            color={'secondary'}>
             {this.state.playing ? 'pause' : 'play_arrow'}
           </Icon>
         </IconButton >
@@ -100,10 +93,9 @@ export class AudioPlayer extends Component {
           width: 200
         }}>
           <LinearProgress
-            mode="determinate"
-            min={0} max={1}
-            value={played}
-            color={theme.palette.accent1Color}
+            variant="determinate"
+            value={played * 100}
+            color={'secondary'}
           />
 
           <div style={{ marginTop: 5, color: theme.palette.primary3Color }}>{moment().month(0).date(1).hours(0).minutes(0).seconds(playedSeconds).format('m:ss')}</div>

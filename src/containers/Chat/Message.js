@@ -13,7 +13,7 @@ import Image from 'material-ui-image'
 import Chip from '@material-ui/core/Chip'
 
 class ChatMessage extends Component {
-  componentDidMount () {
+  componentDidMount() {
     const { row, auth, firebaseApp, path } = this.props
 
     const values = row.val
@@ -26,7 +26,7 @@ class ChatMessage extends Component {
     }
   }
 
-  render () {
+  render() {
     const {
       dataChanged,
       authorChanged,
@@ -114,11 +114,7 @@ class ChatMessage extends Component {
                 {
                   type === 'audio' &&
                   <div style={{ padding: 7 }}>
-
                     <AudioPlayer src={values.audio} authorPhotoUrl={values.authorPhotoUrl} />
-
-                    <br />
-                    {values.message}
                   </div>
                 }
                 {
