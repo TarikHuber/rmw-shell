@@ -76,17 +76,9 @@ export class Chats extends Component {
     const { width, history, setPersistentValue, firebaseApp, auth } = this.props;
 
     const usePreview = isWidthUp('sm', width);
+    setPersistentValue('current_chat_name', val.displayName)
 
-    if (val.unread > 0) {
-      //firebaseApp.database().ref(`user_chats/${auth.uid}/${key}/unread`).remove();
-    }
-
-    if (usePreview) {
-      history.push(`/chats/edit/${key}`);
-      //setPersistentValue('current_chat_uid', key);
-    } else {
-      history.push(`/chats/edit/${key}`);
-    }
+    history.push(`/chats/edit/${key}`)
   }
 
   renderIcons = (val) => {

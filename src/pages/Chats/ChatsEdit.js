@@ -9,13 +9,15 @@ import { injectIntl, intlShape } from 'react-intl'
 import withWidth, { isWidthUp } from '@material-ui/core/withWidth'
 
 export class Chats extends Component {
-  render() {
-    const { intl, match, auth, width } = this.props
+  render () {
+    const { intl, match, auth, width, title, history } = this.props
 
     const uid = match.params.uid
 
     return (
-      <Activity title={intl.formatMessage({ id: 'chats' })}>
+      <Activity
+        onBackClick={isWidthUp('sm', width) ? undefined : () => { history.push('/chats') }}
+        title={title || intl.formatMessage({ id: 'chats' })} >
         <div style={{
           height: '100%',
           width: '100%',
@@ -50,10 +52,11 @@ Chats.propTypes = {
 }
 
 const mapStateToProps = (state) => {
-  const { auth } = state
+  const { auth, persistentValues } = state
 
   return {
-    auth
+    auth,
+    title: persistentValues['current_chat_name']
   }
 }
 
