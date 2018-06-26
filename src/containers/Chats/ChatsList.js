@@ -263,8 +263,6 @@ export class Chats extends Component {
     const usePreview = isWidthUp('sm', width);
     const isDisplayingMessages = usePreview && currentChatUid;
 
-    console.log(uid)
-
     return (
 
       <div style={{

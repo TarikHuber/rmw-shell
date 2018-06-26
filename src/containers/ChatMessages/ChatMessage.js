@@ -13,7 +13,7 @@ import Image from 'material-ui-image'
 import Chip from '@material-ui/core/Chip'
 
 class ChatMessage extends Component {
-  componentDidMount() {
+  componentDidMount () {
     const { row, auth, firebaseApp, path } = this.props
 
     const values = row.val
@@ -26,7 +26,7 @@ class ChatMessage extends Component {
     }
   }
 
-  render() {
+  render () {
     const {
       dataChanged,
       authorChanged,
@@ -122,12 +122,10 @@ class ChatMessage extends Component {
                   </div>
                 }
                 {
-                  type === 'link' &&
-                  <a target='_blank' href={values.link}>{values.link}</a>
+                  type === 'link' && <a target='_blank' href={values.link}>{values.link}</a>
                 }
                 {
                   type === 'image' && values.image !== null &&
-
                   <Image
                     style={{ width: 'auto', height: 280, paddingTop: 0 }}
                     imageStyle={{ maxWidth: '100%', padding: 0, position: 'relative', borderRadius: 5 }}

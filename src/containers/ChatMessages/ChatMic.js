@@ -120,8 +120,10 @@ export class ChatMic extends Component {
         uploadCompleted: undefined,
       })
 
+      uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
+        handleAddMessage('audio', downloadURL, key)
+      })
 
-      handleAddMessage('audio', uploadTask.snapshot.downloadURL, key)
 
     })
 

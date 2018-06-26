@@ -6,20 +6,39 @@ import { withStyles } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
 import Paper from '@material-ui/core/Paper'
 import MenuItem from '@material-ui/core/MenuItem'
-import Chip from '@material-ui/core/Chip'
+import InputAdornment from '@material-ui/core/InputAdornment'
+import IconButton from '@material-ui/core/IconButton'
+import ArrowDropDown from '@material-ui/icons/ArrowDropDown'
+import ArrowDropUp from '@material-ui/icons/ArrowDropUp'
+import Close from '@material-ui/icons/Close'
 
 const itemToString = item => (item || '')
 
-function renderInput(inputProps) {
-  const { InputProps, classes, ref, ...other } = inputProps
+function renderInput (inputProps) {
+  const { InputProps, classes, ref, isOpen, selectedItem, openMenu, closeMenu, clearSelection, ...other } = inputProps
 
   return (
     <TextField
       InputProps={{
         inputRef: ref,
+        onFocus: selectedItem ? undefined : openMenu,
         classes: {
           root: classes.inputRoot
         },
+        endAdornment: <InputAdornment position='end'>
+          {!!selectedItem && <IconButton
+            className={classes.closeButton}
+            style={{ width: 14 }}
+            onClick={clearSelection}
+            tabIndex={-1} >
+            <Close style={{ fontSize: 16 }} />
+          </IconButton>
+          }
+
+          <IconButton style={{ width: 24 }} onClick={isOpen ? closeMenu : openMenu} tabIndex={-1}>
+            {isOpen ? <ArrowDropUp /> : <ArrowDropDown />}
+          </IconButton>
+        </InputAdornment>,
         ...InputProps
       }}
       {...other}
@@ -27,7 +46,7 @@ function renderInput(inputProps) {
   )
 }
 
-function renderSuggestion({ suggestion, index, itemProps, highlightedIndex, selectedItem }) {
+function renderSuggestion ({ suggestion, index, itemProps, highlightedIndex, selectedItem }) {
   const isHighlighted = highlightedIndex === index
   const isSelected = (selectedItem || '').indexOf(suggestion.label) > -1
 
@@ -46,20 +65,18 @@ function renderSuggestion({ suggestion, index, itemProps, highlightedIndex, sele
   )
 }
 
-function IntegrationDownshift(props) {
-  const { input, meta, placeholder, id, items, classes } = props
+export const IntegrationDownshift = (props) => {
+  const { input, placeholder, id, items, classes } = props
 
   return (
     <div className={classes.root}>
       <Downshift
         {...input}
-        onSelect={({ inputValue }) => {
-          return input.onChange(inputValue)
-        }}
         itemToString={itemToString}
-        selectedItem={input.value}
+        selectedItem={input ? input.value : undefined}
+        {...props}
       >
-        {({ getInputProps, getItemProps, isOpen, inputValue, selectedItem, highlightedIndex }) => {
+        {({ getInputProps, getItemProps, isOpen, inputValue, selectedItem, highlightedIndex, closeMenu, openMenu, clearSelection }) => {
           const filteredItems = matchSorter(items, inputValue, {
             maxRanking: matchSorter.rankings.STARTS_WITH,
             keys: ['label']
@@ -70,11 +87,16 @@ function IntegrationDownshift(props) {
               {renderInput({
                 fullWidth: true,
                 classes,
+                isOpen,
+                clearSelection,
+                closeMenu,
+                openMenu,
+                selectedItem,
                 InputProps: getInputProps({
                   placeholder,
                   id,
-                  name: input.name,
-                  onBlur: input.onBlur
+                  name: input ? input.name : undefined,
+                  onBlur: input ? input.onBlur : undefined
                 })
               })}
               {isOpen && !!filteredItems.length && (
@@ -98,80 +120,12 @@ function IntegrationDownshift(props) {
   )
 }
 
-const DownShiftInput = ({ input, meta, label, items, classes }) => (
-  <Downshift
-    {...input}
-    onStateChange={({ inputValue }) => {
-      return input.onChange(inputValue)
-    }}
-    itemToString={itemToString}
-    selectedItem={input.value}
-  >
-    {({
-      getInputProps,
-      getItemProps,
-      getLabelProps,
-      isOpen,
-      inputValue,
-      highlightedIndex,
-      selectedItem
-    }) => {
-      const filteredItems = matchSorter(items, inputValue, {
-        maxRanking: matchSorter.rankings.STARTS_WITH
-      })
-      return (
-        <div className={classes.container}>
-          <label {...getLabelProps()}>{label}</label>
-          <div className={classes.container}>
-            <input
-              {...getInputProps({
-                name: input.name,
-                onBlur: input.onBlur
-              })}
-            />
-            {isOpen &&
-              !!filteredItems.length && (
-                <div
-                  style={{
-                    background: 'white',
-                    position: 'absolute',
-                    top: '100%',
-                    left: 0,
-                    width: '100%',
-                    zIndex: 4
-                  }}
-                >
-                  {filteredItems.map((item, index) => (
-                    <div
-                      {...getItemProps({
-                        key: item,
-                        index,
-                        item,
-                        style: {
-                          backgroundColor:
-                            highlightedIndex === index ? 'lightgray' : 'white',
-                          fontWeight: selectedItem === item ? 'bold' : 'normal'
-                        }
-                      })}
-                    >
-                      {item}
-                    </div>
-                  ))}
-                </div>
-              )}
-          </div>
-        </div>
-      )
-    }}
-  </Downshift>
-)
-
 const TypeAheadField = props => <Field component={IntegrationDownshift} {...props} />
 
 const styles = theme => ({
   root: {
-    flexGrow: 1,
-    height: 250
+    flexGrow: 1
+    // height: 250
   },
   container: {
     flexGrow: 1,
@@ -189,7 +143,14 @@ const styles = theme => ({
   },
   inputRoot: {
     flexWrap: 'wrap'
+  },
+  closeButton: {
+    '&:hover': {
+      color: theme.palette.secondary.main
+    }
   }
 })
+
+export const DownShitComp = withStyles(styles)(IntegrationDownshift)
 
 export default withStyles(styles)(TypeAheadField)

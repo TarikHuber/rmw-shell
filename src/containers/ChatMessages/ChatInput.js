@@ -32,8 +32,6 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 class ChatMessages extends Component {
 
 
-
-
   constructor(props) {
     super(props);
     this.name = null;
@@ -58,7 +56,7 @@ class ChatMessages extends Component {
   handleAddMessage = (type, message, key) => {
     const { auth, firebaseApp, path, intl } = this.props
 
-    const newMessage = {
+    let newMessage = {
       created: firebase.database.ServerValue.TIMESTAMP,
       authorName: auth.displayName,
       authorUid: auth.uid,
@@ -76,10 +74,12 @@ class ChatMessages extends Component {
     } else {
       if (message.startsWith('http') || message.startsWith('https')) {
         newMessage.link = message
+        newMessage.type = 'link'
       } else {
         newMessage.message = message
       }
     }
+
 
     this.setState({ value: '' })
 
@@ -126,7 +126,7 @@ class ChatMessages extends Component {
     </div>;
   }
 
-  uploadSelectedFile = (file, handleAddMessage) => {
+  uploadSelectedFile = (file) => {
     const { firebaseApp, intl } = this.props
 
     if (file === null) {
@@ -140,18 +140,20 @@ class ChatMessages extends Component {
 
     let reader = new FileReader()
 
-
     const key = firebaseApp.database().ref(`/user_chat_messages/`).push().key
 
-
-    reader.onload = function (fileData) {
+    reader.onload = fileData => {
       let uploadTask = firebaseApp.storage().ref(`/user_chats/${key}`).putString(fileData.target.result, 'data_url')
 
       uploadTask.on('state_changed', snapshot => {
       }, error => {
         console.log(error)
       }, () => {
-        handleAddMessage('image', uploadTask.snapshot.downloadURL, key)
+        uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
+          this.handleAddMessage('image', downloadURL, key)
+        })
+
+
       })
     }
 
@@ -247,7 +249,9 @@ class ChatMessages extends Component {
               <input
                 style={{ display: 'none' }}
                 type='file'
-                onChange={(e) => this.uploadSelectedFile(e.target.files[0], this.handleAddMessage)}
+                onChange={(e) => {
+                  this.uploadSelectedFile(e.target.files[0])
+                }}
                 ref={(input) => { this.fileInput = input }}
               />
 

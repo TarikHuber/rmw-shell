@@ -6,7 +6,6 @@ import { withStyles } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
 import Paper from '@material-ui/core/Paper'
 import MenuItem from '@material-ui/core/MenuItem'
-import Chip from '@material-ui/core/Chip'
 
 const itemToString = item => (item || '')
 
@@ -46,18 +45,16 @@ function renderSuggestion({ suggestion, index, itemProps, highlightedIndex, sele
   )
 }
 
-const IntegrationDownshift = (props) => {
-  const { input, meta, placeholder, id, items, classes } = props
+export const IntegrationDownshift = (props) => {
+  const { input, placeholder, id, items, classes } = props
 
   return (
     <div className={classes.root}>
       <Downshift
         {...input}
-        onSelect={({ inputValue }) => {
-          return input.onChange(inputValue)
-        }}
         itemToString={itemToString}
-        selectedItem={input.value}
+        selectedItem={input ? input.value : undefined}
+        {...props}
       >
         {({ getInputProps, getItemProps, isOpen, inputValue, selectedItem, highlightedIndex }) => {
           const filteredItems = matchSorter(items, inputValue, {
@@ -73,8 +70,8 @@ const IntegrationDownshift = (props) => {
                 InputProps: getInputProps({
                   placeholder,
                   id,
-                  name: input.name,
-                  onBlur: input.onBlur
+                  name: input ? input.name : undefined,
+                  onBlur: input ? input.onBlur : undefined
                 })
               })}
               {isOpen && !!filteredItems.length && (
@@ -98,80 +95,12 @@ const IntegrationDownshift = (props) => {
   )
 }
 
-const DownShiftInput = ({ input, meta, label, items, classes }) => (
-  <Downshift
-    {...input}
-    onStateChange={({ inputValue }) => {
-      return input.onChange(inputValue)
-    }}
-    itemToString={itemToString}
-    selectedItem={input.value}
-  >
-    {({
-      getInputProps,
-      getItemProps,
-      getLabelProps,
-      isOpen,
-      inputValue,
-      highlightedIndex,
-      selectedItem
-    }) => {
-      const filteredItems = matchSorter(items, inputValue, {
-        maxRanking: matchSorter.rankings.STARTS_WITH
-      })
-      return (
-        <div className={classes.container}>
-          <label {...getLabelProps()}>{label}</label>
-          <div className={classes.container}>
-            <input
-              {...getInputProps({
-                name: input.name,
-                onBlur: input.onBlur
-              })}
-            />
-            {isOpen &&
-              !!filteredItems.length && (
-                <div
-                  style={{
-                    background: 'white',
-                    position: 'absolute',
-                    top: '100%',
-                    left: 0,
-                    width: '100%',
-                    zIndex: 4
-                  }}
-                >
-                  {filteredItems.map((item, index) => (
-                    <div
-                      {...getItemProps({
-                        key: item,
-                        index,
-                        item,
-                        style: {
-                          backgroundColor:
-                            highlightedIndex === index ? 'lightgray' : 'white',
-                          fontWeight: selectedItem === item ? 'bold' : 'normal'
-                        }
-                      })}
-                    >
-                      {item}
-                    </div>
-                  ))}
-                </div>
-              )}
-          </div>
-        </div>
-      )
-    }}
-  </Downshift>
-)
-
-const TypeAheadField = props => <Field component={DownShiftInput} {...props} />
+const TypeAheadField = props => <Field component={IntegrationDownshift} {...props} />
 
 const styles = theme => ({
   root: {
-    flexGrow: 1,
-    height: 250
+    flexGrow: 1
+    // height: 250
   },
   container: {
     flexGrow: 1,
@@ -191,5 +120,7 @@ const styles = theme => ({
     flexWrap: 'wrap'
   }
 })
+
+export const DownShitComp = withStyles(styles)(IntegrationDownshift)
 
 export default withStyles(styles)(TypeAheadField)

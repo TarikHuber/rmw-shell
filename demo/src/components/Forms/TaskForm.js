@@ -7,8 +7,9 @@ import { setDialogIsOpen } from '../../../../src/store/dialogs/actions'
 import { withRouter } from 'react-router-dom'
 import { withTheme } from '@material-ui/core/styles'
 import PropTypes from 'prop-types'
-import TypeAheadField from '../../../../src/components/ReduxFormFields/TypeAheadField'
+import TypeAheadField, { DownShitComp } from '../../../../src/components/ReduxFormFields/TypeAheadField'
 import SelectField from '../../../../src/components/ReduxFormFields/SelectField'
+import MuiDownshift from 'mui-downshift'
 
 const suggestions = [
   { label: 'Afghanistan' },
@@ -48,7 +49,7 @@ const suggestions = [
 ]
 
 class Form extends Component {
-  render () {
+  render() {
     const {
       handleSubmit,
       intl,
@@ -97,13 +98,33 @@ class Form extends Component {
             />
           </div>
 
+          <div>
+            <Field
+              name='description'
+              component={MuiDownshift}
+              placeholder={intl.formatMessage({ id: 'description_hint' })}
+              items={suggestions}
+            />
+          </div>
+
           <br />
 
-          <TypeAheadField name='country1' placeholder='Enter fruit name' items={suggestions} />
-
-          <TypeAheadField name='country3' placeholder='Enter fruit name' items={suggestions} />
+          <DownShitComp name='country111' placeholder='Enter fruit name' items={suggestions} onSelect={(e) => {
+            console.log(e)
+          }}
+          />
           <br />
-          <SelectField name='country12' placeholder='Enter fruit name' items={suggestions} />
+          <MuiDownshift name='country1123' placeholder='Enter fruit name mui Downshift' items={suggestions} />
+          <br />
+          <TypeAheadField name='country11' placeholder='Enter fruit name' items={suggestions} />
+          <br />
+          <TypeAheadField name='country12' placeholder='Enter fruit name' items={suggestions} />
+          <br />
+
+          <SelectField name='country21' placeholder='Enter fruit name' items={suggestions} />
+          <br />
+          <SelectField name='country22' placeholder='Enter fruit name' items={suggestions} />
+          <br />
 
         </div>
 
