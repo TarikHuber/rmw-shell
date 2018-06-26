@@ -1,6 +1,6 @@
 import AudioPlayer from '../../components/AudioPlayer/AudioPlayer'
-import ChatInput from './ChatInput'
-import ChatMessage from './ChatMessage'
+import Input from './Input'
+import Message from './Message'
 import Chip from '@material-ui/core/Chip'
 import Divider from '@material-ui/core/Divider'
 import Button from '@material-ui/core/Button'
@@ -148,7 +148,7 @@ class ChatMessages extends Component {
         authorChanged = true;
       }
 
-      return <ChatMessage
+      return <Message
         key={i}
         path={path}
         dataChanged={dataChanged}

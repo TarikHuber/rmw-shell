@@ -9,7 +9,7 @@ import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import ReactList from 'react-list'
 import Scrollbar from '../../components/Scrollbar'
-import ChatMic from './ChatMic'
+import Mic from './Mic'
 import TextField from '@material-ui/core/TextField'
 import firebase from 'firebase'
 import { withTheme, withStyles } from '@material-ui/core/styles'
@@ -185,7 +185,11 @@ class ChatMessages extends Component {
         alignItems: 'row',
         justifyContent: 'center',
         height: chatMessageMenuOpen ? 300 : 56,
-        backgroundColor: theme.palette.background.main
+        backgroundColor: theme.palette.background.main,
+        margin: 5,
+        marginBottom: 15,
+        marginRight: 15,
+        marginLeft: 15
       }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <IconButton
@@ -203,14 +207,16 @@ class ChatMessages extends Component {
           <div style={{
             backgroundColor: theme.palette.type === 'light' ? theme.palette.grey[300] : theme.palette.grey[700],
             flexGrow: 1,
-            borderRadius: 8,
+            height: 56,
+            borderRadius: 30,
             paddingLeft: 8,
             paddingRight: 8,
+            margin: 5
           }}>
             <div style={{ position: 'relative', display: 'inline-block', width: '100%' }}>
               <Input
                 id="message"
-                style={{ height: 42, width: 'calc(100% - 72px)', lineHeight: undefined, marginTop: 8 }}
+                style={{ position: 'absolute', height: 42, width: 'calc(100% - 72px)', lineHeight: undefined, top: 0, left: 15 }}
                 disableUnderline={true}
                 onChange={(e, val) => {
                   this.setState({ value: e.target.value })
@@ -224,7 +230,7 @@ class ChatMessages extends Component {
                 type="Text"
               />
 
-              <div style={{ position: 'absolute', right: 25, top: -3, width: 20, height: 0 }}>
+              <div style={{ position: 'absolute', right: 25, top: -10, width: 20, height: 0 }}>
                 <IconButton
                   color={'primary'}
                   onClick={() =>
@@ -255,7 +261,7 @@ class ChatMessages extends Component {
                 ref={(input) => { this.fileInput = input }}
               />
 
-              <div style={{ position: 'absolute', right: 55, top: -3, width: 20, height: 0 }}>
+              <div style={{ position: 'absolute', right: 55, top: -10, width: 20, height: 0 }}>
                 <IconButton
                   color={'primary'}
                   containerElement='label'
@@ -265,12 +271,22 @@ class ChatMessages extends Component {
               </div>
             </div>
           </div>
-          <IconButton
+
+          {this.state.value !== '' && <Button
+            variant="fab"
             color={'primary'}
             disabled={this.state.value === undefined || this.state.value === ''}
-            onClick={() => this.handleAddMessage("text", this.state.value)}>
+            onClick={() => this.handleAddMessage("text", this.state.value)}
+            aria-label="send" >
             <Icon >send</Icon>
-          </IconButton>
+          </Button>
+          }
+          {this.state.value === '' && <Mic
+            receiverPath={receiverPath}
+            handleAddMessage={this.handleAddMessage}
+            path={path}
+          />}
+
         </div>
         {
           chatMessageMenuOpen &&
@@ -284,14 +300,6 @@ class ChatMessages extends Component {
             </div>
           </Scrollbar>
         }
-
-        <div style={{ position: 'absolute', bottom: 50, right: 5 }}>
-          <ChatMic
-            receiverPath={receiverPath}
-            handleAddMessage={this.handleAddMessage}
-            path={path}
-          />
-        </div>
       </div>
     );
   }

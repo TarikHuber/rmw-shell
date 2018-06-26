@@ -1,5 +1,4 @@
 import Avatar from '@material-ui/core/Avatar'
-import ChatMessages from '../../containers/ChatMessages'
 import Button from '@material-ui/core/Button'
 import Icon from '@material-ui/core/Icon'
 import PropTypes from 'prop-types'
@@ -12,6 +11,7 @@ import { setSimpleValue } from '../../store/simpleValues/actions'
 import { withFirebase } from 'firekit-provider'
 import { withRouter } from 'react-router-dom'
 import CircularProgress from '@material-ui/core/CircularProgress'
+import withWidth, { isWidthUp } from '@material-ui/core/withWidth'
 
 export class ChatMic extends Component {
 
@@ -130,51 +130,67 @@ export class ChatMic extends Component {
   }
 
   render() {
-    const { theme, containerStyle } = this.props
+    const { theme, containerStyle, width } = this.props
 
     return (
       <div>
-        {this.state.visible &&
-          <div style={{ marginBottom: 9, marginRight: 40, borderRadius: 50 }}>
-            <Button
-              color='secondary'
-              variant='fab'
-              onClick={this.cancelRecording}
-              style={{ position: 'absolute', right: 20, bottom: 70, zIndex: 99 }}
-              secondary>
-              <Icon className='material-icons' >close</Icon>
-            </Button>
-            <ReactMic
-              height={50}
-              width={200}
-              className="oscilloscope"
-              visualSetting="sinewave"
-              mimeType={'audio/ogg; codecs=opus'}
-              record={this.state.record}
-              onStop={this.onStop}
-              strokeColor={theme.palette.primary.main}
-              backgroundColor={theme.palette.secondary.main} />
-          </div>
-        }
+
         {this.state.sending &&
           <CircularProgress
             style={{ position: 'absolute', right: 15, bottom: 5, zIndex: 90 }}
             mode="determinate"
             value={this.state.uploadCompleted}
             size={62}
-            thickness={8}
+            thickness={6}
           />
         }
 
-        <Button
-          color='secondary'
-          variant='fab'
-          disabled={this.state.sending}
-          onClick={this.state.record ? this.stopRecording : this.startRecording}
-          style={{ position: 'absolute', right: 20, bottom: 10, zIndex: 99 }}
-          secondary={!this.state.record}>
-          <Icon className='material-icons' >{this.state.record ? 'send' : 'mic'}</Icon>
-        </Button>
+
+
+        {this.state.visible &&
+          <div style={{ display: 'flex', width: '100%' }}>
+            <Button
+              style={{ marginRight: -25 }}
+              color='secondary'
+              variant='fab'
+              onClick={this.cancelRecording}
+              secondary>
+              <Icon className='material-icons' >close</Icon>
+            </Button>
+            <ReactMic
+              style={{ marginTop: 25 }}
+              height={30}
+              width={isWidthUp('sm', width) ? 200 : 80}
+              className="oscilloscope"
+              visualSetting="sinewave"
+              mimeType={'audio/ogg; codecs=opus'}
+              record={this.state.record}
+              onStop={this.onStop}
+              strokeColor={theme.palette.secondary.main}
+              backgroundColor={theme.palette.type === 'light' ? theme.palette.grey[300] : theme.palette.grey[700]} />
+            <Button
+              style={{ marginLeft: -25 }}
+              color='secondary'
+              variant='fab'
+              onClick={this.stopRecording}
+              secondary>
+              <Icon >send</Icon>
+            </Button>
+          </div>
+        }
+
+        {!this.state.visible &&
+          <Button
+            color='secondary'
+            variant='fab'
+            disabled={this.state.sending}
+            onClick={this.state.record ? this.stopRecording : this.startRecording}
+            //style={{ position: 'absolute', right: 20, bottom: 10, zIndex: 99 }}
+            secondary={!this.state.record}>
+            <Icon  >{this.state.record ? 'send' : 'mic'}</Icon>
+          </Button>
+        }
+
       </div >
     )
   }
@@ -195,4 +211,4 @@ const mapStateToProps = (state, ownPops) => {
 
 export default connect(
   mapStateToProps, { setSimpleValue }
-)(injectIntl(withTheme()(withRouter(withFirebase(ChatMic)))))
+)(injectIntl(withWidth()(withTheme()(withRouter(withFirebase(ChatMic))))))

@@ -16,11 +16,11 @@ const getAppRoutes = (firebaseLoader) => {
   const AsyncRole = MyLoadable({ loader: () => import('../../containers/Roles/Role') });
   const AsyncRoles = MyLoadable({ loader: () => import('../../containers/Roles/Roles') }, [AsyncRole]);
   const AsyncPredefinedChatMessages = MyLoadable({ loader: () => import('../../containers/PredefinedChatMessages/PredefinedChatMessages') });
-  const AsyncPublicChats = MyLoadable({ loader: () => import('../../containers/PublicChats/PublicChats') });
-  const AsyncChat = MyLoadable({ loader: () => import('../../containers/Chats/Chat') });
-  const AsyncCreateChat = MyLoadable({ loader: () => import('../../containers/Chats/CreateChat') });
-  const AsyncChats = MyLoadable({ loader: () => import('../../containers/Chats/Chats') });
-  //const AsyncChats = MyLoadable({ loader: () => import('../../containers/Chats/ChatsList') });
+
+  const AsyncCreateChat = MyLoadable({ loader: () => import('../../containers/Chat/CreateChat') });
+  const AsyncChats = MyLoadable({ loader: () => import('../../pages/Chats/Chats') });
+  const AsyncChatsEdit = MyLoadable({ loader: () => import('../../pages/Chats/ChatsEdit') });
+  const AsyncPublicChats = MyLoadable({ loader: () => import('../../pages/Chats/PublicChats') });
 
 
   return [
@@ -34,9 +34,8 @@ const getAppRoutes = (firebaseLoader) => {
     <RestrictedRoute type='private' path="/predefined_chat_messages" exact component={AsyncPredefinedChatMessages} />,
     <RestrictedRoute type='private' path="/public_chats" exact component={AsyncPublicChats} />,
     <RestrictedRoute type='private' path="/chats" exact component={AsyncChats} />,
-    <RestrictedRoute type='private' path="/chats/view/:uid" exact component={AsyncChats} />,
     <RestrictedRoute type='private' path="/chats/create" exact component={AsyncCreateChat} />,
-    <RestrictedRoute type='private' path="/chats/edit/:uid" exact component={AsyncChat} />,
+    <RestrictedRoute type='private' path="/chats/edit/:uid" exact component={AsyncChatsEdit} />,
     <Route component={PageNotFound} />,
 
   ]

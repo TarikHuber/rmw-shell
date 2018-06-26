@@ -1,7 +1,6 @@
 import Activity from '../../components/Activity'
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
-import ChatMessages from '../../containers/ChatMessages'
 import Divider from '@material-ui/core/Divider';
 import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton'
@@ -261,55 +260,33 @@ export class Chats extends Component {
     const isDisplayingMessages = usePreview && currentChatUid;
 
     return (
-      <Activity
-        isLoading={list === undefined}
-        title={intl.formatMessage({ id: 'chats' })}>
 
-        <div style={{
-          height: '100%',
-          width: '100%',
-          alignItems: 'strech',
-          display: 'flex',
-          flexWrap: 'wrap',
-          justifyContent: 'flex-start',
-          flexDirection: 'row'
-        }}>
-          <Scrollbar style={{ maxWidth: usePreview ? 300 : undefined }}>
-            <List style={{ padding: 0, height: '100%', width: '100%', maxWidth: usePreview ? 300 : undefined }} >
-              <ReactList
-                style={{ maxWidth: 300 }}
-                itemRenderer={this.renderItem}
-                length={list ? list.length : 0}
-                type='simple'
-              />
-            </List>
-          </Scrollbar>
+      <div style={{ width: '100%', maxWidth: usePreview ? 300 : undefined, height: '100%' }} >
+        <Scrollbar >
+          <List style={{ padding: 0, height: '100%', width: '100%', maxWidth: usePreview ? 300 : undefined }} >
+            <ReactList
+              style={{ maxWidth: 300 }}
+              itemRenderer={this.renderItem}
+              length={list ? list.length : 0}
+              type='simple'
+            />
+          </List>
+        </Scrollbar>
 
 
-          <div style={{ position: 'absolute', width: usePreview ? 300 : '100%', bottom: 5 }}>
-            <Button
-              variant='fab'
-              color="secondary"
-              onClick={() => { history.push(`/chats/create`) }}
-              style={{ position: 'absolute', right: 20, bottom: 10, zIndex: 99 }}
-            >
-              <Icon className="material-icons" >chat</Icon>
-            </Button>
-          </div>
-
-          <div style={{ marginLeft: 0, flexGrow: 1 }}>
-            {isDisplayingMessages && currentChatUid &&
-              <ChatMessages
-                path={`user_chat_messages/${auth.uid}/${currentChatUid}`}
-                receiverPath={`user_chat_messages/${currentChatUid}/${auth.uid}`}
-              />
-            }
-          </div>
-          <div
-            style={{ float: "left", clear: "both" }}
-          />
+        <div style={{ position: 'absolute', width: usePreview ? 300 : '100%', bottom: 5 }}>
+          <Button
+            variant='fab'
+            color="secondary"
+            onClick={() => { history.push(`/chats/create`) }}
+            style={{ position: 'absolute', right: 20, bottom: 10, zIndex: 99 }}
+          >
+            <Icon className="material-icons" >chat</Icon>
+          </Button>
         </div>
-      </Activity>
+
+      </div >
+
     );
   }
 
