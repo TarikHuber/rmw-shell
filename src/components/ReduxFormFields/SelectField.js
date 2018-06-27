@@ -14,7 +14,7 @@ import Close from '@material-ui/icons/Close'
 
 const itemToString = item => (item || '')
 
-function renderInput (inputProps) {
+function renderInput(inputProps) {
   const { InputProps, classes, ref, isOpen, selectedItem, openMenu, closeMenu, clearSelection, ...other } = inputProps
 
   return (
@@ -28,14 +28,13 @@ function renderInput (inputProps) {
         endAdornment: <InputAdornment position='end'>
           {!!selectedItem && <IconButton
             className={classes.closeButton}
-            style={{ width: 14 }}
             onClick={clearSelection}
             tabIndex={-1} >
             <Close style={{ fontSize: 16 }} />
           </IconButton>
           }
 
-          <IconButton style={{ width: 24 }} onClick={isOpen ? closeMenu : openMenu} tabIndex={-1}>
+          <IconButton className={classes.dropButton} onClick={isOpen ? closeMenu : openMenu} tabIndex={-1}>
             {isOpen ? <ArrowDropUp /> : <ArrowDropDown />}
           </IconButton>
         </InputAdornment>,
@@ -46,7 +45,7 @@ function renderInput (inputProps) {
   )
 }
 
-function renderSuggestion ({ suggestion, index, itemProps, highlightedIndex, selectedItem }) {
+function renderSuggestion({ suggestion, index, itemProps, highlightedIndex, selectedItem }) {
   const isHighlighted = highlightedIndex === index
   const isSelected = (selectedItem || '').indexOf(suggestion.label) > -1
 
@@ -145,9 +144,13 @@ const styles = theme => ({
     flexWrap: 'wrap'
   },
   closeButton: {
+    width: 14,
     '&:hover': {
       color: theme.palette.secondary.main
     }
+  },
+  dropButton: {
+    width: 24
   }
 })
 

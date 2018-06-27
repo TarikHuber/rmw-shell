@@ -45,6 +45,13 @@ function renderSuggestion({ suggestion, index, itemProps, highlightedIndex, sele
   )
 }
 
+function getFilteredItems({ items, inputValue }) {
+  return matchSorter(items, inputValue, {
+    maxRanking: matchSorter.rankings.STARTS_WITH,
+    keys: ['label']
+  })
+}
+
 export const IntegrationDownshift = (props) => {
   const { input, placeholder, id, items, classes } = props
 
@@ -57,10 +64,7 @@ export const IntegrationDownshift = (props) => {
         {...props}
       >
         {({ getInputProps, getItemProps, isOpen, inputValue, selectedItem, highlightedIndex }) => {
-          const filteredItems = matchSorter(items, inputValue, {
-            maxRanking: matchSorter.rankings.STARTS_WITH,
-            keys: ['label']
-          })
+          const filteredItems = getFilteredItems({ items, inputValue })
 
           return (
             <div className={classes.container}>
