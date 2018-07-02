@@ -21,121 +21,126 @@ const path = '/public_tasks/';
 
 class Task extends Component {
 
-  componentDidMount() {
-    this.props.watchList('users');
-  }
-
-
-  handleCreateValues = (values) => {
-
-    const { auth } = this.props;
-
-    return {
-      created: new Date(),
-      userName: auth.displayName,
-      userPhotoURL: auth.photoURL,
-      userId: auth.uid,
-      completed: false,
-      ...values
+    componentDidMount() {
+        this.props.watchList('users');
     }
-  }
 
-  handleClose = () => {
-    const { setDialogIsOpen } = this.props;
 
-    setDialogIsOpen('delete_task_from_list', undefined);
+    handleCreateValues = (values) => {
 
-  }
+        const { auth } = this.props;
 
-  handleDelete = () => {
-
-    const { history, match, firebaseApp } = this.props;
-    const uid = match.params.uid;
-
-    if (uid) {
-      firebaseApp.database().ref().child(`${path}${uid}`).remove().then(() => {
-        this.handleClose();
-        history.goBack();
-      })
-    }
-  }
-
-  render() {
-
-    const { history, intl, dialogs, match, setDialogIsOpen, firebaseApp, submit } = this.props;
-
-    return (
-      <Activity
-        appBarContent={
-          <div style={{ display: 'flex' }}>
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              onClick={() => { submit('task') }}
-            >
-              <Icon className="material-icons" >save</Icon>
-            </IconButton>
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              onClick={() => { setDialogIsOpen('delete_task_from_list', true) }}
-            >
-              <Icon className="material-icons" >delete</Icon>
-            </IconButton>
-
-          </ div>
+        return {
+            created: new Date(),
+            userName: auth.displayName,
+            userPhotoURL: auth.photoURL,
+            userId: auth.uid,
+            completed: false,
+            ...values
         }
-        onBackClick={() => { history.goBack() }}
-        title={intl.formatMessage({ id: this.props.match.params.uid ? 'edit_task' : 'create_task' })}>
-        <div style={{ margin: 15, display: 'flex' }}>
-          <FireForm
-            firebaseApp={firebaseApp}
-            name={'task'}
-            path={path}
-            onSubmitSuccess={(values) => { history.push('/tasks'); }}
-            onDelete={(values) => { history.push('/tasks'); }}
-            handleCreateValues={this.handleCreateValues}
-            uid={this.props.match.params.uid}>
-            <Form />
-          </FireForm>
-        </div>
-        <Dialog
-          open={dialogs.delete_task_from_list !== undefined}
-          onClose={this.handleClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle id="alert-dialog-title">{intl.formatMessage({ id: 'delete_task_title' })}</DialogTitle>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              {intl.formatMessage({ id: 'delete_task_message' })}
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={this.handleClose} color="primary" >
-              {intl.formatMessage({ id: 'cancel' })}
-            </Button>
-            <Button onClick={this.handleDelete} color="secondary" >
-              {intl.formatMessage({ id: 'delete' })}
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </Activity>
-    );
-  }
+    }
+
+    handleClose = () => {
+        const { setDialogIsOpen } = this.props;
+
+        setDialogIsOpen('delete_task_from_list', undefined);
+
+    }
+
+    handleDelete = () => {
+
+        const { history, match, firebaseApp } = this.props;
+        const uid = match.params.uid;
+
+        if (uid) {
+            firebaseApp.database().ref().child(`${path}${uid}`).remove().then(() => {
+                this.handleClose();
+                history.goBack();
+            })
+        }
+    }
+
+    render() {
+
+        const { history, intl, dialogs, match, setDialogIsOpen, firebaseApp, submit } = this.props;
+
+        return (
+            <Activity
+                appBarContent={
+                    <div style={{ display: 'flex' }}>
+                        <IconButton
+                            color="inherit"
+                            aria-label="open drawer"
+                            onClick={() => { submit('task') }}
+                        >
+                            <Icon className="material-icons" >save</Icon>
+                        </IconButton>
+                        <IconButton
+                            color="inherit"
+                            aria-label="open drawer"
+                            onClick={() => { setDialogIsOpen('delete_task_from_list', true) }}
+                        >
+                            <Icon className="material-icons" >delete</Icon>
+                        </IconButton>
+
+                    </ div>
+                }
+                onBackClick={() => { history.goBack() }}
+                title={intl.formatMessage({ id: this.props.match.params.uid ? 'edit_task' : 'create_task' })}>
+                <div style={{ margin: 15, display: 'flex' }}>
+                    <FireForm
+                        firebaseApp={firebaseApp}
+                        name={'task'}
+                        path={path}
+                        onSubmitSuccess={(values) => {
+
+                            //history.push('/tasks');
+
+                        }}
+                        //onSubmit={values => console.log(values)}
+                        onDelete={(values) => { history.push('/tasks'); }}
+                        //handleCreateValues={this.handleCreateValues}
+                        uid={this.props.match.params.uid}>
+                        <Form />
+                    </FireForm>
+                </div>
+                <Dialog
+                    open={dialogs.delete_task_from_list !== undefined}
+                    onClose={this.handleClose}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title">{intl.formatMessage({ id: 'delete_task_title' })}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            {intl.formatMessage({ id: 'delete_task_message' })}
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={this.handleClose} color="primary" >
+                            {intl.formatMessage({ id: 'cancel' })}
+                        </Button>
+                        <Button onClick={this.handleDelete} color="secondary" >
+                            {intl.formatMessage({ id: 'delete' })}
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+            </Activity>
+        );
+    }
 }
 
 
 const mapStateToProps = (state) => {
-  const { auth, intl, dialogs } = state;
+    const { auth, intl, dialogs } = state;
 
-  return {
-    auth,
-    intl,
-    dialogs
-  };
+    return {
+        auth,
+        intl,
+        dialogs
+    };
 };
 
 export default connect(
-  mapStateToProps, { setDialogIsOpen, submit }
+    mapStateToProps, { setDialogIsOpen, submit }
 )(injectIntl(withRouter(withFirebase(Task))));

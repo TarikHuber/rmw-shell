@@ -49,7 +49,7 @@ const suggestions = [
 ]
 
 class Form extends Component {
-  render() {
+  render () {
     const {
       handleSubmit,
       intl,

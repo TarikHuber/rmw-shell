@@ -80,7 +80,7 @@
     "material-ui-filter": "^2.1.1",
     "material-ui-image": "^3.0.0-pre.7",
     "material-ui-pickers": "^1.0.0-rc.7",
-    "muishift": "^0.1.9",
+    "muishift": "^0.1.11",
     "nwb": "^0.22.0",
     "prop-types": "^15.6.2",
     "react": "^16.4.1",
