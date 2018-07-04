@@ -1,3 +1,1 @@
-import AppLayout from './AppLayout'
-
-export default AppLayout
+export { default } from './AppLayout.js'

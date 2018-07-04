@@ -2,25 +2,25 @@ import React from 'react'
 import Loadable from 'react-loadable'
 import RestrictedRoute from '../../containers/RestrictedRoute'
 import makeLoadable from '../../containers/MyLoadable'
-import PageNotFound from '../../components/PageNotFound/PageNotFound'
 import { Route } from 'react-router-dom'
 
 const getAppRoutes = (firebaseLoader) => {
   const MyLoadable = (opts, preloadComponents) => makeLoadable({ ...opts, firebase: firebaseLoader }, preloadComponents)
 
 
-  const AsyncSignIn = MyLoadable({ loader: () => import('../../containers/SignIn/SignIn') });
-  const AsyncUser = MyLoadable({ loader: () => import('../../containers/Users/User') });
-  const AsyncUsers = MyLoadable({ loader: () => import('../../containers/Users/Users') }, [AsyncUser]);
-  const AsyncMyAccount = MyLoadable({ loader: () => import('../../containers/MyAccount/MyAccount') });
-  const AsyncRole = MyLoadable({ loader: () => import('../../containers/Roles/Role') });
-  const AsyncRoles = MyLoadable({ loader: () => import('../../containers/Roles/Roles') }, [AsyncRole]);
-  const AsyncPredefinedChatMessages = MyLoadable({ loader: () => import('../../containers/PredefinedChatMessages/PredefinedChatMessages') });
+  const AsyncSignIn = MyLoadable({ loader: () => import('../../pages/SignIn') });
+  const AsyncUser = MyLoadable({ loader: () => import('../../pages/Users/User') });
+  const AsyncUsers = MyLoadable({ loader: () => import('../../pages/Users/Users') }, [AsyncUser]);
+  const AsyncMyAccount = MyLoadable({ loader: () => import('../../pages/MyAccount') });
+  const AsyncRole = MyLoadable({ loader: () => import('../../pages/Roles/Role') });
+  const AsyncRoles = MyLoadable({ loader: () => import('../../pages/Roles/Roles') }, [AsyncRole]);
+  const AsyncPredefinedChatMessages = MyLoadable({ loader: () => import('../../pages/Chats/PredefinedChatMessages') });
 
-  const AsyncCreateChat = MyLoadable({ loader: () => import('../../containers/Chat/CreateChat') });
+  const AsyncCreateChat = MyLoadable({ loader: () => import('../../pages/Chats/CreateChat') });
   const AsyncChats = MyLoadable({ loader: () => import('../../pages/Chats/Chats') });
   const AsyncChatsEdit = MyLoadable({ loader: () => import('../../pages/Chats/ChatsEdit') });
   const AsyncPublicChats = MyLoadable({ loader: () => import('../../pages/Chats/PublicChats') });
+  const AsyncPageNotFound = MyLoadable({ loader: () => import('../../pages/PageNotFound') });
 
 
   return [
@@ -36,7 +36,7 @@ const getAppRoutes = (firebaseLoader) => {
     <RestrictedRoute type='private' path="/chats" exact component={AsyncChats} />,
     <RestrictedRoute type='private' path="/chats/create" exact component={AsyncCreateChat} />,
     <RestrictedRoute type='private' path="/chats/edit/:uid" exact component={AsyncChatsEdit} />,
-    <Route component={PageNotFound} />,
+    <Route component={AsyncPageNotFound} />,
 
   ]
 

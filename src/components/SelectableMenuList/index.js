@@ -1,1 +1,1 @@
-export { default as SelectableMenuList } from './SelectableMenuList.js'
+export { default } from './SelectableMenuList.js'

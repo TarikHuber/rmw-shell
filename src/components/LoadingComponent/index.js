@@ -1,3 +1,1 @@
-import LoadingComponent from './LoadingComponent'
-
-export default LoadingComponent
+export { default } from './LoadingComponent.js'

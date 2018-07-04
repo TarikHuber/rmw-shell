@@ -24,7 +24,7 @@ import { withFirebase } from 'firekit-provider'
 import { withRouter } from 'react-router-dom'
 import { getList } from 'firekit'
 import requestNotificationPermission from '../../utils/messaging'
-import withAppConfigs from '../../withAppConfigs'
+import withAppConfigs from '../../utils/withAppConfigs'
 import { setPersistentValue } from '../../store/persistentValues/actions'
 
 const pageStep = 20;

@@ -3,11 +3,11 @@ import { connect } from 'react-redux';
 import { injectIntl, intlShape } from 'react-intl';
 import { Field, reduxForm, formValueSelector } from 'redux-form';
 import { TextField } from 'redux-form-material-ui';
-import { Avatar } from '../../../../src/containers/Avatar';
+import { Avatar } from 'rmw-shell/lib/containers/Avatar';
 import Icon from '@material-ui/core/Icon';
 import Button from '@material-ui/core/Button';
-import { setDialogIsOpen } from '../../../../src/store/dialogs/actions';
-import { ImageCropDialog } from '../../../../src/containers/ImageCropDialog';
+import { setDialogIsOpen } from 'rmw-shell/lib/store/dialogs/actions';
+import { ImageCropDialog } from 'rmw-shell/lib/containers/ImageCropDialog';
 import { withRouter } from 'react-router-dom';
 import { withTheme } from '@material-ui/core/styles'
 import PropTypes from 'prop-types';

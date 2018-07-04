@@ -6,19 +6,18 @@ import { Helmet } from 'react-helmet';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
-import Typography from '@material-ui/core/Typography';
-import classNames from 'classnames';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import IconButton from '@material-ui/core/IconButton';
-import Hidden from '@material-ui/core/Hidden';
-import Divider from '@material-ui/core/Divider';
-import MenuIcon from '@material-ui/icons/Menu';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
+import ChevronRightIcon from '@material-ui/icons/ChevronRight'
+import Divider from '@material-ui/core/Divider'
+import Icon from '@material-ui/core/Icon'
+import IconButton from '@material-ui/core/IconButton'
+import LinearProgress from '@material-ui/core/LinearProgress'
+import List from '@material-ui/core/List'
+import MenuIcon from '@material-ui/icons/Menu'
+import Typography from '@material-ui/core/Typography'
+import classNames from 'classnames'
 import drawerActions from '../../store/drawer/actions'
 import withWidth, { isWidthDown } from '@material-ui/core/withWidth'
-import Icon from '@material-ui/core/Icon';
-import LinearProgress from '@material-ui/core/LinearProgress';
 
 const drawerWidth = 240;
 

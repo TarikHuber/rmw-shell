@@ -9,7 +9,7 @@ import Icon from '@material-ui/core/Icon'
 import Switch from '@material-ui/core/Switch'
 import classNames from 'classnames'
 import { withTheme, withStyles } from '@material-ui/core/styles'
-import withAppConfigs from '../../withAppConfigs'
+import withAppConfigs from '../../utils/withAppConfigs'
 import { GoogleIcon, FacebookIcon, GitHubIcon, TwitterIcon } from '../../components/Icons';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Scrollbar from '../../components/Scrollbar'
-import withAppConfigs from '../../withAppConfigs'
+import withAppConfigs from '../../utils/withAppConfigs'
 import DrawerContent from './DrawerContent'
 import DrawerHeader from './DrawerHeader'
 import ResponsiveDrawer from '../../components/ResponsiveDrawer'

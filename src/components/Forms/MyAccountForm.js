@@ -7,7 +7,7 @@ import Icon from '@material-ui/core/Icon'
 import { ImageCropDialog } from '../../containers/ImageCropDialog'
 import IconButton from '@material-ui/core/IconButton'
 import { AvatarImageField } from '../ReduxFormFields'
-import withAppConfigs from '../../withAppConfigs'
+import withAppConfigs from '../../utils/withAppConfigs'
 
 class MyAccountForm extends Component {
   render() {

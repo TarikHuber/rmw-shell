@@ -17,7 +17,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Switch from '@material-ui/core/Switch';
 import ReactList from 'react-list';
 import { FilterDrawer, filterSelectors, filterActions } from 'material-ui-filter'
-import withAppConfigs from '../../withAppConfigs'
+import withAppConfigs from '../../utils/withAppConfigs'
 import { getList } from 'firekit'
 
 export class UserGrants extends Component {

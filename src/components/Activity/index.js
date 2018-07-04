@@ -1,3 +1,1 @@
-import Activity from './Activity'
-
-export default Activity
+export { default } from './Activity.js'

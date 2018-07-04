@@ -1,9 +1,8 @@
 
 import React, { Component } from 'react'
 import getAppRoutes from '../../components/AppRoutes'
-import withAppConfigs from '../../withAppConfigs'
-import { Switch } from 'react-router-dom'
-import { withRouter } from 'react-router-dom'
+import withAppConfigs from '../../utils/withAppConfigs'
+import { Switch, withRouter } from 'react-router-dom'
 
 export class Routes extends Component {
 

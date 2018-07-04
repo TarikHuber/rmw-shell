@@ -1,3 +1,1 @@
-import ResponsiveDrawer from './ResponsiveDrawer'
-
-export default ResponsiveDrawer
+export { default } from './ResponsiveDrawer.js'

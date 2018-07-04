@@ -1,3 +1,1 @@
-import Scrollbar from './Scrollbar'
-
-export default Scrollbar
+export { default } from './Scrollbar.js'

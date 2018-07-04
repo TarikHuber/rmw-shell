@@ -1,3 +1,1 @@
-import AppConfigProvider from './AppConfigProvider'
-
-export default AppConfigProvider
+export { default } from './AppConfigProvider.js'

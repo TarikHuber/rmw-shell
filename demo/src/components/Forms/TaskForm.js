@@ -3,50 +3,14 @@ import { connect } from 'react-redux'
 import { injectIntl, intlShape } from 'react-intl'
 import { Field, reduxForm, formValueSelector } from 'redux-form'
 import { TextField } from 'redux-form-material-ui'
-import { setDialogIsOpen } from '../../../../src/store/dialogs/actions'
+import { setDialogIsOpen } from 'rmw-shell/lib/store/dialogs/actions'
 import { withRouter } from 'react-router-dom'
 import { withTheme } from '@material-ui/core/styles'
+import MenuItem from '@material-ui/core/MenuItem'
 import PropTypes from 'prop-types'
-import countries from './countries'
-import matchSorter from 'match-sorter'
-import MuiShift, { SelectField, Autocomplete, VirtualizedSelectField } from 'muishift'
-
-const suggestions = [
-  { label: 'Afghanistan' },
-  { label: 'Aland Islands' },
-  { label: 'Albania' },
-  { label: 'Algeria' },
-  { label: 'American Samoa' },
-  { label: 'Andorra' },
-  { label: 'Angola' },
-  { label: 'Anguilla' },
-  { label: 'Antarctica' },
-  { label: 'Antigua and Barbuda' },
-  { label: 'Argentina' },
-  { label: 'Armenia' },
-  { label: 'Aruba' },
-  { label: 'Australia' },
-  { label: 'Austria' },
-  { label: 'Azerbaijan' },
-  { label: 'Bahamas' },
-  { label: 'Bahrain' },
-  { label: 'Bangladesh' },
-  { label: 'Barbados' },
-  { label: 'Belarus' },
-  { label: 'Belgium' },
-  { label: 'Belize' },
-  { label: 'Benin' },
-  { label: 'Bermuda' },
-  { label: 'Bhutan' },
-  { label: 'Bolivia, Plurinational State of' },
-  { label: 'Bonaire, Sint Eustatius and Saba' },
-  { label: 'Bosnia and Herzegovina' },
-  { label: 'Botswana' },
-  { label: 'Bouvet Island' },
-  { label: 'Brazil' },
-  { label: 'British Indian Ocean Territory' },
-  { label: 'Brunei Darussalam' }
-]
+import { getList } from 'firekit'
+import ListItemText from '@material-ui/core/ListItemText'
+import Avatar from '@material-ui/core/Avatar'
 
 class Form extends Component {
   render () {
@@ -54,7 +18,8 @@ class Form extends Component {
       handleSubmit,
       intl,
       initialized,
-      match
+      match,
+      users
     } = this.props
 
     const uid = match.params.uid
@@ -77,8 +42,6 @@ class Form extends Component {
               component={TextField}
               placeholder={intl.formatMessage({ id: 'title_hint' })}
               label={intl.formatMessage({ id: 'title_label' })}
-              ref='title'
-              withRef
             />
           </div>
 
@@ -90,55 +53,33 @@ class Form extends Component {
               multiline
               placeholder={intl.formatMessage({ id: 'description_hint' })}
               label={intl.formatMessage({ id: 'description_label' })}
-              ref='description'
-              withRef
             />
           </div>
 
+          <br />
           <div>
             <Field
-              name='muishift'
-              itemToString={item => item ? item.label : ''}
-              component={MuiShift}
-              items={suggestions}
-              inputProps={{ placeholder: 'muishift' }}
-            />
-          </div>
-
-          <div>
-            <Field
-              name='autocomplete'
-              itemToString={item => item ? item.label : ''}
-              component={Autocomplete}
-              items={suggestions}
-              inputProps={{ placeholder: 'autocomplete' }}
-
-            />
-          </div>
-          <div>
-            <Field
-              name='selectfield'
-              itemToString={item => item ? item.label : ''}
-              component={SelectField}
-              items={suggestions}
-              inputProps={{ placeholder: 'selectfield' }}
-
-            />
-          </div>
-
-          <div>
-            <Field
-              name='VirtualizedSelectField'
+              name='helper'
+              rowHeight={54}
               component={VirtualizedSelectField}
-              items={countries}
-              getFilteredItems={({ items, inputValue }) => {
-                return matchSorter(items, inputValue, {
-                  maxRanking: matchSorter.rankings.STARTS_WITH,
-                  keys: ['name', 'code']
-                })
+              items={users.map(snap => (snap && snap.val) ? snap.val : {})}
+              itemToString={item => item ? item.displayName : ''}
+              inputProps={{ placeholder: intl.formatMessage({ id: 'helper_hint' }), label: intl.formatMessage({ id: 'helper_label' }) }}
+              renderSuggestion={({ rootProps, downshiftProps, suggestion, index }) => {
+                const { getItemProps, highlightedIndex } = downshiftProps
+                const itemProps = getItemProps({ item: suggestion })
+                const isHighlighted = highlightedIndex === index
+
+                return (
+                  <MenuItem
+                    {...itemProps}
+                    selected={isHighlighted}
+                    key={index}>
+                    <Avatar alt='avatar' src={suggestion.photoURL} />
+                    <ListItemText primary={suggestion.displayName} />
+                  </MenuItem>
+                )
               }}
-              itemToString={item => item ? item.name : ''}
-              inputProps={{ placeholder: 'VirtualizedSelectField' }}
             />
           </div>
         </div>
@@ -166,7 +107,7 @@ const mapStateToProps = state => {
   return {
     intl,
     vehicleTypes,
-    users,
+    users: getList(state, 'users'),
     dialogs,
     photoURL: selector(state, 'photoURL')
   }
