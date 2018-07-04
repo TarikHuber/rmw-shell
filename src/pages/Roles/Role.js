@@ -1,4 +1,4 @@
-import Activity from '../../components/Activity'
+import Activity from '../../containers/Activity'
 import Avatar from '@material-ui/core/Avatar'
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';

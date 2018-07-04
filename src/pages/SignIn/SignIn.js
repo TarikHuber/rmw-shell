@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { injectIntl } from 'react-intl'
-import Activity from '../../components/Activity'
+import Activity from '../../containers/Activity'
 import AuthUI from '../../containers/AuthUI/AuthUI'
 import { withFirebase } from 'firekit-provider'
 import withAppConfigs from '../../utils/withAppConfigs'

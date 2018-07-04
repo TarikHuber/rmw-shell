@@ -1,4 +1,4 @@
-import Activity from '../../components/Activity'
+import Activity from '../../containers/Activity'
 import ChatsList from '../../containers/Chat/ChatsList'
 import Icon from '@material-ui/core/Icon'
 import React, { Component } from 'react'
@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import { injectIntl, intlShape } from 'react-intl'
 
 export class Chats extends Component {
-  render () {
+  render() {
     const { intl } = this.props
 
     return (

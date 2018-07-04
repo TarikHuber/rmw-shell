@@ -1,4 +1,4 @@
-import Activity from '../../components/Activity'
+import Activity from '../../containers/Activity'
 import Button from '@material-ui/core/Button'
 import Icon from '@material-ui/core/Icon'
 import Paper from '@material-ui/core/Paper'

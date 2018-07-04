@@ -1,19 +1,20 @@
+import Avatar from '@material-ui/core/Avatar'
+import ListItemText from '@material-ui/core/ListItemText'
+import MenuItem from '@material-ui/core/MenuItem'
+import PropTypes from 'prop-types'
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { injectIntl, intlShape } from 'react-intl'
 import { Field, reduxForm, formValueSelector } from 'redux-form'
 import { TextField } from 'redux-form-material-ui'
+import { connect } from 'react-redux'
+import { getList } from 'firekit'
+import { injectIntl, intlShape } from 'react-intl'
 import { setDialogIsOpen } from 'rmw-shell/lib/store/dialogs/actions'
 import { withRouter } from 'react-router-dom'
 import { withTheme } from '@material-ui/core/styles'
-import MenuItem from '@material-ui/core/MenuItem'
-import PropTypes from 'prop-types'
-import { getList } from 'firekit'
-import ListItemText from '@material-ui/core/ListItemText'
-import Avatar from '@material-ui/core/Avatar'
+import { VirtualizedSelectField } from 'muishift'
 
 class Form extends Component {
-  render () {
+  render() {
     const {
       handleSubmit,
       intl,
@@ -98,11 +99,10 @@ Form.propTypes = {
   match: PropTypes.object.isRequired
 }
 
-Form = reduxForm({ form: 'task' })(Form)
 const selector = formValueSelector('task')
 
 const mapStateToProps = state => {
-  const { intl, vehicleTypes, users, dialogs } = state
+  const { intl, vehicleTypes, dialogs } = state
 
   return {
     intl,
@@ -115,4 +115,4 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps, { setDialogIsOpen }
-)(injectIntl(withRouter(withTheme()(Form))))
+)(injectIntl(withRouter(withTheme()(reduxForm({ form: 'task' })(Form)))))

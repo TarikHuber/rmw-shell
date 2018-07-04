@@ -1,4 +1,4 @@
-import Activity from '../../components/Activity'
+import Activity from '../../containers/Activity'
 import Avatar from '@material-ui/core/Avatar'
 import Divider from '@material-ui/core/Divider'
 import Icon from '@material-ui/core/Icon'

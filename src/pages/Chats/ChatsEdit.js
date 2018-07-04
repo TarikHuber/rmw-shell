@@ -1,4 +1,4 @@
-import Activity from '../../components/Activity'
+import Activity from '../../containers/Activity'
 import ChatsList from '../../containers/Chat/ChatsList'
 import Input from '../../containers/Chat/Input'
 import Messages from '../../containers/Chat/Messages'

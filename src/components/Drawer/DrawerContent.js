@@ -1,7 +1,7 @@
 import React from 'react'
 import { withTheme } from '@material-ui/core/styles'
 import withAppConfigs from '../../utils/withAppConfigs'
-import SelectableMenuList from '../../components/SelectableMenuList'
+import SelectableMenuList from '../../containers/SelectableMenuList'
 import { injectIntl } from 'react-intl'
 import { withRouter } from 'react-router-dom'
 import { withA2HS } from 'a2hs'

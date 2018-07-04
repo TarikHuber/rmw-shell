@@ -1,4 +1,4 @@
-import AudioPlayer from '../../components/AudioPlayer/AudioPlayer'
+import AudioPlayer from '../../containers/AudioPlayer'
 import Input from './Input'
 import Message from './Message'
 import Chip from '@material-ui/core/Chip'
