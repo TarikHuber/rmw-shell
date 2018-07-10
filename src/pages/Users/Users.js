@@ -23,6 +23,7 @@ import { injectIntl, intlShape } from 'react-intl'
 import { withFirebase } from 'firekit-provider'
 import { withRouter } from 'react-router-dom'
 import { withTheme, withStyles } from '@material-ui/core/styles'
+import AltIconAvatar from '../../components/AltIconAvatar'
 
 const path = `users`
 
@@ -74,8 +75,8 @@ export class Users extends Component {
         key={key}
         onClick={() => { this.handleRowClick(list[index]) }}
         id={key}>
-        {user.photoURL && <Avatar src={user.photoURL} alt='person' />}
-        {!user.photoURL && <Avatar> <Icon > person </Icon>  </Avatar>}
+        <AltIconAvatar src={user.photoURL} iconName={'person'} />
+
         <ListItemText primary={user.displayName} secondary={(!user.connections && !user.lastOnline) ? intl.formatMessage({ id: 'offline' }) : intl.formatMessage({ id: 'online' })} />
 
         <Toolbar >
