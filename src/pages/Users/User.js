@@ -1,26 +1,26 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
-import { injectIntl, intlShape } from 'react-intl'
-import { withTheme, withStyles } from '@material-ui/core/styles'
 import Activity from '../../containers/Activity'
-import { setSimpleValue } from '../../store/simpleValues/actions'
-import { withRouter } from 'react-router-dom'
-import { change, submit } from 'redux-form'
+import AppBar from '@material-ui/core/AppBar'
 import Icon from '@material-ui/core/Icon'
-import { withFirebase } from 'firekit-provider'
+import IconButton from '@material-ui/core/IconButton'
+import PropTypes from 'prop-types'
+import React, { Component } from 'react'
+import Scrollbar from '../../components/Scrollbar/Scrollbar'
+import SearchField from '../../components/SearchField'
+import Tab from '@material-ui/core/Tab'
+import Tabs from '@material-ui/core/Tabs'
 import UserForm from '../../components/Forms/UserForm'
 import UserGrants from '../../containers/Users/UserGrants'
 import UserRoles from '../../containers/Users/UserRoles'
-import Tabs from '@material-ui/core/Tabs'
-import Tab from '@material-ui/core/Tab'
-import Scrollbar from '../../components/Scrollbar/Scrollbar'
+import { change, submit } from 'redux-form'
+import { connect } from 'react-redux'
 import { filterSelectors, filterActions } from 'material-ui-filter'
-import SearchField from '../../components/SearchField'
+import { formValueSelector } from 'redux-form'
 import { getList, isLoading, getPath } from 'firekit'
-import IconButton from '@material-ui/core/IconButton';
-import AppBar from '@material-ui/core/AppBar';
-import { formValueSelector } from 'redux-form';
+import { injectIntl, intlShape } from 'react-intl'
+import { setSimpleValue } from '../../store/simpleValues/actions'
+import { withFirebase } from 'firekit-provider'
+import { withRouter } from 'react-router-dom'
+import { withTheme, withStyles } from '@material-ui/core/styles'
 
 const path = '/users'
 const form_name = 'user'
@@ -113,15 +113,6 @@ export class User extends Component {
       }
     }
 
-    const menuList = [
-      {
-        hidden: editType !== 'grants',
-        text: intl.formatMessage({ id: 'open_filter' }),
-        icon: <Icon className="material-icons" color={hasFilters ? theme.palette.accent1Color : theme.palette.canvasColor}>filter_list</Icon>,
-        tooltip: intl.formatMessage({ id: 'open_filter' }),
-        onClick: () => setFilterIsOpen('user_grants', true)
-      }
-    ]
 
     return (
       <Activity

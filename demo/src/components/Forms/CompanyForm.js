@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { injectIntl, intlShape } from 'react-intl';
 import { Field, reduxForm, formValueSelector } from 'redux-form';
 import { TextField } from 'redux-form-material-ui';
-import { Avatar } from 'rmw-shell/lib/containers/Avatar';
+import { Avatar } from 'rmw-shell/lib/components/ReduxFormFields';
 import Icon from '@material-ui/core/Icon';
 import Button from '@material-ui/core/Button';
 import { setDialogIsOpen } from 'rmw-shell/lib/store/dialogs/actions';

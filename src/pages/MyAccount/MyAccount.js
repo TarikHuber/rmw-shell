@@ -1,6 +1,5 @@
 import Activity from '../../containers/Activity'
 import Avatar from '@material-ui/core/Avatar'
-import AvatarImageField from '../../components/ReduxFormFields/AvatarImageField'
 import Button from '@material-ui/core/Button'
 import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
