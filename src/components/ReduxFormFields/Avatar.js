@@ -1,4 +1,4 @@
-import Avatar from '@material-ui/core/Avatar'
+import AltIconAvatar from '../../components/AltIconAvatar'
 import { Component, createElement } from 'react'
 
 function createComponent (MaterialUIComponent, mapProps) {
@@ -34,7 +34,7 @@ const mapError = (
     }
     : { ...input, ...props })
 
-export default createComponent(Avatar, ({
+export default createComponent(AltIconAvatar, ({
   input,
   meta,
   ...props

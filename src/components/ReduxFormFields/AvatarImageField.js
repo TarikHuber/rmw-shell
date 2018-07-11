@@ -1,14 +1,14 @@
-import Button from '@material-ui/core/Button'
+import IconButton from '@material-ui/core/IconButton'
 import Icon from '@material-ui/core/Icon'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
-import { Avatar } from '../../containers/Avatar'
+import Avatar from '../../components/ReduxFormFields/Avatar'
 import { Field } from 'redux-form'
 import { ImageCropDialog } from '../../containers/ImageCropDialog'
 import { intlShape } from 'react-intl'
 
 
-export default class AvatarImageField extends Component {
+class AvatarImageField extends Component {
   constructor(props) {
     super(props);
 
@@ -18,10 +18,12 @@ export default class AvatarImageField extends Component {
   }
 
   handlePhotoUploadSuccess = (snapshot) => {
-    const { change } = this.props;
+    const { change, name } = this.props;
 
-    change('photoURL', snapshot.downloadURL);
-    this.setState({ selected_avatar_image: undefined })
+    snapshot.ref.getDownloadURL().then(downloadURL => {
+      change(name, downloadURL);
+      this.setState({ selected_avatar_image: undefined })
+    })
   }
 
 
@@ -32,47 +34,36 @@ export default class AvatarImageField extends Component {
       initialized,
       intl,
       path,
-      uid
+      uid,
+      name
     } = this.props;
 
     return (
       <div style={{ margin: 20 }}>
         <div>
           <Field
-            name="photoURL"
-            size={120}
+            name={name}
+            style={{ width: 120, height: 120, fontSize: 30 }}
             component={Avatar}
-            icon={
-              <Icon
-                className="material-icons">
-                {altIconName}
-              </Icon>
-            }
-            ref="photoURL"
-            withRef
+            iconName={altIconName}
           />
         </div>
         <div>
-          <Button
+          <IconButton
             style={{ width: '100%' }}
             onClick={() => {
               this.setState({ selected_avatar_image: 'true' })
             }}
             disabled={disabled === true ? true : (uid === undefined || !initialized)}
-            containerElement='label'
-            primary={true}
-            icon={
-              <Icon
-                className="material-icons">
-                photo_camera
-              </Icon>
-            }
-          />
+            color='primary'
+          >
+            <Icon >  photo_camera </Icon>
+          </IconButton>
         </div>
 
         <ImageCropDialog
           path={`${path}/${uid}`}
-          fileName={`photoURL`}
+          fileName={name}
           onUploadSuccess={(s) => { this.handlePhotoUploadSuccess(s) }}
           open={this.state.selected_avatar_image !== undefined}
           src={this.state.selected_avatar_image}
@@ -86,10 +77,10 @@ export default class AvatarImageField extends Component {
 }
 
 AvatarImageField.propTypes = {
-  //disabled: PropTypes.bool.isRequired,
-  //initialized: PropTypes.bool.isRequired,
   uid: PropTypes.string.isRequired,
-  //intl: intlShape.isRequired,
   altIconName: PropTypes.string,
-  path: PropTypes.string.isRequired
+  path: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired
 };
+
+export default AvatarImageField
