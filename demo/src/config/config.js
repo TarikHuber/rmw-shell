@@ -30,7 +30,6 @@ const config = {
     'phone'
   ],
   initial_state: {
-    theme: 'dark',
     locale: 'en'
   },
   drawer_width: 256,

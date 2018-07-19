@@ -5,7 +5,6 @@ import React, { Component } from 'react'
 import Avatar from '../../components/ReduxFormFields/Avatar'
 import { Field } from 'redux-form'
 import { ImageCropDialog } from '../../containers/ImageCropDialog'
-import { intlShape } from 'react-intl'
 
 
 class AvatarImageField extends Component {
