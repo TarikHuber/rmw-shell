@@ -7,6 +7,7 @@ import { Field } from 'redux-form'
 import { ImageCropDialog } from '../../containers/ImageCropDialog'
 
 
+
 class AvatarImageField extends Component {
   constructor(props) {
     super(props);
@@ -29,6 +30,7 @@ class AvatarImageField extends Component {
   render() {
     const {
       altIconName,
+      altIcon,
       disabled,
       initialized,
       intl,
@@ -38,13 +40,14 @@ class AvatarImageField extends Component {
     } = this.props;
 
     return (
-      <div style={{ margin: 20 }}>
+      <div style={{ margin: 20, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <div>
           <Field
             name={name}
-            style={{ width: 120, height: 120, fontSize: 30 }}
+            style={{ width: 120, height: 120, fontSize: 60 }}
             component={Avatar}
             iconName={altIconName}
+            icon={altIcon}
           />
         </div>
         <div>

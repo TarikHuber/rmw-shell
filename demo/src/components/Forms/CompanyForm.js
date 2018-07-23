@@ -9,6 +9,7 @@ import { withRouter } from 'react-router-dom'
 import { withTheme } from '@material-ui/core/styles'
 import PropTypes from 'prop-types'
 import AvatarImageField from 'rmw-shell/lib/components/ReduxFormFields/AvatarImageField'
+import Icon from '@material-ui/core/Icon'
 
 class Form extends Component {
   render () {
@@ -41,6 +42,8 @@ class Form extends Component {
             uid={uid}
             change={this.props.change}
             initialized={initialized}
+            altIconName='person'
+            altIcon={<Icon style={{ fontSize: 60 }} >business</Icon>}
             intl={intl}
             path={'companies'}
           />

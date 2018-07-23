@@ -14,7 +14,7 @@ const AltIconAvatar = (props) => {
   }
 
   if (iconName) {
-    return <Avatar {...props}><Icon> {iconName}</Icon></Avatar>
+    return <Avatar {...props}><Icon > {iconName}</Icon></Avatar>
   }
 
   return <Avatar {...props} />
