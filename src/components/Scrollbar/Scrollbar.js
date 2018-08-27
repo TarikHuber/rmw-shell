@@ -5,8 +5,6 @@ import { withTheme } from '@material-ui/core/styles'
 const Scrollbar = (props) => {
   const { theme, ...rest } = props
 
-  console.log('props')
-
   const thumbStyle = {
     backgroundColor: theme.palette.primary.dark,
     borderRadius: 3
