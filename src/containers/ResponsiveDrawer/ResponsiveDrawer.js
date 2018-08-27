@@ -27,6 +27,7 @@ const styles = theme => ({
     ...theme.mixins.toolbar,
   },
   drawerPaper: {
+    height: '100vh',
     width: drawerWidth,
     [theme.breakpoints.up('md')]: {
       position: 'relative',
@@ -37,6 +38,7 @@ const styles = theme => ({
     }),
   },
   drawerPaperOpen: {
+    height: '100vh',
     position: 'relative',
     whiteSpace: 'nowrap',
     width: drawerWidth,
@@ -46,6 +48,7 @@ const styles = theme => ({
     }),
   },
   drawerPaperClose: {
+    height: '100vh',
     overflowX: 'hidden',
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,

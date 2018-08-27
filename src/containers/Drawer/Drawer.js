@@ -16,7 +16,7 @@ export class AppLayout extends Component {
 
       <ResponsiveDrawer >
         <Header />
-        <Scrollbar>
+        <Scrollbar >
           <DrawerContent path={path} history={history} />
         </Scrollbar>
       </ResponsiveDrawer>
