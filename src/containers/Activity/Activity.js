@@ -1,25 +1,25 @@
-import AppBar from '@material-ui/core/AppBar';
+import AppBar from '@material-ui/core/AppBar'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 import Divider from '@material-ui/core/Divider'
-import Drawer from '@material-ui/core/Drawer';
+import Drawer from '@material-ui/core/Drawer'
 import Icon from '@material-ui/core/Icon'
 import IconButton from '@material-ui/core/IconButton'
 import LinearProgress from '@material-ui/core/LinearProgress'
 import List from '@material-ui/core/List'
 import MenuIcon from '@material-ui/icons/Menu'
-import PropTypes from 'prop-types';
-import React from 'react';
-import Toolbar from '@material-ui/core/Toolbar';
+import PropTypes from 'prop-types'
+import React from 'react'
+import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import classNames from 'classnames'
 import drawerActions from '../../store/drawer/actions'
 import withWidth, { isWidthDown } from '@material-ui/core/withWidth'
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { injectIntl } from 'react-intl'
-import { withTheme, withStyles } from '@material-ui/core/styles';
+import { withTheme, withStyles } from '@material-ui/core/styles'
 
 const drawerWidth = 240;
 
