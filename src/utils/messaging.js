@@ -56,13 +56,16 @@ export default function requestNotificationPermission(props) {
   }
 }
 
-export function initializeMessaging(props) {
+export function initializeMessaging(props, skipIfNoPermission = false) {
   const { initMessaging, firebaseApp, auth } = props
 
   firebaseApp.database().ref(`disable_notifications/${auth.uid}`).once('value', snap => {
     if (snap.val()) {
       console.log('Notifications disabled by user')
+    } else if (skipIfNoPermission && ('Notification' in window && Notification.permission !== 'granted')) {
+      console.log('No permissions for Notifications')
     } else {
+      console.log('Notifications initialized')
       initMessaging(firebaseApp,
         token => { handleTokenChange(props, token) }
         , payload => { handleMessageReceived(props, payload) }
@@ -70,6 +73,8 @@ export function initializeMessaging(props) {
     }
   })
 }
+
+
 
 export function handleMessageReceived(props, payload) {
   const { location, appConfig } = props

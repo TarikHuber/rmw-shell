@@ -96,7 +96,7 @@ class Root extends Component {
 
       firebaseApp.database().ref(`users/${user.uid}`).update(publicUserData);
 
-      initializeMessaging({ ...this.props, firebaseApp, history, auth: userData })
+      initializeMessaging({ ...this.props, firebaseApp, history, auth: userData }, true)
 
       return userData;
 
