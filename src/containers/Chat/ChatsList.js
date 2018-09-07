@@ -4,6 +4,7 @@ import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton'
+import IconMenu from '../../containers/IconMenu'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemAvatar from '@material-ui/core/ListItemAvatar'
@@ -99,11 +100,7 @@ export class Chats extends Component {
       {!val.unread && val.lastMessage}
     </div>
 
-
-
   }
-
-
 
 
   renderItem = (i, k) => {
@@ -115,77 +112,36 @@ export class Chats extends Component {
     const val = list[i].val;
     const isPreviewed = usePreview && currentChatUid === key;
 
-    const iconMenu = MenuButton
+    const options = [
+      {
+        text: intl.formatMessage({ id: 'delete_chat' }),
+        onClick: () => { this.handleDeleteChat(key, val) },
+        icon: <Icon>delete</Icon>
+      },
+      {
+        text: intl.formatMessage({ id: 'mark_chat_as_unread' }),
+        onClick: () => { this.handleMarkAsUnread(key, val) },
+        icon: <Icon>history</Icon>
+      },
 
-    const MenuButton = (props) => {
-      const { onKeyboardFocus, ...rest } = props
-
-      return <div style={{ width: 'auto', fontSize: 11, color: theme.listItem.secondaryTextColor }} {...rest} >
-        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-          {val.unread > 0 &&
-            <div style={{ textAlign: 'right' }}>
-              <Avatar
-                size={20}
-                backgroundColor={theme.palette.primary1Color}
-                color={theme.palette.primaryTextColor}
-                alt="unread">
-                <div style={{ color: theme.listItem.secondaryTextColor }} >
-                  {val.unread}
-                </div>
-              </Avatar>
-            </div>
-          }
-          <IconButton
-            aria-label="More"
-            aria-owns={anchorEl ? 'long-menu' : null}
-            aria-haspopup="true"
-            onClick={this.handleClick}
-          >
-            <Icon >more_vert</Icon>
-          </IconButton>
-
-          <Menu
-            id="long-menu"
-            anchorEl={anchorEl}
-            open={Boolean(anchorEl)}
-            onClose={this.handleClose}
-            style={{ marginTop: -18, marginRight: -10 }}
-            anchorOrigin={{ horizontal: 'middle', vertical: 'top' }}
-            targetOrigin={{ horizontal: 'right', vertical: 'top' }}
-            iconButtonElement={<IconButton><Icon className="material-icons">more_horiz</Icon></IconButton>}
-          >
-            <MenuItem
-              onClick={() => { this.handleDeleteChat(key, val) }}>
-              {intl.formatMessage({ id: 'delete_chat' })}
-            </MenuItem>
-            <MenuItem
-              onClick={() => { this.handleMarkAsUnread(key, val) }}>
-              {intl.formatMessage({ id: 'mark_chat_as_unread' })}
-            </MenuItem>
-          </Menu>
-        </div>
-        <div style={{
-          width: 'auto',
-          color: val.unread > 0 ? theme.palette.primary1Color : theme.listItem.secondaryTextColor,
-          textAlign: 'right',
-          marginRight: 5,
-          fontSize: 11
-        }} >
-          {val.lastCreated ? intl.formatTime(new Date(val.lastCreated), 'hh:mm') : undefined}
-        </div>
-
-      </div>
-    }
+    ]
 
 
     return <div key={i}>
       <ListItem
+        selected={currentChatUid === key}
         key={i}
         onClick={() => { this.handleItemClick(val, key) }}
         id={i}>
         {val.photoURL && <Avatar src={val.photoURL} alt='person' />}
         {!val.photoURL && <Avatar> <Icon > person </Icon>  </Avatar>}
-        <ListItemText primary={val.unread > 0 ? <div><b>{val.displayName}</b></div> : val.displayName} secondary={this.renderIcons(val)} />
+        <ListItemText
+          primaryTypographyProps={{
+            color: val.unread ? 'secondary' : undefined
+          }}
+          primary={val.unread > 0 ? <div><b>{val.displayName}</b></div> : val.displayName}
+          secondary={this.renderIcons(val)}
+        />
 
         <ListItemSecondaryAction style={{ paddingTop: 24 }}>
 
@@ -195,38 +151,21 @@ export class Chats extends Component {
         </ListItemSecondaryAction>
 
         <ListItemSecondaryAction style={{ paddingBottom: 24 }}>
-          <IconButton onClick={() => { console.log('click2') }} >
-            <MoreHorizIcon />
-          </IconButton>
+          <Typography component='div' >
+            <IconMenu
+              options={options}
+              iconName='more_horiz'
+            />
+          </Typography>
 
         </ListItemSecondaryAction>
 
 
-
       </ListItem>
       <Divider inset />
-    </div>
+    </div >
 
-    //TODO: migrate old code
-    return <div key={i}>
-      <ListItem
-        leftAvatar={
-          <Avatar
-            alt="person"
-            src={val.photoURL}
-            icon={<Icon className="material-icons">person</Icon>}
-          />
-        }
-        style={isPreviewed ? { backgroundColor: theme.toolbar.separatorColor } : undefined}
-        onClick={() => { this.handleItemClick(val, key) }}
-        key={key}
-        id={key}
-        rightIconButton={<MenuButton />}
-        primaryText={val.unread > 0 ? <div><b>{val.displayName}</b></div> : val.displayName}
-        secondaryText={this.renderIcons(val)}
-      />
-      <Divider inset={true} />
-    </div>;
+
   }
 
 
