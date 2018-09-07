@@ -9,7 +9,7 @@ import { injectIntl, intlShape } from 'react-intl'
 import withWidth, { isWidthUp } from '@material-ui/core/withWidth'
 
 export class Chats extends Component {
-  render () {
+  render() {
     const { intl, match, auth, width, title, history } = this.props
 
     const uid = match.params.uid
@@ -32,6 +32,7 @@ export class Chats extends Component {
 
           <div style={{ width: '100%', display: 'flex', flexDirection: 'column', marginLeft: 0, flexGrow: 1 }}>
             <Messages
+              uid={uid}
               path={`user_chat_messages/${auth.uid}/${uid}`}
               receiverPath={`user_chat_messages/${uid}/${auth.uid}`}
               {...this.props} />

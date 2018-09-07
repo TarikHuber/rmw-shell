@@ -67,19 +67,30 @@ class ChatMessages extends Component {
   }
 
   componentDidMount() {
+
+    const { uid, userChats, setPersistentValue } = this.props
+
     this.initMessages(this.props);
     this.scrollToBottom();
 
     requestNotificationPermission(this.props)
 
+    userChats.forEach(chat => {
+      if (chat.key === uid) {
+        setPersistentValue('current_chat_name', chat.val.displayName)
+      }
+    });
+
+
   }
 
   initMessages = (props) => {
-    const { watchList, firebaseApp, path } = props;
+    const { watchList, firebaseApp, path, auth } = props;
 
     try {
       let messagesRef = firebaseApp.database().ref(path).orderByKey().limitToLast(pageStep);
       watchList(messagesRef);
+      watchList(`user_chats/${auth.uid}`)
     } catch (error) {
       console.log(error)
     }
@@ -225,6 +236,7 @@ const mapStateToProps = (state, ownPops) => {
 
   const chatMessageMenuOpen = simpleValues['chatMessageMenuOpen'] === true
   const imageDialogOpen = simpleValues.chatOpenImageDialog;
+  const chatsPath = `user_chats/${auth.uid}`
 
   return {
     imageDialogOpen,
@@ -234,6 +246,7 @@ const mapStateToProps = (state, ownPops) => {
     chatMessageMenuOpen,
     messaging,
     messages: getList(state, path),
+    userChats: getList(state, chatsPath),
     predefinedMessages: getList(state, 'predefined_chat_messages'),
     auth
   };
