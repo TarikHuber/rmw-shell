@@ -67,7 +67,7 @@
     "downshift": "^2.2.2",
     "enzyme": "^3.6.0",
     "firebase": "^5.4.2",
-    "firebaseui": "^3.4.0",
+    "firebaseui": "^3.4.1",
     "fireform": "^0.2.13",
     "firekit": "^1.0.26",
     "firekit-provider": "^0.2.20",
