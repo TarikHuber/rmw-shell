@@ -12,10 +12,10 @@ export class AppLayout extends Component {
 
     const path = history.location.pathname
     const Header = appConfig.drawerHeader ? appConfig.drawerHeader : DrawerHeader
-    return (
 
+    return (
       <ResponsiveDrawer >
-        <Header />
+        <Header {...this.props} />
         <Scrollbar >
           <DrawerContent path={path} history={history} />
         </Scrollbar>
