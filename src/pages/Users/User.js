@@ -1,14 +1,14 @@
-import Activity from '../../containers/Activity'
+import Activity from 'rmw-shell/lib/containers/Activity'
 import AppBar from '@material-ui/core/AppBar'
 import Icon from '@material-ui/core/Icon'
 import IconButton from '@material-ui/core/IconButton'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
-import Scrollbar from '../../components/Scrollbar/Scrollbar'
-import SearchField from '../../components/SearchField'
+import Scrollbar from 'rmw-shell/lib/components/Scrollbar'
+import SearchField from 'rmw-shell/lib/components/SearchField'
 import Tab from '@material-ui/core/Tab'
 import Tabs from '@material-ui/core/Tabs'
-import UserForm from '../../components/Forms/UserForm'
+import UserForm from 'rmw-shell/lib/components/Forms/UserForm'
 import UserGrants from '../../containers/Users/UserGrants'
 import UserRoles from '../../containers/Users/UserRoles'
 import { change, submit } from 'redux-form'
@@ -17,13 +17,13 @@ import { filterSelectors, filterActions } from 'material-ui-filter'
 import { formValueSelector } from 'redux-form'
 import { getList, isLoading, getPath } from 'firekit'
 import { injectIntl, intlShape } from 'react-intl'
-import { setSimpleValue } from '../../store/simpleValues/actions'
+import { setSimpleValue } from 'rmw-shell/lib/store/simpleValues/actions'
 import { withFirebase } from 'firekit-provider'
 import { withRouter } from 'react-router-dom'
 import { withTheme, withStyles } from '@material-ui/core/styles'
 
+
 const path = '/users'
-const form_name = 'user'
 
 const styles = theme => ({
   root: {
@@ -49,7 +49,7 @@ export class User extends Component {
   }
 
   componentDidMount() {
-    const { watchList, watchPath, uid, firebaseApp } = this.props
+    const { watchList, uid, firebaseApp } = this.props
     watchList('admins')
     watchList('user_grants')
 
@@ -66,9 +66,14 @@ export class User extends Component {
   }
 
   handleTabActive = (e, value) => {
-    const { history, uid } = this.props
+    const { history, uid, rootPath, rootUid } = this.props
 
-    history.push(`${path}/edit/${uid}/${value}`)
+    if (rootPath) {
+      history.push(`${path}/edit/${uid}/${value}/${rootPath}/${rootUid}`)
+    } else {
+      history.push(`${path}/edit/${uid}/${value}`)
+    }
+
   }
 
   handleAdminChange = (e, isInputChecked) => {
@@ -94,11 +99,8 @@ export class User extends Component {
       editType,
       setFilterIsOpen,
       hasFilters,
-      setSearch,
-      firebaseApp,
       isLoading,
-      classes,
-      photoURL
+      classes
     } = this.props
 
     const uid = match.params.uid
@@ -191,6 +193,8 @@ const mapStateToProps = (state, ownProps) => {
   const { hasFilters } = filterSelectors.selectFilterProps('user_grants', filters)
   const isLoadingRoles = isLoading(state, 'user_roles')
   const isLoadingGrants = isLoading(state, 'user_grants')
+  const rootPath = match.params.rootPath
+  const rootUid = match.params.rootUid
 
   let photoURL = ''
   let displayName = ''
@@ -201,6 +205,8 @@ const mapStateToProps = (state, ownProps) => {
   }
 
   return {
+    rootPath,
+    rootUid,
     hasFilters,
     auth,
     uid,

@@ -1,39 +1,38 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { injectIntl, intlShape } from 'react-intl';
-import { withTheme, withStyles } from '@material-ui/core/styles'
-import { setSimpleValue } from '../../store/simpleValues/actions';
-import { withRouter } from 'react-router-dom';
-import Icon from '@material-ui/core/Icon';
-import { withFirebase } from 'firekit-provider'
+import Avatar from '@material-ui/core/Avatar'
+import Divider from '@material-ui/core/Divider'
+import Icon from '@material-ui/core/Icon'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
-import Divider from '@material-ui/core/Divider';
-import Avatar from '@material-ui/core/Avatar';
-import Switch from '@material-ui/core/Switch';
-import ReactList from 'react-list';
+import PropTypes from 'prop-types'
+import React, { Component } from 'react'
+import ReactList from 'react-list'
+import Switch from '@material-ui/core/Switch'
+import { connect } from 'react-redux'
 import { getList } from 'firekit'
-import Scrollbar from '../../components/Scrollbar'
+import { injectIntl, intlShape } from 'react-intl'
+import { setSimpleValue } from 'rmw-shell/lib/store/simpleValues/actions'
+import { withFirebase } from 'firekit-provider'
+import { withRouter } from 'react-router-dom'
+import { withTheme } from '@material-ui/core/styles'
 
 export class UserRoles extends Component {
 
-  componentWillMount() {
-    this.props.watchList('user_roles');
-    this.props.watchList('roles');
+  componentDidMount() {
+    const { watchList, userRolesPath } = this.props
+
+    watchList(userRolesPath)
+    watchList('roles')
   }
 
   handleRoleToggleChange = (e, isInputChecked, key) => {
-    const { firebaseApp, match } = this.props
+    const { firebaseApp, match, userRolesPath } = this.props
     const uid = match.params.uid
 
     if (isInputChecked) {
-      firebaseApp.database().ref(`/user_roles/${uid}/${key}`).set(true)
+      firebaseApp.database().ref(`${userRolesPath}/${uid}/${key}`).set(true)
     } else {
-      firebaseApp.database().ref(`/user_roles/${uid}/${key}`).remove()
+      firebaseApp.database().ref(`${userRolesPath}/${uid}/${key}`).remove()
     }
 
   }
@@ -105,13 +104,17 @@ const mapStateToProps = (state, ownProps) => {
   const { match } = ownProps
 
   const uid = match.params.uid
+  const rootPath = match.params.rootPath
+  const rootUid = match.params.rootUid
+  const userRolesPath = rootPath ? `/${rootPath}_user_roles/${rootUid}` : '/user_roles'
 
   return {
     filters,
     auth,
     uid,
     intl,
-    user_roles: getList(state, 'user_roles'),
+    userRolesPath,
+    user_roles: getList(state, userRolesPath),
     roles: getList(state, 'roles'),
   }
 }

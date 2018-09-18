@@ -1,43 +1,39 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { injectIntl, intlShape } from 'react-intl';
-import { withTheme, withStyles } from '@material-ui/core/styles'
-import { setSimpleValue } from '../../store/simpleValues/actions';
-import { withRouter } from 'react-router-dom';
-import Icon from '@material-ui/core/Icon';
-import { withFirebase } from 'firekit-provider'
+import Avatar from '@material-ui/core/Avatar'
+import Divider from '@material-ui/core/Divider'
+import Icon from '@material-ui/core/Icon'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
-import Divider from '@material-ui/core/Divider';
-import Avatar from '@material-ui/core/Avatar';
-import Switch from '@material-ui/core/Switch';
-import ReactList from 'react-list';
+import PropTypes from 'prop-types'
+import React, { Component } from 'react'
+import ReactList from 'react-list'
+import Switch from '@material-ui/core/Switch'
+import withAppConfigs from 'rmw-shell/lib/utils/withAppConfigs'
 import { FilterDrawer, filterSelectors, filterActions } from 'material-ui-filter'
-import withAppConfigs from '../../utils/withAppConfigs'
+import { connect } from 'react-redux'
 import { getList } from 'firekit'
+import { injectIntl, intlShape } from 'react-intl'
+import { setSimpleValue } from 'rmw-shell/lib/store/simpleValues/actions'
+import { withFirebase } from 'firekit-provider'
+import { withRouter } from 'react-router-dom'
+import { withTheme } from '@material-ui/core/styles'
 
 export class UserGrants extends Component {
 
+  componentDidMount() {
+    const { watchList, userGrantsPath } = this.props
 
-  componentWillMount() {
-    const { watchList, setSearch } = this.props
-    //watchList('user_grants')
-    //setSearch('user_grants', '')
+    watchList(userGrantsPath)
   }
 
-
   handleGrantToggleChange = (e, isInputChecked, key) => {
-    const { firebaseApp, match } = this.props;
+    const { firebaseApp, match, userGrantsPath } = this.props;
     const uid = match.params.uid;
 
     if (isInputChecked) {
-      firebaseApp.database().ref(`/user_grants/${uid}/${key}`).set(true);
+      firebaseApp.database().ref(`${userGrantsPath}/${uid}/${key}`).set(true);
     } else {
-      firebaseApp.database().ref(`/user_grants/${uid}/${key}`).remove();
+      firebaseApp.database().ref(`${userGrantsPath}/${uid}/${key}`).remove();
     }
 
   }
@@ -49,8 +45,6 @@ export class UserGrants extends Component {
     const key = list[i].val ? list[i].val.value : ''
     const val = appConfig.grants[list[i].key]
     let userGrants = []
-
-    console.log(key)
 
     if (user_grants !== undefined) {
       user_grants.map(role => {
@@ -132,13 +126,17 @@ const mapStateToProps = (state, ownProps) => {
   const { match } = ownProps
 
   const uid = match.params.uid
+  const rootPath = match.params.rootPath
+  const rootUid = match.params.rootUid
+  const userGrantsPath = rootPath ? `/${rootPath}_user_grants/${rootUid}` : '/user_grants'
 
   return {
     filters,
     auth,
     uid,
     intl,
-    user_grants: getList(state, 'user_grants'),
+    userGrantsPath,
+    user_grants: getList(state, userGrantsPath),
   }
 }
 
