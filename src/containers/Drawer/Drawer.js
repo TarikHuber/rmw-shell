@@ -7,7 +7,7 @@ import ResponsiveDrawer from '../../containers/ResponsiveDrawer'
 import { withRouter } from 'react-router-dom'
 
 export class AppLayout extends Component {
-  render () {
+  render() {
     const { history, appConfig } = this.props
 
     const path = history.location.pathname
@@ -15,7 +15,7 @@ export class AppLayout extends Component {
 
     return (
       <ResponsiveDrawer >
-        <Header {...this.props} />
+        <Header />
         <Scrollbar >
           <DrawerContent path={path} history={history} />
         </Scrollbar>
