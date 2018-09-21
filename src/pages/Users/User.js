@@ -115,7 +115,6 @@ export class User extends Component {
       }
     }
 
-
     return (
       <Activity
         isLoading={isLoading}

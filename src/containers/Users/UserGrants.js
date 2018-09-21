@@ -26,31 +26,32 @@ export class UserGrants extends Component {
     watchList(userGrantsPath)
   }
 
+
+
   handleGrantToggleChange = (e, isInputChecked, key) => {
-    const { firebaseApp, match, userGrantsPath } = this.props;
-    const uid = match.params.uid;
+    const { firebaseApp, userGrantsPath } = this.props
+    const ref = firebaseApp.database().ref(`${userGrantsPath}/${key}`)
 
     if (isInputChecked) {
-      firebaseApp.database().ref(`${userGrantsPath}/${uid}/${key}`).set(true);
+      ref.set(true)
     } else {
-      firebaseApp.database().ref(`${userGrantsPath}/${uid}/${key}`).remove();
+      ref.remove()
     }
 
   }
 
   renderGrantItem = (list, i, k) => {
-    const { user_grants, match, intl, appConfig } = this.props
+    const { user_grants, intl, appConfig } = this.props
 
-    const uid = match.params.uid
     const key = list[i].val ? list[i].val.value : ''
     const val = appConfig.grants[list[i].key]
     let userGrants = []
 
     if (user_grants !== undefined) {
       user_grants.map(role => {
-        if (role.key === uid) {
+        if (role.key === key) {
           if (role.val !== undefined) {
-            userGrants = role.val
+            userGrants[role.key] = role.val
           }
         }
         return role
@@ -128,7 +129,7 @@ const mapStateToProps = (state, ownProps) => {
   const uid = match.params.uid
   const rootPath = match.params.rootPath
   const rootUid = match.params.rootUid
-  const userGrantsPath = rootPath ? `/${rootPath}_user_grants/${rootUid}` : '/user_grants'
+  const userGrantsPath = rootPath ? `/${rootPath}_user_grants/${uid}/${rootUid}` : `/user_grants/${uid}`
 
   return {
     filters,

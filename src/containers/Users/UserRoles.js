@@ -26,30 +26,29 @@ export class UserRoles extends Component {
   }
 
   handleRoleToggleChange = (e, isInputChecked, key) => {
-    const { firebaseApp, match, userRolesPath } = this.props
-    const uid = match.params.uid
+    const { firebaseApp, userRolesPath } = this.props
+    const ref = firebaseApp.database().ref(`${userRolesPath}/${key}`)
 
     if (isInputChecked) {
-      firebaseApp.database().ref(`${userRolesPath}/${uid}/${key}`).set(true)
+      ref.set(true)
     } else {
-      firebaseApp.database().ref(`${userRolesPath}/${uid}/${key}`).remove()
+      ref.remove()
     }
 
   }
 
   renderRoleItem = (i, k) => {
-    const { roles, user_roles, match } = this.props
+    const { roles, user_roles } = this.props
 
-    const uid = match.params.uid
     const key = roles[i].key
     const val = roles[i].val
     let userRoles = []
 
     if (user_roles !== undefined) {
       user_roles.map(role => {
-        if (role.key === uid) {
+        if (role.key === key) {
           if (role.val !== undefined) {
-            userRoles = role.val
+            userRoles[role.key] = role.val
           }
         }
         return role
@@ -106,7 +105,7 @@ const mapStateToProps = (state, ownProps) => {
   const uid = match.params.uid
   const rootPath = match.params.rootPath
   const rootUid = match.params.rootUid
-  const userRolesPath = rootPath ? `/${rootPath}_user_roles/${rootUid}` : '/user_roles'
+  const userRolesPath = rootPath ? `/${rootPath}_user_roles/${uid}/${rootUid}` : `/user_roles/${uid}`
 
   return {
     filters,
