@@ -18,12 +18,12 @@ import { compose } from 'redux'
 import Tooltip from '@material-ui/core/Tooltip'
 
 class ListActivity extends Component {
-  componentDidMount () {
+  componentDidMount() {
     const { watchList, path, name } = this.props
     watchList(path || name)
   }
 
-  render () {
+  render() {
     const {
       createGrant,
       filterFields,
@@ -83,19 +83,19 @@ class ListActivity extends Component {
             disableCreate !== true && isGranted(createGrant) &&
             <Button
               variant='fab'
-              onClick={handleCreateClick || () => { history.push(`/${name}/create`) }}
+              onClick={handleCreateClick || () => {history.push(`/${name}/create`)}}
               style={{ position: 'fixed', bottom: 15, right: 20, zIndex: 99 }}
-              color={'secondary'}>
+          color={'secondary'}>
               <Icon >add</Icon>
             </Button>
-          }
+        }
         </div>
-        <FilterDrawer
-          name={name}
-          fields={fields}
-          formatMessage={intl.formatMessage}
-        />
-      </Activity>
+      <FilterDrawer
+        name={name}
+        fields={fields}
+        formatMessage={intl.formatMessage}
+      />
+      </Activity >
     )
   }
 }
@@ -107,7 +107,7 @@ ListActivity.propTypes = {
 
 const mapStateToProps = (state, ownProps) => {
   const { lists, filters } = state
-  const { name, path, isGranted: customIsGranted } = ownProps
+  const { name, path } = ownProps
 
   const key = path || name
 
@@ -117,7 +117,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     hasFilters,
     list,
-    isGranted: grant => customIsGranted ? customIsGranted(state, grant) : isGranted(state, grant)
+    isGranted: grant => isGranted(state, grant)
   }
 }
 
