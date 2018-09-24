@@ -65,8 +65,8 @@ class EditActivity extends Component {
         })}
         appBarContent={
           <div style={{ display: 'flex' }}>
-            {((uid === undefined && isGranted(`edit_${name}`)) ||
-              (uid !== undefined && isGranted(`create_${name}`))) && (
+            {((uid !== undefined && isGranted(`edit_${name}`)) ||
+              (uid === undefined && isGranted(`create_${name}`))) && (
               <Tooltip title={intl.formatMessage({ id: 'save' })}>
                 <IconButton
                   color="inherit"
