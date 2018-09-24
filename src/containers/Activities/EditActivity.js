@@ -18,27 +18,29 @@ import { withRouter } from 'react-router-dom'
 import { withTheme } from '@material-ui/core/styles'
 
 class EditActivity extends Component {
-
-  _handleDelete = (handleClose) => {
-    const { history, match, firebaseApp, path } = this.props;
-    const uid = match.params.uid;
+  _handleDelete = handleClose => {
+    const { history, match, firebaseApp, path } = this.props
+    const uid = match.params.uid
 
     if (uid) {
-      firebaseApp.database().ref().child(`/${path}/${uid}`).remove().then(() => {
-        handleClose();
-        history.goBack();
-      })
+      firebaseApp
+        .database()
+        .ref()
+        .child(`/${path}/${uid}`)
+        .remove()
+        .then(() => {
+          handleClose()
+          history.goBack()
+        })
     }
   }
 
   hanldeSubmitSuccess = (values, key) => {
-    const { history, path } = this.props;
-    history.push(`/${path}`);
+    const { history, path } = this.props
+    history.push(`/${path}`)
   }
 
-
   render() {
-
     const {
       history,
       setSimpleValue,
@@ -52,40 +54,51 @@ class EditActivity extends Component {
       handleDelete,
       name,
       path
-    } = this.props;
+    } = this.props
 
-    const uid = match.params.uid;
+    const uid = match.params.uid
 
     return (
       <Activity
-        title={intl.formatMessage({ id: this.props.match.params.uid ? `edit_${name}` : `create_${name}` })}
+        title={intl.formatMessage({
+          id: this.props.match.params.uid ? `edit_${name}` : `create_${name}`
+        })}
         appBarContent={
           <div style={{ display: 'flex' }}>
-            {((uid === undefined && isGranted(`edit_${name}`)) || (uid !== undefined && isGranted(`create_${name}`))) &&
+            {((uid === undefined && isGranted(`edit_${name}`)) ||
+              (uid !== undefined && isGranted(`create_${name}`))) && (
               <Tooltip title={intl.formatMessage({ id: 'save' })}>
                 <IconButton
                   color="inherit"
                   aria-label="save"
-                  onClick={() => { submit(name) }}
+                  onClick={() => {
+                    submit(name)
+                  }}
                 >
-                  <Icon   >save</Icon>
+                  <Icon>save</Icon>
                 </IconButton>
               </Tooltip>
-            }
-            {uid && isGranted(`delete_${name}`) &&
-              <Tooltip title={intl.formatMessage({ id: 'delete' })}>
-                <IconButton
-                  color="inherit"
-                  aria-label="delete"
-                  onClick={() => { setSimpleValue(`delete_${name}`, true) }}
-                >
-                  <Icon   >delete</Icon>
-                </IconButton>
-              </Tooltip>
-            }
+            )}
+            {uid &&
+              isGranted(`delete_${name}`) && (
+                <Tooltip title={intl.formatMessage({ id: 'delete' })}>
+                  <IconButton
+                    color="inherit"
+                    aria-label="delete"
+                    onClick={() => {
+                      setSimpleValue(`delete_${name}`, true)
+                    }}
+                  >
+                    <Icon>delete</Icon>
+                  </IconButton>
+                </Tooltip>
+              )}
           </div>
         }
-        onBackClick={() => { history.goBack() }}>
+        onBackClick={() => {
+          history.goBack()
+        }}
+      >
         <Scrollbar style={{ height: 'calc(100vh - 112px)' }}>
           <div style={{ margin: 15, display: 'flex' }}>
             <FireForm
@@ -103,7 +116,7 @@ class EditActivity extends Component {
 
         <DeleteDialog name={name} handleDelete={handleDelete ? handleDelete : this._handleDelete} />
       </Activity>
-    );
+    )
   }
 }
 
@@ -114,21 +127,25 @@ EditActivity.propTypes = {
   submit: PropTypes.func.isRequired,
   theme: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
-  isGranted: PropTypes.func.isRequired,
+  isGranted: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state, ownProps) => {
   const { auth, intl } = state
+  const { isGranted: customIsGranted } = ownProps
 
   return {
     auth,
     intl,
-    isGranted: grant => isGranted(state, grant)
+    isGranted: grant => (customIsGranted ? customIsGranted(state, grant) : isGranted(state, grant))
   }
 }
 
 export default compose(
-  connect(mapStateToProps, { setSimpleValue, change, submit }),
+  connect(
+    mapStateToProps,
+    { setSimpleValue, change, submit }
+  ),
   injectIntl,
   withRouter,
   withFirebase,

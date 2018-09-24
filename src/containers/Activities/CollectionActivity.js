@@ -17,9 +17,7 @@ import { withRouter } from 'react-router-dom'
 import { compose } from 'redux'
 import Tooltip from '@material-ui/core/Tooltip'
 
-
 class CollectionActivity extends Component {
-
   componentDidMount() {
     const { path, name, watchCol } = this.props
 
@@ -45,7 +43,10 @@ class CollectionActivity extends Component {
 
     const fields = filterFields.map(field => {
       if (!field.label) {
-        return { label: intl.formatMessage({ id: `${field.name}_label` }), ...field }
+        return {
+          label: intl.formatMessage({ id: `${field.name}_label` }),
+          ...field
+        }
       }
       return field
     })
@@ -56,48 +57,50 @@ class CollectionActivity extends Component {
         appBarContent={
           <div style={{ display: 'flex' }}>
             <SearchField filterName={name} />
-            <Tooltip title={intl.formatMessage({ id: 'open_filter' })} >
+            <Tooltip title={intl.formatMessage({ id: 'open_filter' })}>
               <IconButton
                 color="inherit"
                 aria-label="open drawer"
-                onClick={() => { setFilterIsOpen(name, true) }}
+                onClick={() => {
+                  setFilterIsOpen(name, true)
+                }}
               >
                 <Icon color={hasFilters ? 'secondary' : 'inherit'}>filter_list</Icon>
               </IconButton>
             </Tooltip>
-
           </div>
-        }>
-
+        }
+      >
         <div style={{ height: '100%' }}>
           <Scrollbar>
-            <List ref={field => this.list = field}>
+            <List ref={field => (this.list = field)}>
               <ReactList
                 itemRenderer={i => renderItem(list[i].id, list[i].data)}
                 length={list ? list.length : 0}
-                type='simple'
+                type="simple"
               />
             </List>
           </Scrollbar>
-          <div
-            style={{ float: "left", clear: "both" }}
-          />
-          {
-            disableCreate !== true && isGranted(createGrant) &&
+          <div style={{ float: 'left', clear: 'both' }} />
+          {disableCreate !== true &&
+            isGranted(createGrant) && (
             <Button
-              variant='fab'
-              onClick={handleCreateClick ? handleCreateClick : () => { history.push(`/${name}/create`) }}
+              variant="fab"
+              onClick={
+                handleCreateClick
+                  ? handleCreateClick
+                  : () => {
+                    history.push(`/${name}/create`)
+                  }
+              }
               style={{ position: 'fixed', bottom: 15, right: 20, zIndex: 99 }}
-              color={'secondary'}>
-              <Icon   >add</Icon>
+              color={'secondary'}
+            >
+              <Icon>add</Icon>
             </Button>
-          }
+          )}
         </div>
-        <FilterDrawer
-          name={name}
-          fields={fields}
-          formatMessage={intl.formatMessage}
-        />
+        <FilterDrawer name={name} fields={fields} formatMessage={intl.formatMessage} />
       </Activity>
     )
   }
@@ -105,12 +108,12 @@ class CollectionActivity extends Component {
 
 CollectionActivity.propTypes = {
   intl: intlShape.isRequired,
-  isGranted: PropTypes.func.isRequired,
+  isGranted: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state, ownProps) => {
   const { collections, filters } = state
-  const { name, path } = ownProps
+  const { name, path, isGranted: customIsGranted } = ownProps
 
   const key = path ? path : name
 
@@ -120,13 +123,15 @@ const mapStateToProps = (state, ownProps) => {
   return {
     hasFilters,
     list,
-    isGranted: grant => isGranted(state, grant)
+    isGranted: grant => (customIsGranted ? customIsGranted(state, grant) : isGranted(state, grant))
   }
 }
 
-
 export default compose(
-  connect(mapStateToProps, { ...filterActions }),
+  connect(
+    mapStateToProps,
+    { ...filterActions }
+  ),
   injectIntl,
   withFirebase,
   withRouter

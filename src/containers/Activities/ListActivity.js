@@ -18,12 +18,12 @@ import { compose } from 'redux'
 import Tooltip from '@material-ui/core/Tooltip'
 
 class ListActivity extends Component {
-  componentDidMount () {
+  componentDidMount() {
     const { watchList, path, name } = this.props
     watchList(path || name)
   }
 
-  render () {
+  render() {
     const {
       createGrant,
       filterFields,
@@ -42,58 +42,64 @@ class ListActivity extends Component {
 
     const fields = filterFields.map(field => {
       if (!field.label) {
-        return { label: intl.formatMessage({ id: `${field.name}_label` }), ...field }
+        return {
+          label: intl.formatMessage({ id: `${field.name}_label` }),
+          ...field
+        }
       }
       return field
     })
 
     return (
-          <Activity
-              title={title || intl.formatMessage({ id: name })}
-              appBarContent={<div style={{ display: 'flex' }}>
-          <SearchField filterName={name} />
-                  <Tooltip title={intl.formatMessage({ id: 'open_filter' })} >
-            <IconButton
-                          color='inherit'
-              aria-label='open drawer'
-              onClick={() => { setFilterIsOpen(name, true) }}
-            >
-                          <Icon color={hasFilters ? 'secondary' : 'inherit'}>filter_list</Icon>
-            </IconButton>
-          </Tooltip>
-
-        </div>
-        }>
-
+      <Activity
+        title={title || intl.formatMessage({ id: name })}
+        appBarContent={
+          <div style={{ display: 'flex' }}>
+            <SearchField filterName={name} />
+            <Tooltip title={intl.formatMessage({ id: 'open_filter' })}>
+              <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                onClick={() => {
+                  setFilterIsOpen(name, true)
+                }}
+              >
+                <Icon color={hasFilters ? 'secondary' : 'inherit'}>filter_list</Icon>
+              </IconButton>
+            </Tooltip>
+          </div>
+        }
+      >
         <div style={{ height: '100%' }}>
           <Scrollbar>
-            <List ref={field => this.list = field}>
+            <List ref={field => (this.list = field)}>
               <ReactList
-                              itemRenderer={i => renderItem(list[i].key, list[i].val)}
+                itemRenderer={i => renderItem(list[i].key, list[i].val)}
                 length={list ? list.length : 0}
-                              type='simple'
+                type="simple"
               />
             </List>
           </Scrollbar>
-          <div
-            style={{ float: 'left', clear: 'both' }}
-          />
-                  {
-            disableCreate !== true && isGranted(createGrant) &&
-                        <Button
-                          variant='fab'
-                          onClick={handleCreateClick != null ? handleCreateClick : () => { history.push(`/${name}/create`) }}
-                          style={{ position: 'fixed', bottom: 15, right: 20, zIndex: 99 }}
-                          color={'secondary'}>
-                          <Icon >add</Icon>
-                        </Button>
-          }
+          <div style={{ float: 'left', clear: 'both' }} />
+          {disableCreate !== true &&
+            isGranted(createGrant) && (
+            <Button
+              variant="fab"
+              onClick={
+                handleCreateClick != null
+                  ? handleCreateClick
+                  : () => {
+                    history.push(`/${name}/create`)
+                  }
+              }
+              style={{ position: 'fixed', bottom: 15, right: 20, zIndex: 99 }}
+              color={'secondary'}
+            >
+              <Icon>add</Icon>
+            </Button>
+          )}
         </div>
-        <FilterDrawer
-                  name={name}
-                  fields={fields}
-                  formatMessage={intl.formatMessage}
-        />
+        <FilterDrawer name={name} fields={fields} formatMessage={intl.formatMessage} />
       </Activity>
     )
   }
@@ -106,7 +112,7 @@ ListActivity.propTypes = {
 
 const mapStateToProps = (state, ownProps) => {
   const { lists, filters } = state
-  const { name, path } = ownProps
+  const { name, path, isGranted: customIsGranted } = ownProps
 
   const key = path || name
 
@@ -116,12 +122,15 @@ const mapStateToProps = (state, ownProps) => {
   return {
     hasFilters,
     list,
-    isGranted: grant => isGranted(state, grant)
+    isGranted: grant => (customIsGranted ? customIsGranted(state, grant) : isGranted(state, grant))
   }
 }
 
 export default compose(
-  connect(mapStateToProps, { ...filterActions }),
+  connect(
+    mapStateToProps,
+    { ...filterActions }
+  ),
   injectIntl,
   withFirebase,
   withRouter
