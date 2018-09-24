@@ -17,15 +17,13 @@ import { withRouter } from 'react-router-dom'
 import { compose } from 'redux'
 import Tooltip from '@material-ui/core/Tooltip'
 
-
 class ListActivity extends Component {
-
-  componentDidMount() {
+  componentDidMount () {
     const { watchList, path, name } = this.props
-    watchList(path ? path : name)
+    watchList(path || name)
   }
 
-  render() {
+  render () {
     const {
       createGrant,
       filterFields,
@@ -51,14 +49,14 @@ class ListActivity extends Component {
 
     return (
       <Activity
-        title={title ? title : intl.formatMessage({ id: name })}
+        title={title || intl.formatMessage({ id: name })}
         appBarContent={
           <div style={{ display: 'flex' }}>
             <SearchField filterName={name} />
             <Tooltip title={intl.formatMessage({ id: 'open_filter' })} >
               <IconButton
-                color="inherit"
-                aria-label="open drawer"
+                color='inherit'
+                aria-label='open drawer'
                 onClick={() => { setFilterIsOpen(name, true) }}
               >
                 <Icon color={hasFilters ? 'secondary' : 'inherit'}>filter_list</Icon>
@@ -79,16 +77,16 @@ class ListActivity extends Component {
             </List>
           </Scrollbar>
           <div
-            style={{ float: "left", clear: "both" }}
+            style={{ float: 'left', clear: 'both' }}
           />
           {
             disableCreate !== true && isGranted(createGrant) &&
             <Button
               variant='fab'
-              onClick={handleCreateClick ? handleCreateClick : () => { history.push(`/${name}/create`) }}
+              onClick={handleCreateClick || () => { history.push(`/${name}/create`) }}
               style={{ position: 'fixed', bottom: 15, right: 20, zIndex: 99 }}
               color={'secondary'}>
-              <Icon   >add</Icon>
+              <Icon >add</Icon>
             </Button>
           }
         </div>
@@ -104,14 +102,14 @@ class ListActivity extends Component {
 
 ListActivity.propTypes = {
   intl: intlShape.isRequired,
-  isGranted: PropTypes.func.isRequired,
+  isGranted: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state, ownProps) => {
   const { lists, filters } = state
-  const { name, path } = ownProps
+  const { name, path, isGranted: customIsGranted } = ownProps
 
-  const key = path ? path : name
+  const key = path || name
 
   const { hasFilters } = filterSelectors.selectFilterProps(name, filters)
   const list = filterSelectors.getFilteredList(key, filters, lists[key], fieldValue => fieldValue.val)
@@ -119,10 +117,9 @@ const mapStateToProps = (state, ownProps) => {
   return {
     hasFilters,
     list,
-    isGranted: grant => isGranted(state, grant)
+    isGranted: grant => customIsGranted ? customIsGranted(state, grant) : isGranted(state, grant)
   }
 }
-
 
 export default compose(
   connect(mapStateToProps, { ...filterActions }),
