@@ -18,12 +18,12 @@ import { compose } from 'redux'
 import Tooltip from '@material-ui/core/Tooltip'
 
 class ListActivity extends Component {
-  componentDidMount() {
+  componentDidMount () {
     const { watchList, path, name } = this.props
     watchList(path || name)
   }
 
-  render() {
+  render () {
     const {
       createGrant,
       filterFields,
@@ -48,54 +48,53 @@ class ListActivity extends Component {
     })
 
     return (
-      <Activity
-        title={title || intl.formatMessage({ id: name })}
-        appBarContent={
-          <div style={{ display: 'flex' }}>
-            <SearchField filterName={name} />
-            <Tooltip title={intl.formatMessage({ id: 'open_filter' })} >
-              <IconButton
-                color='inherit'
-                aria-label='open drawer'
-                onClick={() => { setFilterIsOpen(name, true) }}
-              >
-                <Icon color={hasFilters ? 'secondary' : 'inherit'}>filter_list</Icon>
-              </IconButton>
-            </Tooltip>
+          <Activity
+              title={title || intl.formatMessage({ id: name })}
+              appBarContent={<div style={{ display: 'flex' }}>
+          <SearchField filterName={name} />
+                  <Tooltip title={intl.formatMessage({ id: 'open_filter' })} >
+            <IconButton
+                          color='inherit'
+              aria-label='open drawer'
+              onClick={() => { setFilterIsOpen(name, true) }}
+            >
+                          <Icon color={hasFilters ? 'secondary' : 'inherit'}>filter_list</Icon>
+            </IconButton>
+          </Tooltip>
 
-          </div>
+        </div>
         }>
 
         <div style={{ height: '100%' }}>
           <Scrollbar>
             <List ref={field => this.list = field}>
               <ReactList
-                itemRenderer={i => renderItem(list[i].key, list[i].val)}
+                              itemRenderer={i => renderItem(list[i].key, list[i].val)}
                 length={list ? list.length : 0}
-                type='simple'
+                              type='simple'
               />
             </List>
           </Scrollbar>
           <div
             style={{ float: 'left', clear: 'both' }}
           />
-          {
+                  {
             disableCreate !== true && isGranted(createGrant) &&
-            <Button
-              variant='fab'
-              onClick={handleCreateClick || () => {history.push(`/${name}/create`)}}
-              style={{ position: 'fixed', bottom: 15, right: 20, zIndex: 99 }}
-          color={'secondary'}>
-              <Icon >add</Icon>
-            </Button>
-        }
+                        <Button
+                          variant='fab'
+                          onClick={handleCreateClick != null ? handleCreateClick : () => { history.push(`/${name}/create`) }}
+                          style={{ position: 'fixed', bottom: 15, right: 20, zIndex: 99 }}
+                          color={'secondary'}>
+                          <Icon >add</Icon>
+                        </Button>
+          }
         </div>
-      <FilterDrawer
-        name={name}
-        fields={fields}
-        formatMessage={intl.formatMessage}
-      />
-      </Activity >
+        <FilterDrawer
+                  name={name}
+                  fields={fields}
+                  formatMessage={intl.formatMessage}
+        />
+      </Activity>
     )
   }
 }
