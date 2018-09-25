@@ -6,38 +6,26 @@ import Avatar from '../../components/ReduxFormFields/Avatar'
 import { Field } from 'redux-form'
 import { ImageCropDialog } from '../../containers/ImageCropDialog'
 
-
-
 class AvatarImageField extends Component {
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
       selected_avatar_image: undefined
     }
   }
 
-  handlePhotoUploadSuccess = (snapshot) => {
-    const { change, name } = this.props;
+  handlePhotoUploadSuccess = snapshot => {
+    const { change, name } = this.props
 
     snapshot.ref.getDownloadURL().then(downloadURL => {
-      change(name, downloadURL);
+      change(name, downloadURL)
       this.setState({ selected_avatar_image: undefined })
     })
   }
 
-
   render() {
-    const {
-      altIconName,
-      altIcon,
-      disabled,
-      initialized,
-      intl,
-      path,
-      uid,
-      name
-    } = this.props;
+    const { altIconName, altIcon, disabled, initialized, intl, path, uid, name } = this.props
 
     return (
       <div style={{ margin: 20, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -56,25 +44,28 @@ class AvatarImageField extends Component {
             onClick={() => {
               this.setState({ selected_avatar_image: 'true' })
             }}
-            disabled={disabled === true ? true : (uid === undefined || !initialized)}
-            color='primary'
+            disabled={disabled === true ? true : uid === undefined || !initialized}
+            color="primary"
           >
-            <Icon >  photo_camera </Icon>
+            <Icon> photo_camera </Icon>
           </IconButton>
         </div>
 
         <ImageCropDialog
           path={`${path}/${uid}`}
           fileName={name}
-          onUploadSuccess={(s) => { this.handlePhotoUploadSuccess(s) }}
+          onUploadSuccess={s => {
+            this.handlePhotoUploadSuccess(s)
+          }}
           open={this.state.selected_avatar_image !== undefined}
           src={this.state.selected_avatar_image}
-          handleClose={() => { this.setState({ 'selected_avatar_image': undefined }) }}
+          handleClose={() => {
+            this.setState({ selected_avatar_image: undefined })
+          }}
           title={intl.formatMessage({ id: 'change_photo' })}
         />
-
       </div>
-    );
+    )
   }
 }
 
@@ -83,6 +74,6 @@ AvatarImageField.propTypes = {
   altIconName: PropTypes.string,
   path: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired
-};
+}
 
 export default AvatarImageField

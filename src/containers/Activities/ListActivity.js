@@ -8,14 +8,15 @@ import React, { Component } from 'react'
 import ReactList from 'react-list'
 import Scrollbar from 'rmw-shell/lib/components/Scrollbar'
 import SearchField from 'rmw-shell/lib/components/SearchField'
+import Tooltip from '@material-ui/core/Tooltip'
 import isGranted from 'rmw-shell/lib/utils/auth'
 import { FilterDrawer, filterSelectors, filterActions } from 'material-ui-filter'
+import { compose } from 'redux'
 import { connect } from 'react-redux'
+import { getList } from 'firekit'
 import { injectIntl, intlShape } from 'react-intl'
 import { withFirebase } from 'firekit-provider'
 import { withRouter } from 'react-router-dom'
-import { compose } from 'redux'
-import Tooltip from '@material-ui/core/Tooltip'
 
 class ListActivity extends Component {
   componentDidMount() {
@@ -111,13 +112,13 @@ ListActivity.propTypes = {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const { lists, filters } = state
+  const { filters } = state
   const { name, path, isGranted: customIsGranted } = ownProps
 
   const key = path || name
 
   const { hasFilters } = filterSelectors.selectFilterProps(name, filters)
-  const list = filterSelectors.getFilteredList(key, filters, lists[key], fieldValue => fieldValue.val)
+  const list = filterSelectors.getFilteredList(key, filters, getList(state, key), fieldValue => fieldValue.val)
 
   return {
     hasFilters,

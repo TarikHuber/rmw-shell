@@ -16,6 +16,7 @@ import { withFirebase } from 'firekit-provider'
 import { withRouter } from 'react-router-dom'
 import { compose } from 'redux'
 import Tooltip from '@material-ui/core/Tooltip'
+import { getCol } from 'firekit'
 
 class CollectionActivity extends Component {
   componentDidMount() {
@@ -112,13 +113,13 @@ CollectionActivity.propTypes = {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const { collections, filters } = state
+  const { filters } = state
   const { name, path, isGranted: customIsGranted } = ownProps
 
   const key = path ? path : name
 
   const { hasFilters } = filterSelectors.selectFilterProps(name, filters)
-  const list = filterSelectors.getFilteredList(key, filters, collections[key], fieldValue => fieldValue.data)
+  const list = filterSelectors.getFilteredList(key, filters, getCol(state, key), fieldValue => fieldValue.data)
 
   return {
     hasFilters,

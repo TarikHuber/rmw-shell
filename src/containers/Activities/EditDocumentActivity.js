@@ -1,6 +1,6 @@
 import Activity from 'rmw-shell/lib/containers/Activity'
 import DeleteDialog from 'rmw-shell/lib/containers/DeleteDialog'
-import FireForm from '../../containers/FireForm/FireForm'
+import FireForm from 'fireform'
 import Icon from '@material-ui/core/Icon'
 import IconButton from '@material-ui/core/IconButton'
 import PropTypes from 'prop-types'
@@ -78,18 +78,18 @@ class EditDocumentActivity extends Component {
             )}
             {uid &&
               isGranted(`delete_${name}`) && (
-                <Tooltip title={intl.formatMessage({ id: 'delete' })}>
-                  <IconButton
-                    color="inherit"
-                    aria-label="delete"
-                    onClick={() => {
-                      setSimpleValue(`delete_${name}`, true)
-                    }}
-                  >
-                    <Icon>delete</Icon>
-                  </IconButton>
-                </Tooltip>
-              )}
+              <Tooltip title={intl.formatMessage({ id: 'delete' })}>
+                <IconButton
+                  color="inherit"
+                  aria-label="delete"
+                  onClick={() => {
+                    setSimpleValue(`delete_${name}`, true)
+                  }}
+                >
+                  <Icon>delete</Icon>
+                </IconButton>
+              </Tooltip>
+            )}
           </div>
         }
         onBackClick={() => {

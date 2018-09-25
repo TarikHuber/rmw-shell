@@ -1,4 +1,3 @@
-
 import React from 'react'
 import { toast } from 'react-toastify'
 import moment from 'moment'
@@ -25,33 +24,59 @@ export default function requestNotificationPermission(props) {
   } = props
 
   const reengagingHours = appConfig.notificationsReengagingHours ? appConfig.notificationsReengagingHours : 48
-  const requestNotificationPermission = notificationPermissionRequested ? moment().diff(notificationPermissionRequested, 'hours') > reengagingHours : true
+  const requestNotificationPermission = notificationPermissionRequested
+    ? moment().diff(notificationPermissionRequested, 'hours') > reengagingHours
+    : true
 
-  if ('Notification' in window && window.Notification.permission !== 'granted' && auth.uid && requestNotificationPermission && !simpleValues['notificationPermissionShown']) {
+  if (
+    'Notification' in window &&
+    window.Notification.permission !== 'granted' &&
+    auth.uid &&
+    requestNotificationPermission &&
+    !simpleValues['notificationPermissionShown']
+  ) {
     setSimpleValue('notificationPermissionShown', true)
-    toast.info(({ closeToast }) => (<div>
-      <div style={{ display: 'flex', alignItems: 'center', padding: 8 }}>
-        <Icon style={{ paddingRight: 8 }} className='material-icons' color='secondary' >   notifications  </Icon>
-        <div style={{ padding: undefined }}>{intl.formatMessage({ id: 'enable_notifications_message' })}</div>
-      </div>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
-        <Button color='primary' onClick={() => {
-          setPersistentValue('notificationPermissionRequested', moment())
-          initializeMessaging(props)
-          closeToast()
-        }} >
-          {intl.formatMessage({ id: 'enable' })}
-        </Button>
-        <Button color='secondary' onClick={() => {
-          setPersistentValue('notificationPermissionRequested', moment())
-          closeToast()
-        }} >
-          {intl.formatMessage({ id: 'no_thanks' })}
-        </Button>
-      </div>
-
-    </div>), { position: toast.POSITION.TOP_CENTER, autoClose: false, closeButton: false, closeOnClick: false })
-  } else if ('Notification' in window && Notification.permission === 'granted' && auth.uid && !messaging.isInitialized) {
+    toast.info(
+      ({ closeToast }) => (
+        <div>
+          <div style={{ display: 'flex', alignItems: 'center', padding: 8 }}>
+            <Icon style={{ paddingRight: 8 }} className="material-icons" color="secondary">
+              {' '}
+              notifications{' '}
+            </Icon>
+            <div style={{ padding: undefined }}>{intl.formatMessage({ id: 'enable_notifications_message' })}</div>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
+            <Button
+              color="primary"
+              onClick={() => {
+                setPersistentValue('notificationPermissionRequested', moment())
+                initializeMessaging(props)
+                closeToast()
+              }}
+            >
+              {intl.formatMessage({ id: 'enable' })}
+            </Button>
+            <Button
+              color="secondary"
+              onClick={() => {
+                setPersistentValue('notificationPermissionRequested', moment())
+                closeToast()
+              }}
+            >
+              {intl.formatMessage({ id: 'no_thanks' })}
+            </Button>
+          </div>
+        </div>
+      ),
+      { position: toast.POSITION.TOP_CENTER, autoClose: false, closeButton: false, closeOnClick: false }
+    )
+  } else if (
+    'Notification' in window &&
+    Notification.permission === 'granted' &&
+    auth.uid &&
+    !messaging.isInitialized
+  ) {
     // initializeMessaging(props)
   }
 }
@@ -59,22 +84,32 @@ export default function requestNotificationPermission(props) {
 export function initializeMessaging(props, skipIfNoPermission = false) {
   const { initMessaging, firebaseApp, auth } = props
 
-  firebaseApp.database().ref(`disable_notifications/${auth.uid}`).once('value', snap => {
-    if (snap.val()) {
-      console.log('Notifications disabled by user')
-    } else if (skipIfNoPermission && ('Notification' in window && Notification.permission !== 'granted')) {
-      console.log('No permissions for Notifications')
-    } else {
-      console.log('Notifications initialized')
-      initMessaging(firebaseApp,
-        token => { handleTokenChange(props, token) }
-        , payload => { handleMessageReceived(props, payload) }
-      )
-    }
-  })
+  firebaseApp
+    .database()
+    .ref(`disable_notifications/${auth.uid}`)
+    .once('value', snap => {
+      if (snap.val()) {
+        console.log('Notifications disabled by user')
+      } else if (skipIfNoPermission && ('Notification' in window && Notification.permission !== 'granted')) {
+        console.log('No permissions for Notifications')
+      } else {
+        console.log('Notifications initialized')
+        if ('Notification' in window) {
+          Notification.requestPermission().then(p => {
+            initMessaging(
+              firebaseApp,
+              token => {
+                handleTokenChange(props, token)
+              },
+              payload => {
+                handleMessageReceived(props, payload)
+              }
+            )
+          })
+        }
+      }
+    })
 }
-
-
 
 export function handleMessageReceived(props, payload) {
   const { location, appConfig } = props
@@ -99,7 +134,10 @@ export function handleMessageReceived(props, payload) {
 export function handleTokenChange(props, token) {
   const { firebaseApp, auth } = props
 
-  firebaseApp.database().ref(`notification_tokens/${auth.uid}/${token}`).set(true)
+  firebaseApp
+    .database()
+    .ref(`notification_tokens/${auth.uid}/${token}`)
+    .set(true)
 }
 
 export function getNotification(notification, closeToast) {
@@ -111,15 +149,18 @@ export function getNotification(notification, closeToast) {
 }
 
 export function createNotifgication(notification, closeToast) {
-  return (<div
-    onClick={() => {
-      notification.onClick()
-    }}>
-    <ListItem >
-      <Avatar src={notification.icon} />
-      <ListItemText primary={notification.title} secondary={notification.body} />
-    </ListItem>
-  </div>)
+  return (
+    <div
+      onClick={() => {
+        notification.onClick()
+      }}
+    >
+      <ListItem>
+        <Avatar src={notification.icon} />
+        <ListItemText primary={notification.title} secondary={notification.body} />
+      </ListItem>
+    </div>
+  )
 }
 
 export function checkForUpdate(intl) {
@@ -128,20 +169,26 @@ export function checkForUpdate(intl) {
 
   if (window.updateAvailable && !updateMessageShown) {
     updateMessageShown = true
-    toast.info(({ closeToast }) => <div
-      onClick={() => {
-        handleUpdate()
-      }}>
-      <ListItem button >
-        <ListItemIcon>
-          <UpdateIcon />
-        </ListItemIcon>
-        <ListItemText primary={title} secondary={message} />
-      </ListItem>
-    </div>, {
+    toast.info(
+      ({ closeToast }) => (
+        <div
+          onClick={() => {
+            handleUpdate()
+          }}
+        >
+          <ListItem button>
+            <ListItemIcon>
+              <UpdateIcon />
+            </ListItemIcon>
+            <ListItemText primary={title} secondary={message} />
+          </ListItem>
+        </div>
+      ),
+      {
         position: toast.POSITION.BOTTOM_CENTER,
         autoClose: false
-      })
+      }
+    )
   }
 }
 
