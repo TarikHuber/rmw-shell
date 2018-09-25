@@ -23,8 +23,6 @@ export default function requestNotificationPermission(props) {
     appConfig
   } = props
 
-  console.log('requestNotificationPermission started', props)
-
   const reengagingHours = appConfig.notificationsReengagingHours ? appConfig.notificationsReengagingHours : 48
   const requestNotificationPermission = notificationPermissionRequested
     ? moment().diff(notificationPermissionRequested, 'hours') > reengagingHours
@@ -79,48 +77,33 @@ export default function requestNotificationPermission(props) {
     auth.uid &&
     !messaging.isInitialized
   ) {
-    console.log('requestNotificationPermission  all granted and initialized')
-
     // initializeMessaging(props)
   }
-
-  console.log('requestNotificationPermission no condition passing')
 }
 
 export function initializeMessaging(props, skipIfNoPermission = false) {
   const { initMessaging, firebaseApp, auth } = props
 
-  console.log('initializeMessaging started', props)
-
   firebaseApp
     .database()
     .ref(`disable_notifications/${auth.uid}`)
     .once('value', snap => {
-      console.log('initializeMessaging disabled notificatios loaded', snap.val())
-
       if (snap.val()) {
         console.log('Notifications disabled by user')
       } else if (skipIfNoPermission && ('Notification' in window && Notification.permission !== 'granted')) {
         console.log('No permissions for Notifications')
       } else {
         console.log('Notifications initialized')
-        if ('Notification' in window) {
-          Notification.requestPermission().then(p => {
-            initMessaging(
-              firebaseApp,
-              token => {
-                handleTokenChange(props, token)
-              },
-              payload => {
-                handleMessageReceived(props, payload)
-              }
-            )
-          })
-        }
+        initMessaging(
+          firebaseApp,
+          token => {
+            handleTokenChange(props, token)
+          },
+          payload => {
+            handleMessageReceived(props, payload)
+          }
+        )
       }
-    })
-    .catch(e => {
-      console.warn(e)
     })
 }
 
