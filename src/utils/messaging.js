@@ -119,6 +119,9 @@ export function initializeMessaging(props, skipIfNoPermission = false) {
         }
       }
     })
+    .catch(e => {
+      console.warn(e)
+    })
 }
 
 export function handleMessageReceived(props, payload) {
