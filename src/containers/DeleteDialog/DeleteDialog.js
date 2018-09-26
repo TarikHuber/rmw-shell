@@ -65,7 +65,7 @@ const mapStateToProps = (state, ownProps) => {
 
   const deleteKey = `delete_${name}`
   const isDialogOpen = simpleValues && simpleValues[deleteKey] ? true : false
-  const deleteUid = simpleValues ? simpleValues[deleteUid] : false
+  const deleteUid = simpleValues ? simpleValues[deleteKey] : false
 
   return {
     deleteUid,
