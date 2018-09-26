@@ -1,12 +1,7 @@
 import AppBar from '@material-ui/core/AppBar'
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
-import ChevronRightIcon from '@material-ui/icons/ChevronRight'
-import Divider from '@material-ui/core/Divider'
-import Drawer from '@material-ui/core/Drawer'
 import Icon from '@material-ui/core/Icon'
 import IconButton from '@material-ui/core/IconButton'
 import LinearProgress from '@material-ui/core/LinearProgress'
-import List from '@material-ui/core/List'
 import MenuIcon from '@material-ui/icons/Menu'
 import PropTypes from 'prop-types'
 import React from 'react'
@@ -19,35 +14,35 @@ import { Helmet } from 'react-helmet'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { injectIntl } from 'react-intl'
-import { withTheme, withStyles } from '@material-ui/core/styles'
+import { withStyles } from '@material-ui/core/styles'
 
-const drawerWidth = 240;
+const drawerWidth = 240
 
 const styles = theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
-    height: `100vh`
+    height: '100vh'
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
+      duration: theme.transitions.duration.leavingScreen
+    })
   },
   menuButton: {
     marginLeft: 12,
-    marginRight: 12,
+    marginRight: 12
   },
   toolbar: {
     alignItems: 'center',
     justifyContent: 'flex-end',
-    ...theme.mixins.toolbar,
+    ...theme.mixins.toolbar
   },
   content: {
     flex: 1,
-    backgroundColor: theme.palette.background.default,
+    backgroundColor: theme.palette.background.default
   },
 
   appBarShift: {
@@ -55,36 +50,48 @@ const styles = theme => ({
     width: `calc(100% - ${drawerWidth}px)`,
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
+      duration: theme.transitions.duration.enteringScreen
+    })
   },
   hide: {
-    display: 'none',
+    display: 'none'
   },
   grow: {
-    flex: '1 1 auto',
-  },
-});
+    flex: '1 1 auto'
+  }
+})
 
 class Activity extends React.Component {
-
   handleDrawerToggle = () => {
     const { setDrawerMobileOpen, drawer } = this.props
     setDrawerMobileOpen(!drawer.mobileOpen)
-  };
+  }
 
   handleDrawerOpen = () => {
     const { setDrawerOpen } = this.props
     setDrawerOpen(true)
-  };
+  }
 
   handleDrawerClose = () => {
     const { setDrawerOpen } = this.props
     setDrawerOpen(false)
-  };
+  }
 
   render() {
-    const { classes, theme, children, drawer, intl, title, pageTitle, width, appBarContent, isLoading, onBackClick, isOffline } = this.props;
+    const {
+      classes,
+      theme,
+      children,
+      drawer,
+      intl,
+      title,
+      pageTitle,
+      width,
+      appBarContent,
+      isLoading,
+      onBackClick,
+      isOffline
+    } = this.props
 
     let headerTitle = ''
 
@@ -109,16 +116,24 @@ class Activity extends React.Component {
         </Helmet>
 
         <AppBar
-          position={(width !== 'sm' && width !== 'xs') ? "absolute" : undefined}
-          className={(width !== 'sm' && width !== 'xs') ? classNames(classes.appBar, drawer.open && classes.appBarShift) : classes.appBar}
+          position={width !== 'sm' && width !== 'xs' ? 'absolute' : undefined}
+          className={
+            width !== 'sm' && width !== 'xs'
+              ? classNames(classes.appBar, drawer.open && classes.appBarShift)
+              : classes.appBar
+          }
         >
-          <Toolbar disableGutters={true} >
+          <Toolbar disableGutters={true}>
             {true && <LinearProgress />}
             <IconButton
               color="inherit"
               aria-label="open drawer"
               onClick={!drawer.open ? this.handleDrawerOpen : this.handleDrawerToggle}
-              className={classNames(!smDown && classes.menuButton, drawer.open && !smDown && classes.hide, onBackClick && classes.hide)}
+              className={classNames(
+                !smDown && classes.menuButton,
+                drawer.open && !smDown && classes.hide,
+                onBackClick && classes.hide
+              )}
             >
               <MenuIcon />
             </IconButton>
@@ -128,40 +143,47 @@ class Activity extends React.Component {
               onClick={onBackClick}
               className={classNames(!smDown && classes.menuButton, !onBackClick && classes.hide)}
             >
-              <Icon >chevron_left</Icon>
+              <Icon>chevron_left</Icon>
             </IconButton>
             {!onBackClick && drawer.open && <div style={{ marginRight: 32 }} />}
 
-            <Typography variant="title" color="inherit" noWrap >
+            <Typography variant="title" color="inherit" noWrap>
               {headerTitle}
             </Typography>
             <div className={classes.grow} />
             {appBarContent}
-
           </Toolbar>
         </AppBar>
         <div className={classes.toolbar} />
         {isLoading && <LinearProgress />}
-        {isOffline && <div style={{ display: 'flex', justifyContent: 'center', width: '100%', height: 15, backgroundColor: theme.palette.secondary.main }}>
-          <Typography variant="caption" color="textSecondary" noWrap >
-            {intl.formatMessage({ id: 'offline' })}
-          </Typography>
-        </div>}
-        <main className={classes.content}>
-          {children}
-        </main>
-      </div >
-    );
+        {isOffline && (
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              width: '100%',
+              height: 15,
+              backgroundColor: theme.palette.secondary.main
+            }}
+          >
+            <Typography variant="caption" color="textSecondary" noWrap>
+              {intl.formatMessage({ id: 'offline' })}
+            </Typography>
+          </div>
+        )}
+        <main className={classes.content}>{children}</main>
+      </div>
+    )
   }
 }
 
 Activity.propTypes = {
   classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
-  drawer: PropTypes.object.isRequired,
-};
+  drawer: PropTypes.object.isRequired
+}
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const { drawer, connection } = state
 
   return {
@@ -171,9 +193,11 @@ const mapStateToProps = (state) => {
 }
 
 export default compose(
-  connect(mapStateToProps, { ...drawerActions }),
+  connect(
+    mapStateToProps,
+    { ...drawerActions }
+  ),
   withWidth(),
   withStyles(styles, { withTheme: true }),
   injectIntl
 )(Activity)
-
