@@ -1,40 +1,28 @@
-import Chip from '@material-ui/core/Chip'
-import Divider from '@material-ui/core/Divider'
 import Button from '@material-ui/core/Button'
+import Divider from '@material-ui/core/Divider'
 import Icon from '@material-ui/core/Icon'
 import IconButton from '@material-ui/core/IconButton'
-import Image from 'material-ui-image'
+import Input from '@material-ui/core/Input'
+import ListItem from '@material-ui/core/ListItem'
+import ListItemText from '@material-ui/core/ListItemText'
+import Mic from './Mic'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
-import ReactDOM from 'react-dom'
 import ReactList from 'react-list'
 import Scrollbar from '../../components/Scrollbar'
-import Mic from './Mic'
-import TextField from '@material-ui/core/TextField'
 import firebase from 'firebase'
-import { withTheme, withStyles } from '@material-ui/core/styles'
-import List from '@material-ui/core/List'
-import ListItem from '@material-ui/core/ListItem'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
-import ListItemText from '@material-ui/core/ListItemText'
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
 import { connect } from 'react-redux'
 import { getGeolocation } from '../../utils/googleMaps'
 import { injectIntl, intlShape } from 'react-intl'
 import { setSimpleValue } from '../../store/simpleValues/actions'
 import { withFirebase } from 'firekit-provider'
 import { withRouter } from 'react-router-dom'
-import moment from 'moment'
-import Input, { InputLabel, InputAdornment } from '@material-ui/core/Input';
-import FormControl from '@material-ui/core/FormControl';
-import FormHelperText from '@material-ui/core/FormHelperText';
+import { withTheme } from '@material-ui/core/styles'
 
 class ChatMessages extends Component {
-
-
   constructor(props) {
-    super(props);
-    this.name = null;
+    super(props)
+    this.name = null
 
     this.state = {
       value: ''
@@ -42,14 +30,14 @@ class ChatMessages extends Component {
   }
 
   componentDidMount() {
-    const { watchList, firebaseApp } = this.props;
+    const { watchList } = this.props
 
-    watchList('predefined_chat_messages');
+    watchList('predefined_chat_messages')
   }
 
   handleKeyDown = (event, onSucces) => {
     if (event.keyCode === 13) {
-      onSucces();
+      onSucces()
     }
   }
 
@@ -80,153 +68,168 @@ class ChatMessages extends Component {
       }
     }
 
-
     this.setState({ value: '' })
 
     this.name.state.hasValue = false
 
     if (message && message.length > 0) {
       if (key) {
-        firebaseApp.database().ref(`${path}/${key}`).update(newMessage)
+        firebaseApp
+          .database()
+          .ref(`${path}/${key}`)
+          .update(newMessage)
       } else {
-        firebaseApp.database().ref(path).push(newMessage)
+        firebaseApp
+          .database()
+          .ref(path)
+          .push(newMessage)
       }
-
     }
   }
 
-  renderItem = (i, k) => {
-    const { predefinedMessages, theme, setSimpleValue, setChatInputMessage } = this.props;
+  renderItem = i => {
+    const { predefinedMessages, setSimpleValue } = this.props
 
-    const key = predefinedMessages[i].key;
-    const message = predefinedMessages[i].val.message;
+    const key = predefinedMessages[i].key
+    const message = predefinedMessages[i].val.message
 
-    return <div key={key}>
-
-      <ListItem
-        key={key}
-        onClick={() => {
-          setSimpleValue('chatMessageMenuOpen', false);
-          this.setState({ value: message })
-        }}
-        id={key}>
-        <ListItemText primary={message} />
-
-
-        <IconButton
-          color='primary'
+    return (
+      <div key={key}>
+        <ListItem
+          key={key}
           onClick={() => {
             setSimpleValue('chatMessageMenuOpen', false)
-            this.handleAddMessage("text", message)
-          }}>
-          <Icon >send</Icon>
-        </IconButton>
-      </ListItem>
-      <Divider inset={true} />
-    </div>;
+            this.setState({ value: message })
+          }}
+          id={key}
+        >
+          <ListItemText primary={message} />
+
+          <IconButton
+            color="primary"
+            onClick={() => {
+              setSimpleValue('chatMessageMenuOpen', false)
+              this.handleAddMessage('text', message)
+            }}
+          >
+            <Icon>send</Icon>
+          </IconButton>
+        </ListItem>
+        <Divider inset={true} />
+      </div>
+    )
   }
 
-  uploadSelectedFile = (file) => {
+  uploadSelectedFile = file => {
     const { firebaseApp, intl } = this.props
 
     if (file === null) {
       return
     }
 
-    if (((file.size / 1024) / 1024).toFixed(4) > 20) { //file larger than 10mb
+    if ((file.size / 1024 / 1024).toFixed(4) > 20) {
+      //file larger than 10mb
       alert(intl.formatMessage({ id: 'max_file_size' }))
       return
     }
 
     let reader = new FileReader()
 
-    const key = firebaseApp.database().ref(`/user_chat_messages/`).push().key
+    const key = firebaseApp
+      .database()
+      .ref('/user_chat_messages/')
+      .push().key
 
     reader.onload = fileData => {
-      let uploadTask = firebaseApp.storage().ref(`/user_chats/${key}`).putString(fileData.target.result, 'data_url')
+      let uploadTask = firebaseApp
+        .storage()
+        .ref(`/user_chats/${key}`)
+        .putString(fileData.target.result, 'data_url')
 
-      uploadTask.on('state_changed', snapshot => {
-      }, error => {
-        console.log(error)
-      }, () => {
-        uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
-          this.handleAddMessage('image', downloadURL, key)
-        })
-
-
-      })
+      uploadTask.on(
+        'state_changed',
+        () => {},
+        error => {
+          console.log(error)
+        },
+        () => {
+          uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
+            this.handleAddMessage('image', downloadURL, key)
+          })
+        }
+      )
     }
 
     reader.readAsDataURL(file)
   }
 
-
   render() {
-
-    const {
-      messages,
-      theme,
-      intl,
-      setSimpleValue,
-      chatMessageMenuOpen,
-      predefinedMessages,
-      uid,
-      firebaseApp,
-      simpleValues,
-      auth,
-      path,
-      receiverPath
-    } = this.props
+    const { theme, intl, setSimpleValue, chatMessageMenuOpen, predefinedMessages, path, receiverPath } = this.props
 
     return (
-
-      <div style={{
-        display: 'block',
-        alignItems: 'row',
-        justifyContent: 'center',
-        height: chatMessageMenuOpen ? 300 : 56,
-        backgroundColor: theme.palette.background.main,
-        margin: 5,
-        marginBottom: 15,
-        marginRight: 15,
-        marginLeft: 15
-      }}>
+      <div
+        style={{
+          display: 'block',
+          alignItems: 'row',
+          justifyContent: 'center',
+          height: chatMessageMenuOpen ? 300 : 56,
+          backgroundColor: theme.palette.background.main,
+          margin: 5,
+          marginBottom: 15,
+          marginRight: 15,
+          marginLeft: 15
+        }}
+      >
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <IconButton
             color={'primary'}
             onClick={() => {
               if (chatMessageMenuOpen === true) {
-                setSimpleValue('chatMessageMenuOpen', false);
+                setSimpleValue('chatMessageMenuOpen', false)
               } else {
-                setSimpleValue('chatMessageMenuOpen', true);
+                setSimpleValue('chatMessageMenuOpen', true)
               }
-            }}>
+            }}
+          >
             <Icon>{chatMessageMenuOpen === true ? 'keyboard_arrow_down' : 'keyboard_arrow_up'} </Icon>
           </IconButton>
 
-          <div style={{
-            backgroundColor: theme.palette.type === 'light' ? theme.palette.grey[300] : theme.palette.grey[700],
-            flexGrow: 1,
-            height: 56,
-            borderRadius: 30,
-            paddingLeft: 8,
-            paddingRight: 8,
-            margin: 5
-          }}>
+          <div
+            style={{
+              backgroundColor: theme.palette.type === 'light' ? theme.palette.grey[300] : theme.palette.grey[700],
+              flexGrow: 1,
+              height: 56,
+              borderRadius: 30,
+              paddingLeft: 8,
+              paddingRight: 8,
+              margin: 5
+            }}
+          >
             <div style={{ position: 'relative', display: 'inline-block', width: '100%' }}>
               <Input
                 id="message"
-                style={{ position: 'absolute', height: 42, width: 'calc(100% - 72px)', lineHeight: undefined, top: 0, left: 15 }}
+                style={{
+                  position: 'absolute',
+                  height: 42,
+                  width: 'calc(100% - 72px)',
+                  lineHeight: undefined,
+                  top: -5,
+                  left: 15
+                }}
                 disableUnderline={true}
-                onChange={(e, val) => {
+                onChange={e => {
                   this.setState({ value: e.target.value })
                 }}
                 fullWidth={true}
                 value={this.state.value}
                 autoComplete="off"
                 placeholder={intl.formatMessage({ id: 'write_message_hint' })}
-                onKeyDown={(event) => { this.handleKeyDown(event, () => this.handleAddMessage("text", this.state.value)) }}
-                ref={(field) => { this.name = field }}
+                onKeyDown={event => {
+                  this.handleKeyDown(event, () => this.handleAddMessage('text', this.state.value))
+                }}
+                ref={field => {
+                  this.name = field
+                }}
                 type="Text"
               />
 
@@ -234,89 +237,91 @@ class ChatMessages extends Component {
                 <IconButton
                   color={'primary'}
                   onClick={() =>
-                    getGeolocation((pos) => {
-                      if (!pos) {
-                        return;
-                      } else if (!pos.coords) {
-                        return;
-                      }
+                    getGeolocation(
+                      pos => {
+                        if (!pos) {
+                          return
+                        } else if (!pos.coords) {
+                          return
+                        }
 
-                      const lat = pos.coords.latitude;
-                      const long = pos.coords.longitude;
-                      this.handleAddMessage("location", `https://www.google.com/maps/place/${lat}+${long}/@${lat},${long}`);
-                    },
-                      (error) => console.log(error))
-                  }>
-                  <Icon >my_location</Icon>
+                        const lat = pos.coords.latitude
+                        const long = pos.coords.longitude
+                        this.handleAddMessage(
+                          'location',
+                          `https://www.google.com/maps/place/${lat}+${long}/@${lat},${long}`
+                        )
+                      },
+                      error => console.log(error)
+                    )
+                  }
+                >
+                  <Icon>my_location</Icon>
                 </IconButton>
               </div>
 
-
               <input
                 style={{ display: 'none' }}
-                type='file'
-                onChange={(e) => {
+                type="file"
+                onChange={e => {
                   this.uploadSelectedFile(e.target.files[0])
                 }}
-                ref={(input) => { this.fileInput = input }}
+                ref={input => {
+                  this.fileInput = input
+                }}
               />
 
               <div style={{ position: 'absolute', right: 55, top: -10, width: 20, height: 0 }}>
-                <IconButton
-                  color={'primary'}
-                  containerElement='label'
-                  onClick={() => this.fileInput.click()}>
-                  <Icon >photo</Icon>
+                <IconButton color={'primary'} containerElement="label" onClick={() => this.fileInput.click()}>
+                  <Icon>photo</Icon>
                 </IconButton>
               </div>
             </div>
           </div>
 
-          {this.state.value !== '' && <Button
-            variant="fab"
-            color={'primary'}
-            disabled={this.state.value === undefined || this.state.value === ''}
-            onClick={() => this.handleAddMessage("text", this.state.value)}
-            aria-label="send" >
-            <Icon >send</Icon>
-          </Button>
-          }
-          {this.state.value === '' && <Mic
-            receiverPath={receiverPath}
-            handleAddMessage={this.handleAddMessage}
-            path={path}
-          />}
-
+          {this.state.value !== '' && (
+            <Button
+              variant="fab"
+              color={'primary'}
+              disabled={this.state.value === undefined || this.state.value === ''}
+              onClick={() => this.handleAddMessage('text', this.state.value)}
+              aria-label="send"
+            >
+              <Icon>send</Icon>
+            </Button>
+          )}
+          {this.state.value === '' && (
+            <Mic receiverPath={receiverPath} handleAddMessage={this.handleAddMessage} path={path} />
+          )}
         </div>
-        {
-          chatMessageMenuOpen &&
+        {chatMessageMenuOpen && (
           <Scrollbar style={{ height: 200, backgroundColor: undefined }}>
-            <div style={{ padding: 10, paddingRight: 0, }}>
+            <div style={{ padding: 10, paddingRight: 0 }}>
               <ReactList
                 itemRenderer={this.renderItem}
                 length={predefinedMessages ? predefinedMessages.length : 0}
-                type='simple'
+                type="simple"
               />
             </div>
           </Scrollbar>
-        }
+        )}
       </div>
-    );
+    )
   }
 }
 
 ChatMessages.propTypes = {
   intl: intlShape.isRequired,
   theme: PropTypes.object.isRequired,
-  auth: PropTypes.object.isRequired,
-};
+  auth: PropTypes.object.isRequired
+}
 
 const mapStateToProps = (state, ownPops) => {
-  const { lists, auth, simpleValues } = state;
-  const { uid, path } = ownPops;
+  const { lists, auth, simpleValues } = state
+  const { uid, path } = ownPops
 
   const chatMessageMenuOpen = simpleValues['chatMessageMenuOpen'] === true
-  const imageDialogOpen = simpleValues.chatOpenImageDialog;
+  const imageDialogOpen = simpleValues.chatOpenImageDialog
 
   return {
     imageDialogOpen,
@@ -326,11 +331,10 @@ const mapStateToProps = (state, ownPops) => {
     chatMessageMenuOpen,
     predefinedMessages: lists['predefined_chat_messages'],
     auth
-  };
-};
-
-
+  }
+}
 
 export default connect(
-  mapStateToProps, { setSimpleValue }
-)(injectIntl(withTheme()(withRouter(withFirebase(ChatMessages)))));
+  mapStateToProps,
+  { setSimpleValue }
+)(injectIntl(withTheme()(withRouter(withFirebase(ChatMessages)))))
