@@ -1,6 +1,24 @@
 import React from 'react'
+import { compose } from 'redux'
+import { withStyles } from '@material-ui/core/styles'
 
-export const LoadingComponent = (props) => {
+const styles = theme => ({
+  container: {
+    backgroundColor: theme.palette.background.default,
+    height: '100vh',
+    display: 'flex',
+    flexDirection: 'column',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
+    alignItems: 'center'
+  },
+  loader: {
+    animation: 'spin infinite 20s linear',
+    height: '80px'
+  }
+})
+
+export const LoadingComponent = props => {
   if (props.isLoading) {
     // While our other component is loading...
     if (props.timedOut) {
@@ -8,11 +26,11 @@ export const LoadingComponent = (props) => {
       return <div>Loader timed out!</div>
     } else if (props.pastDelay) {
       // Display a loading screen after a set delay. <img src="/logo.svg" className="loader" alt="logo" />
-      return <div className='shell'>
-        <div className='container'>
-          <img src='/logo.svg' className='loader' alt='logo' />
+      return (
+        <div className={props.classes.container}>
+          <img src="/logo.svg" className={props.classes.loader} alt="logo" />
         </div>
-      </div>
+      )
     } else {
       // Don't flash "Loading..." when we don't need to.
       return null
@@ -27,7 +45,6 @@ export const LoadingComponent = (props) => {
       window.location.href = window.location.href + '&isReload=1'
     }
 
-
     // If we aren't loading, maybe
     return <div>Error! Component failed to load</div>
   } else {
@@ -36,4 +53,4 @@ export const LoadingComponent = (props) => {
   }
 }
 
-export default LoadingComponent
+export default compose(withStyles(styles, { withTheme: true }))(LoadingComponent)
