@@ -11,6 +11,7 @@ import React, { Component } from 'react'
 import ReactList from 'react-list'
 import Scrollbar from '../../components/Scrollbar'
 import firebase from 'firebase'
+import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { getGeolocation } from '../../utils/googleMaps'
 import { injectIntl, intlShape } from 'react-intl'
@@ -70,7 +71,9 @@ class ChatMessages extends Component {
 
     this.setState({ value: '' })
 
-    this.name.state.hasValue = false
+    if (this.name.state) {
+      this.name.state.hasValue = false
+    }
 
     if (message && message.length > 0) {
       if (key) {
@@ -334,7 +337,13 @@ const mapStateToProps = (state, ownPops) => {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  { setSimpleValue }
-)(injectIntl(withTheme()(withRouter(withFirebase(ChatMessages)))))
+export default compose(
+  connect(
+    mapStateToProps,
+    { setSimpleValue }
+  ),
+  injectIntl,
+  withRouter,
+  withFirebase,
+  withTheme()
+)(ChatMessages)

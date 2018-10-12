@@ -1,4 +1,3 @@
-import Drawer from '@material-ui/core/Drawer'
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer'
 import PropTypes from 'prop-types'
 import React from 'react'
