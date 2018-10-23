@@ -40,7 +40,6 @@ const styles = theme => ({
     display: 'block',
     background: fade(theme.palette.common.white, 0.25),
     width: 240
-
   },
   search: {
     width: theme.spacing.unit * 5,
@@ -53,8 +52,7 @@ const styles = theme => ({
   },
   input: {
     font: 'inherit',
-    padding: `${theme.spacing.unit * 2}px 0px 0px ${theme
-      .spacing.unit * 5}px`,
+    padding: `${theme.spacing.unit * 2}px 0px 0px ${theme.spacing.unit * 5}px`,
     border: 0,
     display: 'block',
     verticalAlign: 'middle',
@@ -69,8 +67,7 @@ const styles = theme => ({
   },
   inputOpen: {
     font: 'inherit',
-    padding: `${theme.spacing.unit * 2}px 0px 0px ${theme
-      .spacing.unit * 5}px`,
+    padding: `${theme.spacing.unit * 2}px 0px 0px ${theme.spacing.unit * 5}px`,
     border: 0,
     display: 'block',
     verticalAlign: 'middle',
@@ -81,33 +78,37 @@ const styles = theme => ({
     width: '100%',
     outline: 0
   }
-}
-)
+})
 
-const SearchField = ({ onChange, hintText, theme, intl, classes, width, filterName, setSearch, searchValue }) => {
+const SearchField = ({ classes, filterName, setSearch, searchValue, alwaysOpen }) => {
+  const hasInput = searchValue && searchValue !== ''
+  let rootClass = classes.root
+  let inputClass = classes.input
+
+  if (hasInput || alwaysOpen) {
+    rootClass = classes.rootOpen
+    inputClass = classes.inputOpen
+  }
+
   return (
-    <div className={classNames((searchValue && searchValue !== '') ? classes.rootOpen : classes.root)} >
+    <div className={classNames(rootClass)}>
       <div className={classes.search}>
         <Icon>search</Icon>
       </div>
       <input
-        id='docsearch-input'
+        id="docsearch-input"
         value={searchValue}
         ref={node => {
           if (node && (searchValue && searchValue !== '')) {
             node.focus()
           }
         }}
-
-        className={classNames((searchValue && searchValue !== '') ? classes.inputOpen : classes.input)}
-
-        onChange={(e) => {
+        className={classNames(inputClass)}
+        onChange={e => {
           setSearch(filterName, e.target.value)
         }}
-
       />
     </div>
-
   )
 }
 
@@ -123,5 +124,6 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 export default connect(
-  mapStateToProps, { ...filterActions }
+  mapStateToProps,
+  { ...filterActions }
 )(injectIntl(withTheme()(withStyles(styles, { withTheme: true }, withWidth())(SearchField))))
