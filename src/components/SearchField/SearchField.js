@@ -96,6 +96,7 @@ const SearchField = ({ classes, filterName, setSearch, searchValue, alwaysOpen }
         <Icon>search</Icon>
       </div>
       <input
+        autoComplete="off"
         id="docsearch-input"
         value={searchValue}
         ref={node => {
