@@ -10,10 +10,10 @@ import Switch from '@material-ui/core/Switch'
 import classNames from 'classnames'
 import { withTheme, withStyles } from '@material-ui/core/styles'
 import withAppConfigs from '../../utils/withAppConfigs'
-import { GoogleIcon, FacebookIcon, GitHubIcon, TwitterIcon } from '../../components/Icons';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Typography from '@material-ui/core/Typography';
+import { GoogleIcon, FacebookIcon, GitHubIcon, TwitterIcon } from '../../components/Icons'
+import FormGroup from '@material-ui/core/FormGroup'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import Typography from '@material-ui/core/Typography'
 
 const styles = theme => ({
   avatar: {
@@ -38,40 +38,43 @@ const styles = theme => ({
 })
 
 class UserForm extends Component {
-
-
-  isLinkedWithProvider = (provider) => {
-    const { auth } = this.props;
+  isLinkedWithProvider = provider => {
+    const { auth } = this.props
 
     try {
-      return auth && auth.providerData && auth.providerData.find((p) => { return p.providerId === provider }) !== undefined;
+      return (
+        auth &&
+        auth.providerData &&
+        auth.providerData.find(p => {
+          return p.providerId === provider
+        }) !== undefined
+      )
     } catch (e) {
-      return false;
+      return false
     }
   }
 
-  getProviderIcon = (p) => {
+  getProviderIcon = p => {
     const { theme } = this.props
     const color = 'primary'
 
     switch (p) {
-      case 'google.com':
-        return <GoogleIcon />
+    case 'google.com':
+      return <GoogleIcon />
 
-      case 'facebook.com':
-        return <FacebookIcon />
+    case 'facebook.com':
+      return <FacebookIcon />
 
-      case 'twitter.com':
-        return <TwitterIcon />
+    case 'twitter.com':
+      return <TwitterIcon />
 
-      case 'github.com':
-        return <GitHubIcon />
+    case 'github.com':
+      return <GitHubIcon />
 
-      default:
-        return undefined
+    default:
+      return undefined
     }
   }
-
 
   render() {
     const {
@@ -89,56 +92,43 @@ class UserForm extends Component {
     } = this.props
 
     return (
-
       <div className={classes.root}>
-        {values.photoURL &&
-          <Avatar
-            alt={''}
-            src={values.photoURL}
-            className={classNames(classes.avatar, classes.bigAvatar)}
-          />
-        }
-        {!values.photoURL &&
-          <Avatar className={classNames(classes.avatar, classes.bigAvatar)}> <Icon style={{ fontSize: 60 }}> person </Icon>  </Avatar>
-        }
+        {values.photoURL && (
+          <Avatar alt={''} src={values.photoURL} className={classNames(classes.avatar, classes.bigAvatar)} />
+        )}
+        {!values.photoURL && (
+          <Avatar className={classNames(classes.avatar, classes.bigAvatar)}>
+            {' '}
+            <Icon style={{ fontSize: 60 }}> person </Icon>{' '}
+          </Avatar>
+        )}
 
         <div>
-          {
-            appConfig.firebase_providers.map((p, i) => {
-              if (p !== 'email' && p !== 'password' && p !== 'phone') {
-                return <IconButton
-                  key={i}
-                  disabled={!this.isLinkedWithProvider(p)}
-                  color='primary'
-                >
+          {appConfig.firebase_providers.map((p, i) => {
+            if (p !== 'email' && p !== 'password' && p !== 'phone') {
+              return (
+                <IconButton key={i} disabled={!this.isLinkedWithProvider(p)} color="primary">
                   {this.getProviderIcon(p)}
                 </IconButton>
-              } else {
-                return <div key={i} />
-              }
-            })
-          }
+              )
+            } else {
+              return <div key={i} />
+            }
+          })}
         </div>
         <br />
 
-        <Typography variant="display1" gutterBottom>
+        <Typography variant="h4" gutterBottom>
           {values.displayName}
         </Typography>
 
         <div>
           <FormControlLabel
-            control={
-              <Switch
-                checked={isAdmin}
-                onChange={handleAdminChange}
-              />
-            }
+            control={<Switch checked={isAdmin} onChange={handleAdminChange} />}
             label={intl.formatMessage({ id: 'is_admin_label' })}
           />
-
         </div>
       </div>
-
     )
   }
 }

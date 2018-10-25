@@ -29,7 +29,6 @@ const styles = theme => ({
   button: {
     marginTop: 20
   }
-
 })
 
 const PageNotFound = ({ theme, intl, appConfig, classes }) => {
@@ -40,17 +39,12 @@ const PageNotFound = ({ theme, intl, appConfig, classes }) => {
       <Paper className={classes.paper}>
         <div className={classes.container}>
           <AppIcon className={classes.icon} />
-          <Typography variant='display1' >
-            {intl.formatMessage({ id: 'warning_404_message' })}
-          </Typography>
-          <Typography variant='subheading' >
-            {intl.formatMessage({ id: 'warning_404_description' })}
-          </Typography>
-          <Button variant='fab' color='secondary' aria-label='home' href='/' className={classes.button} >
+          <Typography variant="h4">{intl.formatMessage({ id: 'warning_404_message' })}</Typography>
+          <Typography variant="subtitle1">{intl.formatMessage({ id: 'warning_404_description' })}</Typography>
+          <Button variant="fab" color="secondary" aria-label="home" href="/" className={classes.button}>
             <Icon>home</Icon>
           </Button>
         </div>
-
       </Paper>
     </Activity>
   )

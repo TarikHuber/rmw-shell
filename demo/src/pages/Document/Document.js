@@ -1,23 +1,22 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { withTheme, withStyles } from '@material-ui/core/styles'
 import { injectIntl, intlShape } from 'react-intl'
 import { Activity } from '../../../../src'
 import Button from '@material-ui/core/Button'
-import { withFirebase } from 'firekit-provider';
+import { withFirebase } from 'firekit-provider'
 import TextField from '@material-ui/core/TextField'
 // eslint-disable-next-line
 import firestore from 'firebase/firestore'
-import Typography from '@material-ui/core/Typography';
+import Typography from '@material-ui/core/Typography'
 
 class Document extends Component {
-
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       value: '',
       hotDogStatus: ''
-    };
+    }
   }
 
   componentWillMount() {
@@ -63,46 +62,59 @@ class Document extends Component {
 
     return (
       <Activity title={intl.formatMessage({ id: 'document' })}>
-
         <div style={{ padding: 15 }}>
-          <Typography variant="display2" gutterBottom>
+          <Typography variant="h3" gutterBottom>
             {`${intl.formatMessage({ id: 'hot_dog_status' })}: ${sandwichData.hotDogStatus}`}
           </Typography>
           <TextField
             value={this.state.value}
-            onChange={(e) => {
+            onChange={e => {
               this.setState({ value: e.target.value })
             }}
             hintText={intl.formatMessage({ id: 'hot_dog_status' })}
-            ref={(input) => { if (input) { this.input = input } }}
-          /><br />
-          <Button variant="raised" color="primary" onClick={this.handleSave} style={{ margin: 12, marginLeft: 0 }} >
+            ref={input => {
+              if (input) {
+                this.input = input
+              }
+            }}
+          />
+          <br />
+          <Button variant="raised" color="primary" onClick={this.handleSave} style={{ margin: 12, marginLeft: 0 }}>
             Save
-      </Button>
-          <Button variant="raised" color="primary" onClick={this.handleWatch} disabled={isWatching} style={{ margin: 12, marginLeft: 0 }} >
+          </Button>
+          <Button
+            variant="raised"
+            color="primary"
+            onClick={this.handleWatch}
+            disabled={isWatching}
+            style={{ margin: 12, marginLeft: 0 }}
+          >
             Watch
-      </Button>
-          <Button variant="raised" color="primary" onClick={this.handleUnwatch} disabled={!isWatching} style={{ margin: 12, marginLeft: 0 }} >
+          </Button>
+          <Button
+            variant="raised"
+            color="primary"
+            onClick={this.handleUnwatch}
+            disabled={!isWatching}
+            style={{ margin: 12, marginLeft: 0 }}
+          >
             Unwatch
-      </Button>
-          <Button variant="raised" color="secondary" onClick={this.handleDestroy} style={{ margin: 12, marginLeft: 0 }} >
+          </Button>
+          <Button variant="raised" color="secondary" onClick={this.handleDestroy} style={{ margin: 12, marginLeft: 0 }}>
             Destroy
-      </Button>
-
+          </Button>
         </div>
-
       </Activity>
-    );
-
+    )
   }
 }
 
 Document.propTypes = {
-  intl: intlShape.isRequired,
-};
+  intl: intlShape.isRequired
+}
 
-const mapStateToProps = (state) => {
-  const { docs, initialization } = state;
+const mapStateToProps = state => {
+  const { docs, initialization } = state
 
   const sandwichData = docs['samples/sandwichData'] ? docs['samples/sandwichData'] : {}
   const isWatching = initialization['samples/sandwichData'] ? true : false
@@ -110,9 +122,10 @@ const mapStateToProps = (state) => {
   return {
     sandwichData,
     isWatching
-  };
-};
+  }
+}
 
 export default connect(
-  mapStateToProps, {}
-)(injectIntl(withFirebase(withTheme()(Document))));
+  mapStateToProps,
+  {}
+)(injectIntl(withFirebase(withTheme()(Document))))

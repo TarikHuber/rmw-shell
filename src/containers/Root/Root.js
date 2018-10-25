@@ -7,54 +7,37 @@ import { createMuiTheme } from '@material-ui/core/styles'
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider'
 import MuiPickersUtilsProvider from 'material-ui-pickers/utils/MuiPickersUtilsProvider'
 import MomentUtils from 'material-ui-pickers/utils/moment-utils'
-import moment from 'moment'
 import { IntlProvider } from 'react-intl'
 import AppLayout from '../../containers/AppLayout'
-import {
-  watchAuth,
-  clearInitialization,
-  initConnection,
-  watchList,
-  initMessaging,
-  watchPath
-} from 'firekit'
+import { watchAuth, clearInitialization, initConnection, watchList, initMessaging, watchPath } from 'firekit'
 import createHistory from 'history/createBrowserHistory'
 import { Router, Route, Switch } from 'react-router-dom'
 import { initializeMessaging } from '../../utils/messaging'
 import { setPersistentValue } from '../../store/persistentValues/actions'
 
-const history = createHistory();
+const history = createHistory()
 
 class Root extends Component {
-
   handlePresence = (user, firebaseApp) => {
+    let myConnectionsRef = firebaseApp.database().ref(`users/${user.uid}/connections`)
 
-    let myConnectionsRef = firebaseApp.database().ref(`users/${user.uid}/connections`);
-
-    let lastOnlineRef = firebaseApp.database().ref(`users/${user.uid}/lastOnline`);
-    lastOnlineRef.onDisconnect().set(new Date());
+    let lastOnlineRef = firebaseApp.database().ref(`users/${user.uid}/lastOnline`)
+    lastOnlineRef.onDisconnect().set(new Date())
 
     let con = myConnectionsRef.push(true)
-    con.onDisconnect().remove();
-
+    con.onDisconnect().remove()
   }
 
   onAuthStateChanged = (user, firebaseApp) => {
-    const {
-      clearInitialization,
-      watchConnection,
-      watchList,
-      watchPath,
-      appConfig
-    } = this.props;
+    const { clearInitialization, watchConnection, watchList, watchPath, appConfig } = this.props
 
-
-    clearInitialization();
+    clearInitialization()
 
     if (user) {
-
-      this.handlePresence(user, firebaseApp);
-      setTimeout(() => { watchConnection(firebaseApp); }, 1000);
+      this.handlePresence(user, firebaseApp)
+      setTimeout(() => {
+        watchConnection(firebaseApp)
+      }, 1000)
 
       const userData = {
         displayName: user.displayName ? user.displayName : 'UserName',
@@ -63,8 +46,8 @@ class Root extends Component {
         emailVerified: user.emailVerified,
         isAnonymous: user.isAnonymous,
         uid: user.uid,
-        providerData: user.providerData,
-      };
+        providerData: user.providerData
+      }
 
       let publicProviderData = []
 
@@ -73,18 +56,17 @@ class Root extends Component {
           providerId: provider.providerId,
           displayName: provider.displayName ? provider.displayName : null
         })
-      });
-
+      })
 
       const publicUserData = {
         displayName: user.displayName ? user.displayName : 'UserName',
         photoURL: user.photoURL,
         uid: user.uid,
-        providerData: publicProviderData,
-      };
+        providerData: publicProviderData
+      }
 
-      watchList(firebaseApp, `user_grants/${user.uid}`);
-      watchPath(firebaseApp, `admins/${user.uid}`);
+      watchList(firebaseApp, `user_grants/${user.uid}`)
+      watchPath(firebaseApp, `admins/${user.uid}`)
 
       if (appConfig.onAuthStateChanged) {
         try {
@@ -94,26 +76,25 @@ class Root extends Component {
         }
       }
 
-      firebaseApp.database().ref(`users/${user.uid}`).update(publicUserData);
+      firebaseApp
+        .database()
+        .ref(`users/${user.uid}`)
+        .update(publicUserData)
 
       initializeMessaging({ ...this.props, firebaseApp, history, auth: userData }, true)
 
-      return userData;
-
+      return userData
     } else {
-      return null;
+      return null
     }
-
   }
 
-  componentWillMount() {
-    const { watchAuth, appConfig } = this.props;
+  UNSAFE_componentWillMount() {
+    const { watchAuth, appConfig } = this.props
 
     appConfig.firebaseLoad().then(({ firebaseApp }) => {
-      watchAuth(firebaseApp, (user) => this.onAuthStateChanged(user, firebaseApp))
+      watchAuth(firebaseApp, user => this.onAuthStateChanged(user, firebaseApp))
     })
-
-
   }
 
   componentWillUnmount() {
@@ -122,38 +103,37 @@ class Root extends Component {
   }
 
   render() {
-    const { appConfig, locale, themeSource } = this.props;
+    const { appConfig, locale, themeSource } = this.props
 
-
-    const messages = { ...(getLocaleMessages(locale, locales)), ...(getLocaleMessages(locale, appConfig.locales)) }
-    const source = getThemeSource(themeSource, appConfig.themes);
-    const theme = createMuiTheme(source);
+    const messages = { ...getLocaleMessages(locale, locales), ...getLocaleMessages(locale, appConfig.locales) }
+    const source = getThemeSource(themeSource, appConfig.themes)
+    const theme = createMuiTheme(source)
 
     return (
-      <MuiPickersUtilsProvider utils={MomentUtils} >
-        <MuiThemeProvider theme={theme} >
-          <IntlProvider locale={locale} key={locale} messages={messages} >
-            <Router history={history} >
+      <MuiPickersUtilsProvider utils={MomentUtils}>
+        <MuiThemeProvider theme={theme}>
+          <IntlProvider locale={locale} key={locale} messages={messages}>
+            <Router history={history}>
               <Switch>
-                <Route children={(props) => <AppLayout {...props} />} />
+                <Route>
+                  <AppLayout />
+                </Route>
               </Switch>
             </Router>
           </IntlProvider>
         </MuiThemeProvider>
       </MuiPickersUtilsProvider>
-    );
+    )
   }
-
 }
 
 Root.propTypes = {
   locale: PropTypes.string.isRequired,
-  themeSource: PropTypes.object.isRequired,
-};
+  themeSource: PropTypes.object.isRequired
+}
 
-const mapStateToProps = (state, ownProps) => {
-
-  const { locale, themeSource, persistentValues, simpleValues } = state;
+const mapStateToProps = state => {
+  const { locale, themeSource, persistentValues, simpleValues } = state
 
   const notificationPermissionRequested = persistentValues.notificationPermissionRequested
 
@@ -162,12 +142,12 @@ const mapStateToProps = (state, ownProps) => {
     themeSource,
     notificationPermissionRequested,
     simpleValues
-  };
-};
-
+  }
+}
 
 export default connect(
-  mapStateToProps, {
+  mapStateToProps,
+  {
     watchAuth,
     clearInitialization,
     watchConnection: initConnection,

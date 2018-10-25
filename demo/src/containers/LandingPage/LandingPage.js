@@ -79,26 +79,25 @@ const styles = theme => ({
     marginBottom: theme.spacing.unit
   },
   markdownElement: {}
-
 })
 
 class LandingPage extends Component {
-  render () {
+  render() {
     const { intl, classes, history } = this.props
 
     return (
       <Activity
         appBarContent={
           <IconButton
-            color='inherit'
-            href='https://github.com/TarikHuber/react-most-wanted'
-            target='_blank'
-            rel='noopener'
+            color="inherit"
+            href="https://github.com/TarikHuber/react-most-wanted"
+            target="_blank"
+            rel="noopener"
           >
             <GitHubIcon />
           </IconButton>
-        }>
-
+        }
+      >
         <Scrollbar>
           <div className={classes.root}>
             <Helmet>
@@ -106,46 +105,36 @@ class LandingPage extends Component {
             </Helmet>
             <div className={classes.hero}>
               <div className={classes.content}>
-                <img
-                  src='/rmw.svg'
-                  alt='Material-UI Logo'
-                  className={classes.logo}
-                />
+                <img src="/rmw.svg" alt="Material-UI Logo" className={classes.logo} />
                 <div className={classes.text}>
                   <Typography
-                    variant='display2'
-                    align='center'
-                    component='h1'
-                    color='inherit'
+                    variant="h2"
+                    align="center"
+                    component="h1"
+                    color="inherit"
                     gutterBottom
                     className={classes.title}
                   >
                     {'REACT MOST WANTED'}
                   </Typography>
-                  <Typography
-                    variant='headline'
-                    component='h2'
-                    color='inherit'
-                    gutterBottom
-                    className={classes.headline}
-                  >
+                  <Typography variant="h5" component="h2" color="inherit" gutterBottom className={classes.headline}>
                     {'React Starter-Kit with all Most Wanted features.'}
                   </Typography>
                   <Button
-                    onClick={() => { history.push('/signin') }}
+                    onClick={() => {
+                      history.push('/signin')
+                    }}
                     className={classes.button}
-                    variant='outlined'
-                    color='primary'
+                    variant="outlined"
+                    color="primary"
                   >
                     {'Get Started'}
                   </Button>
                 </div>
               </div>
             </div>
-
           </div>
         </Scrollbar>
-
       </Activity>
     )
   }

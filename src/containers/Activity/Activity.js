@@ -147,7 +147,7 @@ class Activity extends React.Component {
             </IconButton>
             {!onBackClick && drawer.open && <div style={{ marginRight: 32 }} />}
 
-            <Typography variant="title" color="inherit" noWrap>
+            <Typography variant="h6" color="inherit" noWrap>
               {headerTitle}
             </Typography>
             <div className={classes.grow} />

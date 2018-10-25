@@ -28,21 +28,20 @@ const styles = theme => ({
 })
 
 export class AppLayout extends Component {
-  componentDidUpdate () {
+  componentDidUpdate() {
     checkForUpdate()
   }
 
-  render () {
+  render() {
     const { classes } = this.props
     return (
-
       <div className={classes.body}>
         <div className={classes.root}>
           <Drawer />
           <Routes />
           <ToastContainer />
         </div>
-      </div >
+      </div>
     )
   }
 }

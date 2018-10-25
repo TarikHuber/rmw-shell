@@ -50,7 +50,12 @@ const getThemeSource = (t, ts) => {
     }
   }
 
-  return createMuiTheme({ palette: { type: t.isNightModeOn ? 'dark' : 'light' } }) // Default theme
+  return createMuiTheme({
+    typography: {
+      useNextVariants: true
+    },
+    palette: { type: t.isNightModeOn ? 'dark' : 'light' }
+  }) // Default theme
 }
 
 export default getThemeSource
