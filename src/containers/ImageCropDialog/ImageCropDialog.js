@@ -1,27 +1,26 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { injectIntl, intlShape } from 'react-intl';
-import firebase from 'firebase/app'
 import 'firebase/storage'
-import { Cropper } from 'react-image-cropper';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Button from '@material-ui/core/Button';
-import { withFirebase } from 'firekit-provider';
+import Button from '@material-ui/core/Button'
 import CircularProgress from '@material-ui/core/CircularProgress'
+import Dialog from '@material-ui/core/Dialog'
+import DialogActions from '@material-ui/core/DialogActions'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogTitle from '@material-ui/core/DialogTitle'
 import LinearProgress from '@material-ui/core/LinearProgress'
-import withMobileDialog from '@material-ui/core/withMobileDialog';
+import PropTypes from 'prop-types'
+import React, { Component } from 'react'
+import firebase from 'firebase/app'
+import withMobileDialog from '@material-ui/core/withMobileDialog'
+import { Cropper } from 'react-image-cropper'
+import { connect } from 'react-redux'
+import { injectIntl, intlShape } from 'react-intl'
+import { withFirebase } from 'firekit-provider'
 
 const styles = {
   container: {
     display: 'flex',
     alignItems: 'stretch',
     justifyContent: 'center',
-    flexDirection: 'row',
+    flexDirection: 'row'
   },
   dialog: {
     width: '100%',
@@ -34,10 +33,9 @@ const styles = {
 }
 
 export class ImageCropDialog extends Component {
-
   constructor(props) {
-    super(props);
-    this.cropper = null;
+    super(props)
+    this.cropper = null
     this.state = {
       src: undefined,
       isLoading: false,
@@ -46,89 +44,81 @@ export class ImageCropDialog extends Component {
     }
   }
 
-  handlePhotoURLUpload = (photo_url) => {
-    const { path, fileName, onUploadSuccess, firebaseApp } = this.props;
+  handlePhotoURLUpload = photo_url => {
+    const { path, fileName, onUploadSuccess, firebaseApp } = this.props
 
-    this.setState({ isUploading: true, uploadProgress: 0 });
+    this.setState({ isUploading: true, uploadProgress: 0 })
 
-    let uploadTask = firebaseApp.storage().ref(`${path}/${fileName}`).putString(photo_url, 'data_url');
+    let uploadTask = firebaseApp
+      .storage()
+      .ref(`${path}/${fileName}`)
+      .putString(photo_url, 'data_url')
 
-
-    uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, snapshot => {
-      let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-      this.setState({ isUploading: true, uploadProgress: progress })
-    }, error => {
-      console.log(error);
-    }, () => {
-      this.setState({ isUploading: false, uploadProgress: 100 }, () => {
-        onUploadSuccess(uploadTask.snapshot);
-      })
-
-    })
-
-
+    uploadTask.on(
+      firebase.storage.TaskEvent.STATE_CHANGED,
+      snapshot => {
+        let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        this.setState({ isUploading: true, uploadProgress: progress })
+      },
+      error => {
+        console.log(error)
+      },
+      () => {
+        this.setState({ isUploading: false, uploadProgress: 100 }, () => {
+          onUploadSuccess(uploadTask.snapshot)
+        })
+      }
+    )
   }
 
-  handlePhotoULRChange = (e) => {
-    e.preventDefault();
+  handlePhotoULRChange = e => {
+    e.preventDefault()
 
-    this.setState({ isLoading: true });
+    this.setState({ isLoading: true })
 
-    let files;
+    let files
     if (e.dataTransfer) {
-      files = e.dataTransfer.files;
+      files = e.dataTransfer.files
     } else if (e.target) {
-      files = e.target.files;
+      files = e.target.files
     }
-    const reader = new FileReader();
+    const reader = new FileReader()
     reader.onload = () => {
       this.setState({ src: reader.result, isLoading: false, file: files[0] })
-    };
-    reader.readAsDataURL(files[0]);
+    }
+    reader.readAsDataURL(files[0])
   }
 
   handleClose = () => {
-    const { handleClose } = this.props;
-    this.setState({ src: undefined });
-    handleClose();
+    const { handleClose } = this.props
+    this.setState({ src: undefined })
+    handleClose()
   }
 
   render() {
-    const { intl, open, title, fullScreen } = this.props;
+    const { intl, open, title, fullScreen } = this.props
 
     const actions = [
       <Button
         disabled={!this.state.src || this.state.isLoading || this.state.isUploading}
         label={intl.formatMessage({ id: 'submit' })}
         primary={true}
-        onClick={() => { this.handlePhotoURLUpload(this.cropper.crop()) }}
+        onClick={() => {
+          this.handlePhotoURLUpload(this.cropper.crop())
+        }}
       />,
-      <Button
-        label={intl.formatMessage({ id: 'cancel' })}
-        secondary={true}
-        onClick={this.handleClose}
-      />,
-    ];
+      <Button label={intl.formatMessage({ id: 'cancel' })} secondary={true} onClick={this.handleClose} />
+    ]
 
     return (
-
-
-      <Dialog
-        fullScreen={fullScreen}
-        open={open}
-        onClose={this.handleClose}
-        aria-labelledby="responsive-dialog-title"
-      >
+      <Dialog fullScreen={fullScreen} open={open} onClose={this.handleClose} aria-labelledby="responsive-dialog-title">
         <DialogTitle id="responsive-dialog-title">{title}</DialogTitle>
         <DialogContent>
-
           <div style={styles.container}>
-
             <div style={styles.cropper}>
-
-              {(!this.state.src || this.state.isLoading) &&
+              {(!this.state.src || this.state.isLoading) && (
                 <input
-                  ref={(field) => {
+                  ref={field => {
                     if (field !== null) {
                       field.click()
                     }
@@ -138,31 +128,32 @@ export class ImageCropDialog extends Component {
                   //style={{visibility:'hidden'}}
                   onChange={this.handlePhotoULRChange}
                 />
-              }
+              )}
 
-              {this.state.isLoading &&
-                <CircularProgress size={80} thickness={5} />
-              }
+              {this.state.isLoading && <CircularProgress size={80} thickness={5} />}
 
-              {this.state.isUploading &&
-                <LinearProgress mode="determinate" value={this.state.uploadProgress} />
-              }
+              {this.state.isUploading && <LinearProgress mode="determinate" value={this.state.uploadProgress} />}
 
-              {this.state.src &&
+              {this.state.src && (
                 <Cropper
-                  ref={(field) => { this.cropper = field; }}
+                  ref={field => {
+                    this.cropper = field
+                  }}
                   src={this.state ? this.state.src : undefined}
                   aspectRatio={9 / 9}
                 />
-              }
-
+              )}
             </div>
-
           </div>
-
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => { this.handlePhotoURLUpload(this.cropper.crop()) }} color="primary" disabled={!this.state.src || this.state.isLoading || this.state.isUploading}>
+          <Button
+            onClick={() => {
+              this.handlePhotoURLUpload(this.cropper.crop())
+            }}
+            color="primary"
+            disabled={!this.state.src || this.state.isLoading || this.state.isUploading}
+          >
             {intl.formatMessage({ id: 'submit' })}
           </Button>
           <Button onClick={this.handleClose} color="secondary" autoFocus>
@@ -170,14 +161,8 @@ export class ImageCropDialog extends Component {
           </Button>
         </DialogActions>
       </Dialog>
-
-
-
-
-    );
-
+    )
   }
-
 }
 
 ImageCropDialog.propTypes = {
@@ -187,17 +172,14 @@ ImageCropDialog.propTypes = {
   path: PropTypes.string.isRequired,
   fileName: PropTypes.string.isRequired,
   onUploadSuccess: PropTypes.func.isRequired,
-  handleClose: PropTypes.func.isRequired,
-};
+  handleClose: PropTypes.func.isRequired
+}
 
-
-const mapStateToProps = (state) => {
-  const { auth } = state;
+const mapStateToProps = state => {
+  const { auth } = state
   return {
     auth
-  };
-};
+  }
+}
 
-export default connect(
-  mapStateToProps
-)(injectIntl(withFirebase(withMobileDialog()(ImageCropDialog))))
+export default connect(mapStateToProps)(injectIntl(withFirebase(withMobileDialog()(ImageCropDialog))))
