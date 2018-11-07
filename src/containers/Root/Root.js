@@ -1,6 +1,6 @@
 import AppLayout from '../../containers/AppLayout'
-import MomentUtils from 'material-ui-pickers/utils/moment-utils'
-import {  MuiPickersUtilsProvider } from 'material-ui-pickers'
+import Utils from '@date-io/moment'
+import { MuiPickersUtilsProvider } from 'material-ui-pickers'
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
@@ -110,7 +110,7 @@ class Root extends Component {
     const theme = createMuiTheme(source)
 
     return (
-      <MuiPickersUtilsProvider utils={MomentUtils}>
+      <MuiPickersUtilsProvider utils={Utils}>
         <MuiThemeProvider theme={theme}>
           <IntlProvider locale={locale} key={locale} messages={messages}>
             <Router history={history}>
