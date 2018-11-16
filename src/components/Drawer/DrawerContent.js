@@ -22,23 +22,23 @@ export const DrawerContent = props => {
     }
   }
 
-  const handleSignOut = () => {
+  const handleSignOut = async () => {
     const { userLogout, setDialogIsOpen, appConfig, setDrawerOpen } = props
 
-    appConfig.firebaseLoad().then(({ firebaseApp }) => {
-      firebaseApp
+    await appConfig.firebaseLoad().then(async ({ firebaseApp }) => {
+      await firebaseApp
         .database()
         .ref(`users/${firebaseApp.auth().currentUser.uid}/connections`)
         .remove()
-      firebaseApp
+      await firebaseApp
         .database()
         .ref(`users/${firebaseApp.auth().currentUser.uid}/notificationTokens/${messaging.token}`)
         .remove()
-      firebaseApp
+      await firebaseApp
         .database()
         .ref(`users/${firebaseApp.auth().currentUser.uid}/lastOnline`)
         .set(new Date())
-      firebaseApp
+      await firebaseApp
         .auth()
         .signOut()
         .then(() => {
@@ -49,7 +49,7 @@ export const DrawerContent = props => {
     })
   }
 
-  const menuItems = appConfig.getMenuItems({ ...props, isAuthMenu: !!dialogs.auth_menu, handleSignOut })
+  const isAuthMenu = !!dialogs.auth_menu
 
   return (
     <div
@@ -58,12 +58,22 @@ export const DrawerContent = props => {
         flexDirection: 'column'
       }}
     >
-      <SelectableMenuList
-        items={menuItems}
-        onIndexChange={handleChange}
-        index={match ? match.path : '/'}
-        useMinified={drawer.useMinified && !drawer.open}
-      />
+      {isAuthMenu && (
+        <SelectableMenuList
+          items={appConfig.getMenuItems({ ...props, isAuthMenu, handleSignOut })}
+          onIndexChange={handleChange}
+          index={match ? match.path : '/'}
+          useMinified={drawer.useMinified && !drawer.open}
+        />
+      )}
+      {!isAuthMenu && (
+        <SelectableMenuList
+          items={appConfig.getMenuItems({ ...props, isAuthMenu, handleSignOut })}
+          onIndexChange={handleChange}
+          index={match ? match.path : '/'}
+          useMinified={drawer.useMinified && !drawer.open}
+        />
+      )}
     </div>
   )
 }

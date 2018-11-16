@@ -6,13 +6,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
 import Divider from '@material-ui/core/Divider'
-import InboxIcon from '@material-ui/icons/MoveToInbox'
-import Icon from '@material-ui/core/Icon'
-import Collapse from '@material-ui/core/Collapse'
 import { withTheme, withStyles } from '@material-ui/core/styles'
-import ExpandLess from '@material-ui/icons/ExpandLess'
-import ExpandMore from '@material-ui/icons/ExpandMore'
-import StarBorder from '@material-ui/icons/StarBorder'
 import IconButton from '@material-ui/core/IconButton'
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight'
 import ArrowBack from '@material-ui/icons/ArrowBack'
@@ -21,21 +15,18 @@ const styles = theme => ({
   root: {
     width: '100%',
     maxWidth: 360,
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: theme.palette.background.paper
   },
   icon: {
-    color: theme.palette.primary.contrastText,
-  },
-});
+    color: theme.palette.primary.contrastText
+  }
+})
 
 class SelectableMenuList extends Component {
-
   state = {}
 
-  handleNestedItemsClick = (item) => {
-    const { items } = this.props
+  handleNestedItemsClick = item => {
     if (item.nestedItems) {
-
       let previousItems = this.state.previousItems ? this.state.previousItems : []
       const items = item.nestedItems
       const title = item.primaryText
@@ -44,24 +35,22 @@ class SelectableMenuList extends Component {
 
       this.setState({ items, previousItems, title })
     }
-
   }
 
-  handleBackClick = (item) => {
-
+  handleBackClick = () => {
     let previousItems = this.state.previousItems ? this.state.previousItems : []
     const items = previousItems[0] ? previousItems[0] : undefined
 
     previousItems.shift()
 
     this.setState({ items, previousItems })
-
   }
 
   getNestedItems = (hostItem, hostIndex) => {
-
     if (hostItem.nestedItems !== undefined) {
-      let items = hostItem.nestedItems.filter(function (item) { return item.visible !== false })
+      let items = hostItem.nestedItems.filter(function(item) {
+        return item.visible !== false
+      })
 
       if (items.length > 0) {
         return items.map((item, i) => {
@@ -71,62 +60,55 @@ class SelectableMenuList extends Component {
     }
 
     return null
-  };
+  }
 
   getItem = (item, i) => {
-    const { onIndexChange, classes, useMinified } = this.props
+    const { onIndexChange, useMinified } = this.props
 
     delete item.visible
 
     if (item !== undefined) {
       if (item.subheader !== undefined) {
-        return <div
-          key={i}
-          inset={item.inset}
-          style={item.style}>
-          {item.subheader}
-        </div>
+        return (
+          <div key={i} inset={item.inset} style={item.style}>
+            {item.subheader}
+          </div>
+        )
       } else if (item.divider !== undefined) {
-        return <Divider
-          key={i}
-          inset={item.inset}
-          style={item.style}
-        />
+        return <Divider key={i} inset={item.inset} style={item.style} />
       } else {
-        return <ListItem
-          button
-          key={i}
-          onClick={(e) => {
-            onIndexChange(e, item.value)
-            this.handleNestedItemsClick(item)
+        return (
+          <ListItem
+            button
+            key={i}
+            onClick={e => {
+              onIndexChange(e, item.value)
+              this.handleNestedItemsClick(item)
 
-            if (item.onClick) {
-              item.onClick()
-            }
-          }}
-          onMouseDown={(e) => {
-            if (e.button === 1) {
-              var win = window.open(`${item.value}`, '_blank')
-              win.focus()
-            }
-          }}
-        >
-          {item.leftIcon &&
-            <ListItemIcon>
-              {item.leftIcon}
-            </ListItemIcon>
-          }
+              if (item.onClick) {
+                item.onClick()
+              }
+            }}
+            onMouseDown={e => {
+              if (e.button === 1) {
+                var win = window.open(`${item.value}`, '_blank')
+                win.focus()
+              }
+            }}
+          >
+            {item.leftIcon && <ListItemIcon>{item.leftIcon}</ListItemIcon>}
 
-          {item.nestedItems &&
-            <ListItemSecondaryAction>
-              <IconButton style={{ paddingLeft: useMinified ? 30 : undefined }}>
-                <KeyboardArrowRight color={'action'} />
-              </IconButton>
-            </ListItemSecondaryAction>
-          }
+            {item.nestedItems && (
+              <ListItemSecondaryAction>
+                <IconButton style={{ paddingLeft: useMinified ? 30 : undefined }}>
+                  <KeyboardArrowRight color={'action'} />
+                </IconButton>
+              </ListItemSecondaryAction>
+            )}
 
-          <ListItemText primary={item.primaryText} />
-        </ListItem>
+            <ListItemText primary={item.primaryText} />
+          </ListItem>
+        )
       }
     }
 
@@ -139,14 +121,12 @@ class SelectableMenuList extends Component {
     const list = this.state.previousItems && this.state.previousItems.length > 0 ? this.state.items : items
 
     return (
-      <List
-        value={index}
-        onChange={onIndexChange}>
-        {this.state.items && this.state.previousItems && this.state.previousItems.length > 0 &&
+      <List value={index} onChange={onIndexChange}>
+        {this.state.items && this.state.previousItems && this.state.previousItems.length > 0 && (
           <div>
             <ListItem
               button
-              onClick={(e) => {
+              onClick={() => {
                 this.handleBackClick()
               }}
             >
@@ -155,23 +135,20 @@ class SelectableMenuList extends Component {
               </ListItemIcon>
               <ListItemText primary={this.state.title} />
             </ListItem>
-            <Divider
-
-            />
+            <Divider />
           </div>
-
-        }
-        {
-          list.filter((item) => {
+        )}
+        {list
+          .filter(item => {
             return item.visible !== false
-          }).map((item, i) => {
-            return this.getItem(item, i)
           })
-        }
+          .map((item, i) => {
+            return this.getItem(item, i)
+          })}
       </List>
     )
   }
-};
+}
 
 SelectableMenuList.propTypes = {
   items: PropTypes.array.isRequired,
