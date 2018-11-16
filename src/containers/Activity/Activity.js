@@ -124,7 +124,6 @@ class Activity extends React.Component {
           }
         >
           <Toolbar disableGutters={true}>
-            {true && <LinearProgress />}
             <IconButton
               color="inherit"
               aria-label="open drawer"

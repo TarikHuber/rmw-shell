@@ -19,14 +19,11 @@ import { withRouter } from 'react-router-dom'
 import { withTheme } from '@material-ui/core/styles'
 
 export class UserGrants extends Component {
-
   componentDidMount() {
     const { watchList, userGrantsPath } = this.props
 
     watchList(userGrantsPath)
   }
-
-
 
   handleGrantToggleChange = (e, isInputChecked, key) => {
     const { firebaseApp, userGrantsPath } = this.props
@@ -37,7 +34,6 @@ export class UserGrants extends Component {
     } else {
       ref.remove()
     }
-
   }
 
   renderGrantItem = (list, i, k) => {
@@ -58,29 +54,31 @@ export class UserGrants extends Component {
       })
     }
 
-    return <div key={key}>
-
-      <ListItem
-        key={i}
-        id={i}>
-
-        <Avatar> <Icon > checked</Icon>  </Avatar>
-        <ListItemText primary={intl.formatMessage({ id: `grant_${val}` })} secondary={val} />
-        <Switch
-          checked={userGrants[key] === true}
-          onChange={(e, isInputChecked) => { this.handleGrantToggleChange(e, isInputChecked, key) }}
-        />
-      </ListItem>
-      <Divider inset />
-    </div>;
+    return (
+      <div key={key}>
+        <ListItem key={i} id={i}>
+          <Avatar>
+            {' '}
+            <Icon> checked</Icon>{' '}
+          </Avatar>
+          <ListItemText primary={intl.formatMessage({ id: `grant_${val}` })} secondary={val} />
+          <Switch
+            checked={userGrants[key] === true}
+            onChange={(e, isInputChecked) => {
+              this.handleGrantToggleChange(e, isInputChecked, key)
+            }}
+          />
+        </ListItem>
+        <Divider inset />
+      </div>
+    )
   }
 
   render() {
-    const { intl, filters, appConfig } = this.props;
+    const { intl, filters, appConfig } = this.props
 
-    let grantList = []
-    appConfig.grants.forEach((grant, index) => {
-      grantList.push({ key: index, val: { name: intl.formatMessage({ id: `grant_${grant}` }), value: grant } })
+    const grantList = appConfig.grants.map((grant, index) => {
+      return { key: index, val: { name: intl.formatMessage({ id: `grant_${grant}` }), value: grant } }
     })
 
     const list = filterSelectors.getFilteredList('user_grants', filters, grantList, fieldValue => fieldValue.val)
@@ -98,32 +96,32 @@ export class UserGrants extends Component {
 
     return (
       <div style={{ height: '100%' }}>
-        <List style={{ height: '100%' }} ref={(field) => { this.list = field; }}>
+        <List
+          style={{ height: '100%' }}
+          ref={field => {
+            this.list = field
+          }}
+        >
           <ReactList
             itemRenderer={(i, k) => this.renderGrantItem(list, i, k)}
             length={list ? list.length : 0}
-            type='simple'
+            type="simple"
           />
         </List>
-        <FilterDrawer
-          name={'user_grants'}
-          fields={filterFields}
-        />
+        <FilterDrawer name={'user_grants'} fields={filterFields} />
       </div>
-    );
+    )
   }
 }
-
 
 UserGrants.propTypes = {
   intl: intlShape.isRequired,
   theme: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
-};
-
+  match: PropTypes.object.isRequired
+}
 
 const mapStateToProps = (state, ownProps) => {
-  const { auth, intl, filters } = state;
+  const { auth, intl, filters } = state
   const { match } = ownProps
 
   const uid = match.params.uid
@@ -137,10 +135,11 @@ const mapStateToProps = (state, ownProps) => {
     uid,
     intl,
     userGrantsPath,
-    user_grants: getList(state, userGrantsPath),
+    user_grants: getList(state, userGrantsPath)
   }
 }
 
 export default connect(
-  mapStateToProps, { setSimpleValue, ...filterActions }
+  mapStateToProps,
+  { setSimpleValue, ...filterActions }
 )(injectIntl(withRouter(withFirebase(withAppConfigs(withTheme()(UserGrants))))))
