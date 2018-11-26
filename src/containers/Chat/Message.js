@@ -132,6 +132,7 @@ class ChatMessage extends Component {
                   {type === 'audio' && (
                     <div style={{ padding: 7 }}>
                       <AudioPlayer src={values.audio} authorPhotoUrl={values.authorPhotoUrl} />
+                      {values.message}
                     </div>
                   )}
                   {type === 'link' && (
@@ -139,8 +140,7 @@ class ChatMessage extends Component {
                       {values.link}
                     </a>
                   )}
-                  {type === 'image' &&
-                    values.image !== null && (
+                  {type === 'image' && values.image !== null && (
                     <Image
                       style={{ width: 'auto', height: 280, paddingTop: 0 }}
                       imageStyle={{ maxWidth: '100%', padding: 0, position: 'relative', borderRadius: 5 }}
