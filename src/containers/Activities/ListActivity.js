@@ -38,7 +38,8 @@ class ListActivity extends Component {
       renderItem,
       handleCreateClick,
       disableCreate,
-      title
+      title,
+      activityProps={}
     } = this.props
 
     const fields = filterFields.map(field => {
@@ -70,6 +71,7 @@ class ListActivity extends Component {
             </Tooltip>
           </div>
         }
+        {...activityProps}
       >
         <div style={{ height: '100%' }}>
           <Scrollbar>
