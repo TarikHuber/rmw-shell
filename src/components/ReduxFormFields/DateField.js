@@ -11,7 +11,7 @@ const DateField = props => {
   }
 
   const handleBlur = e => {
-    const { yearPuffer } = this.props
+    const { yearPuffer } = props
     const value = e.target.value
     if (inputFormat && value != null && value.length > 1) {
       const rawMoment = moment(e.target.value, inputFormat)
