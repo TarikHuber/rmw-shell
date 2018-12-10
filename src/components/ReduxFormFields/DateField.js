@@ -11,9 +11,20 @@ const DateField = props => {
   }
 
   const handleBlur = e => {
+    const { yearPuffer } = this.props
     const value = e.target.value
     if (inputFormat && value != null && value.length > 1) {
-      onChange(moment(e.target.value, inputFormat).format())
+      const rawMoment = moment(e.target.value, inputFormat)
+
+      if (rawMoment.month() + yearPuffer < moment().month()) {
+        onChange(
+          moment(e.target.value, inputFormat)
+            .add(1, 'year')
+            .format()
+        )
+      } else {
+        onChange(moment(e.target.value, inputFormat).format())
+      }
     }
   }
 
@@ -33,7 +44,8 @@ DateField.defaultProps = {
   autoOk: true,
   disableOpenOnEnter: true,
   dateFormat: 'DD.MM.YYYY',
-  inputFormat: 'DD-MM'
+  inputFormat: 'DD-MM',
+  yearPuffer: 3
 }
 
 export default DateField
