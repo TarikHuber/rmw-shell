@@ -27,51 +27,46 @@ import requestNotificationPermission from '../../utils/messaging'
 import withAppConfigs from '../../utils/withAppConfigs'
 import { setPersistentValue } from '../../store/persistentValues/actions'
 
-const pageStep = 20;
+const pageStep = 20
 
 class ChatMessages extends Component {
-
   state = {
     anchorEl: null,
     hasError: false
-  };
-
-  constructor(props) {
-    super(props);
-    this.name = null;
-    this.listEnd = null;
   }
 
+  constructor(props) {
+    super(props)
+    this.name = null
+    this.listEnd = null
+  }
 
   scrollToBottom = () => {
-    const node = ReactDOM.findDOMNode(this.listEnd);
+    const node = ReactDOM.findDOMNode(this.listEnd)
     if (node) {
-      node.scrollIntoView({ behavior: "smooth" });
+      node.scrollIntoView({ behavior: 'smooth' })
     }
-
   }
 
   componentWillReceiveProps(nextProps) {
-    const { unwatchList, path } = this.props;
-    const { path: nextPath } = nextProps;
+    const { unwatchList, path } = this.props
+    const { path: nextPath } = nextProps
 
     if (path !== nextPath) {
-      unwatchList(path);
-      this.initMessages(nextProps);
+      unwatchList(path)
+      this.initMessages(nextProps)
     }
-
   }
 
   componentDidUpdate(prevProps, prevState) {
-    this.scrollToBottom();
+    this.scrollToBottom()
   }
 
   componentDidMount() {
-
     const { uid, userChats, setPersistentValue } = this.props
 
-    this.initMessages(this.props);
-    this.scrollToBottom();
+    this.initMessages(this.props)
+    this.scrollToBottom()
 
     requestNotificationPermission(this.props)
 
@@ -79,49 +74,53 @@ class ChatMessages extends Component {
       if (chat.key === uid) {
         setPersistentValue('current_chat_name', chat.val.displayName)
       }
-    });
-
-
+    })
   }
 
-  initMessages = (props) => {
-    const { watchList, firebaseApp, path, auth } = props;
+  initMessages = props => {
+    const { watchList, firebaseApp, path, auth } = props
 
     try {
-      let messagesRef = firebaseApp.database().ref(path).orderByKey().limitToLast(pageStep);
-      watchList(messagesRef);
+      let messagesRef = firebaseApp
+        .database()
+        .ref(path)
+        .orderByKey()
+        .limitToLast(pageStep)
+      watchList(messagesRef)
       watchList(`user_chats/${auth.uid}`)
     } catch (error) {
       console.log(error)
     }
-
   }
 
   handleLoadMore = () => {
-    const { watchList, unwatchList, firebaseApp, setSimpleValue, simpleValues, path } = this.props;
+    const { watchList, unwatchList, firebaseApp, setSimpleValue, simpleValues, path } = this.props
 
-    const currentAmount = simpleValues['chat_messages_limit'] ? simpleValues['chat_messages_limit'] : pageStep;
-    const nextAmount = currentAmount + pageStep;
+    const currentAmount = simpleValues['chat_messages_limit'] ? simpleValues['chat_messages_limit'] : pageStep
+    const nextAmount = currentAmount + pageStep
 
-    unwatchList(path);
-    setSimpleValue('chat_messages_limit', nextAmount);
-    let messagesRef = firebaseApp.database().ref(path).orderByKey().limitToLast(nextAmount);
-    watchList(messagesRef);
-
+    unwatchList(path)
+    setSimpleValue('chat_messages_limit', nextAmount)
+    let messagesRef = firebaseApp
+      .database()
+      .ref(path)
+      .orderByKey()
+      .limitToLast(nextAmount)
+    watchList(messagesRef)
   }
 
   componentDidCatch(error, info) {
     // Display fallback UI
-    this.setState({ hasError: true });
+    this.setState({ hasError: true })
     // You can also log the error to an error reporting service
     //logErrorToMyService(error, info);
   }
 
   renderList(messages) {
-    const { auth, intl, theme, history, path } = this.props;
+    const { auth, intl, theme, history, path } = this.props
 
-    let currentDate = '';
-    let currentAuthor = '';
+    let currentDate = ''
+    let currentAuthor = ''
 
     if (messages === undefined) {
       return <div />
@@ -142,42 +141,48 @@ class ChatMessages extends Component {
       let authorChanged = false
       const backgroundColor = values.authorUid === auth.uid ? theme.palette.primary.main : myBColor
       const color = theme.palette.text.primary
-      let type = values.message ? 'text' : (values.link ? "link" : (values.location ? 'location' : (values.image ? 'image' : undefined)))
-
+      let type = values.message
+        ? 'text'
+        : values.link
+          ? 'link'
+          : values.location
+            ? 'location'
+            : values.image
+              ? 'image'
+              : undefined
 
       if (values.type) {
         type = values.type
       }
 
       if (currentDate !== stringDate) {
-        currentDate = stringDate;
-        dataChanged = true;
+        currentDate = stringDate
+        dataChanged = true
       }
 
       if (currentAuthor !== values.authorUid) {
-        currentAuthor = values.authorUid;
-        authorChanged = true;
+        currentAuthor = values.authorUid
+        authorChanged = true
       }
 
-      return <Message
-        key={i}
-        path={path}
-        dataChanged={dataChanged}
-        authorChanged={authorChanged}
-        row={row}
-        i={i}
-        values={values}
-        backgroundColor={backgroundColor}
-        color={color}
-        type={type}
-      />
-    });
+      return (
+        <Message
+          key={i}
+          path={path}
+          dataChanged={dataChanged}
+          authorChanged={authorChanged}
+          row={row}
+          i={i}
+          values={values}
+          backgroundColor={backgroundColor}
+          color={color}
+          type={type}
+        />
+      )
+    })
   }
 
-
-
   render() {
-
     const {
       messages,
       theme,
@@ -194,17 +199,18 @@ class ChatMessages extends Component {
 
     if (this.state.hasError) {
       // You can render any custom fallback UI
-      return <h1>Something went wrong.</h1>;
+      return <h1>Something went wrong.</h1>
     }
 
     return (
       <Scrollbar
         style={{
           backgroundColor: theme.palette.background.default,
-          width: '100%',
-        }}>
+          width: '100%'
+        }}
+      >
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-          <div style={{ maxWidth: 600, margin: 8, width: '100%' }} >
+          <div style={{ maxWidth: 600, margin: 8, width: '100%' }}>
             <div style={{ display: 'flex', justifyContent: 'center' }}>
               <Chip
                 label={intl.formatMessage({ id: 'load_more_label' })}
@@ -216,26 +222,28 @@ class ChatMessages extends Component {
           </div>
         </div>
         <div
-          style={{ float: "left", clear: "both" }}
-          ref={(el) => { this.listEnd = el; }}>
-        </div>
+          style={{ float: 'left', clear: 'both' }}
+          ref={el => {
+            this.listEnd = el
+          }}
+        />
       </Scrollbar>
-    );
+    )
   }
 }
 
 ChatMessages.propTypes = {
   intl: intlShape.isRequired,
   theme: PropTypes.object.isRequired,
-  auth: PropTypes.object.isRequired,
-};
+  auth: PropTypes.object.isRequired
+}
 
 const mapStateToProps = (state, ownPops) => {
-  const { lists, auth, simpleValues, messaging } = state;
-  const { uid, path } = ownPops;
+  const { lists, auth, simpleValues, messaging } = state
+  const { uid, path } = ownPops
 
   const chatMessageMenuOpen = simpleValues['chatMessageMenuOpen'] === true
-  const imageDialogOpen = simpleValues.chatOpenImageDialog;
+  const imageDialogOpen = simpleValues.chatOpenImageDialog
   const chatsPath = `user_chats/${auth.uid}`
 
   return {
@@ -249,11 +257,10 @@ const mapStateToProps = (state, ownPops) => {
     userChats: getList(state, chatsPath),
     predefinedMessages: getList(state, 'predefined_chat_messages'),
     auth
-  };
-};
-
-
+  }
+}
 
 export default connect(
-  mapStateToProps, { setSimpleValue, setPersistentValue }
+  mapStateToProps,
+  { setSimpleValue, setPersistentValue }
 )(injectIntl(withTheme()(withRouter(withFirebase(withAppConfigs(ChatMessages))))))

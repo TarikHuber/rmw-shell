@@ -1,7 +1,7 @@
 import dialogs from './dialogs/reducer'
 import filterReducer from 'material-ui-filter/lib/store/reducer'
 import firekitReducers from 'firekit'
-import formReducer from 'redux-form/lib/reducer'
+import { reducer as formReducer } from 'redux-form'
 import initState from './init'
 import locale from './locale/reducer'
 import persistentValues from './persistentValues/reducer'

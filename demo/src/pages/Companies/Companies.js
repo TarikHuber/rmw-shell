@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { withTheme } from '@material-ui/core/styles'
+import withWidth from '@material-ui/core/withWidth'
 import { injectIntl } from 'react-intl'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
@@ -16,15 +17,18 @@ import isGranted from 'rmw-shell/lib/utils/auth'
 import { Activity, Scrollbar } from '../../../../src'
 
 class Companies extends Component {
-  componentDidMount () {
+  componentDidMount() {
     const { watchList, firebaseApp } = this.props
 
-    let ref = firebaseApp.database().ref('companies').limitToFirst(20)
+    let ref = firebaseApp
+      .database()
+      .ref('companies')
+      .limitToFirst(20)
 
     watchList(ref)
   }
 
-  renderList (companies) {
+  renderList(companies) {
     const { history } = this.props
 
     if (companies === undefined) {
@@ -32,47 +36,66 @@ class Companies extends Component {
     }
 
     return companies.map((company, index) => {
-      return <div key={index}>
-        <ListItem
-          key={index}
-          onClick={() => { history.push(`/companies/edit/${company.key}`) }}
-          id={index}>
-          {company.val.photoURL && <Avatar src={company.val.photoURL} alt='bussines' />}
-          {!company.val.photoURL && <Avatar> <Icon > business </Icon>  </Avatar>}
-          <ListItemText primary={company.val.name} secondary={company.val.full_name} />
-        </ListItem>
-        <Divider inset />
-      </div>
+      return (
+        <div key={index}>
+          <ListItem
+            key={index}
+            onClick={() => {
+              history.push(`/companies/edit/${company.key}`)
+            }}
+            id={index}
+          >
+            {company.val.photoURL && <Avatar src={company.val.photoURL} alt="bussines" />}
+            {!company.val.photoURL && (
+              <Avatar>
+                {' '}
+                <Icon> business </Icon>{' '}
+              </Avatar>
+            )}
+            <ListItemText primary={company.val.name} secondary={company.val.full_name} />
+          </ListItem>
+          <Divider inset />
+        </div>
+      )
     })
   }
 
-  render () {
+  render() {
     const { intl, companies, theme, history, isGranted, classes } = this.props
 
     return (
       <Activity
         isLoading={companies === undefined}
         containerStyle={{ overflow: 'hidden' }}
-        title={intl.formatMessage({ id: 'companies' })}>
+        title={intl.formatMessage({ id: 'companies' })}
+      >
         <Scrollbar>
-
           <div style={{ overflow: 'none', backgroundColor: theme.palette.convasColor }}>
-            <List id='test' style={{ height: '100%' }} ref={(field) => { this.list = field }}>
+            <List
+              id="test"
+              style={{ height: '100%' }}
+              ref={field => {
+                this.list = field
+              }}
+            >
               {this.renderList(companies)}
             </List>
           </div>
 
           <div style={{ position: 'fixed', right: 18, zIndex: 3, bottom: 18 }}>
-            {
-              isGranted('create_company') &&
-              <Button variant='fab' color='secondary' onClick={() => { history.push(`/companies/create`) }} >
-                <Icon className='material-icons' >add</Icon>
+            {isGranted('create_company') && (
+              <Button
+                variant="fab"
+                color="secondary"
+                onClick={() => {
+                  history.push('/companies/create')
+                }}
+              >
+                <Icon className="material-icons">add</Icon>
               </Button>
-            }
+            )}
           </div>
-
         </Scrollbar>
-
       </Activity>
     )
   }
@@ -84,7 +107,7 @@ Companies.propTypes = {
   isGranted: PropTypes.func.isRequired
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const { auth, lists } = state
 
   return {
@@ -94,6 +117,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(
-  mapStateToProps
-)(injectIntl(withTheme()(withRouter(withFirebase(Companies)))))
+export default connect(mapStateToProps)(injectIntl(withWidth()(withTheme()(withRouter(withFirebase(Companies))))))
