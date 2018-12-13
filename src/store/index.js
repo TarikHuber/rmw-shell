@@ -36,11 +36,9 @@ export default function configureStore() {
 
   store = createStore(reducer, initState, enhancer)
 
-  let persistor
-
   try {
-    persistor = persistStore(store)
+    persistStore(store)
   } catch (e) {}
 
-  return { store, persistor }
+  return store
 }
