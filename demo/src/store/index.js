@@ -18,15 +18,13 @@ export default function configureStore() {
   }
 
   const composeEnhancers =
-    typeof window === 'object' &&
-      window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+    typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
       ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
         // Specify extension’s options like name, actionsBlacklist, actionsCreators, serialize...
-      }) : compose
+      })
+      : compose
 
-  const enhancer = composeEnhancers(
-    applyMiddleware(...middlewares)
-  )
+  const enhancer = composeEnhancers(applyMiddleware(...middlewares))
 
   const persistorConfig = {
     key: 'root',
@@ -38,11 +36,11 @@ export default function configureStore() {
 
   store = createStore(reducer, initState, enhancer)
 
+  let persistor
+
   try {
-    persistStore(store)
-  } catch (e) {
+    persistor = persistStore(store)
+  } catch (e) {}
 
-  }
-
-  return store
+  return { store, persistor }
 }
