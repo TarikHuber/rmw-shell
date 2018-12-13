@@ -111,15 +111,16 @@ class Root extends Component {
     const source = getThemeSource(themeSource, appConfig.themes)
     const theme = createMuiTheme(source)
 
+    const { landingPage: LandingPage = false } = appConfig
+
     return (
       <MuiPickersUtilsProvider utils={Utils}>
         <MuiThemeProvider theme={theme}>
           <IntlProvider locale={locale} key={locale} messages={messages}>
             <Router history={history}>
               <Switch>
-                <Route>
-                  <AppLayout />
-                </Route>
+                {LandingPage && <Route path="/" exact component={LandingPage} />}
+                <Route component={AppLayout} />
               </Switch>
             </Router>
           </IntlProvider>
