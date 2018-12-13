@@ -12,6 +12,7 @@ import { Router, Route, Switch } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { createMuiTheme } from '@material-ui/core/styles'
 import { initializeMessaging } from '../../utils/messaging'
+import { saveAuthorisation } from '../../utils/auth'
 import { setPersistentValue } from '../../store/persistentValues/actions'
 import { watchAuth, clearInitialization, initConnection, watchList, initMessaging, watchPath } from 'firekit'
 
@@ -31,6 +32,7 @@ class Root extends Component {
   onAuthStateChanged = (user, firebaseApp) => {
     const { clearInitialization, watchConnection, watchList, watchPath, appConfig } = this.props
 
+    saveAuthorisation(user)
     clearInitialization()
 
     if (user) {

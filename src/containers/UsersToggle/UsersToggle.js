@@ -1,11 +1,11 @@
-import AltIconAvatar from 'rmw-shell/lib/components/AltIconAvatar'
+import AltIconAvatar from '../../components/AltIconAvatar'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import ReactList from 'react-list'
 import { FilterDrawer, filterSelectors, filterActions } from 'material-ui-filter'
 import { connect } from 'react-redux'
 import { injectIntl, intlShape } from 'react-intl'
-import { setSimpleValue } from 'rmw-shell/lib/store/simpleValues/actions'
+import { setSimpleValue } from '../../store/simpleValues/actions'
 import { withFirebase } from 'firekit-provider'
 import { withRouter } from 'react-router-dom'
 //material-ui

@@ -1,4 +1,3 @@
-
 export default function isGranted(state, grant) {
   const { auth, lists, paths } = state
 
@@ -36,12 +35,28 @@ export function isAnyGranted(state, grants) {
   return false
 }
 
+const localStorageAuthKey = 'rmw:isAuthorised'
+
+export function saveAuthorisation(user) {
+  if (typeof Storage !== 'undefined') {
+    try {
+      localStorage.setItem(localStorageAuthKey, Boolean(user))
+    } catch (ex) {
+      console.log(ex)
+    }
+  } else {
+    // No web storage Support.
+  }
+}
+
 export function isAuthorised() {
-  try {
-    const key = Object.keys(localStorage).find(e => e.match(/firebase:authUser/))
-    const data = JSON.parse(localStorage.getItem(key))
-    return data !== null
-  } catch (ex) {
-    return false
+  if (typeof Storage !== 'undefined') {
+    try {
+      return localStorage.getItem(localStorageAuthKey)
+    } catch (ex) {
+      return false
+    }
+  } else {
+    // No web storage Support.
   }
 }
