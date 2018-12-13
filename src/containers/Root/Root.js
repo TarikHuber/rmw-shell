@@ -8,7 +8,7 @@ import createHistory from 'history/createBrowserHistory'
 import getThemeSource from '../../config/themes'
 import locales, { getLocaleMessages } from '../../config/locales'
 import { IntlProvider } from 'react-intl'
-import { Router, Route, Switch } from 'react-router-dom'
+import { BrowserRouter, Router, Route, Switch } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { createMuiTheme } from '@material-ui/core/styles'
 import { initializeMessaging } from '../../utils/messaging'
@@ -117,12 +117,16 @@ class Root extends Component {
       <MuiPickersUtilsProvider utils={Utils}>
         <MuiThemeProvider theme={theme}>
           <IntlProvider locale={locale} key={locale} messages={messages}>
-            <Router history={history}>
+            <BrowserRouter>
               <Switch>
                 {LandingPage && <Route path="/" exact component={LandingPage} />}
-                <Route component={AppLayout} />
+                <Router history={history}>
+                  <Switch>
+                    <Route component={AppLayout} />
+                  </Switch>
+                </Router>
               </Switch>
-            </Router>
+            </BrowserRouter>
           </IntlProvider>
         </MuiThemeProvider>
       </MuiPickersUtilsProvider>
