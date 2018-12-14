@@ -1,12 +1,10 @@
+/* eslint-disable react/jsx-key */
 import React from 'react'
 import RestrictedRoute from 'rmw-shell/lib/containers/RestrictedRoute'
 import makeLoadable from 'rmw-shell/lib/containers/MyLoadable'
-import makeSlimLoadable from 'rmw-shell/lib/containers/SlimLoadable'
-import { Route } from 'react-router-dom'
 
 const MyLoadable = (opts, preloadComponents) =>
   makeLoadable({ ...opts, firebase: () => import('./firebase') }, preloadComponents)
-const SlimLoadable = opts => makeSlimLoadable({ ...opts })
 
 const AsyncDashboard = MyLoadable({ loader: () => import('../pages/Dashboard') })
 const AsyncAbout = MyLoadable({ loader: () => import('../pages/About') })
@@ -16,7 +14,6 @@ const AsyncTask = MyLoadable({ loader: () => import('../pages/Tasks/Task') })
 const AsyncTasks = MyLoadable({ loader: () => import('../pages/Tasks/Tasks') }, [AsyncTask])
 const AsyncDocument = MyLoadable({ loader: () => import('../pages/Document') })
 const AsyncCollection = MyLoadable({ loader: () => import('../pages/Collection') })
-const AsyncLandingPage = SlimLoadable({ loader: () => import('../pages/LandingPage') })
 
 const routes = [
   <RestrictedRoute type="private" path="/" exact component={AsyncDashboard} />,

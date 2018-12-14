@@ -6,9 +6,9 @@ import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import createHistory from 'history/createBrowserHistory'
 import getThemeSource from '../../config/themes'
-import locales, { getLocaleMessages } from '../../config/locales'
+import locales, { getLocaleMessages, addLocalizationData } from '../../config/locales'
 import { IntlProvider } from 'react-intl'
-import { BrowserRouter, Router, Route, Switch } from 'react-router-dom'
+import { Router, Route, Switch } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { createMuiTheme } from '@material-ui/core/styles'
 import { initializeMessaging } from '../../utils/messaging'
@@ -16,6 +16,7 @@ import { saveAuthorisation } from '../../utils/auth'
 import { setPersistentValue } from '../../store/persistentValues/actions'
 import { watchAuth, clearInitialization, initConnection, watchList, initMessaging, watchPath } from 'firekit'
 
+addLocalizationData(locales)
 const history = createHistory()
 
 class Root extends Component {
@@ -117,16 +118,11 @@ class Root extends Component {
       <MuiPickersUtilsProvider utils={Utils}>
         <MuiThemeProvider theme={theme}>
           <IntlProvider locale={locale} key={locale} messages={messages}>
-            <BrowserRouter>
+            <Router history={history}>
               <Switch>
-                {LandingPage && <Route path="/" exact component={LandingPage} />}
-                <Router history={history}>
-                  <Switch>
-                    <Route component={AppLayout} />
-                  </Switch>
-                </Router>
+                <Route component={AppLayout} />
               </Switch>
-            </BrowserRouter>
+            </Router>
           </IntlProvider>
         </MuiThemeProvider>
       </MuiPickersUtilsProvider>
