@@ -7,7 +7,7 @@ import { withStyles } from '@material-ui/core/styles'
 import { checkForUpdate } from '../../utils/messaging'
 import { injectIntl } from 'react-intl'
 
-const styles = theme => ({
+const styles = () => ({
   body: {
     position: 'absolute',
     top: 0,

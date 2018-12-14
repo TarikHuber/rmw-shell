@@ -1,13 +1,14 @@
+import AppConfigProvider from '../../containers/AppConfigProvider'
 import AppLayout from '../../containers/AppLayout'
-import Utils from '@date-io/moment'
-import { MuiPickersUtilsProvider } from 'material-ui-pickers'
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
+import Utils from '@date-io/moment'
 import createHistory from 'history/createBrowserHistory'
 import getThemeSource from '../../config/themes'
 import locales, { getLocaleMessages, addLocalizationData } from '../../config/locales'
 import { IntlProvider } from 'react-intl'
+import { MuiPickersUtilsProvider } from 'material-ui-pickers'
 import { Router, Route, Switch } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { createMuiTheme } from '@material-ui/core/styles'
@@ -112,20 +113,20 @@ class Root extends Component {
     const source = getThemeSource(themeSource, appConfig.themes)
     const theme = createMuiTheme(source)
 
-    const { landingPage: LandingPage = false } = appConfig
-
     return (
-      <MuiPickersUtilsProvider utils={Utils}>
-        <MuiThemeProvider theme={theme}>
-          <IntlProvider locale={locale} key={locale} messages={messages}>
-            <Router history={history}>
-              <Switch>
-                <Route component={AppLayout} />
-              </Switch>
-            </Router>
-          </IntlProvider>
-        </MuiThemeProvider>
-      </MuiPickersUtilsProvider>
+      <AppConfigProvider appConfig={appConfig}>
+        <MuiPickersUtilsProvider utils={Utils}>
+          <MuiThemeProvider theme={theme}>
+            <IntlProvider locale={locale} key={locale} messages={messages}>
+              <Router history={history}>
+                <Switch>
+                  <Route component={AppLayout} />
+                </Switch>
+              </Router>
+            </IntlProvider>
+          </MuiThemeProvider>
+        </MuiPickersUtilsProvider>
+      </AppConfigProvider>
     )
   }
 }
