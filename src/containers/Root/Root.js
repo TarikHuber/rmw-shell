@@ -16,6 +16,7 @@ import { initializeMessaging } from '../../utils/messaging'
 import { saveAuthorisation } from '../../utils/auth'
 import { setPersistentValue } from '../../store/persistentValues/actions'
 import { watchAuth, clearInitialization, initConnection, watchList, initMessaging, watchPath } from 'firekit'
+import Helmet from 'react-helmet'
 
 addLocalizationData(locales)
 const history = createHistory()
@@ -114,19 +115,24 @@ class Root extends Component {
     const theme = createMuiTheme(source)
 
     return (
-      <AppConfigProvider appConfig={appConfig}>
-        <MuiPickersUtilsProvider utils={Utils}>
-          <MuiThemeProvider theme={theme}>
-            <IntlProvider locale={locale} key={locale} messages={messages}>
-              <Router history={history}>
-                <Switch>
-                  <Route component={AppLayout} />
-                </Switch>
-              </Router>
-            </IntlProvider>
-          </MuiThemeProvider>
-        </MuiPickersUtilsProvider>
-      </AppConfigProvider>
+      <div>
+        <Helmet>
+          <link rel="stylesheet" type="text/css" href="https://cdn.firebase.com/libs/firebaseui/3.0.0/firebaseui.css" />
+        </Helmet>
+        <AppConfigProvider appConfig={appConfig}>
+          <MuiPickersUtilsProvider utils={Utils}>
+            <MuiThemeProvider theme={theme}>
+              <IntlProvider locale={locale} key={locale} messages={messages}>
+                <Router history={history}>
+                  <Switch>
+                    <Route component={AppLayout} />
+                  </Switch>
+                </Router>
+              </IntlProvider>
+            </MuiThemeProvider>
+          </MuiPickersUtilsProvider>
+        </AppConfigProvider>
+      </div>
     )
   }
 }

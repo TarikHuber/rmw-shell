@@ -5,6 +5,7 @@ import config from '../../config'
 import configureStore from '../../store'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { Provider } from 'react-redux'
+import A2HSProvider from 'a2hs'
 
 const Loading = () => <LoadingComponent />
 export const RootAsync = Loadable({
@@ -20,18 +21,20 @@ class App extends Component {
     const { landingPage: LandingPage = false } = configs
 
     return (
-      <Provider store={store}>
-        <BrowserRouter>
-          <Switch>
-            {LandingPage && <Route path="/" exact component={LandingPage} />}
+      <A2HSProvider>
+        <Provider store={store}>
+          <BrowserRouter>
             <Switch>
-              <Route>
-                <RootAsync appConfig={configs} />
-              </Route>
+              {LandingPage && <Route path="/" exact component={LandingPage} />}
+              <Switch>
+                <Route>
+                  <RootAsync appConfig={configs} />
+                </Route>
+              </Switch>
             </Switch>
-          </Switch>
-        </BrowserRouter>
-      </Provider>
+          </BrowserRouter>
+        </Provider>
+      </A2HSProvider>
     )
   }
 }

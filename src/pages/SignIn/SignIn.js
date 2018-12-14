@@ -8,7 +8,7 @@ import withAppConfigs from '../../utils/withAppConfigs'
 import firebaseui from 'firebaseui'
 
 export class SignIn extends Component {
-  render () {
+  render() {
     const { intl, firebaseApp, appConfig } = this.props
 
     const uiConfig = {
@@ -30,7 +30,6 @@ export class SignIn extends Component {
       <Activity title={intl.formatMessage({ id: 'sign_in' })}>
         <AuthUI firebaseApp={firebaseApp} uiConfig={uiConfig} />
       </Activity>
-
     )
   }
 }
