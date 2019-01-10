@@ -17,6 +17,9 @@ import withWidth from '@material-ui/core/withWidth'
 import { compose } from 'redux'
 import { injectIntl } from 'react-intl'
 import { withStyles } from '@material-ui/core/styles'
+import ArroWDropDownIcon from '@material-ui/icons/ArrowDropDown'
+import ArroWDropUpIcon from '@material-ui/icons/ArrowDropUp'
+import ChromeReaderMode from '@material-ui/icons/ChromeReaderMode'
 
 const styles = theme => ({
   paper: {
@@ -75,7 +78,7 @@ export const DrawerHeader = props => {
                       setDrawerOpen(false)
                     }}
                   >
-                    <Icon classes={{ root: classes.icon }}>chrome_reader_mode</Icon>
+                    <ChromeReaderMode classes={{ root: classes.icon }} />
                   </IconButton>
                   <IconButton
                     className={classes.button}
@@ -83,9 +86,8 @@ export const DrawerHeader = props => {
                       setDrawerUseMinified(false)
                     }}
                   >
-                    <Icon classes={{ root: classes.icon }}>
-                      {theme.direction === 'rtl' ? 'chevron_right' : 'chevron_left'}
-                    </Icon>
+                    {theme.direction === 'rtl' && <ChevronRight classes={{ root: classes.icon }} />}
+                    {theme.direction !== 'rtl' && <ChevronLeft classes={{ root: classes.icon }} />}
                   </IconButton>
                 </ListItemSecondaryAction>
               </Hidden>
@@ -96,19 +98,13 @@ export const DrawerHeader = props => {
                 setDialogIsOpen('auth_menu', !dialogs.auth_menu)
               }}
             >
-              {!drawer.open &&
-                width !== 'sm' &&
-                width !== 'xs' &&
-                auth.photoURL && (
+              {!drawer.open && width !== 'sm' && width !== 'xs' && auth.photoURL && (
                 <ListItemAvatar>
                   <Avatar src={auth.photoURL} alt="person" style={{ marginLeft: -7, marginTop: 3 }} />
                 </ListItemAvatar>
               )}
 
-              {!drawer.open &&
-                width !== 'sm' &&
-                width !== 'xs' &&
-                !auth.photoURL && (
+              {!drawer.open && width !== 'sm' && width !== 'xs' && !auth.photoURL && (
                 <ListItemAvatar>
                   <Avatar style={{ marginLeft: -7, marginTop: 3 }}>
                     {' '}
@@ -129,9 +125,8 @@ export const DrawerHeader = props => {
                   }}
                 >
                   <IconButton>
-                    <Icon classes={{ root: classes.icon }}>
-                      {dialogs.auth_menu ? 'arrow_drop_up' : 'arrow_drop_down'}
-                    </Icon>
+                    {dialogs.auth_menu && <ArroWDropUpIcon classes={{ root: classes.icon }} />}
+                    {!dialogs.auth_menu && <ArroWDropDownIcon classes={{ root: classes.icon }} />}
                   </IconButton>
                 </ListItemSecondaryAction>
               )}
