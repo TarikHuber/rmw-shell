@@ -6,6 +6,7 @@ import configureStore from '../../store'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import A2HSProvider from 'a2hs'
+import 'typeface-roboto'
 
 const Loading = () => <LoadingComponent />
 export const RootAsync = Loadable({
