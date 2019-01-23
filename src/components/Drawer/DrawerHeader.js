@@ -1,8 +1,10 @@
+import ArroWDropDownIcon from '@material-ui/icons/ArrowDropDown'
+import ArroWDropUpIcon from '@material-ui/icons/ArrowDropUp'
 import Avatar from '@material-ui/core/Avatar'
 import ChevronLeft from '@material-ui/icons/ChevronLeft'
 import ChevronRight from '@material-ui/icons/ChevronRight'
+import ChromeReaderMode from '@material-ui/icons/ChromeReaderMode'
 import Hidden from '@material-ui/core/Hidden'
-import Icon from '@material-ui/core/Icon'
 import IconButton from '@material-ui/core/IconButton'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
@@ -17,9 +19,6 @@ import withWidth from '@material-ui/core/withWidth'
 import { compose } from 'redux'
 import { injectIntl } from 'react-intl'
 import { withStyles } from '@material-ui/core/styles'
-import ArroWDropDownIcon from '@material-ui/icons/ArrowDropDown'
-import ArroWDropUpIcon from '@material-ui/icons/ArrowDropUp'
-import ChromeReaderMode from '@material-ui/icons/ChromeReaderMode'
 
 const styles = theme => ({
   paper: {
@@ -115,6 +114,9 @@ export const DrawerHeader = props => {
 
               <ListItemText
                 classes={{ primary: classes.listItem, secondary: classes.listItem }}
+                style={{
+                  marginLeft: !drawer.open && width !== 'sm' && width !== 'xs' && auth.photoURL ? 7 : undefined
+                }}
                 primary={auth.displayName}
                 secondary={auth.email}
               />

@@ -1,19 +1,16 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { intlShape } from 'react-intl'
-import { Field, reduxForm } from 'redux-form'
-import { TextField } from 'redux-form-material-ui'
 import Avatar from '@material-ui/core/Avatar'
-import IconButton from '@material-ui/core/IconButton'
-import Icon from '@material-ui/core/Icon'
-import Switch from '@material-ui/core/Switch'
-import classNames from 'classnames'
-import { withTheme, withStyles } from '@material-ui/core/styles'
-import withAppConfigs from '../../utils/withAppConfigs'
-import { GoogleIcon, FacebookIcon, GitHubIcon, TwitterIcon } from '../../components/Icons'
-import FormGroup from '@material-ui/core/FormGroup'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
+import Icon from '@material-ui/core/Icon'
+import IconButton from '@material-ui/core/IconButton'
+import PropTypes from 'prop-types'
+import React, { Component } from 'react'
+import Switch from '@material-ui/core/Switch'
 import Typography from '@material-ui/core/Typography'
+import classNames from 'classnames'
+import withAppConfigs from '../../utils/withAppConfigs'
+import { withStyles } from '@material-ui/core/styles'
+import { GoogleIcon, FacebookIcon, GitHubIcon, TwitterIcon } from '../../components/Icons'
+import { intlShape } from 'react-intl'
 
 const styles = theme => ({
   avatar: {
@@ -55,9 +52,6 @@ class UserForm extends Component {
   }
 
   getProviderIcon = p => {
-    const { theme } = this.props
-    const color = 'primary'
-
     switch (p) {
     case 'google.com':
       return <GoogleIcon />
@@ -77,19 +71,7 @@ class UserForm extends Component {
   }
 
   render() {
-    const {
-      handleSubmit,
-      intl,
-      initialized,
-      uid,
-      handleAdminChange,
-      isAdmin,
-      photoURL,
-      classes,
-      appConfig,
-      displayName,
-      values
-    } = this.props
+    const { intl, handleAdminChange, isAdmin, classes, appConfig, values } = this.props
 
     return (
       <div className={classes.root}>

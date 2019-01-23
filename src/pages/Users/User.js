@@ -22,17 +22,16 @@ import { withFirebase } from 'firekit-provider'
 import { withRouter } from 'react-router-dom'
 import { withTheme, withStyles } from '@material-ui/core/styles'
 
-
 const path = '/users'
 
 const styles = theme => ({
   root: {
     flexGrow: 1,
-    backgroundColor: theme.palette.background.default,
+    backgroundColor: theme.palette.background.default
   },
   tabs: {
     flex: 1,
-    width: '100%',
+    width: '100%'
   },
   form: {
     backgroundColor: theme.palette.background.default,
@@ -40,10 +39,9 @@ const styles = theme => ({
     display: 'flex',
     justifyContent: 'center'
   }
-});
+})
 
 export class User extends Component {
-
   state = {
     values: {}
   }
@@ -53,16 +51,21 @@ export class User extends Component {
     watchList('admins')
     watchList('user_grants')
 
-    firebaseApp.database().ref(`users/${uid}`).on('value', snap => {
-      this.setState({ values: snap.val() })
-    })
-
+    firebaseApp
+      .database()
+      .ref(`users/${uid}`)
+      .on('value', snap => {
+        this.setState({ values: snap.val() })
+      })
   }
 
   componentWillUnmount() {
     const { firebaseApp, uid } = this.props
 
-    firebaseApp.database().ref(`users/${uid}`).off()
+    firebaseApp
+      .database()
+      .ref(`users/${uid}`)
+      .off()
   }
 
   handleTabActive = (e, value) => {
@@ -73,7 +76,6 @@ export class User extends Component {
     } else {
       history.push(`${path}/edit/${uid}/${value}`)
     }
-
   }
 
   handleAdminChange = (e, isInputChecked) => {
@@ -81,15 +83,19 @@ export class User extends Component {
     const uid = match.params.uid
 
     if (isInputChecked) {
-      firebaseApp.database().ref(`/admins/${uid}`).set(true)
+      firebaseApp
+        .database()
+        .ref(`/admins/${uid}`)
+        .set(true)
     } else {
-      firebaseApp.database().ref(`/admins/${uid}`).remove()
+      firebaseApp
+        .database()
+        .ref(`/admins/${uid}`)
+        .remove()
     }
-
   }
 
   render() {
-
     const {
       history,
       intl,
@@ -119,58 +125,58 @@ export class User extends Component {
       <Activity
         isLoading={isLoading}
         appBarContent={
-          <div >
-            {editType === 'grants' && <div style={{ display: 'flex' }}>
-              <SearchField filterName={'user_grants'} />
+          <div>
+            {editType === 'grants' && (
+              <div style={{ display: 'flex' }}>
+                <SearchField filterName={'user_grants'} />
 
-              <IconButton
-                color="inherit"
-                aria-label="open drawer"
-                onClick={() => setFilterIsOpen('user_grants', true)}
-              >
-                <Icon className="material-icons" color={hasFilters ? theme.palette.accent1Color : theme.palette.canvasColor}>filter_list</Icon>
-              </IconButton>
-
-            </div>
-            }
+                <IconButton
+                  color="inherit"
+                  aria-label="open drawer"
+                  onClick={() => setFilterIsOpen('user_grants', true)}
+                >
+                  <Icon
+                    className="material-icons"
+                    color={hasFilters ? theme.palette.accent1Color : theme.palette.canvasColor}
+                  >
+                    filter_list
+                  </Icon>
+                </IconButton>
+              </div>
+            )}
           </div>
         }
         onBackClick={() => history.push('/users')}
-        title={intl.formatMessage({ id: 'edit_user' })}>
+        title={intl.formatMessage({ id: 'edit_user' })}
+      >
         <Scrollbar style={{ height: '100%' }}>
           <div className={classes.root}>
-
             <AppBar position="static">
-              <Tabs value={editType} onChange={this.handleTabActive} fullWidth centered >
+              <Tabs value={editType} onChange={this.handleTabActive} fullWidth centered>
                 <Tab value="profile" icon={<Icon className="material-icons">person</Icon>} />
                 <Tab value="roles" icon={<Icon className="material-icons">account_box</Icon>} />
                 <Tab value="grants" icon={<Icon className="material-icons">lock</Icon>} />
               </Tabs>
             </AppBar>
 
-            {editType === 'profile' && <div className={classes.form}>
-
-
-              <UserForm
-                handleAdminChange={this.handleAdminChange}
-                isAdmin={isAdmin}
-                values={this.state.values ? this.state.values : {}}
-                {...this.props}
-              />
-
-
-            </div>}
+            {editType === 'profile' && (
+              <div className={classes.form}>
+                <UserForm
+                  handleAdminChange={this.handleAdminChange}
+                  isAdmin={isAdmin}
+                  values={this.state.values ? this.state.values : {}}
+                  {...this.props}
+                />
+              </div>
+            )}
             {editType === 'roles' && <UserRoles {...this.props} />}
             {editType === 'grants' && <UserGrants {...this.props} />}
-
           </div>
         </Scrollbar>
-
       </Activity>
     )
   }
 }
-
 
 User.propTypes = {
   history: PropTypes.object,
@@ -178,7 +184,7 @@ User.propTypes = {
   //submit: PropTypes.func.isRequired,
   theme: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
-  admins: PropTypes.array.isRequired,
+  admins: PropTypes.array.isRequired
 }
 
 const selector = formValueSelector('user')
@@ -220,5 +226,6 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 export default connect(
-  mapStateToProps, { setSimpleValue, change, submit, ...filterActions }
+  mapStateToProps,
+  { setSimpleValue, change, submit, ...filterActions }
 )(injectIntl(withRouter(withFirebase(withStyles(styles, { withTheme: true })(withTheme()(User))))))

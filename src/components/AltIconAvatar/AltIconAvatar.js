@@ -2,7 +2,7 @@ import React from 'react'
 import Avatar from '@material-ui/core/Avatar'
 import Icon from '@material-ui/core/Icon'
 
-const AltIconAvatar = (props) => {
+const AltIconAvatar = props => {
   const { src, iconName, icon, ...rest } = props
 
   if (src) {
@@ -14,7 +14,11 @@ const AltIconAvatar = (props) => {
   }
 
   if (iconName) {
-    return <Avatar {...rest}><Icon > {iconName}</Icon></Avatar>
+    return (
+      <Avatar {...rest}>
+        <Icon> {iconName}</Icon>
+      </Avatar>
+    )
   }
 
   return <Avatar {...rest} />

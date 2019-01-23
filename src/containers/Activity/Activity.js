@@ -72,6 +72,20 @@ class Activity extends React.Component {
     setDrawerOpen(true)
   }
 
+  handleDrawerMenuClick = () => {
+    const { width, drawer } = this.props
+    const smDown = isWidthDown('sm', width)
+
+    if (!drawer.open) {
+      this.handleDrawerOpen()
+      if (smDown) {
+        this.handleDrawerToggle()
+      }
+    } else {
+      this.handleDrawerToggle()
+    }
+  }
+
   handleDrawerClose = () => {
     const { setDrawerOpen } = this.props
     setDrawerOpen(false)
@@ -127,7 +141,7 @@ class Activity extends React.Component {
             <IconButton
               color="inherit"
               aria-label="open drawer"
-              onClick={!drawer.open ? this.handleDrawerOpen : this.handleDrawerToggle}
+              onClick={this.handleDrawerMenuClick}
               className={classNames(
                 !smDown && classes.menuButton,
                 drawer.open && !smDown && classes.hide,
