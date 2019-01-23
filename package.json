@@ -76,7 +76,7 @@
     "chart.js": "^2.7.3",
     "downshift": "^3.1.12",
     "eslint": "^5.12.1",
-    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-import": "^2.15.0",
     "eslint-plugin-jsx-a11y": "^6.1.2",
     "eslint-plugin-react": "^7.12.4",
     "firebase": "^5.8.0",
