@@ -72,6 +72,7 @@ class Root extends Component {
 
       watchList(firebaseApp, `user_grants/${user.uid}`)
       watchPath(firebaseApp, `admins/${user.uid}`)
+      watchPath(firebaseApp, `users/${user.uid}`)
 
       if (appConfig.onAuthStateChanged) {
         try {
