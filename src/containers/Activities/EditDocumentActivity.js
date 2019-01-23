@@ -32,7 +32,7 @@ class EditDocumentActivity extends Component {
     }
   }
 
-  hanldeSubmitSuccess = (values, key) => {
+  hanldeSubmitSuccess = () => {
     const { history, path } = this.props
     history.push(`/${path}`)
   }
@@ -76,8 +76,7 @@ class EditDocumentActivity extends Component {
                 </IconButton>
               </Tooltip>
             )}
-            {uid &&
-              isGranted(`delete_${name}`) && (
+            {uid && isGranted(`delete_${name}`) && (
               <Tooltip title={intl.formatMessage({ id: 'delete' })}>
                 <IconButton
                   color="inherit"

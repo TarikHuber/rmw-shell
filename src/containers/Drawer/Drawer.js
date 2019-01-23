@@ -14,13 +14,12 @@ export class AppLayout extends Component {
     const Header = appConfig.drawerHeader ? appConfig.drawerHeader : DrawerHeader
 
     return (
-      <ResponsiveDrawer >
+      <ResponsiveDrawer>
         <Header />
-        <Scrollbar >
+        <Scrollbar>
           <DrawerContent path={path} history={history} />
         </Scrollbar>
       </ResponsiveDrawer>
-
     )
   }
 }

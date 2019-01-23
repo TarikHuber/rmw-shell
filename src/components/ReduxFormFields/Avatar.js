@@ -27,7 +27,7 @@ const mapError = ({ meta: { touched, error, warning } = {}, input, ...props }, e
     }
     : { ...input, ...props }
 
-export default createComponent(AltIconAvatar, ({ input, meta, ...props }) => ({
+export default createComponent(AltIconAvatar, ({ input, ...props }) => ({
   ...props,
   src: input ? input.value : undefined,
   ...mapError(props)

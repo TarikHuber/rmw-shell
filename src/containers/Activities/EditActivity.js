@@ -79,20 +79,19 @@ class EditActivity extends Component {
                 </IconButton>
               </Tooltip>
             )}
-            {uid &&
-              isGranted(`delete_${name}`) && (
-                <Tooltip title={intl.formatMessage({ id: 'delete' })}>
-                  <IconButton
-                    color="inherit"
-                    aria-label="delete"
-                    onClick={() => {
-                      setSimpleValue(`delete_${name}`, true)
-                    }}
-                  >
-                    <Icon>delete</Icon>
-                  </IconButton>
-                </Tooltip>
-              )}
+            {uid && isGranted(`delete_${name}`) && (
+              <Tooltip title={intl.formatMessage({ id: 'delete' })}>
+                <IconButton
+                  color="inherit"
+                  aria-label="delete"
+                  onClick={() => {
+                    setSimpleValue(`delete_${name}`, true)
+                  }}
+                >
+                  <Icon>delete</Icon>
+                </IconButton>
+              </Tooltip>
+            )}
           </div>
         }
         onBackClick={() => {

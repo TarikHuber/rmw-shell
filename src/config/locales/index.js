@@ -39,7 +39,6 @@ const locales = [
     messages: de_messages,
     data: de
   }
-
 ]
 
 export function getLocaleMessages(l, ls) {
@@ -55,7 +54,7 @@ export function getLocaleMessages(l, ls) {
 }
 
 export function addLocalizationData(ls) {
-  ls.map((l) => {
+  ls.map(l => {
     addLocaleData(l.data)
     return l
   })

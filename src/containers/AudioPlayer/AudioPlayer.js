@@ -1,11 +1,11 @@
 import Avatar from '@material-ui/core/Avatar'
 import Icon from '@material-ui/core/Icon'
 import IconButton from '@material-ui/core/IconButton'
-import LinearProgress from '@material-ui/core/LinearProgress';
+import LinearProgress from '@material-ui/core/LinearProgress'
 import React, { Component } from 'react'
 import ReactPlayer from 'react-player'
-import { withTheme, withStyles } from '@material-ui/core/styles'
 import moment from 'moment'
+import { withTheme } from '@material-ui/core/styles'
 
 export class AudioPlayer extends Component {
   constructor(props) {
@@ -65,7 +65,7 @@ export class AudioPlayer extends Component {
   onEnded = () => {
     this.setState({ playing: this.state.loop })
   }
-  onDuration = (duration) => {
+  onDuration = duration => {
     this.setState({ duration })
   }
 
@@ -79,28 +79,29 @@ export class AudioPlayer extends Component {
 
     return (
       <div style={{ display: 'flex', alignItems: 'center' }}>
-        <Avatar src={authorPhotoUrl} alt='person' icon={<Icon  >person</Icon>} />
-        <IconButton onClick={this.state.playing ? this.onPause : this.onPlay} >
-          <Icon
-            color={'secondary'}>
-            {this.state.playing ? 'pause' : 'play_arrow'}
-          </Icon>
-        </IconButton >
-        <div style={{
-          marginTop: 25,
-          display: 'flex',
-          flexDirection: 'column',
-          width: 200
-        }}>
-          <LinearProgress
-            variant="determinate"
-            value={played * 100}
-            color={'secondary'}
-          />
+        <Avatar src={authorPhotoUrl} alt="person" icon={<Icon>person</Icon>} />
+        <IconButton onClick={this.state.playing ? this.onPause : this.onPlay}>
+          <Icon color={'secondary'}>{this.state.playing ? 'pause' : 'play_arrow'}</Icon>
+        </IconButton>
+        <div
+          style={{
+            marginTop: 25,
+            display: 'flex',
+            flexDirection: 'column',
+            width: 200
+          }}
+        >
+          <LinearProgress variant="determinate" value={played * 100} color={'secondary'} />
 
-          <div style={{ marginTop: 5, color: theme.palette.primary3Color }}>{moment().month(0).date(1).hours(0).minutes(0).seconds(playedSeconds).format('m:ss')}</div>
-
-
+          <div style={{ marginTop: 5, color: theme.palette.primary3Color }}>
+            {moment()
+              .month(0)
+              .date(1)
+              .hours(0)
+              .minutes(0)
+              .seconds(playedSeconds)
+              .format('m:ss')}
+          </div>
         </div>
 
         <ReactPlayer
@@ -119,7 +120,7 @@ export class AudioPlayer extends Component {
           onProgress={this.onProgress}
           onDuration={this.onDuration}
         />
-      </div >
+      </div>
     )
   }
 }

@@ -14,7 +14,7 @@ DrawerContent.propTypes = {
   updateLocale: PropTypes.func.isRequired
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     isGranted: grant => isGranted(state, grant),
     isAnyGranted: grants => isAnyGranted(state, grants),

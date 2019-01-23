@@ -39,7 +39,7 @@ class ListActivity extends Component {
       handleCreateClick,
       disableCreate,
       title,
-      activityProps={}
+      activityProps = {}
     } = this.props
 
     const fields = filterFields.map(field => {
@@ -84,8 +84,7 @@ class ListActivity extends Component {
             </List>
           </Scrollbar>
           <div style={{ float: 'left', clear: 'both' }} />
-          {disableCreate !== true &&
-            isGranted(createGrant) && (
+          {disableCreate !== true && isGranted(createGrant) && (
             <Button
               variant="fab"
               onClick={

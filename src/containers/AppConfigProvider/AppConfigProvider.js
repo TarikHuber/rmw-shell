@@ -1,25 +1,24 @@
-import { Component } from 'react';
-import PropTypes from 'prop-types';
+import { Component } from 'react'
+import PropTypes from 'prop-types'
 
 class AppConfigProvider extends Component {
+  static propTypes = {
+    children: PropTypes.element
+  }
 
-    static propTypes = {
-        children: PropTypes.element,
-    };
+  static childContextTypes = {
+    appConfig: PropTypes.object.isRequired
+  }
 
-    static childContextTypes = {
-        appConfig: PropTypes.object.isRequired,
-    };
-
-    getChildContext() {
-        return {
-            appConfig: this.props.appConfig,
-        };
+  getChildContext() {
+    return {
+      appConfig: this.props.appConfig
     }
+  }
 
-    render() {
-        return this.props.children;
-    }
+  render() {
+    return this.props.children
+  }
 }
 
-export default AppConfigProvider;
+export default AppConfigProvider

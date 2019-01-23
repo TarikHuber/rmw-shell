@@ -165,7 +165,6 @@ const messages = defineMessages({
   update_title: 'Update available!',
   update_message: 'Click here to get the new version.',
   install: 'Install'
-
 })
 
 export default messages

@@ -83,8 +83,7 @@ class CollectionActivity extends Component {
             </List>
           </Scrollbar>
           <div style={{ float: 'left', clear: 'both' }} />
-          {disableCreate !== true &&
-            isGranted(createGrant) && (
+          {disableCreate !== true && isGranted(createGrant) && (
             <Button
               variant="fab"
               onClick={

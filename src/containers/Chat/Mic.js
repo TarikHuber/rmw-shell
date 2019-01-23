@@ -1,22 +1,20 @@
-import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
+import CircularProgress from '@material-ui/core/CircularProgress'
 import Icon from '@material-ui/core/Icon'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
-import { withTheme, withStyles } from '@material-ui/core/styles'
+import withWidth, { isWidthUp } from '@material-ui/core/withWidth'
 import { ReactMic } from 'react-mic'
 import { connect } from 'react-redux'
 import { injectIntl, intlShape } from 'react-intl'
 import { setSimpleValue } from '../../store/simpleValues/actions'
 import { withFirebase } from 'firekit-provider'
 import { withRouter } from 'react-router-dom'
-import CircularProgress from '@material-ui/core/CircularProgress'
-import withWidth, { isWidthUp } from '@material-ui/core/withWidth'
+import { withTheme } from '@material-ui/core/styles'
 
 export class ChatMic extends Component {
-
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
       record: false,
@@ -30,33 +28,26 @@ export class ChatMic extends Component {
       record: true,
       visible: true
     })
-
   }
 
   stopRecording = () => {
-
     this.setState({
       send: true,
       record: false
     })
-
   }
 
   cancelRecording = () => {
-
     const { setChatMic } = this.props
 
     this.setState({
       record: false,
       visible: false
     })
-
   }
 
-  onStop = (recordedBlob) => {
-
+  onStop = recordedBlob => {
     const { chat } = this.props
-
 
     this.setState({
       record: false,
@@ -64,29 +55,28 @@ export class ChatMic extends Component {
       uploadCompleted: 0
     })
 
-
     if (this.state.send) {
       this.uploadAudioFile(recordedBlob.blob)
     }
-
-
-
   }
 
-  uploadAudioFile = (file) => {
+  uploadAudioFile = file => {
     const { firebaseApp, intl, handleAddMessage, path, receiverPath, setChatMic } = this.props
 
     if (file === null) {
       return
     }
 
-    if (((file.size / 1024) / 1024).toFixed(4) > 20) { //file larger than 10mb
+    if ((file.size / 1024 / 1024).toFixed(4) > 20) {
+      //file larger than 10mb
       alert(intl.formatMessage({ id: 'max_file_size' }))
       return
     }
 
-
-    let key = firebaseApp.database().ref(`/user_chat_messages/`).push().key
+    let key = firebaseApp
+      .database()
+      .ref('/user_chat_messages/')
+      .push().key
 
     const metadata = {
       customMetadata: {
@@ -97,36 +87,36 @@ export class ChatMic extends Component {
       }
     }
 
-    let uploadTask = firebaseApp.storage().ref(`/user_chats/${key}.opus`).put(file, metadata)
+    let uploadTask = firebaseApp
+      .storage()
+      .ref(`/user_chats/${key}.opus`)
+      .put(file, metadata)
 
-    uploadTask.on('state_changed', snapshot => {
+    uploadTask.on(
+      'state_changed',
+      snapshot => {
+        var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        console.log('Upload is ' + progress + '% done')
 
-      var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-      console.log('Upload is ' + progress + '% done');
+        this.setState({
+          sending: true,
+          uploadCompleted: progress
+        })
+      },
+      error => {
+        console.log(error)
+      },
+      () => {
+        this.setState({
+          sending: false,
+          uploadCompleted: undefined
+        })
 
-      this.setState({
-        sending: true,
-        uploadCompleted: progress,
-      })
-
-
-
-    }, error => {
-      console.log(error)
-    }, () => {
-
-      this.setState({
-        sending: false,
-        uploadCompleted: undefined,
-      })
-
-      uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
-        handleAddMessage('audio', downloadURL, key)
-      })
-
-
-    })
-
+        uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
+          handleAddMessage('audio', downloadURL, key)
+        })
+      }
+    )
   }
 
   render() {
@@ -134,8 +124,7 @@ export class ChatMic extends Component {
 
     return (
       <div>
-
-        {this.state.sending &&
+        {this.state.sending && (
           <CircularProgress
             style={{ position: 'absolute', right: 15, bottom: 5, zIndex: 90 }}
             mode="determinate"
@@ -143,19 +132,18 @@ export class ChatMic extends Component {
             size={62}
             thickness={6}
           />
-        }
+        )}
 
-
-
-        {this.state.visible &&
+        {this.state.visible && (
           <div style={{ display: 'flex', width: '100%' }}>
             <Button
               style={{ marginRight: -25 }}
-              color='secondary'
-              variant='fab'
+              color="secondary"
+              variant="fab"
               onClick={this.cancelRecording}
-              secondary>
-              <Icon className='material-icons' >close</Icon>
+              secondary
+            >
+              <Icon className="material-icons">close</Icon>
             </Button>
             <ReactMic
               style={{ marginTop: 25 }}
@@ -167,38 +155,34 @@ export class ChatMic extends Component {
               record={this.state.record}
               onStop={this.onStop}
               strokeColor={theme.palette.secondary.main}
-              backgroundColor={theme.palette.type === 'light' ? theme.palette.grey[300] : theme.palette.grey[700]} />
-            <Button
-              style={{ marginLeft: -25 }}
-              color='secondary'
-              variant='fab'
-              onClick={this.stopRecording}
-              secondary>
-              <Icon >send</Icon>
+              backgroundColor={theme.palette.type === 'light' ? theme.palette.grey[300] : theme.palette.grey[700]}
+            />
+            <Button style={{ marginLeft: -25 }} color="secondary" variant="fab" onClick={this.stopRecording} secondary>
+              <Icon>send</Icon>
             </Button>
           </div>
-        }
+        )}
 
-        {!this.state.visible &&
+        {!this.state.visible && (
           <Button
-            color='secondary'
-            variant='fab'
+            color="secondary"
+            variant="fab"
             disabled={this.state.sending}
             onClick={this.state.record ? this.stopRecording : this.startRecording}
             //style={{ position: 'absolute', right: 20, bottom: 10, zIndex: 99 }}
-            secondary={!this.state.record}>
-            <Icon  >{this.state.record ? 'send' : 'mic'}</Icon>
+            secondary={!this.state.record}
+          >
+            <Icon>{this.state.record ? 'send' : 'mic'}</Icon>
           </Button>
-        }
-
-      </div >
+        )}
+      </div>
     )
   }
 }
 
 ChatMic.propTypes = {
   intl: intlShape.isRequired,
-  theme: PropTypes.object.isRequired,
+  theme: PropTypes.object.isRequired
 }
 
 const mapStateToProps = (state, ownPops) => {
@@ -210,5 +194,6 @@ const mapStateToProps = (state, ownPops) => {
 }
 
 export default connect(
-  mapStateToProps, { setSimpleValue }
+  mapStateToProps,
+  { setSimpleValue }
 )(injectIntl(withWidth()(withTheme()(withRouter(withFirebase(ChatMic))))))

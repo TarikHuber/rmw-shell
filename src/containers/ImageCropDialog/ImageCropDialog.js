@@ -98,18 +98,6 @@ export class ImageCropDialog extends Component {
   render() {
     const { intl, open, title, fullScreen } = this.props
 
-    const actions = [
-      <Button
-        disabled={!this.state.src || this.state.isLoading || this.state.isUploading}
-        label={intl.formatMessage({ id: 'submit' })}
-        primary={true}
-        onClick={() => {
-          this.handlePhotoURLUpload(this.cropper.crop())
-        }}
-      />,
-      <Button label={intl.formatMessage({ id: 'cancel' })} secondary={true} onClick={this.handleClose} />
-    ]
-
     return (
       <Dialog fullScreen={fullScreen} open={open} onClose={this.handleClose} aria-labelledby="responsive-dialog-title">
         <DialogTitle id="responsive-dialog-title">{title}</DialogTitle>

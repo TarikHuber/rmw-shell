@@ -8,7 +8,7 @@ DrawerHeader.propTypes = {
   auth: PropTypes.object
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const { auth, locale, dialogs, drawer } = state
 
   return {

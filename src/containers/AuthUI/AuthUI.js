@@ -33,9 +33,8 @@ export class AuthUI extends Component {
   render() {
     return (
       <div style={{ paddingTop: 35 }}>
-        <div id='firebaseui-auth' />
+        <div id="firebaseui-auth" />
       </div>
-
     )
   }
 }
