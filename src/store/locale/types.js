@@ -1,1 +1,1 @@
-export const UPDATE_LOCALE = 'locale.UPDATE_LOCALE';
+export const UPDATE_LOCALE = 'locale.UPDATE_LOCALE'

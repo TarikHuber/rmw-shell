@@ -16,18 +16,26 @@ export class Chats extends Component {
 
     return (
       <Activity
-        onBackClick={isWidthUp('sm', width) ? undefined : () => { history.push('/chats') }}
-        title={title || intl.formatMessage({ id: 'chats' })} >
-        <div style={{
-          height: '100%',
-          width: '100%',
-          alignItems: 'strech',
-          display: 'flex',
-          // flexWrap: 'wrap',
-          justifyContent: 'flex-start',
-          flexDirection: 'row'
-        }}>
-
+        onBackClick={
+          isWidthUp('sm', width)
+            ? undefined
+            : () => {
+              history.push('/chats')
+            }
+        }
+        title={title || intl.formatMessage({ id: 'chats' })}
+      >
+        <div
+          style={{
+            height: '100%',
+            width: '100%',
+            alignItems: 'strech',
+            display: 'flex',
+            // flexWrap: 'wrap',
+            justifyContent: 'flex-start',
+            flexDirection: 'row'
+          }}
+        >
           {isWidthUp('sm', width) && <ChatsList {...this.props} />}
 
           <div style={{ width: '100%', display: 'flex', flexDirection: 'column', marginLeft: 0, flexGrow: 1 }}>
@@ -35,13 +43,14 @@ export class Chats extends Component {
               uid={uid}
               path={`user_chat_messages/${auth.uid}/${uid}`}
               receiverPath={`user_chat_messages/${uid}/${auth.uid}`}
-              {...this.props} />
+              {...this.props}
+            />
             <Input
               path={`user_chat_messages/${auth.uid}/${uid}`}
               receiverPath={`user_chat_messages/${uid}/${auth.uid}`}
-              {...this.props} />
+              {...this.props}
+            />
           </div>
-
         </div>
       </Activity>
     )
@@ -52,7 +61,7 @@ Chats.propTypes = {
   intl: intlShape
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const { auth, persistentValues } = state
 
   return {

@@ -38,7 +38,9 @@ export default function configureStore() {
 
   try {
     persistStore(store)
-  } catch (e) {}
+  } catch (e) {
+    console.log(e)
+  }
 
   return store
 }

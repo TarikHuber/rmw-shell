@@ -1,4 +1,4 @@
-export function getDayMonthYear (value) {
+export function getDayMonthYear(value) {
   value = String(value)
   let error = false
   let splitChar = '.'
@@ -30,10 +30,10 @@ export function getDayMonthYear (value) {
   }
 }
 
-export function formatDateToObject (value, formatOptions, locale = 'de-DE') {
+export function formatDateToObject(value, formatOptions, locale = 'de-DE') {
   const currDay = new Date().toLocaleString(locale, formatOptions).split('.')[0]
-  const currMonth = (parseInt(new Date().getMonth(), 10) + 1)
-  const currYear = (parseInt(new Date().getFullYear(), 10))
+  const currMonth = parseInt(new Date().getMonth(), 10) + 1
+  const currYear = parseInt(new Date().getFullYear(), 10)
 
   let { day, month, year, error } = getDayMonthYear(value)
 
@@ -75,7 +75,7 @@ export function formatDateToObject (value, formatOptions, locale = 'de-DE') {
   }
 }
 
-export function formatDateToString (value, formatOptions, locale = 'de-DE') {
+export function formatDateToString(value, formatOptions, locale = 'de-DE') {
   const dateString = formatDateToObject(value, formatOptions)
 
   if (dateString === undefined) {
@@ -85,7 +85,7 @@ export function formatDateToString (value, formatOptions, locale = 'de-DE') {
   }
 }
 
-export function formatTimeToObject (value) {
+export function formatTimeToObject(value) {
   if (value === undefined) {
     return undefined
   }
@@ -132,7 +132,7 @@ export function formatTimeToObject (value) {
   }
 }
 
-export function formatTimeToString (value, formatOptions, locale = 'de-DE') {
+export function formatTimeToString(value, formatOptions, locale = 'de-DE') {
   const timeObject = formatTimeToObject(value, formatOptions)
   if (timeObject === undefined) {
     return ''

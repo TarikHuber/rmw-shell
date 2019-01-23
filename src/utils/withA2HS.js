@@ -1,17 +1,18 @@
-
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const withA2HS = (Component) => {
+const withA2HS = Component => {
   const ChildComponent = (props, context) => {
     const { deferredPrompt, isAppInstallable, isAppInstalled } = context
 
-    return <Component
-      deferredPrompt={deferredPrompt}
-      isAppInstallable={isAppInstallable}
-      isAppInstalled={isAppInstalled}
-      {...props}
-    />
+    return (
+      <Component
+        deferredPrompt={deferredPrompt}
+        isAppInstallable={isAppInstallable}
+        isAppInstalled={isAppInstalled}
+        {...props}
+      />
+    )
   }
 
   ChildComponent.contextTypes = {

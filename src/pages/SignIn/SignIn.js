@@ -1,11 +1,11 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { injectIntl } from 'react-intl'
 import Activity from '../../containers/Activity'
 import AuthUI from '../../containers/AuthUI/AuthUI'
-import { withFirebase } from 'firekit-provider'
-import withAppConfigs from '../../utils/withAppConfigs'
+import PropTypes from 'prop-types'
+import React, { Component } from 'react'
 import firebaseui from 'firebaseui'
+import withAppConfigs from '../../utils/withAppConfigs'
+import { injectIntl } from 'react-intl'
+import { withFirebase } from 'firekit-provider'
 
 export class SignIn extends Component {
   render() {
@@ -15,7 +15,7 @@ export class SignIn extends Component {
       signInSuccessUrl: '/',
       signInFlow: 'popup',
       callbacks: {
-        signInSuccessWithAuthResult: (user, credentials, redirect) => {
+        signInSuccessWithAuthResult: () => {
           // initMessaging()
 
           // To avoid page reload on single page applications

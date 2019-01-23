@@ -1,14 +1,13 @@
-import * as types from './types';
+import * as types from './types'
 
-const locale = (state = 'en' , action) => {
-
+const locale = (state = 'en', action) => {
   switch (action.type) {
-    case types.UPDATE_LOCALE:
-    return action.locale;
+  case types.UPDATE_LOCALE:
+    return action.locale
 
-    default:
-    return state;
+  default:
+    return state
   }
 }
 
-export default locale;
+export default locale

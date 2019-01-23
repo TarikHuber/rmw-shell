@@ -1,13 +1,13 @@
-import React from 'react'
-import { toast } from 'react-toastify'
-import moment from 'moment'
+import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
 import Icon from '@material-ui/core/Icon'
 import ListItem from '@material-ui/core/ListItem'
-import ListItemText from '@material-ui/core/ListItemText'
-import Avatar from '@material-ui/core/Avatar'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
+import ListItemText from '@material-ui/core/ListItemText'
+import React from 'react'
 import UpdateIcon from '@material-ui/icons/Update'
+import moment from 'moment'
+import { toast } from 'react-toastify'
 
 let updateMessageShown = false
 
@@ -144,7 +144,7 @@ export function getNotification(notification, closeToast) {
   return createNotifgication(notification, closeToast)
 }
 
-export function createNotifgication(notification, closeToast) {
+export function createNotifgication(notification) {
   return (
     <div
       onClick={() => {
@@ -166,7 +166,7 @@ export function checkForUpdate(intl) {
   if (window.updateAvailable && !updateMessageShown) {
     updateMessageShown = true
     toast.info(
-      ({ closeToast }) => (
+      () => (
         <div
           onClick={() => {
             handleUpdate()
@@ -190,5 +190,6 @@ export function checkForUpdate(intl) {
 
 export function handleUpdate() {
   window.updateAvailable = false
+  // eslint-disable-next-line no-self-assign
   window.location.href = window.location.href
 }

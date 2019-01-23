@@ -17,7 +17,6 @@ import { withRouter } from 'react-router-dom'
 import { withTheme } from '@material-ui/core/styles'
 
 export class UserRoles extends Component {
-
   componentDidMount() {
     const { watchList, userRolesPath } = this.props
 
@@ -34,10 +33,9 @@ export class UserRoles extends Component {
     } else {
       ref.remove()
     }
-
   }
 
-  renderRoleItem = (i, k) => {
+  renderRoleItem = i => {
     const { roles, user_roles } = this.props
 
     const key = roles[i].key
@@ -55,51 +53,54 @@ export class UserRoles extends Component {
       })
     }
 
-    return <div key={key}>
-
-      <ListItem
-        key={i}
-        id={i}>
-        {val.photoURL && <Avatar src={val.photoURL} alt='person' />}
-        {!val.photoURL && <Avatar> <Icon >account_box </Icon>  </Avatar>}
-        <ListItemText primary={val.name} secondary={val.description} />
-        <Switch
-          checked={userRoles[key] === true}
-          onChange={(e, isInputChecked) => { this.handleRoleToggleChange(e, isInputChecked, key) }}
-        />
-      </ListItem>
-      <Divider inset />
-
-    </div>
+    return (
+      <div key={key}>
+        <ListItem key={i} id={i}>
+          {val.photoURL && <Avatar src={val.photoURL} alt="person" />}
+          {!val.photoURL && (
+            <Avatar>
+              {' '}
+              <Icon>account_box </Icon>{' '}
+            </Avatar>
+          )}
+          <ListItemText primary={val.name} secondary={val.description} />
+          <Switch
+            checked={userRoles[key] === true}
+            onChange={(e, isInputChecked) => {
+              this.handleRoleToggleChange(e, isInputChecked, key)
+            }}
+          />
+        </ListItem>
+        <Divider inset />
+      </div>
+    )
   }
 
   render() {
-    const { roles } = this.props;
+    const { roles } = this.props
 
     return (
       <div style={{ height: '100%' }}>
-        <List style={{ height: '100%' }} >
+        <List style={{ height: '100%' }}>
           <ReactList
             itemRenderer={(i, k) => this.renderRoleItem(i, k)}
             length={roles ? roles.length : 0}
-            type='simple'
+            type="simple"
           />
         </List>
       </div>
-    );
+    )
   }
 }
-
 
 UserRoles.propTypes = {
   intl: intlShape.isRequired,
   theme: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
-};
-
+  match: PropTypes.object.isRequired
+}
 
 const mapStateToProps = (state, ownProps) => {
-  const { auth, intl, filters } = state;
+  const { auth, intl, filters } = state
   const { match } = ownProps
 
   const uid = match.params.uid
@@ -114,10 +115,11 @@ const mapStateToProps = (state, ownProps) => {
     intl,
     userRolesPath,
     user_roles: getList(state, userRolesPath),
-    roles: getList(state, 'roles'),
+    roles: getList(state, 'roles')
   }
 }
 
 export default connect(
-  mapStateToProps, { setSimpleValue }
-)(injectIntl(withRouter(withFirebase(withTheme()(UserRoles)))));
+  mapStateToProps,
+  { setSimpleValue }
+)(injectIntl(withRouter(withFirebase(withTheme()(UserRoles)))))

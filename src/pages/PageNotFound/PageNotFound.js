@@ -31,7 +31,7 @@ const styles = theme => ({
   }
 })
 
-const PageNotFound = ({ theme, intl, appConfig, classes }) => {
+const PageNotFound = ({ intl, appConfig, classes }) => {
   const AppIcon = appConfig.appIcon
 
   return (

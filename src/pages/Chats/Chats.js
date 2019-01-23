@@ -11,20 +11,23 @@ export class Chats extends Component {
 
     return (
       <Activity title={intl.formatMessage({ id: 'chats' })}>
-        <div style={{
-          height: '100%',
-          width: '100%',
-          alignItems: 'strech',
-          display: 'flex',
-          flexWrap: 'wrap',
-          justifyContent: 'flex-start',
-          flexDirection: 'row'
-        }}>
+        <div
+          style={{
+            height: '100%',
+            width: '100%',
+            alignItems: 'strech',
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'flex-start',
+            flexDirection: 'row'
+          }}
+        >
           <ChatsList {...this.props} />
           <div style={{ width: '100%', height: '100%' }}>
-            <Icon color='disabled' style={{ width: 192, height: 192, fontSize: 150 }} >message</Icon>
+            <Icon color="disabled" style={{ width: 192, height: 192, fontSize: 150 }}>
+              message
+            </Icon>
           </div>
-
         </div>
       </Activity>
     )

@@ -36,7 +36,7 @@ export class UserGrants extends Component {
     }
   }
 
-  renderGrantItem = (list, i, k) => {
+  renderGrantItem = (list, i) => {
     const { user_grants, intl, appConfig } = this.props
 
     const key = list[i].val ? list[i].val.value : ''

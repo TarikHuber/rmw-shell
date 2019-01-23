@@ -6,10 +6,9 @@ import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
-import FireForm from 'fireform'
 import FormControl from '@material-ui/core/FormControl'
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import FormGroup from '@material-ui/core/FormGroup'
 import FormHelperText from '@material-ui/core/FormHelperText'
 import Icon from '@material-ui/core/Icon'
 import IconButton from '@material-ui/core/IconButton'
@@ -18,8 +17,7 @@ import InputAdornment from '@material-ui/core/InputAdornment'
 import InputLabel from '@material-ui/core/InputLabel'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
-import Switch from '@material-ui/core/Switch';
-import TextField from '@material-ui/core/TextField'
+import Switch from '@material-ui/core/Switch'
 import Visibility from '@material-ui/icons/Visibility'
 import VisibilityOff from '@material-ui/icons/VisibilityOff'
 import classNames from 'classnames'
@@ -38,30 +36,28 @@ import { withFirebase } from 'firekit-provider'
 import { withRouter } from 'react-router-dom'
 import { withTheme, withStyles } from '@material-ui/core/styles'
 
-const path = '/users/'
 const form_name = 'my_account'
 
 const styles = theme => ({
   avatar: {
-    margin: 10,
+    margin: 10
   },
   bigAvatar: {
     width: 120,
-    height: 120,
+    height: 120
   },
   margin: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing.unit
   },
   withoutLabel: {
-    marginTop: theme.spacing.unit * 3,
+    marginTop: theme.spacing.unit * 3
   },
   textField: {
     //flexBasis: 200,
-  },
+  }
 })
 
 export class MyAccount extends Component {
-
   state = {
     values: {
       displayName: '',
@@ -75,263 +71,311 @@ export class MyAccount extends Component {
     isPhotoDialogOpen: false
   }
 
-  getProviderIcon = (p) => {
-    const { theme } = this.props
-    const color = 'primary'
-
+  getProviderIcon = p => {
     switch (p) {
-      case 'google.com':
-        return <GoogleIcon />
+    case 'google.com':
+      return <GoogleIcon />
 
-      case 'facebook.com':
-        return <FacebookIcon />
+    case 'facebook.com':
+      return <FacebookIcon />
 
-      case 'twitter.com':
-        return <TwitterIcon />
+    case 'twitter.com':
+      return <TwitterIcon />
 
-      case 'github.com':
-        return <GitHubIcon />
+    case 'github.com':
+      return <GitHubIcon />
 
-      default:
-        return undefined
+    default:
+      return undefined
     }
   }
 
-
   handleEmailVerificationsSend = () => {
-    const { firebaseApp } = this.props;
-    firebaseApp.auth().currentUser.sendEmailVerification().then(() => {
-      alert('Verification E-Mail send');
-    })
+    const { firebaseApp } = this.props
+    firebaseApp
+      .auth()
+      .currentUser.sendEmailVerification()
+      .then(() => {
+        alert('Verification E-Mail send')
+      })
   }
 
-  handlePhotoUploadSuccess = (snapshot) => {
-    const { setSimpleValue } = this.props;
-
+  handlePhotoUploadSuccess = snapshot => {
     snapshot.ref.getDownloadURL().then(downloadURL => {
-
       this.setState({ values: { ...this.state.values, photoURL: downloadURL } }, () => {
-
-
         this.setState({ isPhotoDialogOpen: false })
-        //setSimpleValue('new_user_photo', undefined);
-        //this.submit()
       })
     })
-
-  }
-
-  handleUserDeletion = () => {
-    const { change, submit } = this.props;
-
-    //submit(form_name)
   }
 
   handleValueChange = (name, value) => {
-
-    return this.setState({ values: { ...this.state.values, [name]: value } }, () => { this.validate() })
+    return this.setState({ values: { ...this.state.values, [name]: value } }, () => {
+      this.validate()
+    })
   }
 
   getProvider = (firebase, provider) => {
-    const { auth, firebaseApp, authError } = this.props;
-
     if (provider.indexOf('facebook') > -1) {
-      return new firebase.auth.FacebookAuthProvider();
+      return new firebase.auth.FacebookAuthProvider()
     }
     if (provider.indexOf('github') > -1) {
-      return new firebase.auth.GithubAuthProvider();
+      return new firebase.auth.GithubAuthProvider()
     }
     if (provider.indexOf('google') > -1) {
-      return new firebase.auth.GoogleAuthProvider();
+      return new firebase.auth.GoogleAuthProvider()
     }
     if (provider.indexOf('twitter') > -1) {
-      return new firebase.auth.TwitterAuthProvider();
+      return new firebase.auth.TwitterAuthProvider()
     }
     if (provider.indexOf('phone') > -1) {
-      return new firebase.auth.PhoneAuthProvider();
+      return new firebase.auth.PhoneAuthProvider()
     }
 
-    throw new Error('Provider is not supported!');
-  };
+    throw new Error('Provider is not supported!')
+  }
 
   reauthenticateUser = (values, onSuccess) => {
-    const { auth, firebaseApp, authError } = this.props;
+    const { auth, firebaseApp, authError } = this.props
 
     import('firebase').then(firebase => {
       if (this.isLinkedWithProvider('password') && !values) {
         if (onSuccess && onSuccess instanceof Function) {
-          onSuccess();
+          onSuccess()
         }
       } else if (this.isLinkedWithProvider('password') && values) {
-        const credential = firebase.auth.EmailAuthProvider.credential(
-          auth.email,
-          values.password
-        )
-        firebaseApp.auth().currentUser.reauthenticateWithCredential(credential)
-          .then(() => {
-            if (onSuccess && onSuccess instanceof Function) {
-              onSuccess();
+        const credential = firebase.auth.EmailAuthProvider.credential(auth.email, values.password)
+        firebaseApp
+          .auth()
+          .currentUser.reauthenticateWithCredential(credential)
+          .then(
+            () => {
+              if (onSuccess && onSuccess instanceof Function) {
+                onSuccess()
+              }
+            },
+            e => {
+              authError(e)
             }
-          }, e => { authError(e) })
+          )
       } else {
-        firebaseApp.auth().currentUser.reauthenticateWithPopup(this.getProvider(firebase, auth.providerData[0].providerId)).then(() => {
-          if (onSuccess && onSuccess instanceof Function) {
-            onSuccess()
-          }
-        }, e => { authError(e) })
+        firebaseApp
+          .auth()
+          .currentUser.reauthenticateWithPopup(this.getProvider(firebase, auth.providerData[0].providerId))
+          .then(
+            () => {
+              if (onSuccess && onSuccess instanceof Function) {
+                onSuccess()
+              }
+            },
+            e => {
+              authError(e)
+            }
+          )
       }
     })
-
-
   }
 
-  isLinkedWithProvider = (provider) => {
-    const { auth } = this.props;
-
+  isLinkedWithProvider = provider => {
+    const { auth } = this.props
 
     try {
-      return auth && auth.providerData && auth.providerData.find((p) => { return p.providerId === provider }) !== undefined;
+      return (
+        auth &&
+        auth.providerData &&
+        auth.providerData.find(p => {
+          return p.providerId === provider
+        }) !== undefined
+      )
     } catch (e) {
-      return false;
+      return false
     }
   }
 
-  linkUserWithPopup = (p) => {
-    const { firebaseApp, authError, authStateChanged } = this.props;
-
+  linkUserWithPopup = p => {
+    const { firebaseApp, authError, authStateChanged } = this.props
 
     import('firebase').then(firebase => {
       const provider = this.getProvider(firebase, p)
 
-      firebaseApp.auth().currentUser.linkWithPopup(provider)
-        .then((payload) => {
-          authStateChanged(firebaseApp.auth().currentUser);
-        }, e => { authError(e) })
+      firebaseApp
+        .auth()
+        .currentUser.linkWithPopup(provider)
+        .then(
+          () => {
+            authStateChanged(firebaseApp.auth().currentUser)
+          },
+          e => {
+            authError(e)
+          }
+        )
     })
-
-
   }
 
-
-  handleCreateValues = (values) => {
-    return false;
+  handleCreateValues = () => {
+    return false
   }
 
-  clean = (obj) => {
-    Object.keys(obj).forEach((key) => (obj[key] === undefined) && delete obj[key]);
+  clean = obj => {
+    Object.keys(obj).forEach(key => obj[key] === undefined && delete obj[key])
     return obj
   }
 
-
   submit = () => {
-    const { auth, firebaseApp, authStateChanged, authError, setSimpleValue } = this.props;
+    const { auth, firebaseApp, authStateChanged, authError } = this.props
 
     const values = this.state.values
 
-    const simpleChange = (values.displayName && values.displayName.localeCompare(auth.displayName)) ||
-      (values.photoURL && values.photoURL.localeCompare(auth.photoURL));
+    const simpleChange =
+      (values.displayName && values.displayName.localeCompare(auth.displayName)) ||
+      (values.photoURL && values.photoURL.localeCompare(auth.photoURL))
 
     let simpleValues = {
       displayName: values.displayName,
       photoURL: values.photoURL
     }
 
-
     //Change simple data
     if (simpleChange) {
-      firebaseApp.auth().currentUser.updateProfile(simpleValues).then(() => {
-
-        firebaseApp.database().ref(`users/${auth.uid}`).update(this.clean(simpleValues)).then(() => {
-          authStateChanged(values);
-        }, e => { authError(e) });
-      }, e => { authError(e) });
+      firebaseApp
+        .auth()
+        .currentUser.updateProfile(simpleValues)
+        .then(
+          () => {
+            firebaseApp
+              .database()
+              .ref(`users/${auth.uid}`)
+              .update(this.clean(simpleValues))
+              .then(
+                () => {
+                  authStateChanged(values)
+                },
+                e => {
+                  authError(e)
+                }
+              )
+          },
+          e => {
+            authError(e)
+          }
+        )
     }
 
     //Change email
     if (values.email && values.email.localeCompare(auth.email)) {
-
       this.reauthenticateUser(values, () => {
-        firebaseApp.auth().currentUser.updateEmail(values.email).then(() => {
-          firebaseApp.database().ref(`users/${auth.uid}`).update({ email: values.email }).then(() => {
-            authStateChanged({ email: values.email });
-          }, e => { authError(e) });
-        }, e => {
-          authError(e)
+        firebaseApp
+          .auth()
+          .currentUser.updateEmail(values.email)
+          .then(
+            () => {
+              firebaseApp
+                .database()
+                .ref(`users/${auth.uid}`)
+                .update({ email: values.email })
+                .then(
+                  () => {
+                    authStateChanged({ email: values.email })
+                  },
+                  e => {
+                    authError(e)
+                  }
+                )
+            },
+            e => {
+              authError(e)
 
-          if (e.code === 'auth/requires-recent-login') {
-            firebaseApp.auth().signOut().then(function () {
-              setTimeout(() => {
-                alert('Please sign in again to change your email.');
-              }, 1);
-            });
-          }
-
-        });
+              if (e.code === 'auth/requires-recent-login') {
+                firebaseApp
+                  .auth()
+                  .signOut()
+                  .then(function() {
+                    setTimeout(() => {
+                      alert('Please sign in again to change your email.')
+                    }, 1)
+                  })
+              }
+            }
+          )
       })
     }
 
     //Change password
     if (values.newPassword) {
-
       this.reauthenticateUser(values, () => {
-        firebaseApp.auth().currentUser.updatePassword(values.newPassword).then(() => {
-          firebaseApp.auth().signOut();
-        }, e => {
-          authError(e)
+        firebaseApp
+          .auth()
+          .currentUser.updatePassword(values.newPassword)
+          .then(
+            () => {
+              firebaseApp.auth().signOut()
+            },
+            e => {
+              authError(e)
 
-          if (e.code === 'auth/requires-recent-login') {
-            firebaseApp.auth().signOut().then(() => {
-              setTimeout(() => {
-                alert('Please sign in again to change your password.');
-              }, 1);
-            });
-          }
-        });
+              if (e.code === 'auth/requires-recent-login') {
+                firebaseApp
+                  .auth()
+                  .signOut()
+                  .then(() => {
+                    setTimeout(() => {
+                      alert('Please sign in again to change your password.')
+                    }, 1)
+                  })
+              }
+            }
+          )
       })
     }
 
     //setSimpleValue('new_user_photo', undefined);
 
     // We manage the data saving above
-    return false;
+    return false
   }
 
   handleClose = () => {
-    const { setSimpleValue, setDialogIsOpen } = this.props;
-    setSimpleValue('delete_user', false);
-    setDialogIsOpen('auth_menu', false);
+    const { setSimpleValue, setDialogIsOpen } = this.props
+    setSimpleValue('delete_user', false)
+    setDialogIsOpen('auth_menu', false)
   }
 
   handleNotificationsClose = () => {
-    const { setSimpleValue } = this.props;
-    setSimpleValue('disable_notifications', false);
+    const { setSimpleValue } = this.props
+    setSimpleValue('disable_notifications', false)
   }
 
   handleDelete = () => {
-    const { firebaseApp, authError } = this.props;
+    const { firebaseApp, authError } = this.props
 
     this.reauthenticateUser(false, () => {
-      firebaseApp.auth().currentUser.delete()
-        .then(() => {
-          this.handleClose();
-        }, e => {
-          authError(e)
+      firebaseApp
+        .auth()
+        .currentUser.delete()
+        .then(
+          () => {
+            this.handleClose()
+          },
+          e => {
+            authError(e)
 
-          if (e.code === 'auth/requires-recent-login') {
-            firebaseApp.auth().signOut().then(() => {
-              setTimeout(() => {
-                alert('Please sign in again to delete your account.');
-              }, 1);
-            });
+            if (e.code === 'auth/requires-recent-login') {
+              firebaseApp
+                .auth()
+                .signOut()
+                .then(() => {
+                  setTimeout(() => {
+                    alert('Please sign in again to delete your account.')
+                  }, 1)
+                })
+            }
           }
-        });
-    });
+        )
+    })
   }
 
-
   validate = () => {
-    const { auth } = this.props;
-    const providerId = auth.providerData[0].providerId;
+    const { auth } = this.props
+    const providerId = auth.providerData[0].providerId
     const errors = {}
     const values = this.state.values
 
@@ -358,15 +402,12 @@ export class MyAccount extends Component {
       if (!values.password) {
         errors.password = 'Required'
       }
-
     }
 
     this.setState({ errors })
-
   }
 
   canSave = () => {
-
     const { auth } = this.props
     const values = this.state.values
 
@@ -383,62 +424,63 @@ export class MyAccount extends Component {
     }
 
     return false
-
-  }
-
-  componentWillMount() {
-    const { watchList, auth } = this.props
-    watchList(`notification_tokens/${auth.uid}`)
   }
 
   componentDidMount() {
-    const { auth } = this.props
+    const { auth, watchList } = this.props
     const { displayName, email, photoURL } = auth
 
+    watchList(`notification_tokens/${auth.uid}`)
     this.setState({ values: { ...this.state.values, displayName, email, photoURL } })
   }
 
   handleDisableNotifications = () => {
-    const { firebaseApp, auth, setSimpleValue, clearMessaging } = this.props
+    const { firebaseApp, auth, setSimpleValue } = this.props
 
-    firebaseApp.database().ref(`disable_notifications/${auth.uid}`).set(true).then(() => {
-      firebaseApp.database().ref(`notification_tokens/${auth.uid}`).remove().then(() => {
-        setSimpleValue('disable_notifications', false);
+    firebaseApp
+      .database()
+      .ref(`disable_notifications/${auth.uid}`)
+      .set(true)
+      .then(() => {
+        firebaseApp
+          .database()
+          .ref(`notification_tokens/${auth.uid}`)
+          .remove()
+          .then(() => {
+            setSimpleValue('disable_notifications', false)
+          })
       })
-    })
   }
 
-  handleEnableNotificationsChange = (e) => {
+  handleEnableNotificationsChange = e => {
     const { firebaseApp, auth, setSimpleValue } = this.props
 
     if (!e.target.checked) {
-      setSimpleValue('disable_notifications', true);
+      setSimpleValue('disable_notifications', true)
     } else {
-      firebaseApp.database().ref(`disable_notifications/${auth.uid}`).remove(() => {
-        requestNotificationPermission(this.props)
-        window.location.href = window.location.href
-      })
-
+      firebaseApp
+        .database()
+        .ref(`disable_notifications/${auth.uid}`)
+        .remove(() => {
+          requestNotificationPermission(this.props)
+          // eslint-disable-next-line no-self-assign
+          window.location.href = window.location.href
+        })
     }
   }
 
   render() {
     const {
-      history,
       intl,
       setSimpleValue,
       delete_user,
       disable_notifications,
       auth,
-      theme,
-      submit,
-      firebaseApp,
-      setDialogIsOpen,
       appConfig,
       classes,
       new_user_photo,
       notificationTokens
-    } = this.props;
+    } = this.props
 
     const showPasswords = this.isLinkedWithProvider('password')
 
@@ -447,69 +489,73 @@ export class MyAccount extends Component {
         iconStyleRight={{ width: '50%' }}
         appBarContent={
           <div style={{ display: 'flex' }}>
-            {auth.uid &&
+            {auth.uid && (
               <IconButton
                 color="inherit"
                 disabled={!this.canSave()}
                 aria-label="open drawer"
-                onClick={() => { this.submit() }}
+                onClick={() => {
+                  this.submit()
+                }}
               >
-                <Icon className="material-icons" >save</Icon>
+                <Icon className="material-icons">save</Icon>
               </IconButton>
-            }
+            )}
 
-            {auth.uid &&
-              <IconButton
-                color="inherit"
-                aria-label="open drawer"
-                onClick={() => setSimpleValue('delete_user', true)}
-              >
-                <Icon className="material-icons" >delete</Icon>
+            {auth.uid && (
+              <IconButton color="inherit" aria-label="open drawer" onClick={() => setSimpleValue('delete_user', true)}>
+                <Icon className="material-icons">delete</Icon>
               </IconButton>
-            }
-          </ div>
+            )}
+          </div>
         }
-        title={intl.formatMessage({ id: 'my_account' })}>
-
-
-        {
-          auth.uid &&
+        title={intl.formatMessage({ id: 'my_account' })}
+      >
+        {auth.uid && (
           <div style={{ margin: 15, display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
-
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-              {this.state.values.photoURL &&
+              {this.state.values.photoURL && (
                 <Avatar
                   alt={auth.displayName}
                   src={this.state.values.photoURL}
                   className={classNames(classes.avatar, classes.bigAvatar)}
                 />
-              }
-              {!this.state.values.photoURL &&
-                <Avatar className={classNames(classes.avatar, classes.bigAvatar)}> <Icon style={{ fontSize: 60 }}> person </Icon>  </Avatar>
-              }
+              )}
+              {!this.state.values.photoURL && (
+                <Avatar className={classNames(classes.avatar, classes.bigAvatar)}>
+                  {' '}
+                  <Icon style={{ fontSize: 60 }}> person </Icon>{' '}
+                </Avatar>
+              )}
 
-              <IconButton color="primary" onClick={() => { this.setState({ isPhotoDialogOpen: true }) }}>
+              <IconButton
+                color="primary"
+                onClick={() => {
+                  this.setState({ isPhotoDialogOpen: true })
+                }}
+              >
                 <Icon>photo_camera</Icon>
               </IconButton>
 
-
               <div>
-                {
-                  appConfig.firebase_providers.map((p, i) => {
-                    if (p !== 'email' && p !== 'password' && p !== 'phone') {
-                      return <IconButton
+                {appConfig.firebase_providers.map((p, i) => {
+                  if (p !== 'email' && p !== 'password' && p !== 'phone') {
+                    return (
+                      <IconButton
                         key={i}
                         disabled={this.isLinkedWithProvider(p)}
-                        color='primary'
-                        onClick={() => { this.linkUserWithPopup(p) }}
+                        color="primary"
+                        onClick={() => {
+                          this.linkUserWithPopup(p)
+                        }}
                       >
                         {this.getProviderIcon(p)}
                       </IconButton>
-                    } else {
-                      return <div key={i} />
-                    }
-                  })
-                }
+                    )
+                  } else {
+                    return <div key={i} />
+                  }
+                })}
               </div>
 
               <div>
@@ -529,19 +575,23 @@ export class MyAccount extends Component {
             </div>
 
             <div style={{ margin: 15, display: 'flex', flexDirection: 'column' }}>
-
-              <FormControl className={classNames(classes.margin, classes.textField)} error={!!this.state.errors.displayName}>
+              <FormControl
+                className={classNames(classes.margin, classes.textField)}
+                error={!!this.state.errors.displayName}
+              >
                 <InputLabel htmlFor="adornment-password">{intl.formatMessage({ id: 'name_label' })}</InputLabel>
                 <Input
                   id="displayName"
                   fullWidth
                   value={this.state.values.displayName}
                   placeholder={intl.formatMessage({ id: 'name_hint' })}
-                  onChange={(e) => { this.handleValueChange('displayName', e.target.value) }}
+                  onChange={e => {
+                    this.handleValueChange('displayName', e.target.value)
+                  }}
                 />
-                {this.state.errors.displayName &&
+                {this.state.errors.displayName && (
                   <FormHelperText id="name-helper-text">{this.state.errors.displayName}</FormHelperText>
-                }
+                )}
               </FormControl>
               <FormControl className={classNames(classes.margin, classes.textField)} error={!!this.state.errors.email}>
                 <InputLabel htmlFor="adornment-password">{intl.formatMessage({ id: 'email' })}</InputLabel>
@@ -551,40 +601,46 @@ export class MyAccount extends Component {
                   autoComplete="off"
                   placeholder={intl.formatMessage({ id: 'email' })}
                   fullWidth
-                  onChange={(e) => { this.handleValueChange('email', e.target.value) }}
+                  onChange={e => {
+                    this.handleValueChange('email', e.target.value)
+                  }}
                   value={this.state.values.email}
                   endAdornment={
                     <InputAdornment position="end">
                       <IconButton
                         aria-label="Toggle password visibility"
                         onClick={auth.emailVerified === true ? undefined : this.handleEmailVerificationsSend}
-                      //onMouseDown={this.handleMouseDownPassword}
+                        //onMouseDown={this.handleMouseDownPassword}
                       >
-                        {auth.emailVerified && <Icon color='primary'>verified_user</Icon>}
-                        {!auth.emailVerified && <Icon color='secondary'>error</Icon>}
-
+                        {auth.emailVerified && <Icon color="primary">verified_user</Icon>}
+                        {!auth.emailVerified && <Icon color="secondary">error</Icon>}
                       </IconButton>
                     </InputAdornment>
                   }
                 />
-                {this.state.errors.email &&
+                {this.state.errors.email && (
                   <FormHelperText id="name-helper-text">{this.state.errors.email}</FormHelperText>
-                }
+                )}
               </FormControl>
 
-              {showPasswords &&
+              {showPasswords && (
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
-                  <FormControl className={classNames(classes.margin, classes.textField)} error={!!this.state.errors.password}>
+                  <FormControl
+                    className={classNames(classes.margin, classes.textField)}
+                    error={!!this.state.errors.password}
+                  >
                     <InputLabel htmlFor="adornment-password">Password</InputLabel>
                     <Input
                       autoComplete="off"
                       type={this.state.showPassword ? 'text' : 'password'}
                       value={this.state.values.password}
-                      onChange={(e) => { this.handleValueChange('password', e.target.value) }}
+                      onChange={e => {
+                        this.handleValueChange('password', e.target.value)
+                      }}
                       endAdornment={
                         <InputAdornment position="end">
                           <IconButton
-                            color='primary'
+                            color="primary"
                             aria-label="Toggle password visibility"
                             onClick={() => this.setState({ showPassword: !this.state.showPassword })}
                           >
@@ -593,21 +649,26 @@ export class MyAccount extends Component {
                         </InputAdornment>
                       }
                     />
-                    {this.state.errors.password &&
+                    {this.state.errors.password && (
                       <FormHelperText id="name-helper-text">{this.state.errors.password}</FormHelperText>
-                    }
+                    )}
                   </FormControl>
-                  <FormControl className={classNames(classes.margin, classes.textField)} error={!!this.state.errors.newPassword}>
+                  <FormControl
+                    className={classNames(classes.margin, classes.textField)}
+                    error={!!this.state.errors.newPassword}
+                  >
                     <InputLabel htmlFor="adornment-password">{intl.formatMessage({ id: 'new_password' })}</InputLabel>
                     <Input
                       autoComplete="off"
                       type={this.state.showNewPassword ? 'text' : 'password'}
                       value={this.state.values.newPassword}
-                      onChange={(e) => { this.handleValueChange('newPassword', e.target.value) }}
+                      onChange={e => {
+                        this.handleValueChange('newPassword', e.target.value)
+                      }}
                       endAdornment={
                         <InputAdornment position="end">
                           <IconButton
-                            color='primary'
+                            color="primary"
                             aria-label="Toggle password visibility"
                             onClick={() => this.setState({ showNewPassword: !this.state.showNewPassword })}
                           >
@@ -616,21 +677,28 @@ export class MyAccount extends Component {
                         </InputAdornment>
                       }
                     />
-                    {this.state.errors.newPassword &&
+                    {this.state.errors.newPassword && (
                       <FormHelperText id="name-helper-text">{this.state.errors.newPassword}</FormHelperText>
-                    }
+                    )}
                   </FormControl>
-                  <FormControl className={classNames(classes.margin, classes.textField)} error={!!this.state.errors.confirmPassword}>
-                    <InputLabel htmlFor="adornment-password">{intl.formatMessage({ id: 'confirm_password' })}</InputLabel>
+                  <FormControl
+                    className={classNames(classes.margin, classes.textField)}
+                    error={!!this.state.errors.confirmPassword}
+                  >
+                    <InputLabel htmlFor="adornment-password">
+                      {intl.formatMessage({ id: 'confirm_password' })}
+                    </InputLabel>
                     <Input
                       autoComplete="off"
                       type={this.state.showConfirmPassword ? 'text' : 'password'}
                       value={this.state.values.confirmPassword}
-                      onChange={(e) => { this.handleValueChange('confirmPassword', e.target.value) }}
+                      onChange={e => {
+                        this.handleValueChange('confirmPassword', e.target.value)
+                      }}
                       endAdornment={
                         <InputAdornment position="end">
                           <IconButton
-                            color='primary'
+                            color="primary"
                             aria-label="Toggle password visibility"
                             onClick={() => this.setState({ showConfirmPassword: !this.state.showConfirmPassword })}
                           >
@@ -639,17 +707,15 @@ export class MyAccount extends Component {
                         </InputAdornment>
                       }
                     />
-                    {this.state.errors.confirmPassword &&
+                    {this.state.errors.confirmPassword && (
                       <FormHelperText id="name-helper-text">{this.state.errors.confirmPassword}</FormHelperText>
-                    }
+                    )}
                   </FormControl>
                 </div>
-              }
+              )}
             </div>
-
-
           </div>
-        }
+        )}
 
         <Dialog
           open={delete_user === true}
@@ -664,10 +730,10 @@ export class MyAccount extends Component {
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.handleClose} color="primary" >
+            <Button onClick={this.handleClose} color="primary">
               {intl.formatMessage({ id: 'cancel' })}
             </Button>
-            <Button onClick={this.handleDelete} color="secondary" >
+            <Button onClick={this.handleDelete} color="secondary">
               {intl.formatMessage({ id: 'delete' })}
             </Button>
           </DialogActions>
@@ -679,17 +745,19 @@ export class MyAccount extends Component {
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-          <DialogTitle id="alert-dialog-title">{intl.formatMessage({ id: 'disable_notifications_dialog_title' })}</DialogTitle>
+          <DialogTitle id="alert-dialog-title">
+            {intl.formatMessage({ id: 'disable_notifications_dialog_title' })}
+          </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
               {intl.formatMessage({ id: 'disable_notifications_dialog_message' })}
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.handleNotificationsClose} color="primary" >
+            <Button onClick={this.handleNotificationsClose} color="primary">
               {intl.formatMessage({ id: 'cancel' })}
             </Button>
-            <Button onClick={this.handleDisableNotifications} color="secondary" >
+            <Button onClick={this.handleDisableNotifications} color="secondary">
               {intl.formatMessage({ id: 'delete' })}
             </Button>
           </DialogActions>
@@ -697,15 +765,19 @@ export class MyAccount extends Component {
 
         <ImageCropDialog
           path={`users/${auth.uid}`}
-          fileName={`photoURL`}
-          onUploadSuccess={(s) => { this.handlePhotoUploadSuccess(s) }}
+          fileName={'photoURL'}
+          onUploadSuccess={s => {
+            this.handlePhotoUploadSuccess(s)
+          }}
           open={this.state.isPhotoDialogOpen}
           src={new_user_photo}
-          handleClose={() => { this.setState({ isPhotoDialogOpen: false }) }}
+          handleClose={() => {
+            this.setState({ isPhotoDialogOpen: false })
+          }}
           title={intl.formatMessage({ id: 'change_photo' })}
         />
       </Activity>
-    );
+    )
   }
 }
 
@@ -715,12 +787,12 @@ MyAccount.propTypes = {
   intl: intlShape.isRequired,
   isGranted: PropTypes.func,
   auth: PropTypes.object.isRequired,
-  vehicle_types: PropTypes.array,
-};
+  vehicle_types: PropTypes.array
+}
 
 const selector = formValueSelector(form_name)
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const { intl, simpleValues, auth, messaging } = state
 
   const delete_user = simpleValues.delete_user
@@ -738,10 +810,10 @@ const mapStateToProps = (state) => {
     old_password: selector(state, 'old_password'),
     notificationTokens: getList(state, `notification_tokens/${auth.uid}`),
     simpleValues
-  };
-};
-
+  }
+}
 
 export default connect(
-  mapStateToProps, { setSimpleValue, change, submit, setDialogIsOpen, setPersistentValue }
+  mapStateToProps,
+  { setSimpleValue, change, submit, setDialogIsOpen, setPersistentValue }
 )(injectIntl(withRouter(withTheme()(withFirebase(withAppConfigs(withStyles(styles, { withTheme: true })(MyAccount)))))))

@@ -1,33 +1,31 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { injectIntl, intlShape } from 'react-intl'
 import Activity from '../../containers/Activity'
-import List from '@material-ui/core/List'
-import ListItem from '@material-ui/core/ListItem'
-import ListItemText from '@material-ui/core/ListItemText'
-import ListItemAvatar from '@material-ui/core/ListItemAvatar'
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
-import Divider from '@material-ui/core/Divider'
-import { withFirebase } from 'firekit-provider'
-import { withRouter } from 'react-router-dom'
-import Icon from '@material-ui/core/Icon'
-import isGranted from '../../utils/auth'
-import PropTypes from 'prop-types'
-import { setSimpleValue } from '../../store/simpleValues/actions'
-import { TextField } from 'redux-form-material-ui'
-import Button from '@material-ui/core/Button'
-import IconButton from '@material-ui/core/IconButton'
 import BottomNavigation from '@material-ui/core/BottomNavigation'
+import Button from '@material-ui/core/Button'
 import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
-import { withTheme, withStyles } from '@material-ui/core/styles'
+import Divider from '@material-ui/core/Divider'
+import Icon from '@material-ui/core/Icon'
+import IconButton from '@material-ui/core/IconButton'
+import List from '@material-ui/core/List'
+import ListItem from '@material-ui/core/ListItem'
+import ListItemText from '@material-ui/core/ListItemText'
+import PropTypes from 'prop-types'
+import React, { Component } from 'react'
 import ReactList from 'react-list'
 import Scrollbar from '../../components/Scrollbar'
-import { getList } from 'firekit'
+import isGranted from '../../utils/auth'
+import { TextField } from 'redux-form-material-ui'
 import { compose } from 'redux'
+import { connect } from 'react-redux'
+import { getList } from 'firekit'
+import { injectIntl, intlShape } from 'react-intl'
+import { setSimpleValue } from '../../store/simpleValues/actions'
+import { withFirebase } from 'firekit-provider'
+import { withRouter } from 'react-router-dom'
+import { withTheme } from '@material-ui/core/styles'
 
 const path = 'predefined_chat_messages'
 
@@ -81,7 +79,7 @@ export class PredefinedChatMessages extends Component {
       })
   }
 
-  renderItem = (i, k) => {
+  renderItem = i => {
     const { list, setSimpleValue } = this.props
 
     const key = list[i].key
@@ -158,7 +156,6 @@ export class PredefinedChatMessages extends Component {
                 onKeyDown={event => {
                   this.handleKeyDown(event, this.handleAddMessage)
                 }}
-                ref="predefinedChatMessage"
                 type="Text"
               />
 
@@ -207,7 +204,7 @@ PredefinedChatMessages.propTypes = {
 }
 
 const mapStateToProps = state => {
-  const { lists, simpleValues } = state
+  const { simpleValues } = state
 
   const delete_predefined_chat_message = simpleValues.delete_predefined_chat_message
 
