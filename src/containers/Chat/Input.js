@@ -30,14 +30,9 @@ class ChatMessages extends Component {
     }
   }
 
-  componentDidMount() {
-    const { watchList } = this.props
-
-    watchList('predefined_chat_messages')
-  }
-
-  handleKeyDown = (event, onSucces) => {
-    if (event.keyCode === 13) {
+  handleKeyDown = (e, onSucces) => {
+    if (e.keyCode === 13) {
+      e.preventDefault()
       onSucces()
     }
   }
@@ -167,7 +162,7 @@ class ChatMessages extends Component {
   }
 
   render() {
-    const { theme, intl, setSimpleValue, chatMessageMenuOpen, predefinedMessages, path, receiverPath } = this.props
+    const { theme, intl, chatMessageMenuOpen, predefinedMessages, path, receiverPath } = this.props
 
     return (
       <div
@@ -184,19 +179,6 @@ class ChatMessages extends Component {
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <IconButton
-            color={'primary'}
-            onClick={() => {
-              if (chatMessageMenuOpen === true) {
-                setSimpleValue('chatMessageMenuOpen', false)
-              } else {
-                setSimpleValue('chatMessageMenuOpen', true)
-              }
-            }}
-          >
-            <Icon>{chatMessageMenuOpen === true ? 'keyboard_arrow_down' : 'keyboard_arrow_up'} </Icon>
-          </IconButton>
-
           <div
             style={{
               backgroundColor: theme.palette.type === 'light' ? theme.palette.grey[300] : theme.palette.grey[700],
@@ -216,19 +198,23 @@ class ChatMessages extends Component {
                   height: 42,
                   width: 'calc(100% - 72px)',
                   lineHeight: undefined,
-                  top: -5,
-                  left: 15
+                  top: -10,
+                  left: 15,
+                  right: 50
                 }}
+                multiline
+                rowsMax="2"
                 disableUnderline={true}
                 onChange={e => {
                   this.setState({ value: e.target.value })
                 }}
                 fullWidth={true}
+                autoFocus
                 value={this.state.value}
                 autoComplete="off"
                 placeholder={intl.formatMessage({ id: 'write_message_hint' })}
-                onKeyDown={event => {
-                  this.handleKeyDown(event, () => this.handleAddMessage('text', this.state.value))
+                onKeyDown={e => {
+                  this.handleKeyDown(e, () => this.handleAddMessage('text', this.state.value))
                 }}
                 ref={field => {
                   this.name = field
@@ -320,7 +306,7 @@ ChatMessages.propTypes = {
 }
 
 const mapStateToProps = (state, ownPops) => {
-  const { lists, auth, simpleValues } = state
+  const { auth, simpleValues } = state
   const { uid, path } = ownPops
 
   const chatMessageMenuOpen = simpleValues['chatMessageMenuOpen'] === true
@@ -332,7 +318,6 @@ const mapStateToProps = (state, ownPops) => {
     path,
     uid,
     chatMessageMenuOpen,
-    predefinedMessages: lists['predefined_chat_messages'],
     auth
   }
 }
