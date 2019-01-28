@@ -112,8 +112,7 @@ class Root extends Component {
     const { appConfig, locale, themeSource } = this.props
 
     const messages = { ...getLocaleMessages(locale, locales), ...getLocaleMessages(locale, appConfig.locales) }
-    console.log('appConfig', appConfig)
-    console.log('themeSource', themeSource)
+
     const source = getThemeSource(themeSource, appConfig.themes)
     const theme = createMuiTheme(source)
 
