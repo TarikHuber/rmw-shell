@@ -198,7 +198,7 @@ class ChatMessages extends Component {
                   height: 42,
                   width: 'calc(100% - 72px)',
                   lineHeight: undefined,
-                  top: -10,
+                  top: -11,
                   left: 15,
                   right: 50
                 }}

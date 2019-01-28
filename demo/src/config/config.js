@@ -33,7 +33,11 @@ const config = {
   },
   firebase_providers: ['google.com', 'facebook.com', 'twitter.com', 'github.com', 'password', 'phone'],
   initial_state: {
-    locale: 'en'
+    locale: 'en',
+    themeSource: {
+      isNightModeOn: false,
+      source: 'default'
+    }
   },
   drawer_width: 256,
   routes,
