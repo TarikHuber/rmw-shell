@@ -1,31 +1,21 @@
-import AudioPlayer from '../../containers/AudioPlayer'
-import Input from './Input'
-import Message from './Message'
 import Chip from '@material-ui/core/Chip'
-import Divider from '@material-ui/core/Divider'
-import Button from '@material-ui/core/Button'
-import Icon from '@material-ui/core/Icon'
-import IconButton from '@material-ui/core/IconButton'
-import Image from 'material-ui-image'
+import DeleteDialog from '../../containers/DeleteDialog'
+import Message from './Message'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import Scrollbar from '../../components/Scrollbar'
-import TextField from '@material-ui/core/TextField'
-import firebase from 'firebase'
-import moment from 'moment'
-import { withTheme, withStyles } from '@material-ui/core/styles'
-import ListItem from '@material-ui/core/ListItem'
+import requestNotificationPermission from '../../utils/messaging'
+import withAppConfigs from '../../utils/withAppConfigs'
 import { connect } from 'react-redux'
-import { getGeolocation } from '../../utils/googleMaps'
+import { getList } from 'firekit'
 import { injectIntl, intlShape } from 'react-intl'
+import { setPersistentValue } from '../../store/persistentValues/actions'
 import { setSimpleValue } from '../../store/simpleValues/actions'
 import { withFirebase } from 'firekit-provider'
 import { withRouter } from 'react-router-dom'
-import { getList } from 'firekit'
-import requestNotificationPermission from '../../utils/messaging'
-import withAppConfigs from '../../utils/withAppConfigs'
-import { setPersistentValue } from '../../store/persistentValues/actions'
+import { withTheme } from '@material-ui/core/styles'
+import isGranted from '../../utils/auth'
 
 const pageStep = 20
 
@@ -39,6 +29,21 @@ class ChatMessages extends Component {
     super(props)
     this.name = null
     this.listEnd = null
+  }
+
+  handleDelete = (handleClose, deleteUid) => {
+    const { firebaseApp, path } = this.props
+
+    if (deleteUid) {
+      firebaseApp
+        .database()
+        .ref()
+        .child(`/${path}/${deleteUid}`)
+        .remove()
+        .then(() => {
+          handleClose()
+        })
+    }
   }
 
   scrollToBottom = () => {
@@ -58,7 +63,7 @@ class ChatMessages extends Component {
     }
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate() {
     this.scrollToBottom()
   }
 
@@ -109,7 +114,7 @@ class ChatMessages extends Component {
     watchList(messagesRef)
   }
 
-  componentDidCatch(error, info) {
+  componentDidCatch() {
     // Display fallback UI
     this.setState({ hasError: true })
     // You can also log the error to an error reporting service
@@ -117,7 +122,7 @@ class ChatMessages extends Component {
   }
 
   renderList(messages) {
-    const { auth, intl, theme, history, path } = this.props
+    const { auth, theme, path, isGranted } = this.props
 
     let currentDate = ''
     let currentAuthor = ''
@@ -128,7 +133,7 @@ class ChatMessages extends Component {
 
     return messages.map((row, i) => {
       const values = row.val
-      //const key=row.key
+      const key = row.key
 
       if (values.created === null) {
         return undefined
@@ -167,7 +172,8 @@ class ChatMessages extends Component {
 
       return (
         <Message
-          key={i}
+          key={key}
+          uid={key}
           path={path}
           dataChanged={dataChanged}
           authorChanged={authorChanged}
@@ -177,25 +183,14 @@ class ChatMessages extends Component {
           backgroundColor={backgroundColor}
           color={color}
           type={type}
+          isGranted={isGranted}
         />
       )
     })
   }
 
   render() {
-    const {
-      messages,
-      theme,
-      intl,
-      setSimpleValue,
-      chatMessageMenuOpen,
-      predefinedMessages,
-      uid,
-      firebaseApp,
-      auth,
-      path,
-      receiverPath
-    } = this.props
+    const { messages, theme, intl, path } = this.props
 
     if (this.state.hasError) {
       // You can render any custom fallback UI
@@ -227,6 +222,7 @@ class ChatMessages extends Component {
             this.listEnd = el
           }}
         />
+        <DeleteDialog path={path} name={'message'} handleDelete={this.handleDelete} />
       </Scrollbar>
     )
   }
@@ -239,7 +235,7 @@ ChatMessages.propTypes = {
 }
 
 const mapStateToProps = (state, ownPops) => {
-  const { lists, auth, simpleValues, messaging } = state
+  const { auth, simpleValues, messaging } = state
   const { uid, path } = ownPops
 
   const chatMessageMenuOpen = simpleValues['chatMessageMenuOpen'] === true
@@ -256,7 +252,8 @@ const mapStateToProps = (state, ownPops) => {
     messages: getList(state, path),
     userChats: getList(state, chatsPath),
     predefinedMessages: getList(state, 'predefined_chat_messages'),
-    auth
+    auth,
+    isGranted: grant => isGranted(state, grant)
   }
 }
 

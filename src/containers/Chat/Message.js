@@ -11,6 +11,7 @@ import { setSimpleValue } from '../../store/simpleValues/actions'
 import { withFirebase } from 'firekit-provider'
 import { withRouter } from 'react-router-dom'
 import { withTheme } from '@material-ui/core/styles'
+import isGranted from '../../utils/auth'
 
 class ChatMessage extends Component {
   componentDidMount() {
@@ -33,7 +34,21 @@ class ChatMessage extends Component {
   }
 
   render() {
-    const { dataChanged, authorChanged, theme, auth, values, backgroundColor, color, intl, history, type } = this.props
+    const {
+      dataChanged,
+      authorChanged,
+      theme,
+      auth,
+      values,
+      uid,
+      backgroundColor,
+      color,
+      intl,
+      history,
+      type,
+      setSimpleValue,
+      isGranted
+    } = this.props
 
     const bColor = theme.palette.type === 'light' ? theme.palette.grey[300] : theme.palette.grey[700]
 
@@ -70,6 +85,11 @@ class ChatMessage extends Component {
             }}
           >
             <div
+              onDoubleClick={() => {
+                if (isGranted('administrator')) {
+                  setSimpleValue('delete_message', uid)
+                }
+              }}
               style={{
                 ...theme.chip,
                 margin: 1,
@@ -142,9 +162,12 @@ class ChatMessage extends Component {
                   )}
                   {type === 'image' && values.image !== null && (
                     <Image
-                      style={{ width: 'auto', height: 280, paddingTop: 0 }}
+                      style={{ width: 'auto', height: 280, paddingTop: 0, cursor: 'pointer' }}
                       imageStyle={{ maxWidth: '100%', padding: 0, position: 'relative', borderRadius: 5 }}
                       onLoad={this.scrollToBottom}
+                      onClick={() => {
+                        window.open(values.image, '_blank')
+                      }}
                       src={values.image}
                       color={backgroundColor}
                     />
