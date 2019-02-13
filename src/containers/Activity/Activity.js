@@ -1,5 +1,5 @@
 import AppBar from '@material-ui/core/AppBar'
-import Icon from '@material-ui/core/Icon'
+import ChevronLeft from '@material-ui/icons/ChevronLeft'
 import IconButton from '@material-ui/core/IconButton'
 import LinearProgress from '@material-ui/core/LinearProgress'
 import MenuIcon from '@material-ui/icons/Menu'
@@ -156,7 +156,7 @@ class Activity extends React.Component {
               onClick={onBackClick}
               className={classNames(!smDown && classes.menuButton, !onBackClick && classes.hide)}
             >
-              <Icon>chevron_left</Icon>
+              <ChevronLeft />
             </IconButton>
             {!onBackClick && drawer.open && <div style={{ marginRight: 32 }} />}
 

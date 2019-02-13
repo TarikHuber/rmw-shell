@@ -1,15 +1,17 @@
 import Button from '@material-ui/core/Button'
 import Divider from '@material-ui/core/Divider'
-import Icon from '@material-ui/core/Icon'
 import IconButton from '@material-ui/core/IconButton'
 import Input from '@material-ui/core/Input'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import Mic from './Mic'
+import MyLocation from '@material-ui/icons/MyLocation'
+import Photo from '@material-ui/icons/Photo'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import ReactList from 'react-list'
 import Scrollbar from '../../components/Scrollbar'
+import Send from '@material-ui/icons/Send'
 import firebase from 'firebase'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
@@ -110,7 +112,7 @@ class ChatMessages extends Component {
               this.handleAddMessage('text', message)
             }}
           >
-            <Icon>send</Icon>
+            <Send />
           </IconButton>
         </ListItem>
         <Divider inset={true} />
@@ -245,7 +247,7 @@ class ChatMessages extends Component {
                     )
                   }
                 >
-                  <Icon>my_location</Icon>
+                  <MyLocation />
                 </IconButton>
               </div>
 
@@ -262,7 +264,7 @@ class ChatMessages extends Component {
 
               <div style={{ position: 'absolute', right: 55, top: -10, width: 20, height: 0 }}>
                 <IconButton color={'primary'} containerElement="label" onClick={() => this.fileInput.click()}>
-                  <Icon>photo</Icon>
+                  <Photo />
                 </IconButton>
               </div>
             </div>
@@ -276,7 +278,7 @@ class ChatMessages extends Component {
               onClick={() => this.handleAddMessage('text', this.state.value)}
               aria-label="send"
             >
-              <Icon>send</Icon>
+              <Send />
             </Button>
           )}
           {this.state.value === '' && (

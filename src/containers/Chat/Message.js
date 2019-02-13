@@ -1,8 +1,10 @@
 import AudioPlayer from '../../containers/AudioPlayer'
 import Chip from '@material-ui/core/Chip'
-import Icon from '@material-ui/core/Icon'
+import Done from '@material-ui/icons/Done'
+import DoneAll from '@material-ui/icons/DoneAll'
 import IconButton from '@material-ui/core/IconButton'
 import Image from 'material-ui-image'
+import Map from '@material-ui/icons/Map'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
@@ -11,7 +13,6 @@ import { setSimpleValue } from '../../store/simpleValues/actions'
 import { withFirebase } from 'firekit-provider'
 import { withRouter } from 'react-router-dom'
 import { withTheme } from '@material-ui/core/styles'
-import isGranted from '../../utils/auth'
 
 class ChatMessage extends Component {
   componentDidMount() {
@@ -141,9 +142,7 @@ class ChatMessage extends Component {
                     <div style={{ padding: 7 }}>
                       <div style={{ textAlign: 'center', width: '100%', height: '100%' }}>
                         <IconButton target="_blank" href={values.location}>
-                          <Icon className="material-icons" color={theme.palette.secondary.main}>
-                            map
-                          </Icon>
+                          <Map className="material-icons" color={theme.palette.secondary.main} />
                         </IconButton>
                         {intl.formatMessage({ id: 'my_location' })}
                       </div>
@@ -183,8 +182,8 @@ class ChatMessage extends Component {
                   }}
                 >
                   {`${values.created ? intl.formatTime(new Date(values.created)) : undefined}`}
-                  {values.isSend && (
-                    <Icon
+                  {values.isSend && values.isReceived && (
+                    <DoneAll
                       style={{
                         fontSize: 11,
                         padding: 0,
@@ -192,9 +191,18 @@ class ChatMessage extends Component {
                         bottom: -2,
                         color: values.isRead ? theme.palette.secondary.main : theme.palette.text.primary
                       }}
-                    >
-                      {values.isReceived ? 'done_all' : 'done'}
-                    </Icon>
+                    />
+                  )}
+                  {values.isSend && !values.isReceived && (
+                    <Done
+                      style={{
+                        fontSize: 11,
+                        padding: 0,
+                        paddingLeft: 2,
+                        bottom: -2,
+                        color: values.isRead ? theme.palette.secondary.main : theme.palette.text.primary
+                      }}
+                    />
                   )}
                 </div>
               </div>

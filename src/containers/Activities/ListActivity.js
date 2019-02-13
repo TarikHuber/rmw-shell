@@ -1,6 +1,7 @@
 import Activity from '../../containers/Activity'
 import Button from '@material-ui/core/Button'
-import Icon from '@material-ui/core/Icon'
+import FilterList from '@material-ui/icons/FilterList'
+import Add from '@material-ui/icons/Add'
 import IconButton from '@material-ui/core/IconButton'
 import List from '@material-ui/core/List'
 import PropTypes from 'prop-types'
@@ -66,7 +67,7 @@ class ListActivity extends Component {
                   setFilterIsOpen(name, true)
                 }}
               >
-                <Icon color={hasFilters ? 'secondary' : 'inherit'}>filter_list</Icon>
+                <FilterList color={hasFilters ? 'secondary' : 'inherit'} />
               </IconButton>
             </Tooltip>
           </div>
@@ -97,7 +98,7 @@ class ListActivity extends Component {
               style={{ position: 'fixed', bottom: 15, right: 20, zIndex: 99 }}
               color={'secondary'}
             >
-              <Icon>add</Icon>
+              <Add />
             </Button>
           )}
         </div>

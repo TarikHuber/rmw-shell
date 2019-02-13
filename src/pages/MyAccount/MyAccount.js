@@ -1,23 +1,28 @@
 import Activity from '../../containers/Activity'
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
+import Delete from '@material-ui/icons/Delete'
 import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
+import Error from '@material-ui/icons/Error'
 import FormControl from '@material-ui/core/FormControl'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import FormGroup from '@material-ui/core/FormGroup'
 import FormHelperText from '@material-ui/core/FormHelperText'
-import Icon from '@material-ui/core/Icon'
 import IconButton from '@material-ui/core/IconButton'
 import Input from '@material-ui/core/Input'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import InputLabel from '@material-ui/core/InputLabel'
+import Person from '@material-ui/icons/Person'
+import PhotoCamera from '@material-ui/icons/PhotoCamera'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
+import Save from '@material-ui/icons/Save'
 import Switch from '@material-ui/core/Switch'
+import VerifiedUser from '@material-ui/icons/VerifiedUser'
 import Visibility from '@material-ui/icons/Visibility'
 import VisibilityOff from '@material-ui/icons/VisibilityOff'
 import classNames from 'classnames'
@@ -498,13 +503,13 @@ export class MyAccount extends Component {
                   this.submit()
                 }}
               >
-                <Icon className="material-icons">save</Icon>
+                <Save className="material-icons" />
               </IconButton>
             )}
 
             {auth.uid && (
               <IconButton color="inherit" aria-label="open drawer" onClick={() => setSimpleValue('delete_user', true)}>
-                <Icon className="material-icons">delete</Icon>
+                <Delete className="material-icons" />
               </IconButton>
             )}
           </div>
@@ -524,7 +529,7 @@ export class MyAccount extends Component {
               {!this.state.values.photoURL && (
                 <Avatar className={classNames(classes.avatar, classes.bigAvatar)}>
                   {' '}
-                  <Icon style={{ fontSize: 60 }}> person </Icon>{' '}
+                  <Person style={{ fontSize: 60 }} />{' '}
                 </Avatar>
               )}
 
@@ -534,7 +539,7 @@ export class MyAccount extends Component {
                   this.setState({ isPhotoDialogOpen: true })
                 }}
               >
-                <Icon>photo_camera</Icon>
+                <PhotoCamera />
               </IconButton>
 
               <div>
@@ -612,8 +617,8 @@ export class MyAccount extends Component {
                         onClick={auth.emailVerified === true ? undefined : this.handleEmailVerificationsSend}
                         //onMouseDown={this.handleMouseDownPassword}
                       >
-                        {auth.emailVerified && <Icon color="primary">verified_user</Icon>}
-                        {!auth.emailVerified && <Icon color="secondary">error</Icon>}
+                        {auth.emailVerified && <VerifiedUser color="primary" />}
+                        {!auth.emailVerified && <Error color="secondary" />}
                       </IconButton>
                     </InputAdornment>
                   }

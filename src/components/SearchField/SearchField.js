@@ -1,5 +1,5 @@
 import React from 'react'
-import Icon from '@material-ui/core/Icon'
+import Search from '@material-ui/icons/Search'
 import { injectIntl } from 'react-intl'
 import { fade } from '@material-ui/core/styles/colorManipulator'
 import { withTheme, withStyles } from '@material-ui/core/styles'
@@ -93,7 +93,7 @@ const SearchField = ({ classes, filterName, setSearch, searchValue, alwaysOpen }
   return (
     <div className={classNames(rootClass)}>
       <div className={classes.search}>
-        <Icon>search</Icon>
+        <Search/>
       </div>
       <input
         autoComplete="off"

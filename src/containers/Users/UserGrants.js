@@ -1,6 +1,6 @@
 import Avatar from '@material-ui/core/Avatar'
 import Divider from '@material-ui/core/Divider'
-import Icon from '@material-ui/core/Icon'
+import Check from '@material-ui/icons/Check'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
@@ -59,7 +59,7 @@ export class UserGrants extends Component {
         <ListItem key={i} id={i}>
           <Avatar>
             {' '}
-            <Icon> checked</Icon>{' '}
+            <Check />{' '}
           </Avatar>
           <ListItemText primary={intl.formatMessage({ id: `grant_${val}` })} secondary={val} />
           <Switch

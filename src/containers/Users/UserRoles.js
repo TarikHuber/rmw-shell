@@ -1,6 +1,6 @@
 import Avatar from '@material-ui/core/Avatar'
 import Divider from '@material-ui/core/Divider'
-import Icon from '@material-ui/core/Icon'
+import AccountBox from '@material-ui/icons/AccountBox'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
@@ -60,7 +60,7 @@ export class UserRoles extends Component {
           {!val.photoURL && (
             <Avatar>
               {' '}
-              <Icon>account_box </Icon>{' '}
+              <AccountBox />{' '}
             </Avatar>
           )}
           <ListItemText primary={val.name} secondary={val.description} />

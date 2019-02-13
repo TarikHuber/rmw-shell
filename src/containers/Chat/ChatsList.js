@@ -1,12 +1,17 @@
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
+import Chat from '@material-ui/icons/Chat'
+import Delete from '@material-ui/icons/Delete'
 import Divider from '@material-ui/core/Divider'
-import Icon from '@material-ui/core/Icon'
+import Done from '@material-ui/icons/Done'
+import DoneAll from '@material-ui/icons/DoneAll'
+import History from '@material-ui/icons/History'
 import IconMenu from '../../containers/IconMenu'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
 import ListItemText from '@material-ui/core/ListItemText'
+import Person from '@material-ui/icons/Person'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import ReactList from 'react-list'
@@ -81,8 +86,8 @@ export class Chats extends Component {
 
     return (
       <div>
-        {val.isSend && auth.uid === val.authorUid && (
-          <Icon
+        {val.isSend && auth.uid === val.authorUid && val.isReceived && (
+          <DoneAll
             className="material-icons"
             style={{
               fontSize: 14,
@@ -91,9 +96,19 @@ export class Chats extends Component {
               bottom: -1,
               color: val.isRead ? theme.palette.accent1Color : theme.palette.secondary1Color
             }}
-          >
-            {val.isReceived ? 'done_all' : 'done'}
-          </Icon>
+          />
+        )}
+        {val.isSend && auth.uid === val.authorUid && !val.isReceived && (
+          <Done
+            className="material-icons"
+            style={{
+              fontSize: 14,
+              padding: 0,
+              paddingRight: 2,
+              bottom: -1,
+              color: val.isRead ? theme.palette.accent1Color : theme.palette.secondary1Color
+            }}
+          />
         )}
         {val.unread > 0 && <b>{val.lastMessage}</b>}
         {!val.unread && val.lastMessage}
@@ -113,14 +128,14 @@ export class Chats extends Component {
         onClick: () => {
           this.handleDeleteChat(key, val)
         },
-        icon: <Icon>delete</Icon>
+        icon: <Delete />
       },
       {
         text: intl.formatMessage({ id: 'mark_chat_as_unread' }),
         onClick: () => {
           this.handleMarkAsUnread(key, val)
         },
-        icon: <Icon>history</Icon>
+        icon: <History />
       }
     ]
 
@@ -138,7 +153,7 @@ export class Chats extends Component {
           {!val.photoURL && (
             <Avatar>
               {' '}
-              <Icon> person </Icon>{' '}
+              <Person />{' '}
             </Avatar>
           )}
           <ListItemText
@@ -205,7 +220,7 @@ export class Chats extends Component {
             }}
             style={{ position: 'absolute', right: 20, bottom: 10, zIndex: 99 }}
           >
-            <Icon className="material-icons">chat</Icon>
+            <Chat className="material-icons" />
           </Button>
         </div>
       </div>

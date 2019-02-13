@@ -1,8 +1,10 @@
 import Button from '@material-ui/core/Button'
 import CircularProgress from '@material-ui/core/CircularProgress'
-import Icon from '@material-ui/core/Icon'
+import Close from '@material-ui/icons/Close'
+import Mic from '@material-ui/icons/Mic'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
+import Send from '@material-ui/icons/Send'
 import withWidth, { isWidthUp } from '@material-ui/core/withWidth'
 import { ReactMic } from 'react-mic'
 import { connect } from 'react-redux'
@@ -38,8 +40,6 @@ export class ChatMic extends Component {
   }
 
   cancelRecording = () => {
-    const { setChatMic } = this.props
-
     this.setState({
       record: false,
       visible: false
@@ -47,8 +47,6 @@ export class ChatMic extends Component {
   }
 
   onStop = recordedBlob => {
-    const { chat } = this.props
-
     this.setState({
       record: false,
       visible: false,
@@ -61,7 +59,7 @@ export class ChatMic extends Component {
   }
 
   uploadAudioFile = file => {
-    const { firebaseApp, intl, handleAddMessage, path, receiverPath, setChatMic } = this.props
+    const { firebaseApp, intl, handleAddMessage, path, receiverPath } = this.props
 
     if (file === null) {
       return
@@ -120,7 +118,7 @@ export class ChatMic extends Component {
   }
 
   render() {
-    const { theme, containerStyle, width } = this.props
+    const { theme, width } = this.props
 
     return (
       <div>
@@ -143,7 +141,7 @@ export class ChatMic extends Component {
               onClick={this.cancelRecording}
               secondary
             >
-              <Icon className="material-icons">close</Icon>
+              <Close className="material-icons" />
             </Button>
             <ReactMic
               style={{ marginTop: 25 }}
@@ -158,7 +156,7 @@ export class ChatMic extends Component {
               backgroundColor={theme.palette.type === 'light' ? theme.palette.grey[300] : theme.palette.grey[700]}
             />
             <Button style={{ marginLeft: -25 }} color="secondary" variant="fab" onClick={this.stopRecording} secondary>
-              <Icon>send</Icon>
+              <Send />
             </Button>
           </div>
         )}
@@ -172,7 +170,7 @@ export class ChatMic extends Component {
             //style={{ position: 'absolute', right: 20, bottom: 10, zIndex: 99 }}
             secondary={!this.state.record}
           >
-            <Icon>{this.state.record ? 'send' : 'mic'}</Icon>
+            {this.state.record ? <Send /> : <Mic />}
           </Button>
         )}
       </div>
@@ -185,15 +183,7 @@ ChatMic.propTypes = {
   theme: PropTypes.object.isRequired
 }
 
-const mapStateToProps = (state, ownPops) => {
-  const { auth } = state
-
-  return {
-    auth
-  }
-}
-
 export default connect(
-  mapStateToProps,
+  () => {},
   { setSimpleValue }
 )(injectIntl(withWidth()(withTheme()(withRouter(withFirebase(ChatMic))))))

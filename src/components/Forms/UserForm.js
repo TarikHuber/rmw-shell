@@ -1,6 +1,6 @@
 import Avatar from '@material-ui/core/Avatar'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
-import Icon from '@material-ui/core/Icon'
+import Person from '@material-ui/icons/Person'
 import IconButton from '@material-ui/core/IconButton'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
@@ -81,7 +81,7 @@ class UserForm extends Component {
         {!values.photoURL && (
           <Avatar className={classNames(classes.avatar, classes.bigAvatar)}>
             {' '}
-            <Icon style={{ fontSize: 60 }}> person </Icon>{' '}
+            <Person style={{ fontSize: 60 }} />{' '}
           </Avatar>
         )}
 

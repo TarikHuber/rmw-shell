@@ -1,19 +1,23 @@
+import AccountBox from '@material-ui/icons/AccountBox'
 import Activity from '../../containers/Activity'
 import AppBar from '@material-ui/core/AppBar'
 import Button from '@material-ui/core/Button'
+import Delete from '@material-ui/icons/Delete'
 import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
+import FilterList from '@material-ui/icons/FilterList'
 import FormControl from '@material-ui/core/FormControl'
 import FormHelperText from '@material-ui/core/FormHelperText'
-import Icon from '@material-ui/core/Icon'
 import IconButton from '@material-ui/core/IconButton'
 import Input from '@material-ui/core/Input'
 import InputLabel from '@material-ui/core/InputLabel'
+import Lock from '@material-ui/icons/Lock'
 import React, { Component } from 'react'
 import RoleGrants from '../../containers/Roles/RoleGrants'
+import Save from '@material-ui/icons/Save'
 import Scrollbar from '../../components/Scrollbar/Scrollbar'
 import SearchField from '../../components/SearchField'
 import Tab from '@material-ui/core/Tab'
@@ -184,13 +188,13 @@ export class Role extends Component {
                   this.submit()
                 }}
               >
-                <Icon className="material-icons">save</Icon>
+                <Save className="material-icons" />
               </IconButton>
             )}
 
             {editType === 'main' && (
               <IconButton color="inherit" aria-label="open drawer" onClick={() => setDialogIsOpen('delete_role', true)}>
-                <Icon className="material-icons">delete</Icon>
+                <Delete className="material-icons" />
               </IconButton>
             )}
 
@@ -203,12 +207,10 @@ export class Role extends Component {
                   aria-label="open drawer"
                   onClick={() => setFilterIsOpen('role_grants', true)}
                 >
-                  <Icon
+                  <FilterList
                     className="material-icons"
                     color={hasFilters ? theme.palette.accent1Color : theme.palette.canvasColor}
-                  >
-                    filter_list
-                  </Icon>
+                  />
                 </IconButton>
               </div>
             )}
@@ -221,8 +223,8 @@ export class Role extends Component {
           <div className={classes.root}>
             <AppBar position="static">
               <Tabs value={editType} onChange={this.handleTabActive} fullWidth centered>
-                <Tab value="main" icon={<Icon className="material-icons">account_box</Icon>} />
-                <Tab value="grants" icon={<Icon className="material-icons">lock</Icon>} />
+                <Tab value="main" icon={<AccountBox className="material-icons" />} />
+                <Tab value="grants" icon={<Lock className="material-icons" />} />
               </Tabs>
             </AppBar>
 

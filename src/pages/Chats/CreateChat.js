@@ -1,7 +1,7 @@
 import Activity from '../../containers/Activity'
 import Avatar from '@material-ui/core/Avatar'
 import Divider from '@material-ui/core/Divider'
-import Icon from '@material-ui/core/Icon'
+import Person from '@material-ui/icons/Person'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
@@ -75,7 +75,7 @@ export class Users extends Component {
           {!user.photoURL && (
             <Avatar>
               {' '}
-              <Icon> person </Icon>{' '}
+              <Person />{' '}
             </Avatar>
           )}
           <ListItemText

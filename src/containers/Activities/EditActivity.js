@@ -1,7 +1,8 @@
 import Activity from '../../containers/Activity'
 import DeleteDialog from '../../containers/DeleteDialog'
 import FireForm from 'fireform'
-import Icon from '@material-ui/core/Icon'
+import Save from '@material-ui/icons/Save'
+import Delete from '@material-ui/icons/Delete'
 import IconButton from '@material-ui/core/IconButton'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
@@ -35,7 +36,7 @@ class EditActivity extends Component {
     }
   }
 
-  hanldeSubmitSuccess = (values, key) => {
+  hanldeSubmitSuccess = () => {
     const { history, path } = this.props
     history.push(`/${path}`)
   }
@@ -75,7 +76,7 @@ class EditActivity extends Component {
                     submit(name)
                   }}
                 >
-                  <Icon>save</Icon>
+                  <Save />
                 </IconButton>
               </Tooltip>
             )}
@@ -88,7 +89,7 @@ class EditActivity extends Component {
                     setSimpleValue(`delete_${name}`, true)
                   }}
                 >
-                  <Icon>delete</Icon>
+                  <Delete />
                 </IconButton>
               </Tooltip>
             )}

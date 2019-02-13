@@ -1,6 +1,6 @@
 import Activity from '../../containers/Activity'
 import ChatsList from '../../containers/Chat/ChatsList'
-import Icon from '@material-ui/core/Icon'
+import Message from '@material-ui/icons/Message'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { injectIntl, intlShape } from 'react-intl'
@@ -24,9 +24,7 @@ export class Chats extends Component {
         >
           <ChatsList {...this.props} />
           <div style={{ width: '100%', height: '100%' }}>
-            <Icon color="disabled" style={{ width: 192, height: 192, fontSize: 150 }}>
-              message
-            </Icon>
+            <Message color="disabled" style={{ width: 192, height: 192, fontSize: 150 }} />
           </div>
         </div>
       </Activity>

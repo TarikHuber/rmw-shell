@@ -1,7 +1,10 @@
+import AccountBox from '@material-ui/icons/AccountBox'
 import Activity from '../../containers/Activity'
 import AppBar from '@material-ui/core/AppBar'
-import Icon from '@material-ui/core/Icon'
+import FilterList from '@material-ui/icons/FilterList'
 import IconButton from '@material-ui/core/IconButton'
+import Lock from '@material-ui/icons/Lock'
+import Person from '@material-ui/icons/Person'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import Scrollbar from '../../components/Scrollbar'
@@ -135,12 +138,10 @@ export class User extends Component {
                   aria-label="open drawer"
                   onClick={() => setFilterIsOpen('user_grants', true)}
                 >
-                  <Icon
+                  <FilterList
                     className="material-icons"
                     color={hasFilters ? theme.palette.accent1Color : theme.palette.canvasColor}
-                  >
-                    filter_list
-                  </Icon>
+                  />
                 </IconButton>
               </div>
             )}
@@ -153,9 +154,9 @@ export class User extends Component {
           <div className={classes.root}>
             <AppBar position="static">
               <Tabs value={editType} onChange={this.handleTabActive} fullWidth centered>
-                <Tab value="profile" icon={<Icon className="material-icons">person</Icon>} />
-                <Tab value="roles" icon={<Icon className="material-icons">account_box</Icon>} />
-                <Tab value="grants" icon={<Icon className="material-icons">lock</Icon>} />
+                <Tab value="profile" icon={<Person className="material-icons" />} />
+                <Tab value="roles" icon={<AccountBox className="material-icons" />} />
+                <Tab value="grants" icon={<Lock className="material-icons" />} />
               </Tabs>
             </AppBar>
 

@@ -1,6 +1,6 @@
 import Activity from '../../containers/Activity'
 import Button from '@material-ui/core/Button'
-import Icon from '@material-ui/core/Icon'
+import Home from '@material-ui/icons/Home'
 import Paper from '@material-ui/core/Paper'
 import React from 'react'
 import Typography from '@material-ui/core/Typography'
@@ -42,7 +42,7 @@ const PageNotFound = ({ intl, appConfig, classes }) => {
           <Typography variant="h4">{intl.formatMessage({ id: 'warning_404_message' })}</Typography>
           <Typography variant="subtitle1">{intl.formatMessage({ id: 'warning_404_description' })}</Typography>
           <Button variant="fab" color="secondary" aria-label="home" href="/" className={classes.button}>
-            <Icon>home</Icon>
+            <Home />
           </Button>
         </div>
       </Paper>

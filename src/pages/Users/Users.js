@@ -1,11 +1,14 @@
 import Activity from '../../containers/Activity'
 import AltIconAvatar from '../../components/AltIconAvatar'
 import Divider from '@material-ui/core/Divider'
-import Icon from '@material-ui/core/Icon'
+import Email from '@material-ui/icons/Email'
+import FilterList from '@material-ui/icons/FilterList'
 import IconButton from '@material-ui/core/IconButton'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
+import OfflinePin from '@material-ui/icons/OfflinePin'
+import Phone from '@material-ui/icons/Phone'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import ReactList from 'react-list'
@@ -43,9 +46,9 @@ export class Users extends Component {
     case 'github.com':
       return <GitHubIcon color={color} />
     case 'phone':
-      return <Icon color={color}>phone</Icon>
+      return <Phone color={color} />
     case 'password':
-      return <Icon color={color}>email</Icon>
+      return <Email color={color} />
     default:
       return undefined
     }
@@ -86,7 +89,7 @@ export class Users extends Component {
                 return <div key={i}>{this.getProviderIcon(p)}</div>
               })}
           </Toolbar>
-          <Icon color={user.connections ? 'primary' : 'disabled'}>offline_pin</Icon>
+          <OfflinePin color={user.connections ? 'primary' : 'disabled'} />
         </ListItem>
         <Divider inset={true} />
       </div>
@@ -122,12 +125,10 @@ export class Users extends Component {
                 setFilterIsOpen('users', true)
               }}
             >
-              <Icon
+              <FilterList
                 className="material-icons"
                 color={hasFilters ? theme.palette.accent1Color : theme.palette.canvasColor}
-              >
-                filter_list
-              </Icon>
+              />
             </IconButton>
           </div>
         }

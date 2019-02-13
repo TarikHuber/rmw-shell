@@ -1,7 +1,9 @@
 import Avatar from '@material-ui/core/Avatar'
-import Icon from '@material-ui/core/Icon'
 import IconButton from '@material-ui/core/IconButton'
 import LinearProgress from '@material-ui/core/LinearProgress'
+import Person from '@material-ui/icons/Person'
+import Pause from '@material-ui/icons/Pause'
+import PlayArrow from '@material-ui/icons/PlayArrow'
 import React, { Component } from 'react'
 import ReactPlayer from 'react-player'
 import moment from 'moment'
@@ -47,7 +49,7 @@ export class AudioPlayer extends Component {
   onPause = () => {
     this.setState({ playing: false })
   }
-  onSeekMouseDown = e => {
+  onSeekMouseDown = () => {
     this.setState({ seeking: true })
   }
   onSeekChange = e => {
@@ -75,13 +77,14 @@ export class AudioPlayer extends Component {
 
   render() {
     const { src, authorPhotoUrl, theme } = this.props
-    const { playing, volume, muted, loop, played, loaded, duration, playbackRate, playedSeconds } = this.state
+    const { played, playedSeconds } = this.state
 
     return (
       <div style={{ display: 'flex', alignItems: 'center' }}>
-        <Avatar src={authorPhotoUrl} alt="person" icon={<Icon>person</Icon>} />
+        <Avatar src={authorPhotoUrl} alt="person" icon={<Person />} />
         <IconButton onClick={this.state.playing ? this.onPause : this.onPlay}>
-          <Icon color={'secondary'}>{this.state.playing ? 'pause' : 'play_arrow'}</Icon>
+          {!this.state.playing && <PlayArrow color={'secondary'} />}
+          {this.state.playing && <Pause color={'secondary'} />}
         </IconButton>
         <div
           style={{

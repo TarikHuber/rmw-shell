@@ -7,7 +7,8 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import Divider from '@material-ui/core/Divider'
-import Icon from '@material-ui/core/Icon'
+import Delete from '@material-ui/icons/Delete'
+import Send from '@material-ui/icons/Send'
 import IconButton from '@material-ui/core/IconButton'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
@@ -90,7 +91,7 @@ export class PredefinedChatMessages extends Component {
         <ListItem key={key} id={key}>
           <ListItemText primary={message} />
           <IconButton onClick={() => setSimpleValue('delete_predefined_chat_message', key)}>
-            <Icon color={'secondary'}>{'delete'}</Icon>
+            <Delete color={'secondary'} />
           </IconButton>
         </ListItem>
         <Divider />
@@ -160,9 +161,7 @@ export class PredefinedChatMessages extends Component {
               />
 
               <IconButton disabled={!this.state.value} onClick={this.handleAddMessage}>
-                <Icon className="material-icons" color={theme.palette.primary1Color}>
-                  send
-                </Icon>
+                <Send className="material-icons" color={theme.palette.primary1Color} />
               </IconButton>
             </div>
           </BottomNavigation>
