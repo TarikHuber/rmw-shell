@@ -21,8 +21,8 @@ import { withRouter } from 'react-router-dom'
 
 class ListActivity extends Component {
   componentDidMount() {
-    const { watchList, ref } = this.props
-    watchList(ref)
+    const { watchList, path, name } = this.props
+    watchList(path || name)
   }
 
   render() {
@@ -120,7 +120,7 @@ const mapStateToProps = (state, ownProps) => {
 
   const ref = path || name
 
-  const { hasFilters } = filterSelectors.selectFilterProps(ref, filters)
+  const { hasFilters } = filterSelectors.selectFilterProps(name, filters)
   const list = filterSelectors.getFilteredList(ref, filters, getList(state, ref), fieldValue => fieldValue.val)
 
   return {
