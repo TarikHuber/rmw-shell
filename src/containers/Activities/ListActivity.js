@@ -21,8 +21,8 @@ import { withRouter } from 'react-router-dom'
 
 class ListActivity extends Component {
   componentDidMount() {
-    const { watchList, path, name } = this.props
-    watchList(path || name)
+    const { watchList, key } = this.props
+    watchList(key)
   }
 
   render() {
@@ -34,6 +34,7 @@ class ListActivity extends Component {
       intl,
       isGranted,
       list,
+      key,
       name,
       setFilterIsOpen,
       renderItem,
@@ -58,13 +59,13 @@ class ListActivity extends Component {
         title={title || intl.formatMessage({ id: name })}
         appBarContent={
           <div style={{ display: 'flex' }}>
-            <SearchField filterName={name} />
+            <SearchField filterName={key} />
             <Tooltip title={intl.formatMessage({ id: 'open_filter' })}>
               <IconButton
                 color="inherit"
                 aria-label="open drawer"
                 onClick={() => {
-                  setFilterIsOpen(name, true)
+                  setFilterIsOpen(key, true)
                 }}
               >
                 <FilterList color={hasFilters ? 'secondary' : 'inherit'} />
@@ -119,10 +120,11 @@ const mapStateToProps = (state, ownProps) => {
 
   const key = path || name
 
-  const { hasFilters } = filterSelectors.selectFilterProps(name, filters)
+  const { hasFilters } = filterSelectors.selectFilterProps(key, filters)
   const list = filterSelectors.getFilteredList(key, filters, getList(state, key), fieldValue => fieldValue.val)
 
   return {
+    key,
     hasFilters,
     list,
     isGranted: grant => (customIsGranted ? customIsGranted(state, grant) : isGranted(state, grant))
