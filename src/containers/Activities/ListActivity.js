@@ -21,8 +21,8 @@ import { withRouter } from 'react-router-dom'
 
 class ListActivity extends Component {
   componentDidMount() {
-    const { watchList, path, name } = this.props
-    watchList(path || name)
+    const { watchList, refName = '' } = this.props
+    watchList(refName)
   }
 
   render() {
@@ -34,7 +34,7 @@ class ListActivity extends Component {
       intl,
       isGranted,
       list,
-      key,
+      refName,
       name,
       setFilterIsOpen,
       renderItem,
@@ -59,13 +59,13 @@ class ListActivity extends Component {
         title={title || intl.formatMessage({ id: name })}
         appBarContent={
           <div style={{ display: 'flex' }}>
-            <SearchField filterName={key} />
+            <SearchField filterName={refName} />
             <Tooltip title={intl.formatMessage({ id: 'open_filter' })}>
               <IconButton
                 color="inherit"
                 aria-label="open drawer"
                 onClick={() => {
-                  setFilterIsOpen(key, true)
+                  setFilterIsOpen(refName, true)
                 }}
               >
                 <FilterList color={hasFilters ? 'secondary' : 'inherit'} />
@@ -103,7 +103,7 @@ class ListActivity extends Component {
             </Button>
           )}
         </div>
-        <FilterDrawer name={name} fields={fields} formatMessage={intl.formatMessage} />
+        <FilterDrawer name={refName} fields={fields} formatMessage={intl.formatMessage} />
       </Activity>
     )
   }
@@ -118,13 +118,13 @@ const mapStateToProps = (state, ownProps) => {
   const { filters } = state
   const { name, path, isGranted: customIsGranted } = ownProps
 
-  const ref = path || name
+  const refName = path || name
 
-  const { hasFilters } = filterSelectors.selectFilterProps(name, filters)
-  const list = filterSelectors.getFilteredList(ref, filters, getList(state, ref), fieldValue => fieldValue.val)
+  const { hasFilters } = filterSelectors.selectFilterProps(refName, filters)
+  const list = filterSelectors.getFilteredList(refName, filters, getList(state, refName), fieldValue => fieldValue.val)
 
   return {
-    ref,
+    refName,
     hasFilters,
     list,
     isGranted: grant => (customIsGranted ? customIsGranted(state, grant) : isGranted(state, grant))
