@@ -21,8 +21,8 @@ import { withRouter } from 'react-router-dom'
 
 class ListActivity extends Component {
   componentDidMount() {
-    const { watchList, refName = '' } = this.props
-    watchList(refName)
+    const { watchList, path, name } = this.props
+    watchList(path || name)
   }
 
   render() {
@@ -118,13 +118,13 @@ const mapStateToProps = (state, ownProps) => {
   const { filters } = state
   const { name, path, isGranted: customIsGranted } = ownProps
 
-  const refName = path || name
+  const ref = path || name
 
-  const { hasFilters } = filterSelectors.selectFilterProps(refName, filters)
-  const list = filterSelectors.getFilteredList(refName, filters, getList(state, refName), fieldValue => fieldValue.val)
+  const { hasFilters } = filterSelectors.selectFilterProps(name, filters)
+  const list = filterSelectors.getFilteredList(ref, filters, getList(state, ref), fieldValue => fieldValue.val)
 
   return {
-    refName,
+    name,
     hasFilters,
     list,
     isGranted: grant => (customIsGranted ? customIsGranted(state, grant) : isGranted(state, grant))
