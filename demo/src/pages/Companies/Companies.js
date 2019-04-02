@@ -1,120 +1,63 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
-import { withTheme } from '@material-ui/core/styles'
-import withWidth from '@material-ui/core/withWidth'
-import { injectIntl } from 'react-intl'
-import List from '@material-ui/core/List'
+import AltIconAvatar from 'rmw-shell/lib/components/AltIconAvatar'
+import Divider from '@material-ui/core/Divider'
+import ListActivity from 'rmw-shell/lib/containers/Activities/ListActivity'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
-import Divider from '@material-ui/core/Divider'
-import Icon from '@material-ui/core/Icon'
-import Button from '@material-ui/core/Button'
+import PropTypes from 'prop-types'
+import React, { Component } from 'react'
+import { compose } from 'redux'
+import { injectIntl, intlShape } from 'react-intl'
 import { withRouter } from 'react-router-dom'
-import Avatar from '@material-ui/core/Avatar'
-import { withFirebase } from 'firekit-provider'
-import isGranted from 'rmw-shell/lib/utils/auth'
-import { Activity, Scrollbar } from '../../../../src'
+import { withTheme } from '@material-ui/core/styles'
 
-class Companies extends Component {
-  componentDidMount() {
-    const { watchList, firebaseApp } = this.props
-
-    let ref = firebaseApp
-      .database()
-      .ref('companies')
-      .limitToFirst(20)
-
-    watchList(ref)
-  }
-
-  renderList(companies) {
+class Drivers extends Component {
+  renderItem = (key, val) => {
     const { history } = this.props
 
-    if (companies === undefined) {
-      return <div />
-    }
+    return (
+      <div key={key}>
+        <ListItem onClick={() => history.push(`/companies/edit/${key}`)} key={key}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'space-between' }}>
+            <AltIconAvatar alt="company" src={val.photoURL} iconName={'work'} />
 
-    return companies.map((company, index) => {
-      return (
-        <div key={index}>
-          <ListItem
-            key={index}
-            onClick={() => {
-              history.push(`/companies/edit/${company.key}`)
-            }}
-            id={index}
-          >
-            {company.val.photoURL && <Avatar src={company.val.photoURL} alt="bussines" />}
-            {!company.val.photoURL && (
-              <Avatar>
-                {' '}
-                <Icon> business </Icon>{' '}
-              </Avatar>
-            )}
-            <ListItemText primary={company.val.name} secondary={company.val.full_name} />
-          </ListItem>
-          <Divider inset />
-        </div>
-      )
-    })
+            <ListItemText
+              primary={val.name}
+              secondary={val.user ? val.user.label : undefined}
+              style={{ minWidth: 120 }}
+            />
+            <ListItemText
+              primary={val.subcontractor ? val.subcontractor.label : undefined}
+              secondary={val.vehicle ? val.vehicle.label : undefined}
+            />
+          </div>
+        </ListItem>
+        <Divider inset={true} />
+      </div>
+    )
   }
 
   render() {
-    const { intl, companies, theme, history, isGranted, classes } = this.props
+    const filterFields = [{ name: 'name' }, { name: 'full_name' }]
 
     return (
-      <Activity
-        isLoading={companies === undefined}
-        containerStyle={{ overflow: 'hidden' }}
-        title={intl.formatMessage({ id: 'companies' })}
-      >
-        <Scrollbar>
-          <div style={{ overflow: 'none', backgroundColor: theme.palette.convasColor }}>
-            <List
-              id="test"
-              style={{ height: '100%' }}
-              ref={field => {
-                this.list = field
-              }}
-            >
-              {this.renderList(companies)}
-            </List>
-          </div>
-
-          <div style={{ position: 'fixed', right: 18, zIndex: 3, bottom: 18 }}>
-            {isGranted('create_company') && (
-              <Button
-                variant="fab"
-                color="secondary"
-                onClick={() => {
-                  history.push('/companies/create')
-                }}
-              >
-                <Icon className="material-icons">add</Icon>
-              </Button>
-            )}
-          </div>
-        </Scrollbar>
-      </Activity>
+      <ListActivity
+        name="companies"
+        createGrant="create_company"
+        filterFields={filterFields}
+        renderItem={this.renderItem}
+      />
     )
   }
 }
 
-Companies.propTypes = {
-  companies: PropTypes.array,
-  history: PropTypes.object,
-  isGranted: PropTypes.func.isRequired
+Drivers.propTypes = {
+  intl: intlShape.isRequired,
+  theme: PropTypes.object.isRequired,
+  history: PropTypes.any.isRequired
 }
 
-const mapStateToProps = state => {
-  const { auth, lists } = state
-
-  return {
-    companies: lists.companies,
-    auth,
-    isGranted: grant => isGranted(state, grant)
-  }
-}
-
-export default connect(mapStateToProps)(injectIntl(withWidth()(withTheme()(withRouter(withFirebase(Companies))))))
+export default compose(
+  injectIntl,
+  withRouter,
+  withTheme()
+)(Drivers)

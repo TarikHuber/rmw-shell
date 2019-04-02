@@ -34,7 +34,6 @@ class ListActivity extends Component {
       intl,
       isGranted,
       list,
-      refName,
       name,
       setFilterIsOpen,
       renderItem,
@@ -59,13 +58,13 @@ class ListActivity extends Component {
         title={title || intl.formatMessage({ id: name })}
         appBarContent={
           <div style={{ display: 'flex' }}>
-            <SearchField filterName={refName} />
+            <SearchField filterName={name} />
             <Tooltip title={intl.formatMessage({ id: 'open_filter' })}>
               <IconButton
                 color="inherit"
                 aria-label="open drawer"
                 onClick={() => {
-                  setFilterIsOpen(refName, true)
+                  setFilterIsOpen(name, true)
                 }}
               >
                 <FilterList color={hasFilters ? 'secondary' : 'inherit'} />
@@ -103,7 +102,7 @@ class ListActivity extends Component {
             </Button>
           )}
         </div>
-        <FilterDrawer name={refName} fields={fields} formatMessage={intl.formatMessage} />
+        <FilterDrawer name={name} fields={fields} formatMessage={intl.formatMessage} />
       </Activity>
     )
   }
@@ -124,6 +123,7 @@ const mapStateToProps = (state, ownProps) => {
   const list = filterSelectors.getFilteredList(ref, filters, getList(state, ref), fieldValue => fieldValue.val)
 
   return {
+    ref,
     name,
     hasFilters,
     list,
