@@ -98,15 +98,19 @@ class SelectableMenuList extends Component {
           >
             {item.leftIcon && <ListItemIcon>{item.leftIcon}</ListItemIcon>}
 
+            <ListItemText primary={item.primaryText} />
+
             {item.nestedItems && (
-              <ListItemSecondaryAction>
+              <ListItemSecondaryAction
+                onClick={() => {
+                  this.handleNestedItemsClick(item)
+                }}
+              >
                 <IconButton style={{ paddingLeft: useMinified ? 30 : undefined }}>
                   <KeyboardArrowRight color={'action'} />
                 </IconButton>
               </ListItemSecondaryAction>
             )}
-
-            <ListItemText primary={item.primaryText} />
           </ListItem>
         )
       }

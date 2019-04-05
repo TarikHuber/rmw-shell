@@ -45,7 +45,13 @@ const getThemeSource = (t, ts) => {
         const source = ts[i]['source']
         const palette = source != null ? source.palette : {}
 
-        return createMuiTheme({ ...source, palette: { ...palette, type: t.isNightModeOn ? 'dark' : 'light' } })
+        return createMuiTheme({
+          ...source,
+          typography: {
+            useNextVariants: true
+          },
+          palette: { ...palette, type: t.isNightModeOn ? 'dark' : 'light' }
+        })
       }
     }
   }

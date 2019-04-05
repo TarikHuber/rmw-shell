@@ -4,7 +4,7 @@ import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import Utils from '@date-io/moment'
-import createHistory from 'history/createBrowserHistory'
+import { createBrowserHistory } from 'history'
 import getThemeSource from '../../config/themes'
 import locales, { getLocaleMessages, addLocalizationData } from '../../config/locales'
 import { IntlProvider } from 'react-intl'
@@ -19,7 +19,7 @@ import { watchAuth, clearInitialization, initConnection, watchList, initMessagin
 import Helmet from 'react-helmet'
 
 addLocalizationData(locales)
-const history = createHistory()
+const history = createBrowserHistory()
 
 class Root extends Component {
   handlePresence = (user, firebaseApp) => {

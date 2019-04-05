@@ -21,7 +21,7 @@
   "dependencies": {
     "@material-ui/lab": "^3.0.0-alpha.25",
     "classnames": "^2.2.6",
-    "expect": "^24.6.0",
+    "expect": "^24.7.1",
     "firekit-provider": "^1.0.1",
     "history": "^4.9.0",
     "moment": "^2.24.0"
@@ -79,7 +79,7 @@
     "eslint-plugin-import": "^2.16.0",
     "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-react": "^7.12.4",
-    "firebase": "^5.9.2",
+    "firebase": "^5.9.3",
     "firebaseui": "^3.5.2",
     "fireform": "^0.2.13",
     "firekit": "^1.0.30",
