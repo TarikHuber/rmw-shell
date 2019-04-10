@@ -143,7 +143,7 @@ class ChatMessages extends Component {
     reader.onload = fileData => {
       let uploadTask = firebaseApp
         .storage()
-        .ref(`/user_chats/${key}`)
+        .ref(`/user_chats/${key}.jpg`)
         .putString(fileData.target.result, 'data_url')
 
       uploadTask.on(
