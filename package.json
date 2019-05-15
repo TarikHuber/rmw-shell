@@ -19,13 +19,13 @@
     "test:watch": "nwb test-react --server"
   },
   "dependencies": {
-    "@material-ui/lab": "^3.0.0-alpha.30"
+    "@material-ui/lab": "^3.0.0-alpha.25"
   },
   "peerDependencies": {
     "@date-io/moment": "1.x",
     "@material-ui/core": "3.x",
     "@material-ui/icons": "3.x",
-    "a2hs": "2.x",
+    "a2hs": "1.x",
     "downshift": "3.x",
     "firebase": "6.x",
     "firebaseui": "4.x",
