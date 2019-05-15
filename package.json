@@ -30,6 +30,7 @@
     "fireform": "0.x",
     "firekit": "1.x",
     "firekit-provider": "1.x",
+    "history": "4.x",
     "intl": "1.x",
     "intl-locales-supported": "1.x",
     "match-sorter": "3.x",
