@@ -26,6 +26,10 @@ class DeleteDialog extends Component {
   render() {
     const { intl, isDialogOpen, handleDelete, name, fullScreen, deleteUid } = this.props
 
+    if(!isDialogOpen){
+      return null
+    }
+
     return (
       <Dialog
         fullScreen={fullScreen}
