@@ -3,8 +3,7 @@ import en_messages from './en'
 import de_messages from './de'
 import en from 'react-intl/locale-data/en'
 import de from 'react-intl/locale-data/de'
-
-let areIntlLocalesSupported = require('intl-locales-supported')
+import areIntlLocalesSupported from 'intl-locales-supported'
 
 // START: Intl polyfill
 // Required for working on Safari
