@@ -25,7 +25,7 @@ class UsersToggle extends Component {
   }
 
   renderGrantItem = (list, i) => {
-    const { getValue, onChange } = this.props
+    const { getValue, onChange, onClick } = this.props
 
     const userUid = list[i].key
     const user = list[i].val
@@ -33,7 +33,7 @@ class UsersToggle extends Component {
 
     return (
       <div key={i}>
-        <ListItem key={userUid} id={userUid}>
+        <ListItem key={userUid} id={userUid} onClick={onClick ? () => onClick(userUid, user) : undefined}>
           <AltIconAvatar alt="person" src={user.photoURL} iconName="person" />
           <ListItemText
             primary={<div style={{ fontFamily: 'Roboto' }}>{user.displayName}</div>}
