@@ -1,9 +1,10 @@
+/* eslint-disable react/prop-types */
 import React from 'react'
 import moment from 'moment'
 import { DatePicker } from 'material-ui-pickers'
 
 const DateField = props => {
-  const { input, dateFormat, inputFormat, ...rest } = props
+  const { input, dateFormat, inputFormat, yearPuffer, ...rest } = props
   const { onChange, value } = input
 
   const handleChange = value => {
@@ -11,7 +12,6 @@ const DateField = props => {
   }
 
   const handleBlur = e => {
-    const { yearPuffer } = props
     const value = e.target.value
     if (inputFormat && value != null && value.length > 1) {
       const rawMoment = moment(e.target.value, inputFormat)
