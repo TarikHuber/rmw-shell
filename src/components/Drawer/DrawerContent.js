@@ -83,5 +83,5 @@ export default compose(
   injectIntl,
   withRouter,
   withAppConfigs,
-  withTheme()
+ withTheme
 )(DrawerContent)

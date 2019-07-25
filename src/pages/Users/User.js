@@ -229,4 +229,4 @@ const mapStateToProps = (state, ownProps) => {
 export default connect(
   mapStateToProps,
   { setSimpleValue, change, submit, ...filterActions }
-)(injectIntl(withRouter(withFirebase(withStyles(styles, { withTheme: true })(withTheme()(User))))))
+)(injectIntl(withRouter(withFirebase(withStyles(styles, { withTheme: true })(withTheme(User))))))

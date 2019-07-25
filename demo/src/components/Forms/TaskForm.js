@@ -115,4 +115,4 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps, { setDialogIsOpen }
-)(injectIntl(withRouter(withTheme()(reduxForm({ form: 'task' })(Form)))))
+)(injectIntl(withRouter(withTheme(reduxForm({ form: 'task' })(Form)))))

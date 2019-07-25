@@ -59,5 +59,5 @@ Drivers.propTypes = {
 export default compose(
   injectIntl,
   withRouter,
-  withTheme()
+  withTheme
 )(Drivers)

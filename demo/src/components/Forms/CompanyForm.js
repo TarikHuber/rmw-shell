@@ -140,4 +140,4 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps, { setDialogIsOpen }
-)(injectIntl(withRouter(withTheme()(Form))))
+)(injectIntl(withRouter(withTheme(Form))))

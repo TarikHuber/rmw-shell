@@ -12,8 +12,8 @@ const styles = theme => ({
   root: {
     fontFamily: theme.typography.fontFamily,
     position: 'relative',
-    marginRight: theme.spacing.unit,
-    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing(1),
+    marginLeft: theme.spacing(1),
     flex: 1,
     borderRadius: 4,
     minHeight: 48,
@@ -33,8 +33,8 @@ const styles = theme => ({
     fontFamily: theme.typography.fontFamily,
     position: 'relative',
     minHeight: 48,
-    marginRight: theme.spacing.unit,
-    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing(1),
+    marginLeft: theme.spacing(1),
     flex: 1,
     borderRadius: 4,
     display: 'block',
@@ -42,7 +42,7 @@ const styles = theme => ({
     width: 240
   },
   search: {
-    width: theme.spacing.unit * 5,
+    width: theme.spacing(1) * 5,
     height: '100%',
     position: 'absolute',
     pointerEvents: 'none',
@@ -52,7 +52,7 @@ const styles = theme => ({
   },
   input: {
     font: 'inherit',
-    padding: `${theme.spacing.unit * 2}px 0px 0px ${theme.spacing.unit * 5}px`,
+    padding: `${theme.spacing(1) * 2}px 0px 0px ${theme.spacing(1) * 5}px`,
     border: 0,
     display: 'block',
     verticalAlign: 'middle',
@@ -67,7 +67,7 @@ const styles = theme => ({
   },
   inputOpen: {
     font: 'inherit',
-    padding: `${theme.spacing.unit * 2}px 0px 0px ${theme.spacing.unit * 5}px`,
+    padding: `${theme.spacing(1) * 2}px 0px 0px ${theme.spacing(1) * 5}px`,
     border: 0,
     display: 'block',
     verticalAlign: 'middle',
@@ -93,7 +93,7 @@ const SearchField = ({ classes, filterName, setSearch, searchValue, alwaysOpen }
   return (
     <div className={classNames(rootClass)}>
       <div className={classes.search}>
-        <Search/>
+        <Search />
       </div>
       <input
         autoComplete="off"
@@ -127,4 +127,4 @@ const mapStateToProps = (state, ownProps) => {
 export default connect(
   mapStateToProps,
   { ...filterActions }
-)(injectIntl(withTheme()(withStyles(styles, { withTheme: true }, withWidth())(SearchField))))
+)(injectIntl(withTheme(withStyles(styles, { withTheme: true }, withWidth())(SearchField))))

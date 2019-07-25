@@ -260,4 +260,4 @@ const mapStateToProps = (state, ownPops) => {
 export default connect(
   mapStateToProps,
   { setSimpleValue, setPersistentValue }
-)(injectIntl(withTheme()(withRouter(withFirebase(withAppConfigs(ChatMessages))))))
+)(injectIntl(withTheme(withRouter(withFirebase(withAppConfigs(ChatMessages))))))

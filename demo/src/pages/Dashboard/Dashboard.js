@@ -217,4 +217,4 @@ const mapStateToProps = (state) => {
 
 export default connect(
   mapStateToProps
-)(injectIntl(withTheme()(withFirebase(Dashboard))))
+)(injectIntl(withTheme(withFirebase(Dashboard))))

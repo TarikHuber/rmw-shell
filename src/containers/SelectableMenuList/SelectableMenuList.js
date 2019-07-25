@@ -160,4 +160,4 @@ SelectableMenuList.propTypes = {
   index: PropTypes.string.isRequired
 }
 
-export default withTheme()(withStyles(styles, { withTheme: true })(SelectableMenuList))
+export default withTheme(withStyles(styles, { withTheme: true })(SelectableMenuList))

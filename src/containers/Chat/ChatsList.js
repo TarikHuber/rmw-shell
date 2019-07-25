@@ -258,6 +258,6 @@ export default connect(
   { setPersistentValue }
 )(
   injectIntl(
-    withFirebase(withAppConfigs(withRouter(withWidth()(withTheme()(withStyles(() => {}, { withTheme: true })(Chats))))))
+    withFirebase(withAppConfigs(withRouter(withWidth()(withTheme(withStyles(() => {}, { withTheme: true })(Chats))))))
   )
 )

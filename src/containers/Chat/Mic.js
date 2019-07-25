@@ -186,4 +186,4 @@ ChatMic.propTypes = {
 export default connect(
   () => {},
   { setSimpleValue }
-)(injectIntl(withWidth()(withTheme()(withRouter(withFirebase(ChatMic))))))
+)(injectIntl(withWidth()(withTheme(withRouter(withFirebase(ChatMic))))))

@@ -21,10 +21,10 @@ const styles = theme => ({
     height: 120
   },
   margin: {
-    margin: theme.spacing.unit
+    margin: theme.spacing(1)
   },
   withoutLabel: {
-    marginTop: theme.spacing.unit * 3
+    marginTop: theme.spacing(1) * 3
   },
   root: {
     backgroundColor: theme.palette.background.default,

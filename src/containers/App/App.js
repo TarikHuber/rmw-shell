@@ -6,12 +6,15 @@ import configureStore from '../../store'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import A2HSProvider from 'a2hs'
+import RootAsync from 'rmw-shell/lib/containers/Root'
 
 const Loading = () => <LoadingComponent />
+/*
 export const RootAsync = Loadable({
   loader: () => import('rmw-shell/lib/containers/Root'),
   loading: Loading
 })
+*/
 
 class App extends Component {
   render() {

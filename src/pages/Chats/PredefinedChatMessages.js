@@ -222,7 +222,7 @@ export default withFirebase(
     ),
     withFirebase,
     injectIntl,
-    withTheme(),
+    withTheme,
     withRouter
   )(PredefinedChatMessages)
 )

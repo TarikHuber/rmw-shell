@@ -149,5 +149,5 @@ export default compose(
   injectIntl,
   withRouter,
   withFirebase,
-  withTheme()
+ withTheme
 )(EditActivity)

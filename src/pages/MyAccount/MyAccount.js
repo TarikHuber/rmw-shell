@@ -52,10 +52,10 @@ const styles = theme => ({
     height: 120
   },
   margin: {
-    margin: theme.spacing.unit
+    margin: theme.spacing(1)
   },
   withoutLabel: {
-    marginTop: theme.spacing.unit * 3
+    marginTop: theme.spacing(1) * 3
   },
   textField: {
     //flexBasis: 200,
@@ -78,20 +78,20 @@ export class MyAccount extends Component {
 
   getProviderIcon = p => {
     switch (p) {
-    case 'google.com':
-      return <GoogleIcon />
+      case 'google.com':
+        return <GoogleIcon />
 
-    case 'facebook.com':
-      return <FacebookIcon />
+      case 'facebook.com':
+        return <FacebookIcon />
 
-    case 'twitter.com':
-      return <TwitterIcon />
+      case 'twitter.com':
+        return <TwitterIcon />
 
-    case 'github.com':
-      return <GitHubIcon />
+      case 'github.com':
+        return <GitHubIcon />
 
-    default:
-      return undefined
+      default:
+        return undefined
     }
   }
 
@@ -821,4 +821,4 @@ const mapStateToProps = state => {
 export default connect(
   mapStateToProps,
   { setSimpleValue, change, submit, setDialogIsOpen, setPersistentValue }
-)(injectIntl(withRouter(withTheme()(withFirebase(withAppConfigs(withStyles(styles, { withTheme: true })(MyAccount)))))))
+)(injectIntl(withRouter(withTheme(withFirebase(withAppConfigs(withStyles(styles, { withTheme: true })(MyAccount)))))))

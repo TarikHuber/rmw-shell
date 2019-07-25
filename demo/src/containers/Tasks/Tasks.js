@@ -272,4 +272,4 @@ const mapStateToProps = (state) => {
 export default connect(
   mapStateToProps,
   { setDialogIsOpen }
-)(injectIntl(withWidth()(withTheme()(withRouter(withFirebase(Tasks))))))
+)(injectIntl(withWidth()(withTheme(withRouter(withFirebase(Tasks))))))

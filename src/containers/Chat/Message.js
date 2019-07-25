@@ -230,4 +230,4 @@ const mapStateToProps = state => {
 export default connect(
   mapStateToProps,
   { setSimpleValue }
-)(injectIntl(withTheme()(withRouter(withFirebase(ChatMessage)))))
+)(injectIntl(withTheme(withRouter(withFirebase(ChatMessage)))))

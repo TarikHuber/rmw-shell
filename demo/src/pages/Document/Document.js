@@ -128,4 +128,4 @@ const mapStateToProps = state => {
 export default connect(
   mapStateToProps,
   {}
-)(injectIntl(withFirebase(withTheme()(Document))))
+)(injectIntl(withFirebase(withTheme(Document))))

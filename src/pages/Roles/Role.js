@@ -321,4 +321,4 @@ const mapStateToProps = (state, ownProps) => {
 export default connect(
   mapStateToProps,
   { setDialogIsOpen, change, submit, ...filterActions }
-)(injectIntl(withRouter(withFirebase(withAppConfigs(withStyles(styles, { withTheme: true })(withTheme()(Role)))))))
+)(injectIntl(withRouter(withFirebase(withAppConfigs(withStyles(styles, { withTheme: true })(withTheme(Role)))))))

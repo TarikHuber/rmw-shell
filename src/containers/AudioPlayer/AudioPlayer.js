@@ -128,4 +128,4 @@ export class AudioPlayer extends Component {
   }
 }
 
-export default withTheme()(AudioPlayer)
+export default withTheme(AudioPlayer)

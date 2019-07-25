@@ -122,4 +122,4 @@ const mapStateToProps = (state, ownProps) => {
 export default connect(
   mapStateToProps,
   { setSimpleValue }
-)(injectIntl(withRouter(withFirebase(withTheme()(UserRoles)))))
+)(injectIntl(withRouter(withFirebase(withTheme(UserRoles)))))
