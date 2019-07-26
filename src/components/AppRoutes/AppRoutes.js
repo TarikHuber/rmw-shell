@@ -13,7 +13,6 @@ const getAppRoutes = firebaseLoader => {
   const AsyncMyAccount = MyLoadable({ loader: () => import('../../pages/MyAccount') })
   const AsyncRole = MyLoadable({ loader: () => import('../../pages/Roles/Role') })
   const AsyncRoles = MyLoadable({ loader: () => import('../../pages/Roles/Roles') }, [AsyncRole])
-  const AsyncPredefinedChatMessages = MyLoadable({ loader: () => import('../../pages/Chats/PredefinedChatMessages') })
 
   const AsyncCreateChat = MyLoadable({ loader: () => import('../../pages/Chats/CreateChat') })
   const AsyncChats = MyLoadable({ loader: () => import('../../pages/Chats/Chats') })
@@ -30,7 +29,6 @@ const getAppRoutes = firebaseLoader => {
     <RestrictedRoute type="private" path="/my_account" exact component={AsyncMyAccount} />,
     <RestrictedRoute type="private" path="/roles" exact component={AsyncRoles} />,
     <RestrictedRoute type="private" path="/roles/edit/:uid/:editType" exact component={AsyncRole} />,
-    <RestrictedRoute type="private" path="/predefined_chat_messages" exact component={AsyncPredefinedChatMessages} />,
     <RestrictedRoute type="private" path="/public_chats" exact component={AsyncPublicChats} />,
     <RestrictedRoute type="private" path="/chats" exact component={AsyncChats} />,
     <RestrictedRoute type="private" path="/chats/create" exact component={AsyncCreateChat} />,

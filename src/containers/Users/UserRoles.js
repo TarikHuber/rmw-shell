@@ -1,8 +1,9 @@
-import Avatar from '@material-ui/core/Avatar'
-import Divider from '@material-ui/core/Divider'
 import AccountBox from '@material-ui/icons/AccountBox'
+import AltIconAvatar from '../../components/AltIconAvatar'
+import Divider from '@material-ui/core/Divider'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
 import ListItemText from '@material-ui/core/ListItemText'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
@@ -56,20 +57,16 @@ export class UserRoles extends Component {
     return (
       <div key={key}>
         <ListItem key={i} id={i}>
-          {val.photoURL && <Avatar src={val.photoURL} alt="person" />}
-          {!val.photoURL && (
-            <Avatar>
-              {' '}
-              <AccountBox />{' '}
-            </Avatar>
-          )}
+          <AltIconAvatar icon={<AccountBox />} />
           <ListItemText primary={val.name} secondary={val.description} />
-          <Switch
-            checked={userRoles[key] === true}
-            onChange={(e, isInputChecked) => {
-              this.handleRoleToggleChange(e, isInputChecked, key)
-            }}
-          />
+          <ListItemSecondaryAction>
+            <Switch
+              checked={userRoles[key] === true}
+              onChange={(e, isInputChecked) => {
+                this.handleRoleToggleChange(e, isInputChecked, key)
+              }}
+            />
+          </ListItemSecondaryAction>
         </ListItem>
         <Divider inset />
       </div>

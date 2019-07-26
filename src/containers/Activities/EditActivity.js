@@ -1,11 +1,11 @@
 import Activity from '../../containers/Activity'
+import Delete from '@material-ui/icons/Delete'
 import DeleteDialog from '../../containers/DeleteDialog'
 import FireForm from 'fireform'
-import Save from '@material-ui/icons/Save'
-import Delete from '@material-ui/icons/Delete'
 import IconButton from '@material-ui/core/IconButton'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
+import Save from '@material-ui/icons/Save'
 import Scrollbar from '../../components/Scrollbar'
 import Tooltip from '@material-ui/core/Tooltip'
 import isGranted from '../../utils/auth'
@@ -149,5 +149,5 @@ export default compose(
   injectIntl,
   withRouter,
   withFirebase,
- withTheme
+  withTheme
 )(EditActivity)

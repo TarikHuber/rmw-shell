@@ -4,7 +4,7 @@ import MenuItem from '@material-ui/core/MenuItem'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { Field, reduxForm, formValueSelector } from 'redux-form'
-import { TextField } from 'redux-form-material-ui'
+import TextField from 'rmw-shell/lib/components/ReduxFormFields/TextField'
 import { connect } from 'react-redux'
 import { getList } from 'firekit'
 import { injectIntl, intlShape } from 'react-intl'
@@ -15,30 +15,27 @@ import { VirtualizedSelectField } from 'muishift'
 
 class Form extends Component {
   render() {
-    const {
-      handleSubmit,
-      intl,
-      initialized,
-      match,
-      users
-    } = this.props
+    const { handleSubmit, intl, initialized, match, users } = this.props
 
     const uid = match.params.uid
 
     return (
-      <form onSubmit={handleSubmit} style={{
-        height: '100%',
-        alignItems: 'strech',
-        display: 'flex',
-        flexWrap: 'wrap',
-        justifyContent: 'center'
-      }}>
-        <button type='submit' style={{ display: 'none' }} />
+      <form
+        onSubmit={handleSubmit}
+        style={{
+          height: '100%',
+          alignItems: 'strech',
+          display: 'flex',
+          flexWrap: 'wrap',
+          justifyContent: 'center'
+        }}
+      >
+        <button type="submit" style={{ display: 'none' }} />
 
         <div>
           <div>
             <Field
-              name='title'
+              name="title"
               disabled={!initialized}
               component={TextField}
               placeholder={intl.formatMessage({ id: 'title_hint' })}
@@ -48,7 +45,7 @@ class Form extends Component {
 
           <div>
             <Field
-              name='description'
+              name="description"
               disabled={!initialized}
               component={TextField}
               multiline
@@ -60,23 +57,23 @@ class Form extends Component {
           <br />
           <div>
             <Field
-              name='helper'
+              name="helper"
               rowHeight={54}
               component={VirtualizedSelectField}
-              items={users.map(snap => (snap && snap.val) ? snap.val : {})}
-              itemToString={item => item ? item.displayName : ''}
-              inputProps={{ placeholder: intl.formatMessage({ id: 'helper_hint' }), label: intl.formatMessage({ id: 'helper_label' }) }}
+              items={users.map(snap => (snap && snap.val ? snap.val : {}))}
+              itemToString={item => (item ? item.displayName : '')}
+              inputProps={{
+                placeholder: intl.formatMessage({ id: 'helper_hint' }),
+                label: intl.formatMessage({ id: 'helper_label' })
+              }}
               renderSuggestion={({ rootProps, downshiftProps, suggestion, index }) => {
                 const { getItemProps, highlightedIndex } = downshiftProps
                 const itemProps = getItemProps({ item: suggestion })
                 const isHighlighted = highlightedIndex === index
 
                 return (
-                  <MenuItem
-                    {...itemProps}
-                    selected={isHighlighted}
-                    key={index}>
-                    <Avatar alt='avatar' src={suggestion.photoURL} />
+                  <MenuItem {...itemProps} selected={isHighlighted} key={index}>
+                    <Avatar alt="avatar" src={suggestion.photoURL} />
                     <ListItemText primary={suggestion.displayName} />
                   </MenuItem>
                 )
@@ -84,7 +81,6 @@ class Form extends Component {
             />
           </div>
         </div>
-
       </form>
     )
   }
@@ -114,5 +110,6 @@ const mapStateToProps = state => {
 }
 
 export default connect(
-  mapStateToProps, { setDialogIsOpen }
+  mapStateToProps,
+  { setDialogIsOpen }
 )(injectIntl(withRouter(withTheme(reduxForm({ form: 'task' })(Form)))))

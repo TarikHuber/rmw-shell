@@ -1,8 +1,9 @@
-import Avatar from '@material-ui/core/Avatar'
-import Divider from '@material-ui/core/Divider'
+import AltIconAvatar from '../../components/AltIconAvatar'
 import Check from '@material-ui/icons/Check'
+import Divider from '@material-ui/core/Divider'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
 import ListItemText from '@material-ui/core/ListItemText'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
@@ -57,17 +58,16 @@ export class UserGrants extends Component {
     return (
       <div key={key}>
         <ListItem key={i} id={i}>
-          <Avatar>
-            {' '}
-            <Check />{' '}
-          </Avatar>
+          <AltIconAvatar icon={<Check />} />
           <ListItemText primary={intl.formatMessage({ id: `grant_${val}` })} secondary={val} />
-          <Switch
-            checked={userGrants[key] === true}
-            onChange={(e, isInputChecked) => {
-              this.handleGrantToggleChange(e, isInputChecked, key)
-            }}
-          />
+          <ListItemSecondaryAction>
+            <Switch
+              checked={userGrants[key] === true}
+              onChange={(e, isInputChecked) => {
+                this.handleGrantToggleChange(e, isInputChecked, key)
+              }}
+            />
+          </ListItemSecondaryAction>
         </ListItem>
         <Divider inset />
       </div>

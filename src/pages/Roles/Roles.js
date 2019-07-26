@@ -1,7 +1,7 @@
 import AccountBox from '@material-ui/icons/AccountBox'
 import Activity from '../../containers/Activity'
 import Add from '@material-ui/icons/Add'
-import Avatar from '@material-ui/core/Avatar'
+import AltIconAvatar from '../../components/AltIconAvatar'
 import Button from '@material-ui/core/Button'
 import Divider from '@material-ui/core/Divider'
 import List from '@material-ui/core/List'
@@ -53,13 +53,7 @@ export class Roles extends Component {
           }}
           id={i}
         >
-          {val.photoURL && <Avatar src={val.photoURL} alt="person" />}
-          {!val.photoURL && (
-            <Avatar>
-              {' '}
-              <AccountBox />{' '}
-            </Avatar>
-          )}
+          <AltIconAvatar icon={<AccountBox />} />
           <ListItemText primary={val.name} secondary={val.description} />
         </ListItem>
         <Divider inset />

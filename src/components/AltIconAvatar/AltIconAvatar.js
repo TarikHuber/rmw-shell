@@ -1,27 +1,23 @@
 import React from 'react'
 import Avatar from '@material-ui/core/Avatar'
-import Icon from '@material-ui/core/Icon'
+import ListItemAvatar from '@material-ui/core/ListItemAvatar'
 
 const AltIconAvatar = props => {
   const { src, iconName, icon, ...rest } = props
 
   if (src) {
-    return <Avatar src={src} {...rest} />
-  }
-
-  if (icon) {
-    return <Avatar {...rest}> {icon} </Avatar>
-  }
-
-  if (iconName) {
     return (
-      <Avatar {...rest}>
-        <Icon> {iconName}</Icon>
-      </Avatar>
+      <ListItemAvatar>
+        <Avatar src={src} {...rest} />
+      </ListItemAvatar>
+    )
+  } else {
+    return (
+      <ListItemAvatar>
+        <Avatar {...rest}> {icon} </Avatar>{' '}
+      </ListItemAvatar>
     )
   }
-
-  return <Avatar {...rest} />
 }
 
 export default AltIconAvatar

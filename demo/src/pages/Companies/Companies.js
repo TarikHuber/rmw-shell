@@ -17,19 +17,13 @@ class Drivers extends Component {
     return (
       <div key={key}>
         <ListItem onClick={() => history.push(`/companies/edit/${key}`)} key={key}>
-          <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'space-between' }}>
-            <AltIconAvatar alt="company" src={val.photoURL} iconName={'work'} />
+          <AltIconAvatar alt="company" src={val.photoURL} iconName={'work'} />
 
-            <ListItemText
-              primary={val.name}
-              secondary={val.user ? val.user.label : undefined}
-              style={{ minWidth: 120 }}
-            />
-            <ListItemText
-              primary={val.subcontractor ? val.subcontractor.label : undefined}
-              secondary={val.vehicle ? val.vehicle.label : undefined}
-            />
-          </div>
+          <ListItemText
+            primary={val.name}
+            secondary={val.user ? val.user.label : undefined}
+            style={{ minWidth: 120 }}
+          />
         </ListItem>
         <Divider inset={true} />
       </div>
