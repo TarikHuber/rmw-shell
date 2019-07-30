@@ -14,6 +14,8 @@ class Drivers extends Component {
   renderItem = (key, val) => {
     const { history } = this.props
 
+    console.log('prop', this.props)
+
     return (
       <div key={key}>
         <ListItem onClick={() => history.push(`/companies/edit/${key}`)} key={key}>

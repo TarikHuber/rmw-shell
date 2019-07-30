@@ -1,16 +1,17 @@
+import Context from '../containers/AppConfigProvider/Context'
 import React from 'react'
-import PropTypes from 'prop-types'
 import config from '../config'
 
 const withAppConfigs = Component => {
-  const ChildComponent = (props, context) => {
-    const { appConfig } = context
-
-    return <Component appConfig={{ ...config, ...appConfig }} {...props} />
-  }
-
-  ChildComponent.contextTypes = {
-    appConfig: PropTypes.object.isRequired
+  const ChildComponent = props => {
+    return (
+      <Context.Consumer>
+        {value => {
+          const { appConfig } = value || {}
+          return <Component appConfig={{ ...config, ...appConfig }} {...props} />
+        }}
+      </Context.Consumer>
+    )
   }
 
   return ChildComponent

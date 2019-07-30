@@ -1,28 +1,67 @@
-import AppConfigProvider from '../../containers/AppConfigProvider'
+import AppConfigProvider from '../../containers/AppConfigProvider/Provider'
 import AppLayout from '../../containers/AppLayout'
-import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider'
+import CssBaseline from '@material-ui/core/CssBaseline'
+import Helmet from 'react-helmet'
 import PropTypes from 'prop-types'
-import React, { Component } from 'react'
+import React, { Component, useEffect } from 'react'
 import Utils from '@date-io/moment'
-import { createBrowserHistory } from 'history'
 import getThemeSource from '../../config/themes'
 import locales, { getLocaleMessages, addLocalizationData } from '../../config/locales'
 import { IntlProvider } from 'react-intl'
 import { MuiPickersUtilsProvider } from 'material-ui-pickers'
 import { Router, Route, Switch } from 'react-router-dom'
-import { connect } from 'react-redux'
+import { ThemeProvider } from '@material-ui/styles'
+import { bindActionCreators } from 'redux'
+import { connect, useSelector, shallowEqual, useDispatch } from 'react-redux'
+import { createBrowserHistory } from 'history'
 import { createMuiTheme } from '@material-ui/core/styles'
 import { initializeMessaging } from '../../utils/messaging'
 import { saveAuthorisation } from '../../utils/auth'
 import { setPersistentValue } from '../../store/persistentValues/actions'
 import { watchAuth, clearInitialization, initConnection, watchList, initMessaging, watchPath } from 'firekit'
-import Helmet from 'react-helmet'
 
 addLocalizationData(locales)
 const history = createBrowserHistory()
 
-class Root extends Component {
-  handlePresence = (user, firebaseApp) => {
+const getActions = dispatch => {
+  return bindActionCreators(
+    {
+      watchAuth,
+      clearInitialization,
+      watchConnection: initConnection,
+      watchList,
+      watchPath,
+      initMessaging,
+      setPersistentValue
+    },
+    dispatch
+  )
+}
+
+const Root = props => {
+  const { appConfig } = props
+  const locale = useSelector(state => state.locale, shallowEqual)
+  const themeSource = useSelector(state => state.themeSource, shallowEqual)
+  const notificationPermissionRequested = useSelector(
+    state => (state.persistentValues ? state.persistentValues.notificationPermissionRequested : true),
+    shallowEqual
+  )
+
+  const {
+    watchAuth,
+    clearInitialization,
+    watchConnection,
+    watchList,
+    watchPath,
+    initMessaging,
+    setPersistentValue
+  } = getActions(useDispatch())
+
+  const messages = { ...getLocaleMessages(locale, locales), ...getLocaleMessages(locale, appConfig.locales) }
+  const source = getThemeSource(themeSource, appConfig.themes)
+  const theme = createMuiTheme(source)
+
+  const handlePresence = (user, firebaseApp) => {
     let myConnectionsRef = firebaseApp.database().ref(`users/${user.uid}/connections`)
 
     let lastOnlineRef = firebaseApp.database().ref(`users/${user.uid}/lastOnline`)
@@ -32,14 +71,12 @@ class Root extends Component {
     con.onDisconnect().remove()
   }
 
-  onAuthStateChanged = (user, firebaseApp) => {
-    const { clearInitialization, watchConnection, watchList, watchPath, appConfig } = this.props
-
+  const onAuthStateChanged = (user, firebaseApp) => {
     saveAuthorisation(user)
     clearInitialization()
 
     if (user) {
-      this.handlePresence(user, firebaseApp)
+      handlePresence(user, firebaseApp)
       setTimeout(() => {
         watchConnection(firebaseApp)
       }, 1000)
@@ -76,7 +113,7 @@ class Root extends Component {
 
       if (appConfig.onAuthStateChanged) {
         try {
-          appConfig.onAuthStateChanged(user, this.props, firebaseApp)
+          appConfig.onAuthStateChanged(user, props, firebaseApp)
         } catch (err) {
           console.warn(err)
         }
@@ -87,7 +124,7 @@ class Root extends Component {
         .ref(`users/${user.uid}`)
         .update(publicUserData)
 
-      initializeMessaging({ ...this.props, firebaseApp, history, auth: userData }, true)
+      initializeMessaging({ ...props, initMessaging, firebaseApp, history, auth: userData }, true)
 
       return userData
     } else {
@@ -95,35 +132,22 @@ class Root extends Component {
     }
   }
 
-  UNSAFE_componentWillMount() {
-    const { watchAuth, appConfig } = this.props
-
+  useEffect(() => {
     appConfig.firebaseLoad().then(({ firebaseApp }) => {
-      watchAuth(firebaseApp, user => this.onAuthStateChanged(user, firebaseApp))
+      watchAuth(firebaseApp, user => onAuthStateChanged(user, firebaseApp))
     })
-  }
+  }, [])
 
-  componentWillUnmount() {
-    //const { clearApp }= this.props;
-    //clearApp(this.firebaseApp); //TODO: add it after firekit update
-  }
-
-  render() {
-    const { appConfig, locale, themeSource } = this.props
-
-    const messages = { ...getLocaleMessages(locale, locales), ...getLocaleMessages(locale, appConfig.locales) }
-
-    const source = getThemeSource(themeSource, appConfig.themes)
-    const theme = createMuiTheme(source)
-
-    return (
-      <div>
-        <Helmet>
-          <link rel="stylesheet" type="text/css" href="https://cdn.firebase.com/libs/firebaseui/3.0.0/firebaseui.css" />
-        </Helmet>
-        <AppConfigProvider appConfig={appConfig}>
-          <MuiPickersUtilsProvider utils={Utils}>
-            <MuiThemeProvider theme={theme}>
+  return (
+    <div>
+      <Helmet>
+        <link rel="stylesheet" type="text/css" href="https://cdn.firebase.com/libs/firebaseui/3.0.0/firebaseui.css" />
+      </Helmet>
+      <AppConfigProvider appConfig={appConfig}>
+        <MuiPickersUtilsProvider utils={Utils}>
+          <ThemeProvider theme={theme}>
+            <React.Fragment>
+              <CssBaseline />
               <IntlProvider locale={locale} key={locale} messages={messages}>
                 <Router history={history}>
                   <Switch>
@@ -131,41 +155,12 @@ class Root extends Component {
                   </Switch>
                 </Router>
               </IntlProvider>
-            </MuiThemeProvider>
-          </MuiPickersUtilsProvider>
-        </AppConfigProvider>
-      </div>
-    )
-  }
+            </React.Fragment>
+          </ThemeProvider>
+        </MuiPickersUtilsProvider>
+      </AppConfigProvider>
+    </div>
+  )
 }
 
-Root.propTypes = {
-  locale: PropTypes.string.isRequired,
-  themeSource: PropTypes.object.isRequired
-}
-
-const mapStateToProps = state => {
-  const { locale, themeSource, persistentValues, simpleValues } = state
-
-  const notificationPermissionRequested = persistentValues.notificationPermissionRequested
-
-  return {
-    locale,
-    themeSource,
-    notificationPermissionRequested,
-    simpleValues
-  }
-}
-
-export default connect(
-  mapStateToProps,
-  {
-    watchAuth,
-    clearInitialization,
-    watchConnection: initConnection,
-    watchList,
-    watchPath,
-    initMessaging,
-    setPersistentValue
-  }
-)(Root)
+export default Root

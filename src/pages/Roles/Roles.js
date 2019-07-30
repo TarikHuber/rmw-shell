@@ -10,6 +10,7 @@ import ListItemText from '@material-ui/core/ListItemText'
 import React, { Component } from 'react'
 import ReactList from 'react-list'
 import Scrollbar from '../../components/Scrollbar/Scrollbar'
+import { Fab } from '@material-ui/core'
 import { connect } from 'react-redux'
 import { getList, isLoading } from 'firekit'
 import { injectIntl, intlShape } from 'react-intl'
@@ -79,9 +80,9 @@ export class Roles extends Component {
           <div style={{ float: 'left', clear: 'both' }} />
 
           <div style={{ position: 'fixed', right: 18, zIndex: 3, bottom: 18 }}>
-            <Button variant="fab" color="secondary" onClick={this.handleCreateClick}>
+            <Fab color="secondary" onClick={this.handleCreateClick}>
               <Add className="material-icons" />
-            </Button>
+            </Fab>
           </div>
         </div>
       </Activity>

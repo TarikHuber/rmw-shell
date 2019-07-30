@@ -4,7 +4,7 @@ import { Scrollbars } from 'react-custom-scrollbars'
 const Scrollbar = props => {
   const { ...rest } = props
 
-  return <Scrollbars {...rest} />
+  return <Scrollbars hideTracksWhenNotNeeded {...rest} />
 }
 
 export default Scrollbar

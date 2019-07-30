@@ -11,9 +11,9 @@ import classNames from 'classnames'
 import drawerActions from '../../store/drawer/actions'
 import withWidth, { isWidthDown } from '@material-ui/core/withWidth'
 import { Helmet } from 'react-helmet'
-import { compose } from 'redux'
-import { connect } from 'react-redux'
+import { compose, bindActionCreators } from 'redux'
 import { injectIntl } from 'react-intl'
+import { shallowEqual, useSelector, useDispatch } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles'
 
 const drawerWidth = 240
@@ -61,155 +61,122 @@ const styles = theme => ({
   }
 })
 
-class Activity extends React.Component {
-  handleDrawerToggle = () => {
-    const { setDrawerMobileOpen, drawer } = this.props
-    setDrawerMobileOpen(!drawer.mobileOpen)
-  }
+const Activity = ({
+  width,
+  classes,
+  theme,
+  children,
+  intl,
+  title,
+  pageTitle,
+  appBarContent,
+  isLoading,
+  onBackClick
+}) => {
+  const drawer = useSelector(state => state.drawer, shallowEqual)
+  const isOffline = useSelector(({ connection }) => (connection ? !connection.isConnected : false), shallowEqual)
+  const { setDrawerMobileOpen, setDrawerOpen } = bindActionCreators({ ...drawerActions }, useDispatch())
 
-  handleDrawerOpen = () => {
-    const { setDrawerOpen } = this.props
-    setDrawerOpen(true)
-  }
-
-  handleDrawerMenuClick = () => {
-    const { width, drawer } = this.props
+  const handleDrawerMenuClick = () => {
     const smDown = isWidthDown('sm', width)
 
     if (!drawer.open) {
-      this.handleDrawerOpen()
+      setDrawerOpen(true)
       if (smDown) {
-        this.handleDrawerToggle()
+        setDrawerMobileOpen(!drawer.mobileOpen)
       }
     } else {
-      this.handleDrawerToggle()
+      setDrawerMobileOpen(!drawer.mobileOpen)
     }
   }
 
-  handleDrawerClose = () => {
-    const { setDrawerOpen } = this.props
+  const handleDrawerClose = () => {
     setDrawerOpen(false)
   }
 
-  render() {
-    const {
-      classes,
-      theme,
-      children,
-      drawer,
-      intl,
-      title,
-      pageTitle,
-      width,
-      appBarContent,
-      isLoading,
-      onBackClick,
-      isOffline
-    } = this.props
+  let headerTitle = ''
 
-    let headerTitle = ''
+  if (typeof title === 'string' || title instanceof String) {
+    headerTitle = title
+  }
 
-    if (typeof title === 'string' || title instanceof String) {
-      headerTitle = title
-    }
+  if (pageTitle) {
+    headerTitle = pageTitle
+  }
 
-    if (pageTitle) {
-      headerTitle = pageTitle
-    }
+  //const smDown = width === 'sm' || width === 'xs'
+  const smDown = isWidthDown('sm', width)
 
-    //const smDown = width === 'sm' || width === 'xs'
-    const smDown = isWidthDown('sm', width)
+  return (
+    <div className={classes.root}>
+      <Helmet>
+        <meta name="theme-color" content={theme.palette.primary.main} />
+        <meta name="apple-mobile-web-app-status-bar-style" content={theme.palette.primary.main} />
+        <meta name="msapplication-navbutton-color" content={theme.palette.primary.main} />
+        <title>{headerTitle}</title>
+      </Helmet>
 
-    return (
-      <div className={classes.root}>
-        <Helmet>
-          <meta name="theme-color" content={theme.palette.primary.main} />
-          <meta name="apple-mobile-web-app-status-bar-style" content={theme.palette.primary.main} />
-          <meta name="msapplication-navbutton-color" content={theme.palette.primary.main} />
-          <title>{headerTitle}</title>
-        </Helmet>
-
-        <AppBar
-          position={width !== 'sm' && width !== 'xs' ? 'absolute' : undefined}
-          className={
-            width !== 'sm' && width !== 'xs'
-              ? classNames(classes.appBar, drawer.open && classes.appBarShift)
-              : classes.appBar
-          }
-        >
-          <Toolbar disableGutters={true}>
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              onClick={this.handleDrawerMenuClick}
-              className={classNames(
-                !smDown && classes.menuButton,
-                drawer.open && !smDown && classes.hide,
-                onBackClick && classes.hide
-              )}
-            >
-              <MenuIcon />
-            </IconButton>
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              onClick={onBackClick}
-              className={classNames(!smDown && classes.menuButton, !onBackClick && classes.hide)}
-            >
-              <ChevronLeft />
-            </IconButton>
-            {!onBackClick && drawer.open && <div style={{ marginRight: 32 }} />}
-
-            <Typography variant="h6" color="inherit" noWrap>
-              {headerTitle}
-            </Typography>
-            <div className={classes.grow} />
-            {appBarContent}
-          </Toolbar>
-        </AppBar>
-        <div className={classes.toolbar} />
-        {isLoading && <LinearProgress />}
-        {isOffline && (
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              width: '100%',
-              height: 15,
-              backgroundColor: theme.palette.secondary.main
-            }}
+      <AppBar
+        position={width !== 'sm' && width !== 'xs' ? 'absolute' : undefined}
+        className={
+          width !== 'sm' && width !== 'xs'
+            ? classNames(classes.appBar, drawer.open && classes.appBarShift)
+            : classes.appBar
+        }
+      >
+        <Toolbar disableGutters={true}>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            onClick={handleDrawerMenuClick}
+            className={classNames(
+              !smDown && classes.menuButton,
+              drawer.open && !smDown && classes.hide,
+              onBackClick && classes.hide
+            )}
           >
-            <Typography variant="caption" color="textSecondary" noWrap>
-              {intl.formatMessage({ id: 'offline' })}
-            </Typography>
-          </div>
-        )}
-        <main className={classes.content}>{children}</main>
-      </div>
-    )
-  }
-}
+            <MenuIcon />
+          </IconButton>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            onClick={onBackClick}
+            className={classNames(!smDown && classes.menuButton, !onBackClick && classes.hide)}
+          >
+            <ChevronLeft />
+          </IconButton>
+          {!onBackClick && drawer.open && <div style={{ marginRight: 32 }} />}
 
-Activity.propTypes = {
-  classes: PropTypes.object.isRequired,
-  theme: PropTypes.object.isRequired,
-  drawer: PropTypes.object.isRequired
-}
-
-const mapStateToProps = state => {
-  const { drawer, connection } = state
-
-  return {
-    drawer,
-    isOffline: connection ? !connection.isConnected : false
-  }
+          <Typography variant="h6" color="inherit" noWrap>
+            {headerTitle}
+          </Typography>
+          <div className={classes.grow} />
+          {appBarContent}
+        </Toolbar>
+      </AppBar>
+      <div className={classes.toolbar} />
+      {isLoading && <LinearProgress />}
+      {isOffline && (
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            width: '100%',
+            height: 15,
+            backgroundColor: theme.palette.secondary.main
+          }}
+        >
+          <Typography variant="caption" color="textSecondary" noWrap>
+            {intl.formatMessage({ id: 'offline' })}
+          </Typography>
+        </div>
+      )}
+      <main className={classes.content}>{children}</main>
+    </div>
+  )
 }
 
 export default compose(
-  connect(
-    mapStateToProps,
-    { ...drawerActions }
-  ),
   withWidth(),
   withStyles(styles, { withTheme: true }),
   injectIntl

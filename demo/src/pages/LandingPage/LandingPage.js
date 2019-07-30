@@ -52,7 +52,7 @@ const styles = theme => ({
     },
     whiteSpace: 'nowrap'
   },
-  headline: {
+  h5: {
     paddingLeft: theme.spacing(1) * 4,
     paddingRight: theme.spacing(1) * 4,
     marginTop: theme.spacing(1),
@@ -195,7 +195,7 @@ class LandingPage extends Component {
               <img src="/rmw.svg" alt="Material-UI Logo" className={classes.logo} />
               <div className={classes.text}>
                 <Typography
-                  variant="display2"
+                  variant="h3"
                   align="center"
                   component="h1"
                   color="inherit"
@@ -204,7 +204,7 @@ class LandingPage extends Component {
                 >
                   {'REACT MOST WANTED'}
                 </Typography>
-                <Typography variant="headline" component="h2" color="inherit" gutterBottom className={classes.headline}>
+                <Typography variant="h5" component="h2" color="inherit" gutterBottom className={classes.h5}>
                   {'React Starter-Kit with all Most Wanted features.'}
                 </Typography>
                 <Button
@@ -222,7 +222,7 @@ class LandingPage extends Component {
               <div className={classes.cardsContent}>
                 <Card className={classes.card}>
                   <CardContent>
-                    <Typography variant="headline" component="h2">
+                    <Typography variant="h5" component="h2">
                       Installation
                     </Typography>
                     <br />
@@ -247,14 +247,14 @@ class LandingPage extends Component {
                 </Card>
                 <Card className={classes.card}>
                   <CardContent>
-                    <Typography variant="headline" component="h2">
+                    <Typography variant="h5" component="h2">
                       Usage
                     </Typography>
                     <br />
                     <Typography>{'Set your configuration to the App component:'}</Typography>
                     <br />
                     <Typography className={classes.pos} color="textSecondary">
-                      {'import App from \'rmw-shell\''}
+                      {"import App from 'rmw-shell'"}
                       <br />
                       {'<App appConfig={{ configureStore, ...config }} />'}
                     </Typography>
@@ -273,7 +273,7 @@ class LandingPage extends Component {
                 </Card>
                 <Card className={classes.card}>
                   <CardContent>
-                    <Typography variant="headline" component="h2">
+                    <Typography variant="h5" component="h2">
                       What is this?
                     </Typography>
                     <Typography noWrap={false} color="textSecondary">

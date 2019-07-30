@@ -18,6 +18,7 @@ import { getList } from 'firekit'
 import { injectIntl, intlShape } from 'react-intl'
 import { withFirebase } from 'firekit-provider'
 import { withRouter } from 'react-router-dom'
+import { Fab } from '@material-ui/core'
 
 class ListActivity extends Component {
   componentDidMount() {
@@ -76,7 +77,7 @@ class ListActivity extends Component {
       >
         <div style={{ height: '100%' }}>
           <Scrollbar>
-            <List ref={field => (this.list = field)}>
+            <List>
               <ReactList
                 itemRenderer={i => renderItem(list[i].key, list[i].val)}
                 length={list ? list.length : 0}
@@ -86,20 +87,19 @@ class ListActivity extends Component {
           </Scrollbar>
           <div style={{ float: 'left', clear: 'both' }} />
           {disableCreate !== true && isGranted(createGrant) && (
-            <Button
-              variant="fab"
+            <Fab
               onClick={
                 handleCreateClick != null
                   ? handleCreateClick
                   : () => {
-                    history.push(`/${name}/create`)
-                  }
+                      history.push(`/${name}/create`)
+                    }
               }
               style={{ position: 'fixed', bottom: 15, right: 20, zIndex: 99 }}
               color={'secondary'}
             >
               <Add />
-            </Button>
+            </Fab>
           )}
         </div>
         <FilterDrawer name={name} fields={fields} formatMessage={intl.formatMessage} />

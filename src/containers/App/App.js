@@ -9,6 +9,7 @@ import A2HSProvider from 'a2hs'
 import RootAsync from 'rmw-shell/lib/containers/Root'
 
 const Loading = () => <LoadingComponent />
+
 /*
 export const RootAsync = Loadable({
   loader: () => import('rmw-shell/lib/containers/Root'),
@@ -16,30 +17,27 @@ export const RootAsync = Loadable({
 })
 */
 
-class App extends Component {
-  render() {
-    const { appConfig } = this.props
-    const store = appConfig && appConfig.configureStore ? appConfig.configureStore() : configureStore()
-    const configs = { ...config, ...appConfig }
-    const { landingPage: LandingPage = false } = configs
+const App = ({ appConfig }) => {
+  const store = appConfig && appConfig.configureStore ? appConfig.configureStore() : configureStore()
+  const configs = { ...config, ...appConfig }
+  const { landingPage: LandingPage = false } = configs
 
-    return (
-      <A2HSProvider>
-        <Provider store={store}>
-          <BrowserRouter>
+  return (
+    <A2HSProvider>
+      <Provider store={store}>
+        <BrowserRouter>
+          <Switch>
+            {LandingPage && <Route path="/" exact component={LandingPage} />}
             <Switch>
-              {LandingPage && <Route path="/" exact component={LandingPage} />}
-              <Switch>
-                <Route>
-                  <RootAsync appConfig={configs} />
-                </Route>
-              </Switch>
+              <Route>
+                <RootAsync appConfig={configs} />
+              </Route>
             </Switch>
-          </BrowserRouter>
-        </Provider>
-      </A2HSProvider>
-    )
-  }
+          </Switch>
+        </BrowserRouter>
+      </Provider>
+    </A2HSProvider>
+  )
 }
 
 export default App

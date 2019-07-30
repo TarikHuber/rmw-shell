@@ -91,8 +91,8 @@ class CollectionActivity extends Component {
                 handleCreateClick
                   ? handleCreateClick
                   : () => {
-                    history.push(`/${name}/create`)
-                  }
+                      history.push(`/${name}/create`)
+                    }
               }
               style={{ position: 'fixed', bottom: 15, right: 20, zIndex: 99 }}
               color={'secondary'}

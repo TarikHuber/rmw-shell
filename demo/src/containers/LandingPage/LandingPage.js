@@ -41,7 +41,7 @@ const styles = theme => ({
     },
     whiteSpace: 'nowrap'
   },
-  headline: {
+  h5: {
     paddingLeft: theme.spacing(1) * 4,
     paddingRight: theme.spacing(1) * 4,
     marginTop: theme.spacing(1),
@@ -117,7 +117,7 @@ class LandingPage extends Component {
                   >
                     {'REACT MOST WANTED'}
                   </Typography>
-                  <Typography variant="h5" component="h2" color="inherit" gutterBottom className={classes.headline}>
+                  <Typography variant="h5" component="h2" color="inherit" gutterBottom className={classes.h5}>
                     {'React Starter-Kit with all Most Wanted features.'}
                   </Typography>
                   <Button

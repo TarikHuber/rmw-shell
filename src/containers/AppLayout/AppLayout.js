@@ -1,11 +1,10 @@
 import 'react-toastify/dist/ReactToastify.css'
 import Drawer from '../../containers/Drawer'
-import React, { Component } from 'react'
+import React, { useEffect } from 'react'
 import Routes from '../../containers/Routes'
 import { ToastContainer } from 'react-toastify'
-import { withStyles } from '@material-ui/core/styles'
 import { checkForUpdate } from '../../utils/messaging'
-import { injectIntl } from 'react-intl'
+import { withStyles } from '@material-ui/core/styles'
 
 const styles = () => ({
   body: {
@@ -27,23 +26,20 @@ const styles = () => ({
   }
 })
 
-export class AppLayout extends Component {
-  componentDidUpdate() {
+export const AppLayout = ({ classes }) => {
+  useEffect(() => {
     checkForUpdate()
-  }
+  })
 
-  render() {
-    const { classes } = this.props
-    return (
-      <div className={classes.body}>
-        <div className={classes.root}>
-          <Drawer />
-          <Routes />
-          <ToastContainer />
-        </div>
+  return (
+    <div className={classes.body}>
+      <div className={classes.root}>
+        <Drawer />
+        <Routes />
+        <ToastContainer />
       </div>
-    )
-  }
+    </div>
+  )
 }
 
-export default injectIntl(withStyles(styles, { withTheme: true })(AppLayout))
+export default withStyles(styles, { withTheme: true })(AppLayout)

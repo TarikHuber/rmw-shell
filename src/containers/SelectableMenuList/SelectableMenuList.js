@@ -1,15 +1,15 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import ArrowBack from '@material-ui/icons/ArrowBack'
+import Divider from '@material-ui/core/Divider'
+import IconButton from '@material-ui/core/IconButton'
+import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
-import ListItemText from '@material-ui/core/ListItemText'
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
-import Divider from '@material-ui/core/Divider'
+import ListItemText from '@material-ui/core/ListItemText'
+import PropTypes from 'prop-types'
+import React, { Component } from 'react'
 import { withTheme, withStyles } from '@material-ui/core/styles'
-import IconButton from '@material-ui/core/IconButton'
-import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight'
-import ArrowBack from '@material-ui/icons/ArrowBack'
 
 const styles = theme => ({
   root: {
@@ -33,7 +33,11 @@ class SelectableMenuList extends Component {
 
       previousItems.unshift(this.state.items ? this.state.items : items)
 
-      this.setState({ items, previousItems, title })
+      this.setState({ items, previousItems, title, index: item.value })
+    } else {
+      if (item.value || item.onClick) {
+        this.setState({ index: item.value })
+      }
     }
   }
 
@@ -64,6 +68,7 @@ class SelectableMenuList extends Component {
 
   getItem = (item, i) => {
     const { onIndexChange, useMinified } = this.props
+    const { index } = this.state
 
     delete item.visible
 
@@ -80,6 +85,7 @@ class SelectableMenuList extends Component {
         return (
           <ListItem
             button
+            selected={index && index === item.value}
             key={i}
             onClick={e => {
               onIndexChange(e, item.value)

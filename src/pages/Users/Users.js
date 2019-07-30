@@ -136,7 +136,7 @@ export class Users extends Component {
       >
         <div style={{ height: '100%', overflow: 'none' }}>
           <Scrollbar>
-            <List id="test" ref={field => (this.list = field)}>
+            <List id="test" component="div">
               <ReactList itemRenderer={this.renderItem} length={list ? list.length : 0} type="simple" />
             </List>
           </Scrollbar>

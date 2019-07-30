@@ -1,52 +1,48 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { intlShape } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import { TextField } from 'redux-form-material-ui'
 
-class RoleForm extends Component {
-  render() {
-    const { handleSubmit, intl, initialized } = this.props
+const RoleForm = ({ handleSubmit, intl, initialized }) => {
+  return (
+    <form
+      onSubmit={handleSubmit}
+      style={{
+        height: '100%',
+        alignItems: 'stretch',
+        display: 'flex',
+        flexWrap: 'wrap',
+        justifyContent: 'center'
+      }}
+    >
+      <button type="submit" style={{ display: 'none' }} />
 
-    return (
-      <form
-        onSubmit={handleSubmit}
-        style={{
-          height: '100%',
-          alignItems: 'stretch',
-          display: 'flex',
-          flexWrap: 'wrap',
-          justifyContent: 'center'
-        }}
-      >
-        <button type="submit" style={{ display: 'none' }} />
+      <div>
+        <div>
+          <Field
+            name="name"
+            disabled={!initialized}
+            component={TextField}
+            hintText={intl.formatMessage({ id: 'name_hint' })}
+            floatingLabelText={intl.formatMessage({ id: 'name_label' })}
+          />
+        </div>
 
         <div>
-          <div>
-            <Field
-              name="name"
-              disabled={!initialized}
-              component={TextField}
-              hintText={intl.formatMessage({ id: 'name_hint' })}
-              floatingLabelText={intl.formatMessage({ id: 'name_label' })}
-            />
-          </div>
-
-          <div>
-            <Field
-              name="description"
-              component={TextField}
-              disabled={!initialized}
-              hintText={intl.formatMessage({ id: 'description_hint' })}
-              floatingLabelText={intl.formatMessage({ id: 'description_label' })}
-              multiLine
-              rows={2}
-            />
-          </div>
+          <Field
+            name="description"
+            component={TextField}
+            disabled={!initialized}
+            hintText={intl.formatMessage({ id: 'description_hint' })}
+            floatingLabelText={intl.formatMessage({ id: 'description_label' })}
+            multiLine
+            rows={2}
+          />
         </div>
-      </form>
-    )
-  }
+      </div>
+    </form>
+  )
 }
 
 RoleForm.propTypes = {

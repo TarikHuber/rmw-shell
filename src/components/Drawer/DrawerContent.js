@@ -6,6 +6,7 @@ import { injectIntl } from 'react-intl'
 import { withA2HS } from 'a2hs'
 import { withRouter } from 'react-router-dom'
 import { withTheme } from '@material-ui/core/styles'
+import Scrollbar from '../../components/Scrollbar'
 
 export const DrawerContent = props => {
   const { appConfig, dialogs, match, messaging, drawer } = props
@@ -14,7 +15,7 @@ export const DrawerContent = props => {
     const { history, setDrawerMobileOpen } = props
 
     if (index !== undefined) {
-      setDrawerMobileOpen(false)
+      //setDrawerMobileOpen(false)
     }
 
     if (index !== undefined && index !== Object(index)) {
@@ -55,25 +56,28 @@ export const DrawerContent = props => {
     <div
       style={{
         display: 'flex',
-        flexDirection: 'column'
+        flexDirection: 'column',
+        height: '100%'
       }}
     >
-      {isAuthMenu && (
-        <SelectableMenuList
-          items={appConfig.getMenuItems({ ...props, isAuthMenu, handleSignOut })}
-          onIndexChange={handleChange}
-          index={match ? match.path : '/'}
-          useMinified={drawer.useMinified && !drawer.open}
-        />
-      )}
-      {!isAuthMenu && (
-        <SelectableMenuList
-          items={appConfig.getMenuItems({ ...props, isAuthMenu, handleSignOut })}
-          onIndexChange={handleChange}
-          index={match ? match.path : '/'}
-          useMinified={drawer.useMinified && !drawer.open}
-        />
-      )}
+      <Scrollbar>
+        {isAuthMenu && (
+          <SelectableMenuList
+            items={appConfig.getMenuItems({ ...props, isAuthMenu, handleSignOut })}
+            onIndexChange={handleChange}
+            index={match ? match.path : '/'}
+            useMinified={drawer.useMinified && !drawer.open}
+          />
+        )}
+        {!isAuthMenu && (
+          <SelectableMenuList
+            items={appConfig.getMenuItems({ ...props, isAuthMenu, handleSignOut })}
+            onIndexChange={handleChange}
+            index={match ? match.path : '/'}
+            useMinified={drawer.useMinified && !drawer.open}
+          />
+        )}
+      </Scrollbar>
     </div>
   )
 }
@@ -83,5 +87,5 @@ export default compose(
   injectIntl,
   withRouter,
   withAppConfigs,
- withTheme
+  withTheme
 )(DrawerContent)
