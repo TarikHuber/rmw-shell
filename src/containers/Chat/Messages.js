@@ -5,17 +5,17 @@ import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import Scrollbar from '../../components/Scrollbar'
+import isGranted from '../../utils/auth'
 import requestNotificationPermission from '../../utils/messaging'
-import withAppConfigs from '../../utils/withAppConfigs'
 import { connect } from 'react-redux'
 import { getList } from 'firekit'
 import { injectIntl, intlShape } from 'react-intl'
 import { setPersistentValue } from '../../store/persistentValues/actions'
 import { setSimpleValue } from '../../store/simpleValues/actions'
+import { withAppConfigs } from '../../contexts/AppConfigProvider'
 import { withFirebase } from 'firekit-provider'
 import { withRouter } from 'react-router-dom'
 import { withTheme } from '@material-ui/core/styles'
-import isGranted from '../../utils/auth'
 
 const pageStep = 20
 
@@ -149,12 +149,12 @@ class ChatMessages extends Component {
       let type = values.message
         ? 'text'
         : values.link
-          ? 'link'
-          : values.location
-            ? 'location'
-            : values.image
-              ? 'image'
-              : undefined
+        ? 'link'
+        : values.location
+        ? 'location'
+        : values.image
+        ? 'image'
+        : undefined
 
       if (values.type) {
         type = values.type

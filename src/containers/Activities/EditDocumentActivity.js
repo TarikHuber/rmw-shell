@@ -1,6 +1,6 @@
 import Activity from '../../containers/Activity'
 import DeleteDialog from '../../containers/DeleteDialog'
-import FireForm from 'fireform'
+import FireForm from '../../containers/FireForm/FireForm'
 import Save from '@material-ui/icons/Save'
 import Delete from '@material-ui/icons/Delete'
 import IconButton from '@material-ui/core/IconButton'
@@ -147,5 +147,5 @@ export default compose(
   injectIntl,
   withRouter,
   withFirebase,
- withTheme
+  withTheme
 )(EditDocumentActivity)

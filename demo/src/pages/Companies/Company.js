@@ -6,7 +6,8 @@ import { injectIntl } from 'react-intl'
 const name = 'company'
 const path = 'companies'
 
-const Edit = ({ intl }) => {
+const Edit = props => {
+  const { intl } = props
   const validate = values => {
     const errors = {}
 
@@ -22,10 +23,10 @@ const Edit = ({ intl }) => {
       name={name}
       path={path}
       fireFormProps={{
-        validate: this.validate
+        validate
       }}
     >
-      <Form {...this.props} />
+      <Form {...props} />
     </EditActivity>
   )
 }

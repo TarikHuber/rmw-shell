@@ -1,6 +1,6 @@
-import Context from '../containers/AppConfigProvider/Context'
+import Context from './Context'
 import React from 'react'
-import config from '../config'
+import config from '../../config'
 
 const withAppConfigs = Component => {
   const ChildComponent = props => {

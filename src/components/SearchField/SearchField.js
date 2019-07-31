@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Search from '@material-ui/icons/Search'
 import { injectIntl } from 'react-intl'
 import { fade } from '@material-ui/core/styles/colorManipulator'
@@ -80,10 +80,26 @@ const styles = theme => ({
   }
 })
 
-const SearchField = ({ classes, filterName, setSearch, searchValue, alwaysOpen }) => {
+let timeout = null
+
+const SearchField = ({ classes, filterName, setSearch, searchValue, alwaysOpen, deferTime = 1000 }) => {
+  const [value, setValue] = useState(searchValue)
+
   const hasInput = searchValue && searchValue !== ''
   let rootClass = classes.root
   let inputClass = classes.input
+
+  const onChange = v => {
+    if (timeout) {
+      clearTimeout(timeout)
+    }
+
+    setValue(v)
+
+    timeout = setTimeout(() => {
+      setSearch(filterName, v)
+    }, deferTime)
+  }
 
   if (hasInput || alwaysOpen) {
     rootClass = classes.rootOpen
@@ -98,16 +114,14 @@ const SearchField = ({ classes, filterName, setSearch, searchValue, alwaysOpen }
       <input
         autoComplete="off"
         id="docsearch-input"
-        value={searchValue}
+        value={value}
         ref={node => {
           if (node && (searchValue && searchValue !== '')) {
             node.focus()
           }
         }}
         className={classNames(inputClass)}
-        onChange={e => {
-          setSearch(filterName, e.target.value)
-        }}
+        onChange={e => onChange(e.target.value)}
       />
     </div>
   )

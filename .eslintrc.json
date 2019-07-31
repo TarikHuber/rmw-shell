@@ -4,15 +4,8 @@
     "es6": true,
     "node": true
   },
-  "extends": ["eslint:recommended", "plugin:react/recommended"],
+  "extends": ["prettier"],
   "parser": "babel-eslint",
-  "parserOptions": {
-    "ecmaFeatures": {
-      "jsx": true
-    },
-    "ecmaVersion": 2018,
-    "sourceType": "module"
-  },
   "plugins": ["react"],
   "rules": {
     "indent": ["error", 2],
@@ -21,10 +14,6 @@
     "semi": ["error", "never"],
     "react/prop-types": [1],
     "no-console": "warn",
-    "parserOptions": {
-      "ecmaFeatures": {
-        "jsx": true
-      }
-    }
+    "prettier": 1
   }
 }

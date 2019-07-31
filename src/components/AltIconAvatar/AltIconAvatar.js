@@ -14,7 +14,7 @@ const AltIconAvatar = props => {
   } else {
     return (
       <ListItemAvatar>
-        <Avatar {...rest}> {icon} </Avatar>{' '}
+        <Avatar {...rest}>{icon}</Avatar>
       </ListItemAvatar>
     )
   }

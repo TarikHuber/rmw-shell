@@ -3,7 +3,8 @@ import DrawerHeader from './DrawerHeader'
 import React, { Component } from 'react'
 import ResponsiveDrawer from '../../containers/ResponsiveDrawer'
 import Scrollbar from '../../components/Scrollbar'
-import withAppConfigs from '../../utils/withAppConfigs'
+import { injectIntl } from 'react-intl'
+import { withAppConfigs } from '../../contexts/AppConfigProvider'
 import { withRouter } from 'react-router-dom'
 
 const Drawer = ({ history, appConfig }) => {

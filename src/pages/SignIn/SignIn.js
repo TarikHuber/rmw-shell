@@ -1,10 +1,10 @@
+import * as firebaseui from 'firebaseui'
 import Activity from '../../containers/Activity'
 import AuthUI from '../../containers/AuthUI/AuthUI'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
-import * as firebaseui from 'firebaseui'
-import withAppConfigs from '../../utils/withAppConfigs'
 import { injectIntl } from 'react-intl'
+import { withAppConfigs } from '../../contexts/AppConfigProvider'
 import { withFirebase } from 'firekit-provider'
 
 export class SignIn extends Component {

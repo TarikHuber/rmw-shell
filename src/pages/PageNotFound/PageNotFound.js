@@ -4,8 +4,8 @@ import Home from '@material-ui/icons/Home'
 import Paper from '@material-ui/core/Paper'
 import React from 'react'
 import Typography from '@material-ui/core/Typography'
-import withAppConfigs from '../../utils/withAppConfigs'
 import { injectIntl } from 'react-intl'
+import { withAppConfigs } from '../../contexts/AppConfigProvider'
 import { withStyles } from '@material-ui/core/styles'
 
 const styles = theme => ({

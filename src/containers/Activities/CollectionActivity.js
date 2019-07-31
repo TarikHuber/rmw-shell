@@ -18,6 +18,7 @@ import { withRouter } from 'react-router-dom'
 import { compose } from 'redux'
 import Tooltip from '@material-ui/core/Tooltip'
 import { getCol } from 'firekit'
+import { Fab } from '@material-ui/core'
 
 class CollectionActivity extends Component {
   componentDidMount() {
@@ -85,8 +86,7 @@ class CollectionActivity extends Component {
           </Scrollbar>
           <div style={{ float: 'left', clear: 'both' }} />
           {disableCreate !== true && isGranted(createGrant) && (
-            <Button
-              variant="fab"
+            <Fab
               onClick={
                 handleCreateClick
                   ? handleCreateClick
@@ -98,7 +98,7 @@ class CollectionActivity extends Component {
               color={'secondary'}
             >
               <Add />
-            </Button>
+            </Fab>
           )}
         </div>
         <FilterDrawer name={name} fields={fields} formatMessage={intl.formatMessage} />

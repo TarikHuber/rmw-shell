@@ -1,6 +1,6 @@
 import React from 'react'
 import SelectableMenuList from '../../containers/SelectableMenuList'
-import withAppConfigs from '../../utils/withAppConfigs'
+import { withAppConfigs } from '../../contexts/AppConfigProvider'
 import { compose } from 'redux'
 import { injectIntl } from 'react-intl'
 import { withA2HS } from 'a2hs'

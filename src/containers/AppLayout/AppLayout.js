@@ -4,9 +4,9 @@ import React, { useEffect } from 'react'
 import Routes from '../../containers/Routes'
 import { ToastContainer } from 'react-toastify'
 import { checkForUpdate } from '../../utils/messaging'
-import { withStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/styles'
 
-const styles = () => ({
+const useStyles = makeStyles({
   body: {
     position: 'absolute',
     top: 0,
@@ -26,10 +26,12 @@ const styles = () => ({
   }
 })
 
-export const AppLayout = ({ classes }) => {
+export const AppLayout = () => {
   useEffect(() => {
     checkForUpdate()
   })
+
+  const classes = useStyles()
 
   return (
     <div className={classes.body}>
@@ -42,4 +44,4 @@ export const AppLayout = ({ classes }) => {
   )
 }
 
-export default withStyles(styles, { withTheme: true })(AppLayout)
+export default AppLayout

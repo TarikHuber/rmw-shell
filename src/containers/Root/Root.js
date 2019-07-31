@@ -1,4 +1,4 @@
-import AppConfigProvider from '../../containers/AppConfigProvider/Provider'
+import AppConfigProvider from '../../contexts/AppConfigProvider/Provider'
 import AppLayout from '../../containers/AppLayout'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Helmet from 'react-helmet'

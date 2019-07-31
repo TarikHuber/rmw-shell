@@ -14,10 +14,10 @@ import ListItemText from '@material-ui/core/ListItemText'
 import Paper from '@material-ui/core/Paper'
 import PersonIcon from '@material-ui/icons/Person'
 import React from 'react'
-import withAppConfigs from '../../utils/withAppConfigs'
 import withWidth from '@material-ui/core/withWidth'
 import { compose } from 'redux'
 import { injectIntl } from 'react-intl'
+import { withAppConfigs } from '../../contexts/AppConfigProvider'
 import { withStyles } from '@material-ui/core/styles'
 
 const styles = theme => ({

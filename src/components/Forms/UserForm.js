@@ -7,7 +7,8 @@ import React, { Component } from 'react'
 import Switch from '@material-ui/core/Switch'
 import Typography from '@material-ui/core/Typography'
 import classNames from 'classnames'
-import withAppConfigs from '../../utils/withAppConfigs'
+import { injectIntl } from 'react-intl'
+import { withAppConfigs } from '../../contexts/AppConfigProvider'
 import { withStyles } from '@material-ui/core/styles'
 import { GoogleIcon, FacebookIcon, GitHubIcon, TwitterIcon } from '../../components/Icons'
 import { intlShape } from 'react-intl'
@@ -53,20 +54,20 @@ class UserForm extends Component {
 
   getProviderIcon = p => {
     switch (p) {
-    case 'google.com':
-      return <GoogleIcon />
+      case 'google.com':
+        return <GoogleIcon />
 
-    case 'facebook.com':
-      return <FacebookIcon />
+      case 'facebook.com':
+        return <FacebookIcon />
 
-    case 'twitter.com':
-      return <TwitterIcon />
+      case 'twitter.com':
+        return <TwitterIcon />
 
-    case 'github.com':
-      return <GitHubIcon />
+      case 'github.com':
+        return <GitHubIcon />
 
-    default:
-      return undefined
+      default:
+        return undefined
     }
   }
 

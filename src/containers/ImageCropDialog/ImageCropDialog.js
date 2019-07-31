@@ -82,8 +82,6 @@ export class ImageCropDialog extends Component {
     const { intl, open, title, fullScreen, theme } = this.props
     const { src, uploadProgress, isUploading } = this.state
 
-    console.log('state', this.state)
-
     return (
       <Dialog
         fullScreen

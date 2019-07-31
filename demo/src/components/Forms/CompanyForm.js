@@ -10,6 +10,7 @@ import { withTheme } from '@material-ui/core/styles'
 import PropTypes from 'prop-types'
 import AvatarImageField from 'rmw-shell/lib/components/ReduxFormFields/AvatarImageField'
 import Icon from '@material-ui/core/Icon'
+import Business from '@material-ui/icons/Business'
 
 class Form extends Component {
   render() {
@@ -22,6 +23,7 @@ class Form extends Component {
         onSubmit={handleSubmit}
         style={{
           height: '100%',
+          width: '100%',
           alignItems: 'strech',
           display: 'flex',
           flexWrap: 'wrap',
@@ -37,8 +39,7 @@ class Form extends Component {
             uid={uid}
             change={this.props.change}
             initialized={initialized}
-            altIconName="person"
-            altIcon={<Icon style={{ fontSize: 60 }}>business</Icon>}
+            icon={<Business fontSize="large" />}
             intl={intl}
             path={'companies'}
           />

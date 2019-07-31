@@ -120,24 +120,6 @@ const getMenuItems = props => {
       leftIcon: <ListIcon />
     },
     {
-      visible: isAuthorised,
-      primaryTogglesNestedList: true,
-      primaryText: intl.formatMessage({ id: 'firestore' }),
-      leftIcon: <FlashOn />,
-      nestedItems: [
-        {
-          value: '/document',
-          primaryText: intl.formatMessage({ id: 'document' }),
-          leftIcon: <FlashOn />
-        },
-        {
-          value: '/collection',
-          primaryText: intl.formatMessage({ id: 'collection' }),
-          leftIcon: <FlashOn />
-        }
-      ]
-    },
-    {
       value: '/about',
       visible: isAuthorised,
       primaryText: intl.formatMessage({ id: 'about' }),

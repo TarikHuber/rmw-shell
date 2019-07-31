@@ -8,80 +8,13 @@ import React from 'react'
 import UpdateIcon from '@material-ui/icons/Update'
 import moment from 'moment'
 import { toast } from 'react-toastify'
+import Notifications from '@material-ui/icons/Notifications'
+import PermissionRequestToast from '../components/Notifications/PermissionRequestToast'
+import NotificationToast from '../components/Notifications/NotificationToast'
 
 let updateMessageShown = false
 
-export default function requestNotificationPermission(props) {
-  const {
-    auth,
-    notificationPermissionRequested,
-    setPersistentValue,
-    simpleValues,
-    setSimpleValue,
-    messaging,
-    intl,
-    appConfig
-  } = props
-
-  const reengagingHours = appConfig.notificationsReengagingHours ? appConfig.notificationsReengagingHours : 48
-  const requestNotificationPermission = notificationPermissionRequested
-    ? moment().diff(notificationPermissionRequested, 'hours') > reengagingHours
-    : true
-
-  if (
-    'Notification' in window &&
-    window.Notification.permission !== 'granted' &&
-    auth.uid &&
-    requestNotificationPermission &&
-    !simpleValues['notificationPermissionShown']
-  ) {
-    setSimpleValue('notificationPermissionShown', true)
-    toast.info(
-      ({ closeToast }) => (
-        <div>
-          <div style={{ display: 'flex', alignItems: 'center', padding: 8 }}>
-            <Icon style={{ paddingRight: 8 }} className="material-icons" color="secondary">
-              {' '}
-              notifications{' '}
-            </Icon>
-            <div style={{ padding: undefined }}>{intl.formatMessage({ id: 'enable_notifications_message' })}</div>
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
-            <Button
-              color="primary"
-              onClick={() => {
-                setPersistentValue('notificationPermissionRequested', moment())
-                initializeMessaging(props)
-                closeToast()
-              }}
-            >
-              {intl.formatMessage({ id: 'enable' })}
-            </Button>
-            <Button
-              color="secondary"
-              onClick={() => {
-                setPersistentValue('notificationPermissionRequested', moment())
-                closeToast()
-              }}
-            >
-              {intl.formatMessage({ id: 'no_thanks' })}
-            </Button>
-          </div>
-        </div>
-      ),
-      { position: toast.POSITION.TOP_CENTER, autoClose: false, closeButton: false, closeOnClick: false }
-    )
-  } else if (
-    'Notification' in window &&
-    Notification.permission === 'granted' &&
-    auth.uid &&
-    !messaging.isInitialized
-  ) {
-    // initializeMessaging(props)
-  }
-}
-
-export function initializeMessaging(props, skipIfNoPermission = false) {
+const initializeMessaging = (props, skipIfNoPermission = false) => {
   const { initMessaging, firebaseApp, auth } = props
 
   firebaseApp
@@ -107,7 +40,37 @@ export function initializeMessaging(props, skipIfNoPermission = false) {
     })
 }
 
-export function handleMessageReceived(props, payload) {
+const requestNotificationPermission = props => {
+  const { auth, notificationPermissionRequested, simpleValues, setSimpleValue, messaging, appConfig } = props
+
+  const reengagingHours = appConfig.notificationsReengagingHours ? appConfig.notificationsReengagingHours : 48
+  const requestNotificationPermission = notificationPermissionRequested
+    ? moment().diff(notificationPermissionRequested, 'hours') > reengagingHours
+    : true
+
+  if (
+    'Notification' in window &&
+    window.Notification.permission !== 'granted' &&
+    auth.uid &&
+    requestNotificationPermission &&
+    !simpleValues['notificationPermissionShown']
+  ) {
+    setSimpleValue('notificationPermissionShown', true)
+    toast.info(
+      ({ closeToast }) => (
+        <PermissionRequestToast {...props} closeToast={closeToast} initializeMessaging={initializeMessaging} />
+      ),
+      {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: false,
+        closeButton: false,
+        closeOnClick: false
+      }
+    )
+  }
+}
+
+const handleMessageReceived = (props, payload) => {
   const { location, appConfig } = props
   const notification = payload.notification
   const pathname = location ? location.pathname : ''
@@ -118,7 +81,7 @@ export function handleMessageReceived(props, payload) {
   if (notificationData && pathname.indexOf(notificationData.path) === -1) {
     toast.info(({ closeToast }) => getNotification(notificationData, closeToast), {
       position: toast.POSITION.BOTTOM_RIGHT,
-      autoClose: notificationData.autoClose ? notificationData.autoClose : false
+      autoClose: false,// notificationData.autoClose ? notificationData.autoClose : false,
     })
   } else {
     toast.info(({ closeToast }) => getNotification(notification, closeToast), {
@@ -127,7 +90,7 @@ export function handleMessageReceived(props, payload) {
   }
 }
 
-export function handleTokenChange(props, token) {
+const handleTokenChange = (props, token) => {
   const { firebaseApp, auth } = props
 
   firebaseApp
@@ -136,27 +99,12 @@ export function handleTokenChange(props, token) {
     .set(true)
 }
 
-export function getNotification(notification, closeToast) {
+const getNotification = (notification, closeToast) => {
   if (notification.getNotification) {
     return notification.getNotification(notification, closeToast)
   }
 
-  return createNotifgication(notification, closeToast)
-}
-
-export function createNotifgication(notification) {
-  return (
-    <div
-      onClick={() => {
-        notification.onClick()
-      }}
-    >
-      <ListItem>
-        <Avatar src={notification.icon} />
-        <ListItemText primary={notification.title} secondary={notification.body} />
-      </ListItem>
-    </div>
-  )
+  return <NotificationToast notification={notification} closeToast={closeToast} />
 }
 
 export function checkForUpdate(intl) {
@@ -193,3 +141,6 @@ export function handleUpdate() {
   // eslint-disable-next-line no-self-assign
   window.location.href = window.location.href
 }
+
+export { initializeMessaging, handleMessageReceived, handleTokenChange, getNotification }
+export default requestNotificationPermission

@@ -1,4 +1,5 @@
 import AltIconAvatar from 'rmw-shell/lib/components/AltIconAvatar'
+import Business from '@material-ui/icons/Business'
 import Divider from '@material-ui/core/Divider'
 import ListActivity from 'rmw-shell/lib/containers/Activities/ListActivity'
 import ListItem from '@material-ui/core/ListItem'
@@ -10,22 +11,17 @@ import { injectIntl, intlShape } from 'react-intl'
 import { withRouter } from 'react-router-dom'
 import { withTheme } from '@material-ui/core/styles'
 
-class Drivers extends Component {
+class Companies extends Component {
   renderItem = (key, val) => {
     const { history } = this.props
 
-    console.log('prop', this.props)
+    const { name = '', full_name = '' } = val
 
     return (
       <div key={key}>
         <ListItem onClick={() => history.push(`/companies/edit/${key}`)} key={key}>
-          <AltIconAvatar alt="company" src={val.photoURL} iconName={'work'} />
-
-          <ListItemText
-            primary={val.name}
-            secondary={val.user ? val.user.label : undefined}
-            style={{ minWidth: 120 }}
-          />
+          <AltIconAvatar alt="company" src={val.photoURL} icon={<Business />} />
+          <ListItemText primary={name} secondary={full_name} style={{ minWidth: 120 }} />
         </ListItem>
         <Divider inset={true} />
       </div>
@@ -46,14 +42,8 @@ class Drivers extends Component {
   }
 }
 
-Drivers.propTypes = {
-  intl: intlShape.isRequired,
-  theme: PropTypes.object.isRequired,
-  history: PropTypes.any.isRequired
-}
-
 export default compose(
   injectIntl,
   withRouter,
   withTheme
-)(Drivers)
+)(Companies)

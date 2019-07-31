@@ -24,6 +24,7 @@ class Form extends Component {
         onSubmit={handleSubmit}
         style={{
           height: '100%',
+          width: '100%',
           alignItems: 'strech',
           display: 'flex',
           flexWrap: 'wrap',

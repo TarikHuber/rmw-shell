@@ -1,7 +1,7 @@
 import Activity from '../../containers/Activity'
 import Delete from '@material-ui/icons/Delete'
 import DeleteDialog from '../../containers/DeleteDialog'
-import FireForm from 'fireform'
+import FireForm from '../../containers/FireForm/FireForm'
 import IconButton from '@material-ui/core/IconButton'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
