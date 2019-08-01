@@ -39,14 +39,7 @@ const getActions = dispatch => {
 }
 
 const Root = props => {
-  const { appConfig } = props
-  const locale = useSelector(state => state.locale, shallowEqual)
-  const themeSource = useSelector(state => state.themeSource, shallowEqual)
-  const notificationPermissionRequested = useSelector(
-    state => (state.persistentValues ? state.persistentValues.notificationPermissionRequested : true),
-    shallowEqual
-  )
-
+  const actions = getActions(useDispatch())
   const {
     watchAuth,
     clearInitialization,
@@ -54,9 +47,10 @@ const Root = props => {
     watchList,
     watchPath,
     initMessaging,
-    setPersistentValue
-  } = getActions(useDispatch())
-
+  } =actions
+  const { appConfig } = props
+  const locale = useSelector(state => state.locale, shallowEqual)
+  const themeSource = useSelector(state => state.themeSource, shallowEqual)
   const messages = { ...getLocaleMessages(locale, locales), ...getLocaleMessages(locale, appConfig.locales) }
   const source = getThemeSource(themeSource, appConfig.themes)
   const theme = createMuiTheme(source)
@@ -113,7 +107,7 @@ const Root = props => {
 
       if (appConfig.onAuthStateChanged) {
         try {
-          appConfig.onAuthStateChanged(user, props, firebaseApp)
+          appConfig.onAuthStateChanged(user, {...props, ...actions}, firebaseApp)
         } catch (err) {
           console.warn(err)
         }
@@ -124,7 +118,7 @@ const Root = props => {
         .ref(`users/${user.uid}`)
         .update(publicUserData)
 
-      initializeMessaging({ ...props, initMessaging, firebaseApp, history, auth: userData }, true)
+      initializeMessaging({ ...props, ...actions, initMessaging, firebaseApp, history, auth: userData }, true)
 
       return userData
     } else {

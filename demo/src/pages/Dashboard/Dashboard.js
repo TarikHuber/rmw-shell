@@ -1,7 +1,6 @@
 import Button from '@material-ui/core/Button'
 import CountUp from 'react-countup'
 import Group from '@material-ui/icons/Group'
-import Icon from '@material-ui/core/Icon'
 import React, { Component } from 'react'
 import { Activity } from '../../../../src'
 import { GitHubIcon } from 'rmw-shell/lib/components/Icons'
@@ -15,7 +14,7 @@ import Scrollbar from 'rmw-shell/lib/components/Scrollbar'
 const currentYear = new Date().getFullYear()
 const daysPath = `/user_registrations_per_day/${currentYear}/${new Date().toISOString().slice(5, 7)}`
 const monthsPath = `/user_registrations_per_month/${currentYear}`
-const providerPath = `/provider_count`
+const providerPath = '/provider_count'
 
 class Dashboard extends Component {
   componentDidMount() {

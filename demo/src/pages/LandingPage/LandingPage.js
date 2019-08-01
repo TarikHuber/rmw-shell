@@ -1,5 +1,8 @@
 import AppBar from '@material-ui/core/AppBar'
 import Button from '@material-ui/core/Button'
+import Card from '@material-ui/core/Card'
+import CardActions from '@material-ui/core/CardActions'
+import CardContent from '@material-ui/core/CardContent'
 import IconButton from '@material-ui/core/IconButton'
 import LockIcon from '@material-ui/icons/Lock'
 import React, { Component } from 'react'
@@ -10,9 +13,6 @@ import { GitHubIcon } from 'rmw-shell/lib/components/Icons'
 import { Helmet } from 'react-helmet'
 import { withRouter } from 'react-router-dom'
 import { withStyles } from '@material-ui/core/styles'
-import Card from '@material-ui/core/Card'
-import CardActions from '@material-ui/core/CardActions'
-import CardContent from '@material-ui/core/CardContent'
 
 const styles = theme => ({
   main: {
@@ -254,7 +254,7 @@ class LandingPage extends Component {
                     <Typography>{'Set your configuration to the App component:'}</Typography>
                     <br />
                     <Typography className={classes.pos} color="textSecondary">
-                      {"import App from 'rmw-shell'"}
+                      {'import App from \'rmw-shell\''}
                       <br />
                       {'<App appConfig={{ configureStore, ...config }} />'}
                     </Typography>

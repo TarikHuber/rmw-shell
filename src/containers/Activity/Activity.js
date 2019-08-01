@@ -3,7 +3,6 @@ import ChevronLeft from '@material-ui/icons/ChevronLeft'
 import IconButton from '@material-ui/core/IconButton'
 import LinearProgress from '@material-ui/core/LinearProgress'
 import MenuIcon from '@material-ui/icons/Menu'
-import PropTypes from 'prop-types'
 import React from 'react'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
@@ -88,10 +87,6 @@ const Activity = ({
     } else {
       setDrawerMobileOpen(!drawer.mobileOpen)
     }
-  }
-
-  const handleDrawerClose = () => {
-    setDrawerOpen(false)
   }
 
   let headerTitle = ''

@@ -3,21 +3,19 @@ import ListItemText from '@material-ui/core/ListItemText'
 import MenuItem from '@material-ui/core/MenuItem'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
-import { Field, reduxForm, formValueSelector } from 'redux-form'
 import TextField from 'rmw-shell/lib/components/ReduxFormFields/TextField'
+import { Field, reduxForm, formValueSelector } from 'redux-form'
+import { VirtualizedSelectField } from 'muishift'
 import { connect } from 'react-redux'
 import { getList } from 'firekit'
 import { injectIntl, intlShape } from 'react-intl'
 import { setDialogIsOpen } from 'rmw-shell/lib/store/dialogs/actions'
 import { withRouter } from 'react-router-dom'
 import { withTheme } from '@material-ui/core/styles'
-import { VirtualizedSelectField } from 'muishift'
 
 class Form extends Component {
   render() {
-    const { handleSubmit, intl, initialized, match, users } = this.props
-
-    const uid = match.params.uid
+    const { handleSubmit, intl, initialized, users } = this.props
 
     return (
       <form

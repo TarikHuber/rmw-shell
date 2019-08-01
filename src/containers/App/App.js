@@ -1,11 +1,11 @@
+import A2HSProvider from 'a2hs'
 import Loadable from 'react-loadable'
 import LoadingComponent from '../../components/LoadingComponent'
-import React, { Component } from 'react'
+import React from 'react'
 import config from '../../config'
 import configureStore from '../../store'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { Provider } from 'react-redux'
-import A2HSProvider from 'a2hs'
 //import RootAsync from 'rmw-shell/lib/containers/Root'
 
 const Loading = () => <LoadingComponent />

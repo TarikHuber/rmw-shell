@@ -70,7 +70,7 @@ export class RoleGrants extends Component {
             }}
           />
         </ListItem>
-        <Divider inset />
+        <Divider variant='inset' />
       </div>
     )
   }

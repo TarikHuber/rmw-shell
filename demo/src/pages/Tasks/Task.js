@@ -1,6 +1,6 @@
 import EditDocumentActivity from 'rmw-shell/lib/containers/Activities/EditDocumentActivity'
 import Form from '../../components/Forms/TaskForm'
-import React, { Component } from 'react'
+import React from 'react'
 import { injectIntl } from 'react-intl'
 
 const name = 'task'

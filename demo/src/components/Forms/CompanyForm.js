@@ -1,16 +1,15 @@
+import AvatarImageField from 'rmw-shell/lib/components/ReduxFormFields/AvatarImageField'
+import Business from '@material-ui/icons/Business'
+import PropTypes from 'prop-types'
 import React, { Component } from 'react'
+import TextField from 'rmw-shell/lib/components/ReduxFormFields/TextField'
+import { Field, reduxForm, formValueSelector } from 'redux-form'
+import { ImageCropDialog } from 'rmw-shell/lib/containers/ImageCropDialog'
 import { connect } from 'react-redux'
 import { injectIntl, intlShape } from 'react-intl'
-import { Field, reduxForm, formValueSelector } from 'redux-form'
-import TextField from 'rmw-shell/lib/components/ReduxFormFields/TextField'
 import { setDialogIsOpen } from 'rmw-shell/lib/store/dialogs/actions'
-import { ImageCropDialog } from 'rmw-shell/lib/containers/ImageCropDialog'
 import { withRouter } from 'react-router-dom'
 import { withTheme } from '@material-ui/core/styles'
-import PropTypes from 'prop-types'
-import AvatarImageField from 'rmw-shell/lib/components/ReduxFormFields/AvatarImageField'
-import Icon from '@material-ui/core/Icon'
-import Business from '@material-ui/icons/Business'
 
 class Form extends Component {
   render() {
@@ -51,8 +50,6 @@ class Form extends Component {
               component={TextField}
               placeholder={intl.formatMessage({ id: 'name_hint' })}
               label={intl.formatMessage({ id: 'name_label' })}
-              ref="name"
-              withRef
             />
           </div>
 
@@ -63,8 +60,6 @@ class Form extends Component {
               component={TextField}
               placeholder={intl.formatMessage({ id: 'full_name_hint' })}
               label={intl.formatMessage({ id: 'full_name_label' })}
-              ref="full_name"
-              withRef
             />
           </div>
 
@@ -75,8 +70,6 @@ class Form extends Component {
               component={TextField}
               placeholder={intl.formatMessage({ id: 'vat_hint' })}
               label={intl.formatMessage({ id: 'vat_label' })}
-              ref="vat"
-              withRef
             />
           </div>
 
@@ -89,14 +82,12 @@ class Form extends Component {
               rows={2}
               placeholder={intl.formatMessage({ id: 'description_hint' })}
               label={intl.formatMessage({ id: 'description_label' })}
-              ref="description"
-              withRef
             />
           </div>
 
           <ImageCropDialog
             path={`companies/${uid}`}
-            fileName={`photoURL`}
+            fileName={'photoURL'}
             onUploadSuccess={s => {
               this.handlePhotoUploadSuccess(s)
             }}
