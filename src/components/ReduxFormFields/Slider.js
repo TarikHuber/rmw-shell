@@ -1,4 +1,4 @@
-import Slider from '@material-ui/lab/Slider'
+import Slider from '@material-ui/core/Slider'
 import createComponent from 'redux-form-material-ui/lib/createComponent'
 
 export default createComponent(

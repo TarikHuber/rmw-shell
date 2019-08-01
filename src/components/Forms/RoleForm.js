@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { intlShape } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
-import { TextField } from 'redux-form-material-ui'
+import TextField from '../../components/ReduxFormFields/TextField'
 
 const RoleForm = ({ handleSubmit, intl, initialized }) => {
   return (

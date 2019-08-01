@@ -18,9 +18,7 @@
     "test:coverage": "nwb test-react --coverage",
     "test:watch": "nwb test-react --server"
   },
-  "dependencies": {
-    "@material-ui/lab": "^3.0.0-alpha.25"
-  },
+  "dependencies": {},
   "peerDependencies": {
     "@date-io/moment": "1.x",
     "@material-ui/core": "4.x",
@@ -35,7 +33,7 @@
     "history": "4.x",
     "intl": "1.x",
     "intl-locales-supported": "1.x",
-    "match-sorter": "3.x",
+    "match-sorter": "4.x",
     "material-ui-filter": "3.x",
     "material-ui-image": "3.x",
     "material-ui-pickers": "2.x",
@@ -59,7 +57,6 @@
     "react-virtualized": "9.x",
     "redux": "4.x",
     "redux-form": "8.x",
-    "redux-form-material-ui": "5.0.0-beta.3",
     "redux-logger": "3.x",
     "redux-persist": "5.x",
     "redux-thunk": "2.x"
@@ -93,7 +90,7 @@
     "material-ui-image": "^3.2.0",
     "material-ui-pickers": "^2.2.4",
     "moment": "^2.24.0",
-    "muishift": "^1.0.16",
+    "muishift": "^1.0.18",
     "nwb": "^0.23.0",
     "prettier-eslint": "^9.0.0",
     "prop-types": "^15.7.2",
@@ -117,7 +114,6 @@
     "react-virtualized": "^9.21.1",
     "redux": "^4.0.4",
     "redux-form": "^8.2.5",
-    "redux-form-material-ui": "^5.0.0-beta.2",
     "redux-logger": "^3.0.6",
     "redux-persist": "^5.10.0",
     "redux-thunk": "^2.3.0"
