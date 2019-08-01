@@ -2,8 +2,7 @@ import AppConfigProvider from '../../contexts/AppConfigProvider/Provider'
 import AppLayout from '../../containers/AppLayout'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Helmet from 'react-helmet'
-import PropTypes from 'prop-types'
-import React, { Component, useEffect } from 'react'
+import React, {  useEffect } from 'react'
 import Utils from '@date-io/moment'
 import getThemeSource from '../../config/themes'
 import locales, { getLocaleMessages, addLocalizationData } from '../../config/locales'
@@ -12,7 +11,7 @@ import { MuiPickersUtilsProvider } from 'material-ui-pickers'
 import { Router, Route, Switch } from 'react-router-dom'
 import { ThemeProvider } from '@material-ui/styles'
 import { bindActionCreators } from 'redux'
-import { connect, useSelector, shallowEqual, useDispatch } from 'react-redux'
+import {  useSelector, shallowEqual, useDispatch } from 'react-redux'
 import { createBrowserHistory } from 'history'
 import { createMuiTheme } from '@material-ui/core/styles'
 import { initializeMessaging } from '../../utils/messaging'
@@ -22,6 +21,7 @@ import { watchAuth, clearInitialization, initConnection, watchList, initMessagin
 
 addLocalizationData(locales)
 const history = createBrowserHistory()
+
 
 const getActions = dispatch => {
   return bindActionCreators(

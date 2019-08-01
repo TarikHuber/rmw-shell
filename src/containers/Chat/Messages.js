@@ -3,10 +3,10 @@ import DeleteDialog from '../../containers/DeleteDialog'
 import Message from './Message'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
-import ReactDOM from 'react-dom'
 import Scrollbar from '../../components/Scrollbar'
 import isGranted from '../../utils/auth'
 import requestNotificationPermission from '../../utils/messaging'
+import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { getList } from 'firekit'
 import { injectIntl, intlShape } from 'react-intl'
@@ -19,7 +19,7 @@ import { withTheme } from '@material-ui/core/styles'
 
 const pageStep = 20
 
-class ChatMessages extends Component {
+class Messages extends Component {
   state = {
     anchorEl: null,
     hasError: false
@@ -47,19 +47,9 @@ class ChatMessages extends Component {
   }
 
   scrollToBottom = () => {
-    const node = ReactDOM.findDOMNode(this.listEnd)
+    const node = this.listEnd
     if (node) {
       node.scrollIntoView({ behavior: 'smooth' })
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { unwatchList, path } = this.props
-    const { path: nextPath } = nextProps
-
-    if (path !== nextPath) {
-      unwatchList(path)
-      this.initMessages(nextProps)
     }
   }
 
@@ -149,12 +139,12 @@ class ChatMessages extends Component {
       let type = values.message
         ? 'text'
         : values.link
-        ? 'link'
-        : values.location
-        ? 'location'
-        : values.image
-        ? 'image'
-        : undefined
+          ? 'link'
+          : values.location
+            ? 'location'
+            : values.image
+              ? 'image'
+              : undefined
 
       if (values.type) {
         type = values.type
@@ -184,6 +174,7 @@ class ChatMessages extends Component {
           color={color}
           type={type}
           isGranted={isGranted}
+          scrollToBottom={this.scrollToBottom}
         />
       )
     })
@@ -210,7 +201,7 @@ class ChatMessages extends Component {
               <Chip
                 label={intl.formatMessage({ id: 'load_more_label' })}
                 onClick={this.handleLoadMore}
-                backgroundColor={theme.palette.primary.main}
+                //backgroundColor={theme.palette.primary.main}
               />
             </div>
             {this.renderList(messages)}
@@ -228,7 +219,7 @@ class ChatMessages extends Component {
   }
 }
 
-ChatMessages.propTypes = {
+Messages.propTypes = {
   intl: intlShape.isRequired,
   theme: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired
@@ -257,7 +248,13 @@ const mapStateToProps = (state, ownPops) => {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  { setSimpleValue, setPersistentValue }
-)(injectIntl(withTheme(withRouter(withFirebase(withAppConfigs(ChatMessages))))))
+
+export default compose(
+  connect(  mapStateToProps, { setSimpleValue, setPersistentValue }),
+  injectIntl,
+  withTheme,
+  withRouter,
+  withFirebase,
+  withAppConfigs
+)(Messages)
+

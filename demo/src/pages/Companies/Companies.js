@@ -4,10 +4,9 @@ import Divider from '@material-ui/core/Divider'
 import ListActivity from 'rmw-shell/lib/containers/Activities/ListActivity'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
-import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { compose } from 'redux'
-import { injectIntl, intlShape } from 'react-intl'
+import { injectIntl } from 'react-intl'
 import { withRouter } from 'react-router-dom'
 import { withTheme } from '@material-ui/core/styles'
 
@@ -23,7 +22,7 @@ class Companies extends Component {
           <AltIconAvatar alt="company" src={val.photoURL} icon={<Business />} />
           <ListItemText primary={name} secondary={full_name} style={{ minWidth: 120 }} />
         </ListItem>
-        <Divider inset={true} />
+        <Divider variant='inset' />
       </div>
     )
   }

@@ -1,12 +1,13 @@
-import Button from '@material-ui/core/Button'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import Close from '@material-ui/icons/Close'
-import Mic from '@material-ui/icons/Mic'
+import Microfone from '@material-ui/icons/Mic'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import Send from '@material-ui/icons/Send'
 import withWidth, { isWidthUp } from '@material-ui/core/withWidth'
+import { Fab } from '@material-ui/core'
 import { ReactMic } from 'react-mic'
+import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { injectIntl, intlShape } from 'react-intl'
 import { setSimpleValue } from '../../store/simpleValues/actions'
@@ -14,7 +15,7 @@ import { withFirebase } from 'firekit-provider'
 import { withRouter } from 'react-router-dom'
 import { withTheme } from '@material-ui/core/styles'
 
-export class ChatMic extends Component {
+export class Mic extends Component {
   constructor(props) {
     super(props)
 
@@ -94,7 +95,6 @@ export class ChatMic extends Component {
       'state_changed',
       snapshot => {
         var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-        console.log('Upload is ' + progress + '% done')
 
         this.setState({
           sending: true,
@@ -124,25 +124,23 @@ export class ChatMic extends Component {
       <div>
         {this.state.sending && (
           <CircularProgress
-            style={{ position: 'absolute', right: 15, bottom: 5, zIndex: 90 }}
+            style={{ position: 'absolute', right: 13, bottom: 5, zIndex: 90 }}
             mode="determinate"
             value={this.state.uploadCompleted}
             size={62}
-            thickness={6}
+            thickness={4}
           />
         )}
 
         {this.state.visible && (
           <div style={{ display: 'flex', width: '100%' }}>
-            <Button
+            <Fab
               style={{ marginRight: -25 }}
               color="secondary"
-              variant="fab"
               onClick={this.cancelRecording}
-              secondary
             >
               <Close className="material-icons" />
-            </Button>
+            </Fab>
             <ReactMic
               style={{ marginTop: 25 }}
               height={30}
@@ -155,35 +153,38 @@ export class ChatMic extends Component {
               strokeColor={theme.palette.secondary.main}
               backgroundColor={theme.palette.type === 'light' ? theme.palette.grey[300] : theme.palette.grey[700]}
             />
-            <Button style={{ marginLeft: -25 }} color="secondary" variant="fab" onClick={this.stopRecording} secondary>
+            <Fab style={{ marginLeft: -25 }} color="secondary"  onClick={this.stopRecording} >
               <Send />
-            </Button>
+            </Fab>
           </div>
         )}
 
         {!this.state.visible && (
-          <Button
+          <Fab
             color="secondary"
-            variant="fab"
             disabled={this.state.sending}
             onClick={this.state.record ? this.stopRecording : this.startRecording}
-            //style={{ position: 'absolute', right: 20, bottom: 10, zIndex: 99 }}
-            secondary={!this.state.record}
+
           >
-            {this.state.record ? <Send /> : <Mic />}
-          </Button>
+            {this.state.record ? <Send /> : <Microfone />}
+          </Fab>
         )}
       </div>
     )
   }
 }
 
-ChatMic.propTypes = {
+Mic.propTypes = {
   intl: intlShape.isRequired,
   theme: PropTypes.object.isRequired
 }
 
-export default connect(
-  () => {},
-  { setSimpleValue }
-)(injectIntl(withWidth()(withTheme(withRouter(withFirebase(ChatMic))))))
+export default compose(
+  connect(null,{setSimpleValue}),
+  injectIntl,
+  withTheme,
+  withWidth(),
+  withTheme,
+  withRouter,
+  withFirebase
+)(Mic)

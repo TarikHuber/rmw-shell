@@ -37,20 +37,20 @@ export class Users extends Component {
     const color = 'primary'
 
     switch (provider.providerId) {
-      case 'google.com':
-        return <GoogleIcon color={color} />
-      case 'facebook.com':
-        return <FacebookIcon color={color} />
-      case 'twitter.com':
-        return <TwitterIcon color={color} />
-      case 'github.com':
-        return <GitHubIcon color={color} />
-      case 'phone':
-        return <Phone color={color} />
-      case 'password':
-        return <Email color={color} />
-      default:
-        return undefined
+    case 'google.com':
+      return <GoogleIcon color={color} />
+    case 'facebook.com':
+      return <FacebookIcon color={color} />
+    case 'twitter.com':
+      return <TwitterIcon color={color} />
+    case 'github.com':
+      return <GitHubIcon color={color} />
+    case 'phone':
+      return <Phone color={color} />
+    case 'password':
+      return <Email color={color} />
+    default:
+      return undefined
     }
   }
 
@@ -91,7 +91,7 @@ export class Users extends Component {
           </Toolbar>
           <OfflinePin color={user.connections ? 'primary' : 'disabled'} />
         </ListItem>
-        <Divider inset={true} />
+        <Divider variant='inset' />
       </div>
     )
   }

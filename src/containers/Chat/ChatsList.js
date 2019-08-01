@@ -1,5 +1,4 @@
-import Avatar from '@material-ui/core/Avatar'
-import Button from '@material-ui/core/Button'
+import AltIconAvatar from 'rmw-shell/lib/components/AltIconAvatar'
 import Chat from '@material-ui/icons/Chat'
 import Delete from '@material-ui/icons/Delete'
 import Divider from '@material-ui/core/Divider'
@@ -11,6 +10,7 @@ import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
 import ListItemText from '@material-ui/core/ListItemText'
+import MoreHoriz from '@material-ui/icons/MoreHoriz'
 import Person from '@material-ui/icons/Person'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
@@ -18,6 +18,8 @@ import ReactList from 'react-list'
 import Scrollbar from '../../components/Scrollbar'
 import Typography from '@material-ui/core/Typography'
 import withWidth, { isWidthUp } from '@material-ui/core/withWidth'
+import { Fab } from '@material-ui/core'
+import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { filterSelectors } from 'material-ui-filter'
 import { getList } from 'firekit'
@@ -26,9 +28,9 @@ import { setPersistentValue } from '../../store/persistentValues/actions'
 import { withAppConfigs } from '../../contexts/AppConfigProvider'
 import { withFirebase } from 'firekit-provider'
 import { withRouter } from 'react-router-dom'
-import { withTheme, withStyles } from '@material-ui/core/styles'
+import { withTheme } from '@material-ui/core/styles'
 
-export class Chats extends Component {
+export class ChatsList extends Component {
   state = {
     anchorEl: null,
     hasError: false
@@ -140,7 +142,7 @@ export class Chats extends Component {
     ]
 
     return (
-      <div key={i}>
+      <div key={i} style={{cursor:'pointer'}}>
         <ListItem
           selected={uid === key}
           key={i}
@@ -149,13 +151,8 @@ export class Chats extends Component {
           }}
           id={i}
         >
-          {val.photoURL && <Avatar src={val.photoURL} alt="person" />}
-          {!val.photoURL && (
-            <Avatar>
-              {' '}
-              <Person />{' '}
-            </Avatar>
-          )}
+          <AltIconAvatar src={val.photoURL} icon={<Person/>} />
+
           <ListItemText
             primaryTypographyProps={{
               color: val.unread ? 'secondary' : undefined
@@ -173,18 +170,18 @@ export class Chats extends Component {
           />
 
           <ListItemSecondaryAction style={{ paddingTop: 24 }}>
-            <Typography variant="caption" style={{ paddingRight: 12 }}>
+            <Typography component='div' variant="caption" style={{ paddingRight: 12 }}>
               {val.lastCreated ? intl.formatTime(new Date(val.lastCreated), 'hh:mm') : undefined}
             </Typography>
           </ListItemSecondaryAction>
 
           <ListItemSecondaryAction style={{ paddingBottom: 24 }}>
             <Typography component="div">
-              <IconMenu options={options} iconName="more_horiz" />
+              <IconMenu options={options} icon={<MoreHoriz/>} />
             </Typography>
           </ListItemSecondaryAction>
         </ListItem>
-        <Divider inset />
+        <Divider variant='inset' />
       </div>
     )
   }
@@ -201,7 +198,7 @@ export class Chats extends Component {
     return (
       <div style={{ width: '100%', maxWidth: usePreview ? 300 : undefined, height: '100%' }}>
         <Scrollbar>
-          <List style={{ padding: 0, height: '100%', width: '100%', maxWidth: usePreview ? 300 : undefined }}>
+          <List component='div' style={{ padding: 0, height: '100%', width: '100%', maxWidth: usePreview ? 300 : undefined }}>
             <ReactList
               style={{ maxWidth: 300 }}
               itemRenderer={this.renderItem}
@@ -212,8 +209,7 @@ export class Chats extends Component {
         </Scrollbar>
 
         <div style={{ position: 'absolute', width: usePreview ? 300 : '100%', bottom: 5 }}>
-          <Button
-            variant="fab"
+          <Fab
             color="secondary"
             onClick={() => {
               history.push('/chats/create')
@@ -221,14 +217,14 @@ export class Chats extends Component {
             style={{ position: 'absolute', right: 20, bottom: 10, zIndex: 99 }}
           >
             <Chat className="material-icons" />
-          </Button>
+          </Fab>
         </div>
       </div>
     )
   }
 }
 
-Chats.propTypes = {
+ChatsList.propTypes = {
   list: PropTypes.array.isRequired,
   history: PropTypes.object,
   intl: intlShape
@@ -253,11 +249,15 @@ const mapStateToProps = (state, ownPops) => {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  { setPersistentValue }
-)(
-  injectIntl(
-    withFirebase(withAppConfigs(withRouter(withWidth()(withTheme(withStyles(() => {}, { withTheme: true })(Chats))))))
-  )
-)
+
+
+export default compose(
+  connect( mapStateToProps, { setPersistentValue } ),
+  injectIntl,
+  withFirebase,
+  withAppConfigs,
+  withRouter,
+  withWidth(),
+  withTheme,
+)(ChatsList)
+

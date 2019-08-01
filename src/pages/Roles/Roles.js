@@ -57,7 +57,7 @@ export class Roles extends Component {
           <AltIconAvatar icon={<AccountBox />} />
           <ListItemText primary={val.name} secondary={val.description} />
         </ListItem>
-        <Divider inset />
+        <Divider variant='inset' />
       </div>
     )
   }

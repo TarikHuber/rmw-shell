@@ -78,20 +78,20 @@ export class MyAccount extends Component {
 
   getProviderIcon = p => {
     switch (p) {
-      case 'google.com':
-        return <GoogleIcon />
+    case 'google.com':
+      return <GoogleIcon />
 
-      case 'facebook.com':
-        return <FacebookIcon />
+    case 'facebook.com':
+      return <FacebookIcon />
 
-      case 'twitter.com':
-        return <TwitterIcon />
+    case 'twitter.com':
+      return <TwitterIcon />
 
-      case 'github.com':
-        return <GitHubIcon />
+    case 'github.com':
+      return <GitHubIcon />
 
-      default:
-        return undefined
+    default:
+      return undefined
     }
   }
 
@@ -516,271 +516,273 @@ export class MyAccount extends Component {
         }
         title={intl.formatMessage({ id: 'my_account' })}
       >
-        {auth.uid && (
-          <div style={{ margin: 15, display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-              {this.state.values.photoURL && (
-                <Avatar
-                  alt={auth.displayName}
-                  src={this.state.values.photoURL}
-                  className={classNames(classes.avatar, classes.bigAvatar)}
-                />
-              )}
-              {!this.state.values.photoURL && (
-                <Avatar className={classNames(classes.avatar, classes.bigAvatar)}>
-                  {' '}
-                  <Person style={{ fontSize: 60 }} />{' '}
-                </Avatar>
-              )}
-
-              <IconButton
-                color="primary"
-                onClick={() => {
-                  this.setState({ isPhotoDialogOpen: true })
-                }}
-              >
-                <PhotoCamera />
-              </IconButton>
-
-              <div>
-                {appConfig.firebase_providers.map((p, i) => {
-                  if (p !== 'email' && p !== 'password' && p !== 'phone') {
-                    return (
-                      <IconButton
-                        key={i}
-                        disabled={this.isLinkedWithProvider(p)}
-                        color="primary"
-                        onClick={() => {
-                          this.linkUserWithPopup(p)
-                        }}
-                      >
-                        {this.getProviderIcon(p)}
-                      </IconButton>
-                    )
-                  } else {
-                    return <div key={i} />
-                  }
-                })}
-              </div>
-
-              <div>
-                <FormGroup row>
-                  <FormControlLabel
-                    control={
-                      <Switch
-                        checked={notificationTokens.length > 0}
-                        onChange={this.handleEnableNotificationsChange}
-                        value="checkedA"
-                      />
-                    }
-                    label={intl.formatMessage({ id: 'notifications' })}
+        <div>
+          {auth.uid && (
+            <div style={{ margin: 15, display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                {this.state.values.photoURL && (
+                  <Avatar
+                    alt={auth.displayName}
+                    src={this.state.values.photoURL}
+                    className={classNames(classes.avatar, classes.bigAvatar)}
                   />
-                </FormGroup>
+                )}
+                {!this.state.values.photoURL && (
+                  <Avatar className={classNames(classes.avatar, classes.bigAvatar)}>
+                    {' '}
+                    <Person style={{ fontSize: 60 }} />{' '}
+                  </Avatar>
+                )}
+
+                <IconButton
+                  color="primary"
+                  onClick={() => {
+                    this.setState({ isPhotoDialogOpen: true })
+                  }}
+                >
+                  <PhotoCamera />
+                </IconButton>
+
+                <div>
+                  {appConfig.firebase_providers.map((p, i) => {
+                    if (p !== 'email' && p !== 'password' && p !== 'phone') {
+                      return (
+                        <IconButton
+                          key={i}
+                          disabled={this.isLinkedWithProvider(p)}
+                          color="primary"
+                          onClick={() => {
+                            this.linkUserWithPopup(p)
+                          }}
+                        >
+                          {this.getProviderIcon(p)}
+                        </IconButton>
+                      )
+                    } else {
+                      return <div key={i} />
+                    }
+                  })}
+                </div>
+
+                <div>
+                  <FormGroup row>
+                    <FormControlLabel
+                      control={
+                        <Switch
+                          checked={notificationTokens.length > 0}
+                          onChange={this.handleEnableNotificationsChange}
+                          value="checkedA"
+                        />
+                      }
+                      label={intl.formatMessage({ id: 'notifications' })}
+                    />
+                  </FormGroup>
+                </div>
+              </div>
+
+              <div style={{ margin: 15, display: 'flex', flexDirection: 'column' }}>
+                <FormControl
+                  className={classNames(classes.margin, classes.textField)}
+                  error={!!this.state.errors.displayName}
+                >
+                  <InputLabel htmlFor="adornment-password">{intl.formatMessage({ id: 'name_label' })}</InputLabel>
+                  <Input
+                    id="displayName"
+                    fullWidth
+                    value={this.state.values.displayName}
+                    placeholder={intl.formatMessage({ id: 'name_hint' })}
+                    onChange={e => {
+                      this.handleValueChange('displayName', e.target.value)
+                    }}
+                  />
+                  {this.state.errors.displayName && (
+                    <FormHelperText id="name-helper-text">{this.state.errors.displayName}</FormHelperText>
+                  )}
+                </FormControl>
+                <FormControl className={classNames(classes.margin, classes.textField)} error={!!this.state.errors.email}>
+                  <InputLabel htmlFor="adornment-password">{intl.formatMessage({ id: 'email' })}</InputLabel>
+                  <Input
+                  //id="email"
+                    label="Email"
+                    autoComplete="off"
+                    placeholder={intl.formatMessage({ id: 'email' })}
+                    fullWidth
+                    onChange={e => {
+                      this.handleValueChange('email', e.target.value)
+                    }}
+                    value={this.state.values.email}
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="Toggle password visibility"
+                          onClick={auth.emailVerified === true ? undefined : this.handleEmailVerificationsSend}
+                        //onMouseDown={this.handleMouseDownPassword}
+                        >
+                          {auth.emailVerified && <VerifiedUser color="primary" />}
+                          {!auth.emailVerified && <Error color="secondary" />}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                  />
+                  {this.state.errors.email && (
+                    <FormHelperText id="name-helper-text">{this.state.errors.email}</FormHelperText>
+                  )}
+                </FormControl>
+
+                {showPasswords && (
+                  <div style={{ display: 'flex', flexDirection: 'column' }}>
+                    <FormControl
+                      className={classNames(classes.margin, classes.textField)}
+                      error={!!this.state.errors.password}
+                    >
+                      <InputLabel htmlFor="adornment-password">Password</InputLabel>
+                      <Input
+                        autoComplete="off"
+                        type={this.state.showPassword ? 'text' : 'password'}
+                        value={this.state.values.password}
+                        onChange={e => {
+                          this.handleValueChange('password', e.target.value)
+                        }}
+                        endAdornment={
+                          <InputAdornment position="end">
+                            <IconButton
+                              color="primary"
+                              aria-label="Toggle password visibility"
+                              onClick={() => this.setState({ showPassword: !this.state.showPassword })}
+                            >
+                              {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
+                            </IconButton>
+                          </InputAdornment>
+                        }
+                      />
+                      {this.state.errors.password && (
+                        <FormHelperText id="name-helper-text">{this.state.errors.password}</FormHelperText>
+                      )}
+                    </FormControl>
+                    <FormControl
+                      className={classNames(classes.margin, classes.textField)}
+                      error={!!this.state.errors.newPassword}
+                    >
+                      <InputLabel htmlFor="adornment-password">{intl.formatMessage({ id: 'new_password' })}</InputLabel>
+                      <Input
+                        autoComplete="off"
+                        type={this.state.showNewPassword ? 'text' : 'password'}
+                        value={this.state.values.newPassword}
+                        onChange={e => {
+                          this.handleValueChange('newPassword', e.target.value)
+                        }}
+                        endAdornment={
+                          <InputAdornment position="end">
+                            <IconButton
+                              color="primary"
+                              aria-label="Toggle password visibility"
+                              onClick={() => this.setState({ showNewPassword: !this.state.showNewPassword })}
+                            >
+                              {this.state.showNewPassword ? <VisibilityOff /> : <Visibility />}
+                            </IconButton>
+                          </InputAdornment>
+                        }
+                      />
+                      {this.state.errors.newPassword && (
+                        <FormHelperText id="name-helper-text">{this.state.errors.newPassword}</FormHelperText>
+                      )}
+                    </FormControl>
+                    <FormControl
+                      className={classNames(classes.margin, classes.textField)}
+                      error={!!this.state.errors.confirmPassword}
+                    >
+                      <InputLabel htmlFor="adornment-password">
+                        {intl.formatMessage({ id: 'confirm_password' })}
+                      </InputLabel>
+                      <Input
+                        autoComplete="off"
+                        type={this.state.showConfirmPassword ? 'text' : 'password'}
+                        value={this.state.values.confirmPassword}
+                        onChange={e => {
+                          this.handleValueChange('confirmPassword', e.target.value)
+                        }}
+                        endAdornment={
+                          <InputAdornment position="end">
+                            <IconButton
+                              color="primary"
+                              aria-label="Toggle password visibility"
+                              onClick={() => this.setState({ showConfirmPassword: !this.state.showConfirmPassword })}
+                            >
+                              {this.state.showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                            </IconButton>
+                          </InputAdornment>
+                        }
+                      />
+                      {this.state.errors.confirmPassword && (
+                        <FormHelperText id="name-helper-text">{this.state.errors.confirmPassword}</FormHelperText>
+                      )}
+                    </FormControl>
+                  </div>
+                )}
               </div>
             </div>
+          )}
 
-            <div style={{ margin: 15, display: 'flex', flexDirection: 'column' }}>
-              <FormControl
-                className={classNames(classes.margin, classes.textField)}
-                error={!!this.state.errors.displayName}
-              >
-                <InputLabel htmlFor="adornment-password">{intl.formatMessage({ id: 'name_label' })}</InputLabel>
-                <Input
-                  id="displayName"
-                  fullWidth
-                  value={this.state.values.displayName}
-                  placeholder={intl.formatMessage({ id: 'name_hint' })}
-                  onChange={e => {
-                    this.handleValueChange('displayName', e.target.value)
-                  }}
-                />
-                {this.state.errors.displayName && (
-                  <FormHelperText id="name-helper-text">{this.state.errors.displayName}</FormHelperText>
-                )}
-              </FormControl>
-              <FormControl className={classNames(classes.margin, classes.textField)} error={!!this.state.errors.email}>
-                <InputLabel htmlFor="adornment-password">{intl.formatMessage({ id: 'email' })}</InputLabel>
-                <Input
-                  //id="email"
-                  label="Email"
-                  autoComplete="off"
-                  placeholder={intl.formatMessage({ id: 'email' })}
-                  fullWidth
-                  onChange={e => {
-                    this.handleValueChange('email', e.target.value)
-                  }}
-                  value={this.state.values.email}
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="Toggle password visibility"
-                        onClick={auth.emailVerified === true ? undefined : this.handleEmailVerificationsSend}
-                        //onMouseDown={this.handleMouseDownPassword}
-                      >
-                        {auth.emailVerified && <VerifiedUser color="primary" />}
-                        {!auth.emailVerified && <Error color="secondary" />}
-                      </IconButton>
-                    </InputAdornment>
-                  }
-                />
-                {this.state.errors.email && (
-                  <FormHelperText id="name-helper-text">{this.state.errors.email}</FormHelperText>
-                )}
-              </FormControl>
+          <Dialog
+            open={delete_user === true}
+            onClose={this.handleClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle id="alert-dialog-title">{intl.formatMessage({ id: 'delete_account_dialog_title' })}</DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">
+                {intl.formatMessage({ id: 'delete_account_dialog_message' })}
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={this.handleClose} color="primary">
+                {intl.formatMessage({ id: 'cancel' })}
+              </Button>
+              <Button onClick={this.handleDelete} color="secondary">
+                {intl.formatMessage({ id: 'delete' })}
+              </Button>
+            </DialogActions>
+          </Dialog>
 
-              {showPasswords && (
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                  <FormControl
-                    className={classNames(classes.margin, classes.textField)}
-                    error={!!this.state.errors.password}
-                  >
-                    <InputLabel htmlFor="adornment-password">Password</InputLabel>
-                    <Input
-                      autoComplete="off"
-                      type={this.state.showPassword ? 'text' : 'password'}
-                      value={this.state.values.password}
-                      onChange={e => {
-                        this.handleValueChange('password', e.target.value)
-                      }}
-                      endAdornment={
-                        <InputAdornment position="end">
-                          <IconButton
-                            color="primary"
-                            aria-label="Toggle password visibility"
-                            onClick={() => this.setState({ showPassword: !this.state.showPassword })}
-                          >
-                            {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
-                          </IconButton>
-                        </InputAdornment>
-                      }
-                    />
-                    {this.state.errors.password && (
-                      <FormHelperText id="name-helper-text">{this.state.errors.password}</FormHelperText>
-                    )}
-                  </FormControl>
-                  <FormControl
-                    className={classNames(classes.margin, classes.textField)}
-                    error={!!this.state.errors.newPassword}
-                  >
-                    <InputLabel htmlFor="adornment-password">{intl.formatMessage({ id: 'new_password' })}</InputLabel>
-                    <Input
-                      autoComplete="off"
-                      type={this.state.showNewPassword ? 'text' : 'password'}
-                      value={this.state.values.newPassword}
-                      onChange={e => {
-                        this.handleValueChange('newPassword', e.target.value)
-                      }}
-                      endAdornment={
-                        <InputAdornment position="end">
-                          <IconButton
-                            color="primary"
-                            aria-label="Toggle password visibility"
-                            onClick={() => this.setState({ showNewPassword: !this.state.showNewPassword })}
-                          >
-                            {this.state.showNewPassword ? <VisibilityOff /> : <Visibility />}
-                          </IconButton>
-                        </InputAdornment>
-                      }
-                    />
-                    {this.state.errors.newPassword && (
-                      <FormHelperText id="name-helper-text">{this.state.errors.newPassword}</FormHelperText>
-                    )}
-                  </FormControl>
-                  <FormControl
-                    className={classNames(classes.margin, classes.textField)}
-                    error={!!this.state.errors.confirmPassword}
-                  >
-                    <InputLabel htmlFor="adornment-password">
-                      {intl.formatMessage({ id: 'confirm_password' })}
-                    </InputLabel>
-                    <Input
-                      autoComplete="off"
-                      type={this.state.showConfirmPassword ? 'text' : 'password'}
-                      value={this.state.values.confirmPassword}
-                      onChange={e => {
-                        this.handleValueChange('confirmPassword', e.target.value)
-                      }}
-                      endAdornment={
-                        <InputAdornment position="end">
-                          <IconButton
-                            color="primary"
-                            aria-label="Toggle password visibility"
-                            onClick={() => this.setState({ showConfirmPassword: !this.state.showConfirmPassword })}
-                          >
-                            {this.state.showConfirmPassword ? <VisibilityOff /> : <Visibility />}
-                          </IconButton>
-                        </InputAdornment>
-                      }
-                    />
-                    {this.state.errors.confirmPassword && (
-                      <FormHelperText id="name-helper-text">{this.state.errors.confirmPassword}</FormHelperText>
-                    )}
-                  </FormControl>
-                </div>
-              )}
-            </div>
-          </div>
-        )}
+          <Dialog
+            open={disable_notifications === true}
+            onClose={this.handleNotificationsClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle id="alert-dialog-title">
+              {intl.formatMessage({ id: 'disable_notifications_dialog_title' })}
+            </DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">
+                {intl.formatMessage({ id: 'disable_notifications_dialog_message' })}
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={this.handleNotificationsClose} color="primary">
+                {intl.formatMessage({ id: 'cancel' })}
+              </Button>
+              <Button onClick={this.handleDisableNotifications} color="secondary">
+                {intl.formatMessage({ id: 'delete' })}
+              </Button>
+            </DialogActions>
+          </Dialog>
 
-        <Dialog
-          open={delete_user === true}
-          onClose={this.handleClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle id="alert-dialog-title">{intl.formatMessage({ id: 'delete_account_dialog_title' })}</DialogTitle>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              {intl.formatMessage({ id: 'delete_account_dialog_message' })}
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={this.handleClose} color="primary">
-              {intl.formatMessage({ id: 'cancel' })}
-            </Button>
-            <Button onClick={this.handleDelete} color="secondary">
-              {intl.formatMessage({ id: 'delete' })}
-            </Button>
-          </DialogActions>
-        </Dialog>
-
-        <Dialog
-          open={disable_notifications === true}
-          onClose={this.handleNotificationsClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle id="alert-dialog-title">
-            {intl.formatMessage({ id: 'disable_notifications_dialog_title' })}
-          </DialogTitle>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              {intl.formatMessage({ id: 'disable_notifications_dialog_message' })}
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={this.handleNotificationsClose} color="primary">
-              {intl.formatMessage({ id: 'cancel' })}
-            </Button>
-            <Button onClick={this.handleDisableNotifications} color="secondary">
-              {intl.formatMessage({ id: 'delete' })}
-            </Button>
-          </DialogActions>
-        </Dialog>
-
-        <ImageCropDialog
-          path={`users/${auth.uid}`}
-          fileName={'photoURL'}
-          onUploadSuccess={s => {
-            this.handlePhotoUploadSuccess(s)
-          }}
-          open={this.state.isPhotoDialogOpen}
-          src={new_user_photo}
-          handleClose={() => {
-            this.setState({ isPhotoDialogOpen: false })
-          }}
-          title={intl.formatMessage({ id: 'change_photo' })}
-        />
+          <ImageCropDialog
+            path={`users/${auth.uid}`}
+            fileName={'photoURL'}
+            onUploadSuccess={s => {
+              this.handlePhotoUploadSuccess(s)
+            }}
+            open={this.state.isPhotoDialogOpen}
+            src={new_user_photo}
+            handleClose={() => {
+              this.setState({ isPhotoDialogOpen: false })
+            }}
+            title={intl.formatMessage({ id: 'change_photo' })}
+          />
+        </div>
       </Activity>
     )
   }

@@ -1,4 +1,3 @@
-import Button from '@material-ui/core/Button'
 import Divider from '@material-ui/core/Divider'
 import IconButton from '@material-ui/core/IconButton'
 import Input from '@material-ui/core/Input'
@@ -13,6 +12,7 @@ import ReactList from 'react-list'
 import Scrollbar from '../../components/Scrollbar'
 import Send from '@material-ui/icons/Send'
 import firebase from 'firebase'
+import { Fab } from '@material-ui/core'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { getGeolocation } from '../../utils/googleMaps'
@@ -200,7 +200,7 @@ class ChatMessages extends Component {
                   height: 42,
                   width: 'calc(100% - 72px)',
                   lineHeight: undefined,
-                  top: -11,
+                  top: -6,
                   left: 15,
                   right: 50
                 }}
@@ -263,7 +263,7 @@ class ChatMessages extends Component {
               />
 
               <div style={{ position: 'absolute', right: 55, top: -10, width: 20, height: 0 }}>
-                <IconButton color={'primary'} containerElement="label" onClick={() => this.fileInput.click()}>
+                <IconButton color={'primary'}  onClick={() => this.fileInput.click()}>
                   <Photo />
                 </IconButton>
               </div>
@@ -271,15 +271,14 @@ class ChatMessages extends Component {
           </div>
 
           {this.state.value !== '' && (
-            <Button
-              variant="fab"
+            <Fab
               color={'primary'}
               disabled={this.state.value === undefined || this.state.value === ''}
               onClick={() => this.handleAddMessage('text', this.state.value)}
               aria-label="send"
             >
               <Send />
-            </Button>
+            </Fab>
           )}
           {this.state.value === '' && (
             <Mic receiverPath={receiverPath} handleAddMessage={this.handleAddMessage} path={path} />

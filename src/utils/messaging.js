@@ -1,6 +1,3 @@
-import Avatar from '@material-ui/core/Avatar'
-import Button from '@material-ui/core/Button'
-import Icon from '@material-ui/core/Icon'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
@@ -8,9 +5,10 @@ import React from 'react'
 import UpdateIcon from '@material-ui/icons/Update'
 import moment from 'moment'
 import { toast } from 'react-toastify'
-import Notifications from '@material-ui/icons/Notifications'
+
 import PermissionRequestToast from '../components/Notifications/PermissionRequestToast'
 import NotificationToast from '../components/Notifications/NotificationToast'
+import UpdateToast from '../components/Notifications/UpdateToast'
 
 let updateMessageShown = false
 
@@ -81,7 +79,8 @@ const handleMessageReceived = (props, payload) => {
   if (notificationData && pathname.indexOf(notificationData.path) === -1) {
     toast.info(({ closeToast }) => getNotification(notificationData, closeToast), {
       position: toast.POSITION.BOTTOM_RIGHT,
-      autoClose: false,// notificationData.autoClose ? notificationData.autoClose : false,
+      autoClose: notificationData.autoClose ? notificationData.autoClose : false,
+      closeButton:false
     })
   } else {
     toast.info(({ closeToast }) => getNotification(notification, closeToast), {
@@ -107,30 +106,18 @@ const getNotification = (notification, closeToast) => {
   return <NotificationToast notification={notification} closeToast={closeToast} />
 }
 
-export function checkForUpdate(intl) {
-  const title = intl ? intl.formatMessage({ id: 'update_title' }) : 'Update available!'
-  const message = intl ? intl.formatMessage({ id: 'update_message' }) : 'Click here to get the new version.'
+const checkForUpdate=()=> {
 
   if (window.updateAvailable && !updateMessageShown) {
     updateMessageShown = true
     toast.info(
-      () => (
-        <div
-          onClick={() => {
-            handleUpdate()
-          }}
-        >
-          <ListItem button>
-            <ListItemIcon>
-              <UpdateIcon />
-            </ListItemIcon>
-            <ListItemText primary={title} secondary={message} />
-          </ListItem>
-        </div>
+      ({ closeToast }) => (
+        <UpdateToast handleUpdate={handleUpdate} closeToast={closeToast} />
       ),
       {
         position: toast.POSITION.BOTTOM_CENTER,
-        autoClose: false
+        autoClose: false,
+        closeButton:false
       }
     )
   }
@@ -142,5 +129,5 @@ export function handleUpdate() {
   window.location.href = window.location.href
 }
 
-export { initializeMessaging, handleMessageReceived, handleTokenChange, getNotification }
+export { initializeMessaging, handleMessageReceived, handleTokenChange, getNotification, checkForUpdate }
 export default requestNotificationPermission

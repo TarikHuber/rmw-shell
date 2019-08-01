@@ -69,7 +69,7 @@ export class UserGrants extends Component {
             />
           </ListItemSecondaryAction>
         </ListItem>
-        <Divider inset />
+        <Divider variant='inset' />
       </div>
     )
   }

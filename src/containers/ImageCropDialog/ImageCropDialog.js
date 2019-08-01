@@ -4,12 +4,8 @@ import Button from '@material-ui/core/Button'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import CloseIcon from '@material-ui/icons/Close'
 import Dialog from '@material-ui/core/Dialog'
-import DialogActions from '@material-ui/core/DialogActions'
-import DialogContent from '@material-ui/core/DialogContent'
-import DialogTitle from '@material-ui/core/DialogTitle'
 import Dropzone from 'react-dropzone'
 import IconButton from '@material-ui/core/IconButton'
-import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import Slide from '@material-ui/core/Slide'
 import Toolbar from '@material-ui/core/Toolbar'
@@ -17,7 +13,6 @@ import Typography from '@material-ui/core/Typography'
 import firebase from 'firebase/app'
 import { Cropper } from 'react-image-cropper'
 import { compose } from 'redux'
-import { connect } from 'react-redux'
 import { injectIntl } from 'react-intl'
 import { withFirebase } from 'firekit-provider'
 import { withTheme } from '@material-ui/core/styles'
@@ -79,7 +74,7 @@ export class ImageCropDialog extends Component {
   }
 
   render() {
-    const { intl, open, title, fullScreen, theme } = this.props
+    const { intl, open, title, theme } = this.props
     const { src, uploadProgress, isUploading } = this.state
 
     return (
@@ -121,14 +116,14 @@ export class ImageCropDialog extends Component {
                       src
                         ? undefined
                         : {
-                            height: '50vh',
-                            width: '50vw',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            borderStyle: 'dashed',
-                            borderColor: theme.palette.secondary.main
-                          }
+                          height: '50vh',
+                          width: '50vw',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          borderStyle: 'dashed',
+                          borderColor: theme.palette.secondary.main
+                        }
                     }
                   >
                     <input {...getInputProps()} />

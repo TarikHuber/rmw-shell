@@ -1,10 +1,10 @@
-import Icon from '@material-ui/core/Icon'
 import IconButton from '@material-ui/core/IconButton'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
 import React from 'react'
+import MoreVert from '@material-ui/icons/MoreVert'
 
 class IconMenu extends React.Component {
   state = {
@@ -30,7 +30,7 @@ class IconMenu extends React.Component {
   }
 
   render() {
-    const { options, iconName, iconStyle, buttonStyle } = this.props
+    const { options, icon, buttonStyle } = this.props
     const { anchorEl } = this.state
 
     return (
@@ -42,9 +42,7 @@ class IconMenu extends React.Component {
           onClick={this.handleClick}
           style={buttonStyle}
         >
-          <Icon color="inherit" style={iconStyle}>
-            {iconName}
-          </Icon>
+          {icon ? icon : <MoreVert/>}
         </IconButton>
         <Menu id="simple-menu" anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={this.handleClose}>
           {options
@@ -52,7 +50,7 @@ class IconMenu extends React.Component {
             .map((option, i) => (
               <MenuItem key={i} onClick={() => this.handleOptionClick(option)}>
                 {option.icon && <ListItemIcon>{option.icon}</ListItemIcon>}
-                {option.icon && <ListItemText inset primary={option.text} />}
+                {option.icon && <ListItemText  primary={option.text} />}
               </MenuItem>
             ))}
         </Menu>

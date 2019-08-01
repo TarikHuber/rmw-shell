@@ -23,7 +23,7 @@ class Tasks extends Component {
           <AltIconAvatar alt="task" src={photoURL} icon={<Delete />} />
           <ListItemText primary={title} secondary={full_name} style={{ minWidth: 120 }} />
         </ListItem>
-        <Divider inset={true} />
+        <Divider variant='inset' />
       </div>
     )
   }

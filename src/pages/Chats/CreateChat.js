@@ -1,16 +1,17 @@
 import Activity from '../../containers/Activity'
-import Avatar from '@material-ui/core/Avatar'
+import AltIconAvatar from '../../components/AltIconAvatar'
 import Divider from '@material-ui/core/Divider'
-import Person from '@material-ui/icons/Person'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
+import Person from '@material-ui/icons/Person'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import ReactList from 'react-list'
 import Scrollbar from '../../components/Scrollbar'
 import SearchField from '../../components/SearchField'
 import withWidth, { isWidthUp } from '@material-ui/core/withWidth'
+import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { filterSelectors, filterActions } from 'material-ui-filter'
 import { getList, isLoading } from 'firekit'
@@ -18,7 +19,7 @@ import { injectIntl, intlShape } from 'react-intl'
 import { setPersistentValue } from '../../store/persistentValues/actions'
 import { withFirebase } from 'firekit-provider'
 import { withRouter } from 'react-router-dom'
-import { withTheme, withStyles } from '@material-ui/core/styles'
+import { withTheme } from '@material-ui/core/styles'
 
 const path = 'users'
 
@@ -71,13 +72,8 @@ export class Users extends Component {
           }}
           id={key}
         >
-          {user.photoURL && <Avatar src={user.photoURL} alt="person" />}
-          {!user.photoURL && (
-            <Avatar>
-              {' '}
-              <Person />{' '}
-            </Avatar>
-          )}
+          <AltIconAvatar src={user.photoURL} icon={<Person/>} />
+
           <ListItemText
             primary={user.displayName}
             secondary={
@@ -87,7 +83,7 @@ export class Users extends Component {
             }
           />
         </ListItem>
-        <Divider inset />
+        <Divider variant='inset' />
       </div>
     )
   }
@@ -152,7 +148,13 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  { ...filterActions, setPersistentValue }
-)(injectIntl(withWidth()(withTheme(withStyles(() => {}, { withTheme: true })(withFirebase(withRouter(Users)))))))
+
+export default compose(
+  connect(mapStateToProps, { ...filterActions,setPersistentValue }),
+  injectIntl,
+  withFirebase,
+  withRouter,
+  withWidth(),
+  withTheme,
+)(Users)
+

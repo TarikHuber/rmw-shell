@@ -4,6 +4,7 @@ import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
 import ListItemText from '@material-ui/core/ListItemText'
+import Person from '@material-ui/icons/Person'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import ReactList from 'react-list'
@@ -34,7 +35,7 @@ class UsersToggle extends Component {
     return (
       <div key={i}>
         <ListItem key={userUid} id={userUid} onClick={onClick ? () => onClick(userUid, user) : undefined}>
-          <AltIconAvatar alt="person" src={user.photoURL} iconName="person" />
+          <AltIconAvatar alt="person" src={user.photoURL} icon={<Person/>} />
           <ListItemText
             primary={<div style={{ fontFamily: 'Roboto' }}>{user.displayName}</div>}
             secondaryText={<div style={{ fontFamily: 'Roboto' }}>{user.email}</div>}
