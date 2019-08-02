@@ -115,7 +115,7 @@ class ChatMessages extends Component {
             <Send />
           </IconButton>
         </ListItem>
-        <Divider inset={true} />
+        <Divider variant='inset' />
       </div>
     )
   }

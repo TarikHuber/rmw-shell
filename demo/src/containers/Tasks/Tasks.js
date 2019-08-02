@@ -147,7 +147,7 @@ class Tasks extends Component {
             }
           </ListItemSecondaryAction>
         </ListItem>
-        <Divider inset={true} />
+        <Divider variant='inset' />
       </div >
     });
   }

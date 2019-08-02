@@ -44,7 +44,7 @@ class UsersToggle extends Component {
             <Switch checked={checked === true} onChange={(e, newVal) => onChange(userUid, newVal)} />
           </ListItemSecondaryAction>
         </ListItem>
-        <Divider inset={true} />
+        <Divider variant='inset' />
       </div>
     )
   }
