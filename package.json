@@ -1,6 +1,6 @@
 {
   "name": "rmw-shell",
-  "version": "6.0.5",
+  "version": "6.0.6",
   "description": "rmw-shell React component",
   "main": "lib/index.js",
   "module": "es/index.js",
