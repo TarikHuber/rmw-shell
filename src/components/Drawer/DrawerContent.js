@@ -15,7 +15,7 @@ export const DrawerContent = props => {
     const { history, setDrawerMobileOpen } = props
 
     if (index !== undefined) {
-      //setDrawerMobileOpen(false)
+      setDrawerMobileOpen(false)
     }
 
     if (index !== undefined && index !== Object(index)) {
