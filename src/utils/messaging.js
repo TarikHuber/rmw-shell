@@ -84,7 +84,8 @@ const handleMessageReceived = (props, payload) => {
     })
   } else {
     toast.info(({ closeToast }) => getNotification(notification, closeToast), {
-      position: toast.POSITION.BOTTOM_RIGHT
+      position: toast.POSITION.BOTTOM_RIGHT,
+      closeButton:false
     })
   }
 }
