@@ -23,6 +23,7 @@ import { injectIntl, intlShape } from 'react-intl'
 import { withFirebase } from 'firekit-provider'
 import { withRouter } from 'react-router-dom'
 import { withTheme } from '@material-ui/core/styles'
+import Person from '@material-ui/icons/Person'
 
 const path = 'users'
 
@@ -72,7 +73,7 @@ export class Users extends Component {
           }}
           id={key}
         >
-          <AltIconAvatar src={user.photoURL} iconName={'person'} />
+          <AltIconAvatar src={user.photoURL}  icon={<Person/>}/>
 
           <ListItemText
             primary={user.displayName}
