@@ -58,7 +58,7 @@ export class RoleGrants extends Component {
     return (
       <div key={key}>
         <ListItem key={i} id={i}>
-          <AltIconAvatar icon={<Check />}>
+          <AltIconAvatar icon={<Check />}/>
           <ListItemText primary={intl.formatMessage({ id: `grant_${val}` })} secondary={val} />
           <Switch
             checked={userGrants[val] === true}
