@@ -1,4 +1,4 @@
-import Avatar from '@material-ui/core/Avatar'
+import AltIconAvatar from '../../components/AltIconAvatar'
 import Check from '@material-ui/icons/Check'
 import Divider from '@material-ui/core/Divider'
 import List from '@material-ui/core/List'
@@ -58,10 +58,7 @@ export class RoleGrants extends Component {
     return (
       <div key={key}>
         <ListItem key={i} id={i}>
-          <Avatar>
-            {' '}
-            <Check />{' '}
-          </Avatar>
+          <AltIconAvatar icon={<Check />}>
           <ListItemText primary={intl.formatMessage({ id: `grant_${val}` })} secondary={val} />
           <Switch
             checked={userGrants[val] === true}
