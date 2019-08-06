@@ -12,7 +12,7 @@ import SearchField from '../../components/SearchField'
 import isGranted from '../../utils/auth'
 import { FilterDrawer, filterSelectors, filterActions } from 'material-ui-filter'
 import { connect } from 'react-redux'
-import { injectIntl, intlShape } from 'react-intl'
+import { injectIntl } from 'react-intl'
 import { withFirebase } from 'firekit-provider'
 import { withRouter } from 'react-router-dom'
 import { compose } from 'redux'
@@ -108,7 +108,7 @@ class CollectionActivity extends Component {
 }
 
 CollectionActivity.propTypes = {
-  intl: intlShape.isRequired,
+  
   isGranted: PropTypes.func.isRequired
 }
 

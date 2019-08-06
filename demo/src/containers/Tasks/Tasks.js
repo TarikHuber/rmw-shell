@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import { withTheme, withStyles } from '@material-ui/core/styles'
-import { injectIntl, intlShape } from 'react-intl'
+import { injectIntl } from 'react-intl'
 import Activity from 'rmw-shell/lib/containers/Activity'
 import { setDialogIsOpen } from 'rmw-shell/lib/store/dialogs/actions'
 import List from '@material-ui/core/List'
@@ -251,7 +251,7 @@ class Tasks extends Component {
 }
 
 Tasks.propTypes = {
-  intl: intlShape.isRequired,
+  
   theme: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
 };

@@ -12,7 +12,7 @@ import isGranted from '../../utils/auth'
 import { change, submit } from 'redux-form'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
-import { injectIntl, intlShape } from 'react-intl'
+import { injectIntl } from 'react-intl'
 import { setSimpleValue } from '../../store/simpleValues/actions'
 import { withFirebase } from 'firekit-provider'
 import { withRouter } from 'react-router-dom'
@@ -121,7 +121,7 @@ class EditDocumentActivity extends Component {
 EditDocumentActivity.propTypes = {
   history: PropTypes.object,
   setSimpleValue: PropTypes.func.isRequired,
-  intl: intlShape.isRequired,
+  
   submit: PropTypes.func.isRequired,
   theme: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,

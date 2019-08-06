@@ -15,7 +15,7 @@ import { FilterDrawer, filterSelectors, filterActions } from 'material-ui-filter
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { getList } from 'firekit'
-import { injectIntl, intlShape } from 'react-intl'
+import { injectIntl } from 'react-intl'
 import { withFirebase } from 'firekit-provider'
 import { withRouter } from 'react-router-dom'
 import { Fab } from '@material-ui/core'
@@ -109,7 +109,7 @@ class ListActivity extends Component {
 }
 
 ListActivity.propTypes = {
-  intl: intlShape.isRequired,
+  
   isGranted: PropTypes.func.isRequired
 }
 

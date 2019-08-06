@@ -12,7 +12,7 @@ import Switch from '@material-ui/core/Switch'
 import { FilterDrawer, filterSelectors, filterActions } from 'material-ui-filter'
 import { connect } from 'react-redux'
 import { getList } from 'firekit'
-import { injectIntl, intlShape } from 'react-intl'
+import { injectIntl } from 'react-intl'
 import { setSimpleValue } from '../../store/simpleValues/actions'
 import { withAppConfigs } from '../../contexts/AppConfigProvider'
 import { withFirebase } from 'firekit-provider'
@@ -115,7 +115,7 @@ export class UserGrants extends Component {
 }
 
 UserGrants.propTypes = {
-  intl: intlShape.isRequired,
+  
   theme: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired
 }

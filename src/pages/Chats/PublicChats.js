@@ -3,7 +3,7 @@ import Input from '../../containers/Chat/Input'
 import Messages from '../../containers/Chat/Messages'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { injectIntl, intlShape } from 'react-intl'
+import { injectIntl } from 'react-intl'
 import { withRouter } from 'react-router-dom'
 
 export class Chats extends Component {
@@ -30,10 +30,6 @@ export class Chats extends Component {
       </Activity>
     )
   }
-}
-
-Chats.propTypes = {
-  intl: intlShape
 }
 
 export default connect()(injectIntl(withRouter(Chats)))

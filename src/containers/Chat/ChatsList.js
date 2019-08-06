@@ -23,7 +23,7 @@ import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { filterSelectors } from 'material-ui-filter'
 import { getList } from 'firekit'
-import { injectIntl, intlShape } from 'react-intl'
+import { injectIntl } from 'react-intl'
 import { setPersistentValue } from '../../store/persistentValues/actions'
 import { withAppConfigs } from '../../contexts/AppConfigProvider'
 import { withFirebase } from 'firekit-provider'
@@ -227,7 +227,6 @@ export class ChatsList extends Component {
 ChatsList.propTypes = {
   list: PropTypes.array.isRequired,
   history: PropTypes.object,
-  intl: intlShape
 }
 
 const mapStateToProps = (state, ownPops) => {

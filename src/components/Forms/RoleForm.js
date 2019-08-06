@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { intlShape } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import TextField from '../../components/ReduxFormFields/TextField'
 
@@ -48,7 +47,7 @@ const RoleForm = ({ handleSubmit, intl, initialized }) => {
 RoleForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   renderGrantItem: PropTypes.func.isRequired,
-  intl: intlShape.isRequired,
+  
   initialized: PropTypes.bool.isRequired,
   uid: PropTypes.string
 }

@@ -15,7 +15,7 @@ import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { filterSelectors, filterActions } from 'material-ui-filter'
 import { getList, isLoading } from 'firekit'
-import { injectIntl, intlShape } from 'react-intl'
+import { injectIntl } from 'react-intl'
 import { setPersistentValue } from '../../store/persistentValues/actions'
 import { withFirebase } from 'firekit-provider'
 import { withRouter } from 'react-router-dom'
@@ -121,7 +121,7 @@ export class Users extends Component {
 
 Users.propTypes = {
   users: PropTypes.array.isRequired,
-  intl: intlShape.isRequired,
+  
   theme: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired
 }

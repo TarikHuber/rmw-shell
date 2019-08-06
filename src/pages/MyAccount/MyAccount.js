@@ -32,7 +32,7 @@ import { ImageCropDialog } from '../../containers/ImageCropDialog'
 import { change, submit, formValueSelector } from 'redux-form'
 import { connect } from 'react-redux'
 import { getList } from 'firekit'
-import { injectIntl, intlShape } from 'react-intl'
+import { injectIntl } from 'react-intl'
 import { setDialogIsOpen } from '../../store/dialogs/actions'
 import { setPersistentValue } from '../../store/persistentValues/actions'
 import { setSimpleValue } from '../../store/simpleValues/actions'
@@ -791,7 +791,7 @@ export class MyAccount extends Component {
 MyAccount.propTypes = {
   history: PropTypes.object,
   setSimpleValue: PropTypes.func.isRequired,
-  intl: intlShape.isRequired,
+  
   isGranted: PropTypes.func,
   auth: PropTypes.object.isRequired,
   vehicle_types: PropTypes.array

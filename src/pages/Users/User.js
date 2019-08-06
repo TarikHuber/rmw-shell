@@ -19,7 +19,7 @@ import { connect } from 'react-redux'
 import { filterSelectors, filterActions } from 'material-ui-filter'
 import { formValueSelector } from 'redux-form'
 import { getList, isLoading, getPath } from 'firekit'
-import { injectIntl, intlShape } from 'react-intl'
+import { injectIntl } from 'react-intl'
 import { setSimpleValue } from '../../store/simpleValues/actions'
 import { withFirebase } from 'firekit-provider'
 import { withRouter } from 'react-router-dom'
@@ -181,7 +181,7 @@ export class User extends Component {
 
 User.propTypes = {
   history: PropTypes.object,
-  intl: intlShape.isRequired,
+  
   //submit: PropTypes.func.isRequired,
   theme: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,

@@ -5,7 +5,7 @@ import Helmet from 'react-helmet'
 import React, {  useEffect } from 'react'
 import Utils from '@date-io/moment'
 import getThemeSource from '../../config/themes'
-import locales, { getLocaleMessages, addLocalizationData } from '../../config/locales'
+import locales, { getLocaleMessages } from '../../config/locales'
 import { IntlProvider } from 'react-intl'
 import { MuiPickersUtilsProvider } from 'material-ui-pickers'
 import { Router, Route, Switch } from 'react-router-dom'
@@ -19,7 +19,6 @@ import { saveAuthorisation } from '../../utils/auth'
 import { setPersistentValue } from '../../store/persistentValues/actions'
 import { watchAuth, clearInitialization, initConnection, watchList, initMessaging, watchPath } from 'firekit'
 
-addLocalizationData(locales)
 const history = createBrowserHistory()
 
 

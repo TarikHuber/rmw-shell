@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import IconButton from '@material-ui/core/IconButton'
-import { injectIntl, intlShape } from 'react-intl'
+import { injectIntl } from 'react-intl'
 import { GitHubIcon } from 'rmw-shell/lib/components/Icons'
 import Activity from 'rmw-shell/lib/containers/Activity'
 import Scrollbar from 'rmw-shell/lib/components/Scrollbar'
@@ -141,7 +141,7 @@ class LandingPage extends Component {
 }
 
 LandingPage.propTypes = {
-  intl: intlShape.isRequired
+  
 }
 
 export default withRouter(injectIntl(withStyles(styles, { withTheme: true })(LandingPage)))

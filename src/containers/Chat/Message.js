@@ -9,11 +9,12 @@ import PropTypes from 'prop-types'
 import React, {  useEffect } from 'react'
 import {  useSelector, useDispatch  } from 'react-redux'
 import { compose, bindActionCreators } from 'redux'
-import { injectIntl, intlShape } from 'react-intl'
+import { injectIntl  } from 'react-intl'
 import { setSimpleValue } from '../../store/simpleValues/actions'
 import { withFirebase } from 'firekit-provider'
 import { withRouter } from 'react-router-dom'
 import { withTheme } from '@material-ui/core/styles'
+import moment from 'moment'
 
 const getActions = dispatch => bindActionCreators({ setSimpleValue }, dispatch)
 
@@ -59,7 +60,11 @@ const Message =props=> {
     scrollToBottom
   } = props
 
-  const bColor = theme.palette.type === 'light' ? theme.palette.grey[300] : theme.palette.grey[700]
+
+
+  const days = moment(values.created).diff(moment(), 'days')
+  console.log('days', days)
+
 
   return (
     <div style={{ width: '100%' }}>
@@ -78,9 +83,9 @@ const Message =props=> {
             <div>
               <Chip
                 label={`${
-                  values.created ? intl.formatRelative(new Date(values.created), { units: 'day' }) : undefined
+                  values.created ? intl.formatRelativeTime(days, 'day', { numeric: 'auto' }) : undefined
                 }`}
-                //backgroundColor={bColor}
+
               />
             </div>
           </div>
@@ -225,7 +230,7 @@ const Message =props=> {
 
 
 Message.propTypes = {
-  intl: intlShape.isRequired,
+  
   theme: PropTypes.object.isRequired
 }
 

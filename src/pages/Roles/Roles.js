@@ -13,7 +13,7 @@ import Scrollbar from '../../components/Scrollbar/Scrollbar'
 import { Fab } from '@material-ui/core'
 import { connect } from 'react-redux'
 import { getList, isLoading } from 'firekit'
-import { injectIntl, intlShape } from 'react-intl'
+import { injectIntl } from 'react-intl'
 import { withFirebase } from 'firekit-provider'
 import { withRouter } from 'react-router-dom'
 
@@ -91,7 +91,7 @@ export class Roles extends Component {
 }
 
 Roles.propTypes = {
-  intl: intlShape.isRequired
+  
 }
 
 const mapStateToProps = state => {

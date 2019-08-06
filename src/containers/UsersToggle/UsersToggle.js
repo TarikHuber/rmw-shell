@@ -11,7 +11,7 @@ import ReactList from 'react-list'
 import Switch from '@material-ui/core/Switch'
 import { FilterDrawer, filterSelectors, filterActions } from 'material-ui-filter'
 import { connect } from 'react-redux'
-import { injectIntl, intlShape } from 'react-intl'
+import { injectIntl } from 'react-intl'
 import { setSimpleValue } from '../../store/simpleValues/actions'
 import { withFirebase } from 'firekit-provider'
 import { withRouter } from 'react-router-dom'
@@ -84,7 +84,7 @@ class UsersToggle extends Component {
 }
 
 UsersToggle.propTypes = {
-  intl: intlShape.isRequired,
+  
   theme: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired
 }

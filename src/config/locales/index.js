@@ -1,8 +1,9 @@
-import { addLocaleData } from 'react-intl'
+import 'intl-pluralrules'
 import en_messages from './en'
 import de_messages from './de'
-import en from 'react-intl/locale-data/en'
-import de from 'react-intl/locale-data/de'
+import '@formatjs/intl-relativetimeformat/polyfill'
+import '@formatjs/intl-relativetimeformat/dist/locale-data/de'
+import '@formatjs/intl-relativetimeformat/dist/locale-data/en'
 import areIntlLocalesSupported from 'intl-locales-supported'
 
 // START: Intl polyfill
@@ -31,12 +32,10 @@ const locales = [
   {
     locale: 'en',
     messages: en_messages,
-    data: en
   },
   {
     locale: 'de',
     messages: de_messages,
-    data: de
   }
 ]
 
@@ -52,11 +51,5 @@ export function getLocaleMessages(l, ls) {
   return en_messages // Default locale
 }
 
-export function addLocalizationData(ls) {
-  ls.map(l => {
-    addLocaleData(l.data)
-    return l
-  })
-}
 
 export default locales

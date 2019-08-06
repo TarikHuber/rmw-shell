@@ -5,7 +5,7 @@ import Messages from '../../containers/Chat/Messages'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { injectIntl, intlShape } from 'react-intl'
+import { injectIntl } from 'react-intl'
 import withWidth, { isWidthUp } from '@material-ui/core/withWidth'
 
 export class Chats extends Component {
@@ -55,10 +55,6 @@ export class Chats extends Component {
       </Activity>
     )
   }
-}
-
-Chats.propTypes = {
-  intl: intlShape
 }
 
 const mapStateToProps = state => {

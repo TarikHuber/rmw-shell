@@ -10,7 +10,7 @@ import Slide from '@material-ui/core/Slide'
 import withMobileDialog from '@material-ui/core/withMobileDialog'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
-import { injectIntl, intlShape } from 'react-intl'
+import { injectIntl } from 'react-intl'
 import { setSimpleValue } from '../../store/simpleValues/actions'
 
 function Transition(props) {
@@ -81,7 +81,7 @@ const mapStateToProps = (state, ownProps) => {
 DeleteDialog.propTypes = {
   name: PropTypes.string.isRequired,
   handleDelete: PropTypes.func.isRequired,
-  intl: intlShape.isRequired
+  
 }
 
 export default compose(

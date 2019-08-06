@@ -19,7 +19,7 @@ import { FilterDrawer, filterSelectors, filterActions } from 'material-ui-filter
 import { GoogleIcon, FacebookIcon, GitHubIcon, TwitterIcon } from '../../components/Icons'
 import { connect } from 'react-redux'
 import { getList, isLoading } from 'firekit'
-import { injectIntl, intlShape } from 'react-intl'
+import { injectIntl } from 'react-intl'
 import { withFirebase } from 'firekit-provider'
 import { withRouter } from 'react-router-dom'
 import { withTheme } from '@material-ui/core/styles'
@@ -150,7 +150,7 @@ export class Users extends Component {
 
 Users.propTypes = {
   users: PropTypes.array,
-  intl: intlShape.isRequired,
+  
   theme: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired
 }

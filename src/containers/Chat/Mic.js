@@ -9,7 +9,7 @@ import { Fab } from '@material-ui/core'
 import { ReactMic } from 'react-mic'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
-import { injectIntl, intlShape } from 'react-intl'
+import { injectIntl } from 'react-intl'
 import { setSimpleValue } from '../../store/simpleValues/actions'
 import { withFirebase } from 'firekit-provider'
 import { withRouter } from 'react-router-dom'
@@ -175,7 +175,7 @@ export class Mic extends Component {
 }
 
 Mic.propTypes = {
-  intl: intlShape.isRequired,
+  
   theme: PropTypes.object.isRequired
 }
 

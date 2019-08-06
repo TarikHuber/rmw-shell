@@ -9,7 +9,7 @@ import requestNotificationPermission from '../../utils/messaging'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { getList } from 'firekit'
-import { injectIntl, intlShape } from 'react-intl'
+import { injectIntl } from 'react-intl'
 import { setPersistentValue } from '../../store/persistentValues/actions'
 import { setSimpleValue } from '../../store/simpleValues/actions'
 import { withAppConfigs } from '../../contexts/AppConfigProvider'
@@ -220,7 +220,7 @@ class Messages extends Component {
 }
 
 Messages.propTypes = {
-  intl: intlShape.isRequired,
+  
   theme: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired
 }

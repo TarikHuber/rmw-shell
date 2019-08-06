@@ -8,7 +8,6 @@ import Switch from '@material-ui/core/Switch'
 import Typography from '@material-ui/core/Typography'
 import classNames from 'classnames'
 import { GoogleIcon, FacebookIcon, GitHubIcon, TwitterIcon } from '../../components/Icons'
-import { intlShape } from 'react-intl'
 import { withAppConfigs } from '../../contexts/AppConfigProvider'
 import { withStyles } from '@material-ui/core/styles'
 
@@ -119,7 +118,7 @@ UserForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   handleAdminChange: PropTypes.func.isRequired,
   isAdmin: PropTypes.bool.isRequired,
-  intl: intlShape.isRequired,
+  
   initialized: PropTypes.bool.isRequired,
   uid: PropTypes.string.isRequired
 }

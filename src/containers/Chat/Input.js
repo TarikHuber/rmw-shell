@@ -16,7 +16,7 @@ import { Fab } from '@material-ui/core'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { getGeolocation } from '../../utils/googleMaps'
-import { injectIntl, intlShape } from 'react-intl'
+import { injectIntl } from 'react-intl'
 import { setSimpleValue } from '../../store/simpleValues/actions'
 import { withFirebase } from 'firekit-provider'
 import { withRouter } from 'react-router-dom'
@@ -301,7 +301,7 @@ class ChatMessages extends Component {
 }
 
 ChatMessages.propTypes = {
-  intl: intlShape.isRequired,
+  
   theme: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired
 }
