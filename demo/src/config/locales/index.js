@@ -1,4 +1,3 @@
-import 'intl-pluralrules'
 import en_messages from './en'
 import de_messages from './de'
 import ru_messages from './ru'
