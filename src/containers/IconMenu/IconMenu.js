@@ -3,65 +3,56 @@ import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
+import MoreVertIcon from '@material-ui/icons/MoreVert'
 import React from 'react'
-import MoreVert from '@material-ui/icons/MoreVert'
 
-class IconMenu extends React.Component {
-  state = {
-    anchorEl: null
+export default function IconMenu({ icon, options = [], buttonStyle }) {
+  const [anchorEl, setAnchorEl] = React.useState(null)
+  const open = Boolean(anchorEl)
+
+  const handleClick = event => {
+    setAnchorEl(event.currentTarget)
   }
 
-  handleClick = event => {
-    this.setState({ anchorEl: event.currentTarget })
+  const handleClose = () => {
+    setAnchorEl(null)
   }
 
-  handleClose = () => {
-    this.setState({ anchorEl: null })
-  }
-
-  handleOptionClick = option => {
+  const handleOptionClick = option => {
     const { onClick } = option
 
     if (onClick) {
       onClick()
     }
 
-    this.handleClose()
+    handleClose()
   }
 
-  render() {
-    const { options, icon, buttonStyle } = this.props
-    const { anchorEl } = this.state
+  console.log('anchorEl', anchorEl)
 
-    return (
-      <div>
-        <IconButton
-          aria-owns={anchorEl ? 'menu-list-grow' : null}
-          aria-haspopup="true"
-          color="inherit"
-          onClick={this.handleClick}
-          style={buttonStyle}
-        >
-          {icon ? icon : <MoreVert/>}
-        </IconButton>
-        <Menu id="simple-menu" anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={this.handleClose}>
+  return (
+    <div>
+      <IconButton
+        aria-label="more"
+        aria-controls="long-menu"
+        aria-haspopup="true"
+        onClick={handleClick}
+        style={buttonStyle}
+      >
+        {icon ? icon : <MoreVertIcon />}
+      </IconButton>
+      {open && (
+        <Menu id="icon-menu" anchorEl={anchorEl} keepMounted open={open} onClose={handleClose}>
           {options
             .filter(o => !o.hidden)
             .map((option, i) => (
-              <MenuItem key={i} onClick={() => this.handleOptionClick(option)}>
+              <MenuItem key={`option_${i}`} onClick={() => handleOptionClick(option)}>
                 {option.icon && <ListItemIcon>{option.icon}</ListItemIcon>}
-                {option.icon && <ListItemText  primary={option.text} />}
+                {option.icon && <ListItemText primary={option.text} />}
               </MenuItem>
             ))}
         </Menu>
-      </div>
-    )
-  }
+      )}
+    </div>
+  )
 }
-
-IconMenu.defaultProps = {
-  option: [],
-  iconName: 'more_vert'
-}
-
-export default IconMenu
