@@ -32,7 +32,7 @@
     "firekit": "1.x",
     "firekit-provider": "1.x",
     "history": "4.x",
-    "intl": "^3.0.0",
+    "intl": "1.x",
     "intl-locales-supported": "1.x",
     "intl-pluralrules": "^1.0.3",
     "match-sorter": "4.x",
