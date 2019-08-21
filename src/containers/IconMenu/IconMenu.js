@@ -28,8 +28,6 @@ export default function IconMenu({ icon, options = [], buttonStyle }) {
     handleClose()
   }
 
-  console.log('anchorEl', anchorEl)
-
   return (
     <div>
       <IconButton
