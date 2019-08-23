@@ -1,5 +1,4 @@
 import Activity from '../../containers/Activity'
-import Button from '@material-ui/core/Button'
 import FilterList from '@material-ui/icons/FilterList'
 import Add from '@material-ui/icons/Add'
 import IconButton from '@material-ui/core/IconButton'

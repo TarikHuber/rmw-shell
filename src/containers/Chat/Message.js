@@ -6,10 +6,10 @@ import IconButton from '@material-ui/core/IconButton'
 import Image from 'material-ui-image'
 import Place from '@material-ui/icons/Place'
 import PropTypes from 'prop-types'
-import React, {  useEffect } from 'react'
-import {  useSelector, useDispatch  } from 'react-redux'
+import React, { useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import { compose, bindActionCreators } from 'redux'
-import { injectIntl  } from 'react-intl'
+import { injectIntl } from 'react-intl'
 import { setSimpleValue } from '../../store/simpleValues/actions'
 import { withFirebase } from 'firekit-provider'
 import { withRouter } from 'react-router-dom'
@@ -18,14 +18,12 @@ import moment from 'moment'
 
 const getActions = dispatch => bindActionCreators({ setSimpleValue }, dispatch)
 
-const Message =props=> {
-
-  const auth = useSelector(state=>state.auth)
+const Message = props => {
+  const auth = useSelector(state => state.auth)
   const { setSimpleValue } = getActions(useDispatch())
 
-
-  useEffect(()=>{
-    const { row,  firebaseApp, path } = props
+  useEffect(() => {
+    const { row, firebaseApp, path } = props
 
     const values = row.val
 
@@ -41,9 +39,7 @@ const Message =props=> {
         .ref(`user_chats/${auth.uid}/${values.authorUid}/unread`)
         .remove()
     }
-  },[])
-
-
+  }, [])
 
   const {
     dataChanged,
@@ -60,11 +56,7 @@ const Message =props=> {
     scrollToBottom
   } = props
 
-
-
   const days = moment(values.created).diff(moment(), 'days')
-  console.log('days', days)
-
 
   return (
     <div style={{ width: '100%' }}>
@@ -82,10 +74,7 @@ const Message =props=> {
           >
             <div>
               <Chip
-                label={`${
-                  values.created ? intl.formatRelativeTime(days, 'day', { numeric: 'auto' }) : undefined
-                }`}
-
+                label={`${values.created ? intl.formatRelativeTime(days, 'day', { numeric: 'auto' }) : undefined}`}
               />
             </div>
           </div>
@@ -110,11 +99,11 @@ const Message =props=> {
               marginTop: authorChanged === true ? 8 : 1,
               boxShadow: theme.shadows[3],
               borderRadius:
-                  authorChanged === true
-                    ? values.authorUid === auth.uid
-                      ? '8px 0 8px 8px'
-                      : '0 8px 8px 8px'
-                    : '8px 8px 8px 8px',
+                authorChanged === true
+                  ? values.authorUid === auth.uid
+                    ? '8px 0 8px 8px'
+                    : '0 8px 8px 8px'
+                  : '8px 8px 8px 8px',
               backgroundColor: backgroundColor,
               color: color,
               fontFamily: theme.typography.fontFamily
@@ -123,8 +112,8 @@ const Message =props=> {
             <div
               style={{
                 display: type === 'image' ? undefined : 'flex',
-                margin: type === 'image'?0:5,
-                padding: type === 'image'?5:0,
+                margin: type === 'image' ? 0 : 5,
+                padding: type === 'image' ? 5 : 0,
                 flexOrientation: 'row',
                 justifyContent: 'space-between',
                 width: 'fit-content'
@@ -156,13 +145,13 @@ const Message =props=> {
                   <div style={{ padding: 7 }}>
                     <div style={{ textAlign: 'center', width: '100%', height: '100%' }}>
                       <IconButton target="_blank" href={values.location}>
-                        <Place  color='secondary' />
+                        <Place color="secondary" />
                       </IconButton>
                       {intl.formatMessage({ id: 'my_location' })}
                     </div>
                   </div>
                 )}
-                {type === 'audio' &&  (
+                {type === 'audio' && (
                   <div style={{ padding: 7 }}>
                     <AudioPlayer src={values.audio} authorPhotoUrl={values.authorPhotoUrl} />
                     {values.message}
@@ -227,10 +216,7 @@ const Message =props=> {
   )
 }
 
-
-
 Message.propTypes = {
-  
   theme: PropTypes.object.isRequired
 }
 

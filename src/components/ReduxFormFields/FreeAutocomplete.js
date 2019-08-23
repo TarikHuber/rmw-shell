@@ -1,6 +1,5 @@
 import React from 'react'
-import Muishift, { FreeAutocomplete } from 'muishift'
-import Downshift from 'downshift'
+import  { FreeAutocomplete } from 'muishift'
 
 const FormFreeAutocomplete = props => {
   const {
