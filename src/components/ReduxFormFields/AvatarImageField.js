@@ -7,7 +7,7 @@ import React, { useState } from 'react'
 import { Field } from 'redux-form'
 import { ImageCropDialog } from '../../containers/ImageCropDialog'
 
-const AvatarImageField = ({ altIconName, icon, disabled, initialized, intl, path, uid, name, change }) => {
+const AvatarImageField = ({ icon, disabled, initialized, intl, path, uid, name, change, cropperProps }) => {
   const [selectedImage, setImage] = useState(undefined)
 
   const handlePhotoUploadSuccess = snapshot => {
@@ -52,6 +52,7 @@ const AvatarImageField = ({ altIconName, icon, disabled, initialized, intl, path
           setImage(undefined)
         }}
         title={intl.formatMessage({ id: 'change_photo' })}
+        cropperProps={cropperProps}
       />
     </div>
   )

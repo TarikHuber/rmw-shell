@@ -74,7 +74,7 @@ export class ImageCropDialog extends Component {
   }
 
   render() {
-    const { intl, open, title, theme } = this.props
+    const { intl, open, title, theme, cropperProps } = this.props
     const { src, uploadProgress, isUploading } = this.state
 
     return (
@@ -154,6 +154,7 @@ export class ImageCropDialog extends Component {
                 }}
                 src={this.state ? src : undefined}
                 aspectRatio={9 / 9}
+                {...cropperProps}
               />
             </div>
           )}
