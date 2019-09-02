@@ -22,8 +22,8 @@ import { withRouter } from 'react-router-dom'
 
 class ListActivity extends Component {
   componentDidMount() {
-    const { firebaseApp, watchList, path, name } = this.props
-    watchList(getLocation(firebaseApp, path) || name)
+    const { watchList, path, name } = this.props
+    watchList(path || name)
   }
 
   render() {
