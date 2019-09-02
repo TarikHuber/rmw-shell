@@ -1,6 +1,6 @@
 import Activity from '../../containers/Activity'
-import FilterList from '@material-ui/icons/FilterList'
 import Add from '@material-ui/icons/Add'
+import FilterList from '@material-ui/icons/FilterList'
 import IconButton from '@material-ui/core/IconButton'
 import List from '@material-ui/core/List'
 import PropTypes from 'prop-types'
@@ -10,19 +10,20 @@ import Scrollbar from '../../components/Scrollbar'
 import SearchField from '../../components/SearchField'
 import Tooltip from '@material-ui/core/Tooltip'
 import isGranted from '../../utils/auth'
+import { Fab } from '@material-ui/core'
 import { FilterDrawer, filterSelectors, filterActions } from 'material-ui-filter'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { getList } from 'firekit'
+import { getLocation } from 'firekit/lib/store/lists/actions'
 import { injectIntl } from 'react-intl'
 import { withFirebase } from 'firekit-provider'
 import { withRouter } from 'react-router-dom'
-import { Fab } from '@material-ui/core'
 
 class ListActivity extends Component {
   componentDidMount() {
-    const { watchList, path, name } = this.props
-    watchList(path || name)
+    const { firebaseApp, watchList, path, name } = this.props
+    watchList(getLocation(firebaseApp, path) || name)
   }
 
   render() {
@@ -91,8 +92,8 @@ class ListActivity extends Component {
                 handleCreateClick != null
                   ? handleCreateClick
                   : () => {
-                      history.push(`/${name}/create`)
-                    }
+                    history.push(`/${name}/create`)
+                  }
               }
               style={{ position: 'fixed', bottom: 15, right: 20, zIndex: 99 }}
               color={'secondary'}
@@ -108,15 +109,15 @@ class ListActivity extends Component {
 }
 
 ListActivity.propTypes = {
-  
   isGranted: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state, ownProps) => {
+  const { firebaseApp } = ownProps
   const { filters } = state
   const { name, path, isGranted: customIsGranted } = ownProps
 
-  const ref = path || name
+  const ref = getLocation(firebaseApp, path) || name
 
   const { hasFilters } = filterSelectors.selectFilterProps(name, filters)
   const list = filterSelectors.getFilteredList(ref, filters, getList(state, ref), fieldValue => fieldValue.val)
