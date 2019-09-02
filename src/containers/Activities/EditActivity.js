@@ -1,19 +1,19 @@
-import Activity from '../../containers/Activity'
+import Activity from 'rmw-shell/lib/containers/Activity'
 import Delete from '@material-ui/icons/Delete'
-import DeleteDialog from '../../containers/DeleteDialog'
-import FireForm from '../../containers/FireForm/FireForm'
+import DeleteDialog from 'rmw-shell/lib/containers/DeleteDialog'
+import FireForm from 'rmw-shell/lib/containers/FireForm/FireForm'
 import IconButton from '@material-ui/core/IconButton'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import Save from '@material-ui/icons/Save'
-import Scrollbar from '../../components/Scrollbar'
+import Scrollbar from 'rmw-shell/lib/components/Scrollbar'
 import Tooltip from '@material-ui/core/Tooltip'
-import isGranted from '../../utils/auth'
+import isGranted from 'rmw-shell/lib/utils/auth'
 import { change, submit } from 'redux-form'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { injectIntl } from 'react-intl'
-import { setSimpleValue } from '../../store/simpleValues/actions'
+import { setSimpleValue } from 'rmw-shell/lib/store/simpleValues/actions'
 import { withFirebase } from 'firekit-provider'
 import { withRouter } from 'react-router-dom'
 import { withTheme } from '@material-ui/core/styles'
@@ -98,6 +98,7 @@ class EditActivity extends Component {
         onBackClick={() => {
           history.goBack()
         }}
+        {...this.props}
       >
         <Scrollbar style={{ height: 'calc(100vh - 112px)' }}>
           <div style={{ margin: 15, display: 'flex' }}>
@@ -123,7 +124,7 @@ class EditActivity extends Component {
 EditActivity.propTypes = {
   history: PropTypes.object,
   setSimpleValue: PropTypes.func.isRequired,
-  
+
   submit: PropTypes.func.isRequired,
   theme: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
