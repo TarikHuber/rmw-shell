@@ -1,4 +1,4 @@
-import Activity from '../../containers/Activity'
+import Activity from 'rmw-shell/lib/containers/Activity'
 import Add from '@material-ui/icons/Add'
 import FilterList from '@material-ui/icons/FilterList'
 import IconButton from '@material-ui/core/IconButton'
@@ -6,10 +6,10 @@ import List from '@material-ui/core/List'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import ReactList from 'react-list'
-import Scrollbar from '../../components/Scrollbar'
-import SearchField from '../../components/SearchField'
+import Scrollbar from 'rmw-shell/lib/components/Scrollbar'
+import SearchField from 'rmw-shell/lib/components/SearchField'
 import Tooltip from '@material-ui/core/Tooltip'
-import isGranted from '../../utils/auth'
+import isGranted from 'rmw-shell/lib/utils/auth'
 import { Fab } from '@material-ui/core'
 import { FilterDrawer, filterSelectors, filterActions } from 'material-ui-filter'
 import { compose } from 'redux'
@@ -117,7 +117,8 @@ const mapStateToProps = (state, ownProps) => {
   const { filters } = state
   const { name, path, isGranted: customIsGranted } = ownProps
 
-  const ref = getLocation(firebaseApp, path) || name
+  const location = firebaseApp ? getLocation(firebaseApp, path) : path
+  const ref = location || name
 
   const { hasFilters } = filterSelectors.selectFilterProps(name, filters)
   const list = filterSelectors.getFilteredList(ref, filters, getList(state, ref), fieldValue => fieldValue.val)
