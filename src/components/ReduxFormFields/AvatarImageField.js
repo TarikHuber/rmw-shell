@@ -1,5 +1,4 @@
 import Avatar from '../../components/ReduxFormFields/Avatar'
-import Icon from '@material-ui/core/Icon'
 import IconButton from '@material-ui/core/IconButton'
 import PhotoCamera from '@material-ui/icons/PhotoCamera'
 import PropTypes from 'prop-types'

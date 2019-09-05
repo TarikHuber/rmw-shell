@@ -142,7 +142,7 @@ export class ChatsList extends Component {
     ]
 
     return (
-      <div key={i} style={{cursor:'pointer'}}>
+      <div key={i} style={{ cursor: 'pointer' }}>
         <ListItem
           selected={uid === key}
           key={i}
@@ -151,7 +151,7 @@ export class ChatsList extends Component {
           }}
           id={i}
         >
-          <AltIconAvatar src={val.photoURL} icon={<Person/>} />
+          <AltIconAvatar src={val.photoURL} icon={<Person />} />
 
           <ListItemText
             primaryTypographyProps={{
@@ -170,24 +170,24 @@ export class ChatsList extends Component {
           />
 
           <ListItemSecondaryAction style={{ paddingTop: 24 }}>
-            <Typography component='div' variant="caption" style={{ paddingRight: 12 }}>
+            <Typography component="div" variant="caption" style={{ paddingRight: 12 }}>
               {val.lastCreated ? intl.formatTime(new Date(val.lastCreated), 'hh:mm') : undefined}
             </Typography>
           </ListItemSecondaryAction>
 
           <ListItemSecondaryAction style={{ paddingBottom: 24 }}>
             <Typography component="div">
-              <IconMenu options={options} icon={<MoreHoriz/>} />
+              <IconMenu options={options} icon={<MoreHoriz />} />
             </Typography>
           </ListItemSecondaryAction>
         </ListItem>
-        <Divider variant='inset' />
+        <Divider variant="inset" />
       </div>
     )
   }
 
   render() {
-    const { list, history, width } = this.props
+    const { list, history, width, fabProps } = this.props
 
     if (this.state.hasError) {
       // You can render any custom fallback UI
@@ -198,7 +198,10 @@ export class ChatsList extends Component {
     return (
       <div style={{ width: '100%', maxWidth: usePreview ? 300 : undefined, height: '100%' }}>
         <Scrollbar>
-          <List component='div' style={{ padding: 0, height: '100%', width: '100%', maxWidth: usePreview ? 300 : undefined }}>
+          <List
+            component="div"
+            style={{ padding: 0, height: '100%', width: '100%', maxWidth: usePreview ? 300 : undefined }}
+          >
             <ReactList
               style={{ maxWidth: 300 }}
               itemRenderer={this.renderItem}
@@ -215,6 +218,7 @@ export class ChatsList extends Component {
               history.push('/chats/create')
             }}
             style={{ position: 'absolute', right: 20, bottom: 10, zIndex: 99 }}
+            {...fabProps}
           >
             <Chat className="material-icons" />
           </Fab>
@@ -226,7 +230,7 @@ export class ChatsList extends Component {
 
 ChatsList.propTypes = {
   list: PropTypes.array.isRequired,
-  history: PropTypes.object,
+  history: PropTypes.object
 }
 
 const mapStateToProps = (state, ownPops) => {
@@ -248,15 +252,15 @@ const mapStateToProps = (state, ownPops) => {
   }
 }
 
-
-
 export default compose(
-  connect( mapStateToProps, { setPersistentValue } ),
+  connect(
+    mapStateToProps,
+    { setPersistentValue }
+  ),
   injectIntl,
   withFirebase,
   withAppConfigs,
   withRouter,
   withWidth(),
-  withTheme,
+  withTheme
 )(ChatsList)
-
