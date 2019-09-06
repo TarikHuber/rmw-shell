@@ -194,6 +194,7 @@ class Messages extends Component {
           backgroundColor: theme.palette.background.default,
           width: '100%'
         }}
+        renderView={props => <div {...props} style={{ ...props.style, overflowX: 'hidden' }} />}
       >
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
           <div style={{ maxWidth: 600, margin: 8, width: '100%' }}>
@@ -220,7 +221,6 @@ class Messages extends Component {
 }
 
 Messages.propTypes = {
-  
   theme: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired
 }
@@ -248,13 +248,14 @@ const mapStateToProps = (state, ownPops) => {
   }
 }
 
-
 export default compose(
-  connect(  mapStateToProps, { setSimpleValue, setPersistentValue }),
+  connect(
+    mapStateToProps,
+    { setSimpleValue, setPersistentValue }
+  ),
   injectIntl,
   withTheme,
   withRouter,
   withFirebase,
   withAppConfigs
 )(Messages)
-
