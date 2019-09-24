@@ -140,7 +140,7 @@ const Activity = ({
           >
             <ChevronLeft />
           </IconButton>
-          {!onBackClick && drawer.open && <div style={{ marginRight: 32 }} />}
+          {!onBackClick && drawer.open && false && <div style={{ marginRight: 32 }} />}
 
           <Typography variant="h6" color="inherit" noWrap>
             {headerTitle}
