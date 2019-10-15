@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React from 'react'
 import moment from 'moment'
-import { DatePicker } from 'material-ui-pickers'
+import { DatePicker } from '@material-ui/pickers'
 
 const DateField = props => {
   const { input, dateFormat, inputFormat, yearPuffer, ...rest } = props

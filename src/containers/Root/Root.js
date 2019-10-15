@@ -2,16 +2,16 @@ import AppConfigProvider from '../../contexts/AppConfigProvider/Provider'
 import AppLayout from '../../containers/AppLayout'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Helmet from 'react-helmet'
-import React, {  useEffect } from 'react'
+import React, { useEffect } from 'react'
 import Utils from '@date-io/moment'
 import getThemeSource from '../../config/themes'
 import locales, { getLocaleMessages } from '../../config/locales'
 import { IntlProvider } from 'react-intl'
-import { MuiPickersUtilsProvider } from 'material-ui-pickers'
+import { MuiPickersUtilsProvider } from '@material-ui/pickers'
 import { Router, Route, Switch } from 'react-router-dom'
 import { ThemeProvider } from '@material-ui/styles'
 import { bindActionCreators } from 'redux'
-import {  useSelector, shallowEqual, useDispatch } from 'react-redux'
+import { useSelector, shallowEqual, useDispatch } from 'react-redux'
 import { createBrowserHistory } from 'history'
 import { createMuiTheme } from '@material-ui/core/styles'
 import { initializeMessaging } from '../../utils/messaging'
@@ -20,7 +20,6 @@ import { setPersistentValue } from '../../store/persistentValues/actions'
 import { watchAuth, clearInitialization, initConnection, watchList, initMessaging, watchPath } from 'firekit'
 
 const history = createBrowserHistory()
-
 
 const getActions = dispatch => {
   return bindActionCreators(
@@ -39,14 +38,7 @@ const getActions = dispatch => {
 
 const Root = props => {
   const actions = getActions(useDispatch())
-  const {
-    watchAuth,
-    clearInitialization,
-    watchConnection,
-    watchList,
-    watchPath,
-    initMessaging,
-  } =actions
+  const { watchAuth, clearInitialization, watchConnection, watchList, watchPath, initMessaging } = actions
   const { appConfig } = props
   const locale = useSelector(state => state.locale, shallowEqual)
   const themeSource = useSelector(state => state.themeSource, shallowEqual)
@@ -106,7 +98,7 @@ const Root = props => {
 
       if (appConfig.onAuthStateChanged) {
         try {
-          appConfig.onAuthStateChanged(user, {...props, ...actions}, firebaseApp)
+          appConfig.onAuthStateChanged(user, { ...props, ...actions }, firebaseApp)
         } catch (err) {
           console.warn(err)
         }

@@ -1,6 +1,6 @@
 import React from 'react'
 import moment from 'moment'
-import { TimePicker } from 'material-ui-pickers'
+import { TimePicker } from '@material-ui/pickers'
 
 const TimeField = props => {
   const { input, timeFormat, inputFormat, ...rest } = props
