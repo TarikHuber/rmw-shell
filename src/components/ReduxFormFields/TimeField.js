@@ -1,6 +1,6 @@
 import React from 'react'
 import moment from 'moment'
-import { TimePicker } from '@material-ui/pickers'
+import { KeyboardTimePicker } from '@material-ui/pickers'
 
 const TimeField = props => {
   const { input, timeFormat, inputFormat, ...rest } = props
@@ -20,7 +20,7 @@ const TimeField = props => {
   }
 
   return (
-    <TimePicker
+    <KeyboardTimePicker
       value={value ? value : null}
       onChange={handleChange}
       onBlur={handleBlur}

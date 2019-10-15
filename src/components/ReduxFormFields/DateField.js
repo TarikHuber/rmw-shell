@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React from 'react'
 import moment from 'moment'
-import { DatePicker } from '@material-ui/pickers'
+import { KeyboardDatePicker } from '@material-ui/pickers'
 
 const DateField = props => {
   const { input, dateFormat, inputFormat, yearPuffer, ...rest } = props
@@ -29,7 +29,7 @@ const DateField = props => {
   }
 
   return (
-    <DatePicker
+    <KeyboardDatePicker
       value={value ? value : null}
       onChange={handleChange}
       onBlur={handleBlur}
