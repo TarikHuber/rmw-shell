@@ -4,6 +4,8 @@ import MenuItem from '@material-ui/core/MenuItem'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import TextField from 'rmw-shell/lib/components/ReduxFormFields/TextField'
+import DateField from 'rmw-shell/lib/components/ReduxFormFields/DateField'
+import TimeField from 'rmw-shell/lib/components/ReduxFormFields/TimeField'
 import { Field, reduxForm, formValueSelector } from 'redux-form'
 import { VirtualizedSelectField } from 'muishift'
 import { connect } from 'react-redux'
@@ -39,6 +41,7 @@ class Form extends Component {
               component={TextField}
               placeholder={intl.formatMessage({ id: 'title_hint' })}
               label={intl.formatMessage({ id: 'title_label' })}
+              fullWidth
             />
           </div>
 
@@ -50,12 +53,33 @@ class Form extends Component {
               multiline
               placeholder={intl.formatMessage({ id: 'description_hint' })}
               label={intl.formatMessage({ id: 'description_label' })}
+              fullWidth
+            />
+          </div>
+
+          <div>
+            <Field
+              name="date"
+              label={intl.formatMessage({ id: 'date_label' })}
+              disabled={!initialized}
+              component={DateField}
+              fullWidth
+            />
+          </div>
+          <div>
+            <Field
+              name="time"
+              label={intl.formatMessage({ id: 'time_label' })}
+              disabled={!initialized}
+              component={TimeField}
+              fullWidth
             />
           </div>
 
           <br />
           <div>
             <Field
+              fullWidth
               name="helper"
               rowHeight={54}
               component={VirtualizedSelectField}
