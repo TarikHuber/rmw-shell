@@ -31,8 +31,8 @@ const styles = theme => ({
     })
   },
   menuButton: {
-    marginLeft: 12,
-    marginRight: 12
+    marginLeft: -12
+    //marginRight: 12
   },
   toolbar: {
     alignItems: 'center',
@@ -119,13 +119,13 @@ const Activity = ({
             : classes.appBar
         }
       >
-        <Toolbar disableGutters={!drawer.open || smDown}>
+        <Toolbar>
           <IconButton
             color="inherit"
             aria-label="open drawer"
             onClick={handleDrawerMenuClick}
             className={classNames(
-              !smDown && classes.menuButton,
+              classes.menuButton,
               drawer.open && !smDown && classes.hide,
               onBackClick && classes.hide
             )}
@@ -136,7 +136,7 @@ const Activity = ({
             color="inherit"
             aria-label="open drawer"
             onClick={onBackClick}
-            className={classNames(!smDown && classes.menuButton, !onBackClick && classes.hide)}
+            className={classNames(classes.menuButton, !onBackClick && classes.hide)}
           >
             <ChevronLeft />
           </IconButton>
