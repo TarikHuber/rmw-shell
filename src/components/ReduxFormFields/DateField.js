@@ -29,6 +29,12 @@ const DateField = props => {
     }
   }
 
+  const handleAccept = date => {
+    setEditing(false)
+
+    onChange(moment(date).format())
+  }
+
   return (
     <KeyboardDatePicker
       value={value ? value : null}
@@ -36,6 +42,7 @@ const DateField = props => {
       onChange={handleChange}
       onBlur={handleBlur}
       format={dateFormat}
+      onAccept={handleAccept}
       rifmFormatter={s => {
         return s
       }}

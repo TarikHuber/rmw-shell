@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import moment from 'moment'
-import Add from '@material-ui/icons/Add'
 import { KeyboardTimePicker } from '@material-ui/pickers'
 
 const TimeField = props => {
@@ -24,6 +23,12 @@ const TimeField = props => {
     }
   }
 
+  const handleAccept = date => {
+    setEditing(false)
+
+    onChange(moment(date).format())
+  }
+
   return (
     <KeyboardTimePicker
       value={value ? value : null}
@@ -31,6 +36,7 @@ const TimeField = props => {
       onChange={handleChange}
       onBlur={handleBlur}
       format={timeFormat}
+      onAccept={handleAccept}
       rifmFormatter={s => {
         return s
       }}
