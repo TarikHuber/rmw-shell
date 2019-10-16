@@ -119,7 +119,7 @@ const Activity = ({
             : classes.appBar
         }
       >
-        <Toolbar disableGutters={true}>
+        <Toolbar disableGutters={!drawer.open || smDown}>
           <IconButton
             color="inherit"
             aria-label="open drawer"
