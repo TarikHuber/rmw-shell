@@ -5,12 +5,13 @@ import { KeyboardDatePicker } from '@material-ui/pickers'
 
 const DateField = props => {
   const {
-    meta: { error, touched },
+    meta = {},
     input: { value, ...inputProps },
     format,
     yearPuffer,
     ...others
   } = props
+  const { submitting, error, touched } = meta
 
   const handleBlur = e => {
     const value = e.target.value
@@ -37,6 +38,7 @@ const DateField = props => {
       {...others}
       format={format}
       value={value ? new Date(value) : null}
+      disabled={submitting}
       onBlur={handleBlur}
       error={error && touched}
       onAccept={onAccept}
