@@ -4,10 +4,9 @@ import { KeyboardTimePicker } from '@material-ui/pickers'
 
 const TimeField = props => {
   const {
-    meta: { submitting, error, touched },
+    meta: { error, touched },
     input: { value, ...inputProps },
     format,
-    yearPuffer,
     ...others
   } = props
 
@@ -30,7 +29,6 @@ const TimeField = props => {
       {...others}
       format={format}
       value={value ? new Date(value) : null}
-      disabled={submitting}
       onBlur={handleBlur}
       error={error && touched}
       onAccept={onAccept}
