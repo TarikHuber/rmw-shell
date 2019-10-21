@@ -1,46 +1,40 @@
-import React, { useState } from 'react'
+import React from 'react'
 import moment from 'moment'
 import { KeyboardTimePicker } from '@material-ui/pickers'
 
 const TimeField = props => {
-  const { input, timeFormat, inputFormat, ...rest } = props
-  const { onChange, value } = input
-
-  const [isEditing, setEditing] = useState(false)
-
-  const handleChange = (time, value) => {
-    if (onChange) {
-      onChange(value)
-      setEditing(true)
-    }
-  }
+  const {
+    meta: { submitting, error, touched },
+    input: { value, ...inputProps },
+    format,
+    yearPuffer,
+    ...others
+  } = props
 
   const handleBlur = e => {
     const value = e.target.value
-    if (inputFormat && value != null && value.length > 1) {
-      onChange(moment(e.target.value, inputFormat).format())
-      setEditing(false)
+    if (moment(value, format).isValid()) {
+      inputProps.onBlur(moment(value, format).format())
+    } else {
+      inputProps.onBlur(null)
     }
   }
 
-  const handleAccept = date => {
-    setEditing(false)
-
-    onChange(moment(date).format())
+  const onAccept = value => {
+    inputProps.onChange(moment(value, format).format())
   }
 
   return (
     <KeyboardTimePicker
-      value={value ? value : null}
-      inputValue={isEditing ? value : undefined}
-      onChange={handleChange}
+      {...inputProps}
+      {...others}
+      format={format}
+      value={value ? new Date(value) : null}
+      disabled={submitting}
       onBlur={handleBlur}
-      format={timeFormat}
-      onAccept={handleAccept}
-      rifmFormatter={s => {
-        return s
-      }}
-      {...rest}
+      error={error && touched}
+      onAccept={onAccept}
+      placeholder={moment().format(format)}
     />
   )
 }
@@ -49,10 +43,8 @@ TimeField.defaultProps = {
   ampm: false,
   keyboard: true,
   autoOk: true,
-  keyboardIcon: 'access_time',
   disableOpenOnEnter: true,
-  timeFormat: 'HH:mm',
-  inputFormat: 'HH-mm'
+  format: 'HH:mm'
 }
 
 export default TimeField

@@ -1,63 +1,56 @@
 /* eslint-disable react/prop-types */
-import React, { useState } from 'react'
+import React from 'react'
 import moment from 'moment'
 import { KeyboardDatePicker } from '@material-ui/pickers'
 
 const DateField = props => {
-  const [isEditing, setEditing] = useState(false)
-
-  const { input, dateFormat, inputFormat, yearPuffer, ...rest } = props
-  const { onChange, value } = input
-
-  const handleChange = (date, value) => {
-    onChange(value)
-    setEditing(true)
-  }
+  const {
+    meta: { submitting, error, touched },
+    input: { value, ...inputProps },
+    format,
+    yearPuffer,
+    ...others
+  } = props
 
   const handleBlur = e => {
     const value = e.target.value
-    if (inputFormat && value != null && value.length > 1) {
-      const rawMoment = moment(value, inputFormat)
+    if (moment(value, format).isValid()) {
+      let date = moment(value, format)
 
-      if (rawMoment.month() + yearPuffer < moment().month()) {
-        onChange(moment(value, inputFormat).format())
-      } else {
-        onChange(moment(value, inputFormat).format())
+      if (date.month() < moment().month() && date.year() === moment().year() && moment().month() > 11 - yearPuffer) {
+        date.add(1, 'year')
       }
 
-      setEditing(false)
+      inputProps.onBlur(date.format())
+    } else {
+      inputProps.onBlur(null)
     }
   }
 
-  const handleAccept = date => {
-    setEditing(false)
-
-    onChange(moment(date).format())
+  const onAccept = value => {
+    inputProps.onChange(moment(value, format).format())
   }
 
   return (
     <KeyboardDatePicker
-      value={value ? value : null}
-      inputValue={isEditing ? value : undefined}
-      onChange={handleChange}
+      {...inputProps}
+      {...others}
+      format={format}
+      value={value ? new Date(value) : null}
+      disabled={submitting}
       onBlur={handleBlur}
-      format={dateFormat}
-      onAccept={handleAccept}
-      rifmFormatter={s => {
-        return s
-      }}
-      {...rest}
+      error={error && touched}
+      onAccept={onAccept}
+      placeholder={moment().format(format)}
     />
   )
 }
 
 DateField.defaultProps = {
-  keyboard: true,
   autoOk: true,
   disableOpenOnEnter: true,
-  dateFormat: 'DD.MM.YYYY',
-  inputFormat: 'DD-MM',
-  yearPuffer: 3
+  format: 'DD.MM.YYYY',
+  yearPuffer: 0
 }
 
 export default DateField
