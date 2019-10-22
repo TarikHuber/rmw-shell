@@ -7,7 +7,7 @@ const DateField = props => {
   const {
     meta = {},
     input: { value, ...inputProps },
-    format,
+    dateFormat,
     yearPuffer,
     ...others
   } = props
@@ -15,8 +15,8 @@ const DateField = props => {
 
   const handleBlur = e => {
     const value = e.target.value
-    if (moment(value, format).isValid()) {
-      let date = moment(value, format)
+    if (moment(value, dateFormat).isValid()) {
+      let date = moment(value, dateFormat)
 
       if (date.month() < moment().month() && date.year() === moment().year() && moment().month() > 11 - yearPuffer) {
         date.add(1, 'year')
@@ -29,20 +29,20 @@ const DateField = props => {
   }
 
   const onAccept = value => {
-    inputProps.onChange(moment(value, format).format())
+    inputProps.onChange(moment(value, dateFormat).format())
   }
 
   return (
     <KeyboardDatePicker
+      placeholder={moment().format()}
       {...inputProps}
       {...others}
-      format={format}
+      format={dateFormat}
       value={value ? new Date(value) : null}
       disabled={submitting}
       onBlur={handleBlur}
       error={error && touched}
       onAccept={onAccept}
-      placeholder={moment().format()}
     />
   )
 }
@@ -50,7 +50,7 @@ const DateField = props => {
 DateField.defaultProps = {
   autoOk: true,
   disableOpenOnEnter: true,
-  format: 'DD.MM.YYYY',
+  dateFormat: 'DD.MM.YYYY',
   yearPuffer: 0
 }
 

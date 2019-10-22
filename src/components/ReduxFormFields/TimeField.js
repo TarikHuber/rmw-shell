@@ -6,35 +6,35 @@ const TimeField = props => {
   const {
     meta = {},
     input: { value, ...inputProps },
-    format,
+    timeFormat,
     ...others
   } = props
   const { submitting, error, touched } = meta
 
   const handleBlur = e => {
     const value = e.target.value
-    if (moment(value, format).isValid()) {
-      inputProps.onBlur(moment(value, format).format())
+    if (moment(value, timeFormat).isValid()) {
+      inputProps.onBlur(moment(value, timeFormat).format())
     } else {
       inputProps.onBlur(null)
     }
   }
 
   const onAccept = value => {
-    inputProps.onChange(moment(value, format).format())
+    inputProps.onChange(moment(value, timeFormat).format())
   }
 
   return (
     <KeyboardTimePicker
+      placeholder={moment().format(timeFormat)}
       {...inputProps}
       {...others}
-      format={format}
+      format={timeFormat}
       value={value ? new Date(value) : null}
       disabled={submitting}
       onBlur={handleBlur}
       error={error && touched}
       onAccept={onAccept}
-      placeholder={moment().format(format)}
     />
   )
 }
@@ -44,7 +44,7 @@ TimeField.defaultProps = {
   keyboard: true,
   autoOk: true,
   disableOpenOnEnter: true,
-  format: 'HH:mm'
+  timeFormat: 'HH:mm'
 }
 
 export default TimeField
