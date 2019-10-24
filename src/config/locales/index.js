@@ -1,10 +1,11 @@
-import 'intl-pluralrules'
+//import 'intl-pluralrules'
 import en_messages from './en'
 import de_messages from './de'
 import '@formatjs/intl-relativetimeformat/polyfill'
 import '@formatjs/intl-relativetimeformat/dist/locale-data/de'
 import '@formatjs/intl-relativetimeformat/dist/locale-data/en'
 import areIntlLocalesSupported from 'intl-locales-supported'
+import intl from 'intl'
 
 // START: Intl polyfill
 // Required for working on Safari
@@ -18,24 +19,24 @@ if (global.Intl) {
   if (!areIntlLocalesSupported(localesMyAppSupports)) {
     // `Intl` exists, but it doesn't have the data we need, so load the
     // polyfill and replace the constructors with need with the polyfill's.
-    let IntlPolyfill = require('intl')
+    let IntlPolyfill = intl
     Intl.NumberFormat = IntlPolyfill.NumberFormat
     Intl.DateTimeFormat = IntlPolyfill.DateTimeFormat
   }
 } else {
   // No `Intl`, so use and load the polyfill.
-  global.Intl = require('intl')
+  global.Intl = intl
 }
 // END: Intl polyfill
 
 const locales = [
   {
     locale: 'en',
-    messages: en_messages,
+    messages: en_messages
   },
   {
     locale: 'de',
-    messages: de_messages,
+    messages: de_messages
   }
 ]
 
@@ -50,6 +51,5 @@ export function getLocaleMessages(l, ls) {
 
   return en_messages // Default locale
 }
-
 
 export default locales
