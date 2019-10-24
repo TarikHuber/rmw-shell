@@ -15,6 +15,7 @@ import { withFirebase } from 'firekit-provider'
 import { withRouter } from 'react-router-dom'
 import { withTheme } from '@material-ui/core/styles'
 import moment from 'moment'
+import { Typography } from '@material-ui/core'
 
 const getActions = dispatch => bindActionCreators({ setSimpleValue }, dispatch)
 
@@ -119,7 +120,9 @@ const Message = props => {
                 width: 'fit-content'
               }}
             >
-              <div
+              <Typography
+                variant="body1"
+                color="inherit"
                 style={{
                   maxWidth: 500,
                   width: 'fit-content',
@@ -174,8 +177,8 @@ const Message = props => {
                     color={backgroundColor}
                   />
                 )}
-                {type === 'text' && values.message}
-              </div>
+                {type === 'text' && <Typography variant="body1">{values.message}</Typography>}
+              </Typography>
               <div
                 style={{
                   fontSize: 9,

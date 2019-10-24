@@ -134,7 +134,7 @@ class Messages extends Component {
       const stringDate = values.created ? new Date(values.created).toISOString().slice(0, 10) : ''
       let dataChanged = false
       let authorChanged = false
-      const backgroundColor = values.authorUid === auth.uid ? theme.palette.primary.main : myBColor
+      const backgroundColor = values.authorUid === auth.uid ? theme.palette.grey[500] : myBColor
       const color = theme.palette.text.primary
       let type = values.message
         ? 'text'
@@ -198,7 +198,7 @@ class Messages extends Component {
       >
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
           <div style={{ maxWidth: 600, margin: 8, width: '100%' }}>
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <div style={{ display: 'flex', justifyContent: 'center', marginTop: 18 }}>
               <Chip
                 label={intl.formatMessage({ id: 'load_more_label' })}
                 onClick={this.handleLoadMore}

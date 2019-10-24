@@ -115,7 +115,7 @@ class ChatMessages extends Component {
             <Send />
           </IconButton>
         </ListItem>
-        <Divider variant='inset' />
+        <Divider variant="inset" />
       </div>
     )
   }
@@ -263,7 +263,7 @@ class ChatMessages extends Component {
               />
 
               <div style={{ position: 'absolute', right: 55, top: -10, width: 20, height: 0 }}>
-                <IconButton color={'primary'}  onClick={() => this.fileInput.click()}>
+                <IconButton color={'primary'} onClick={() => this.fileInput.click()}>
                   <Photo />
                 </IconButton>
               </div>
@@ -301,7 +301,6 @@ class ChatMessages extends Component {
 }
 
 ChatMessages.propTypes = {
-  
   theme: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired
 }

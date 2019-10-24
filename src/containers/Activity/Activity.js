@@ -28,7 +28,8 @@ const styles = theme => ({
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen
-    })
+    }),
+    maxHeight: 64
   },
   menuButton: {
     marginLeft: -12
