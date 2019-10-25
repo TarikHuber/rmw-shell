@@ -6,7 +6,7 @@ import IconButton from '@material-ui/core/IconButton'
 import Image from 'material-ui-image'
 import Place from '@material-ui/icons/Place'
 import PropTypes from 'prop-types'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { compose, bindActionCreators } from 'redux'
 import { injectIntl } from 'react-intl'
@@ -16,10 +16,15 @@ import { withRouter } from 'react-router-dom'
 import { withTheme } from '@material-ui/core/styles'
 import moment from 'moment'
 import { Typography } from '@material-ui/core'
+import Modal from '@material-ui/core/Modal'
+import Backdrop from '@material-ui/core/Backdrop'
+import Fade from '@material-ui/core/Fade'
+import ImageViewer from '../../components/ImageViewer'
 
 const getActions = dispatch => bindActionCreators({ setSimpleValue }, dispatch)
 
 const Message = props => {
+  const [open, setOpen] = useState(false)
   const auth = useSelector(state => state.auth)
   const { setSimpleValue } = getActions(useDispatch())
 
@@ -127,7 +132,7 @@ const Message = props => {
                   maxWidth: 500,
                   width: 'fit-content',
                   fontSize: 16,
-                  paddingLeft: 8,
+                  paddingLeft: 5,
                   margin: 'auto',
                   whiteSpace: 'pre-wrap',
                   overflowWrap: 'break-word',
@@ -166,13 +171,10 @@ const Message = props => {
                   </a>
                 )}
                 {type === 'image' && values.image !== null && (
-                  <Image
-                    style={{ width: 'auto', height: 280, paddingTop: 0, cursor: 'pointer' }}
+                  <ImageViewer
+                    style={{ height: 'auto', maxWidth: 400, paddingTop: 0, cursor: 'pointer' }}
                     imageStyle={{ maxWidth: '100%', padding: 0, position: 'relative', borderRadius: 5 }}
                     onLoad={scrollToBottom}
-                    onClick={() => {
-                      window.open(values.image, '_blank')
-                    }}
                     src={values.image}
                     color={backgroundColor}
                   />
