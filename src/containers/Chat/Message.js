@@ -3,28 +3,23 @@ import Chip from '@material-ui/core/Chip'
 import Done from '@material-ui/icons/Done'
 import DoneAll from '@material-ui/icons/DoneAll'
 import IconButton from '@material-ui/core/IconButton'
-import Image from 'material-ui-image'
+import ImageViewer from '../../components/ImageViewer'
 import Place from '@material-ui/icons/Place'
 import PropTypes from 'prop-types'
-import React, { useEffect, useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import React, { useEffect } from 'react'
+import moment from 'moment'
+import { Typography } from '@material-ui/core'
 import { compose, bindActionCreators } from 'redux'
 import { injectIntl } from 'react-intl'
 import { setSimpleValue } from '../../store/simpleValues/actions'
+import { useSelector, useDispatch } from 'react-redux'
 import { withFirebase } from 'firekit-provider'
 import { withRouter } from 'react-router-dom'
 import { withTheme } from '@material-ui/core/styles'
-import moment from 'moment'
-import { Typography } from '@material-ui/core'
-import Modal from '@material-ui/core/Modal'
-import Backdrop from '@material-ui/core/Backdrop'
-import Fade from '@material-ui/core/Fade'
-import ImageViewer from '../../components/ImageViewer'
 
 const getActions = dispatch => bindActionCreators({ setSimpleValue }, dispatch)
 
 const Message = props => {
-  const [open, setOpen] = useState(false)
   const auth = useSelector(state => state.auth)
   const { setSimpleValue } = getActions(useDispatch())
 
