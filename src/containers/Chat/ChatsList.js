@@ -51,6 +51,11 @@ export class ChatsList extends Component {
     //requestNotificationPermission(this.props)
   }
 
+  componentWillUnmount() {
+    const { destroyList, path } = this.props
+    destroyList(path)
+  }
+
   componentDidCatch() {
     // Display fallback UI
     this.setState({ hasError: true })

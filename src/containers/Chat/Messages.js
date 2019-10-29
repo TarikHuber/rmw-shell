@@ -88,6 +88,11 @@ class Messages extends Component {
     }
   }
 
+  componentWillUnmount() {
+    const { destroyList, path } = this.props
+    destroyList(path)
+  }
+
   handleLoadMore = () => {
     const { watchList, unwatchList, firebaseApp, setSimpleValue, simpleValues, path } = this.props
 

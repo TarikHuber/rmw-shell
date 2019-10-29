@@ -21,6 +21,7 @@ import { setSimpleValue } from '../../store/simpleValues/actions'
 import { withFirebase } from 'firekit-provider'
 import { withRouter } from 'react-router-dom'
 import { withTheme } from '@material-ui/core/styles'
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 class ChatMessages extends Component {
   constructor(props) {
@@ -28,7 +29,8 @@ class ChatMessages extends Component {
     this.name = null
 
     this.state = {
-      value: ''
+      value: '',
+      isUploading: false
     }
   }
 
@@ -133,6 +135,8 @@ class ChatMessages extends Component {
       return
     }
 
+    this.setState({ isUploading: true })
+
     let reader = new FileReader()
 
     const key = firebaseApp
@@ -155,6 +159,7 @@ class ChatMessages extends Component {
         () => {
           uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
             this.handleAddMessage('image', downloadURL, key)
+            this.setState({ isUploading: false })
           })
         }
       )
@@ -165,6 +170,7 @@ class ChatMessages extends Component {
 
   render() {
     const { theme, intl, chatMessageMenuOpen, predefinedMessages, path, receiverPath } = this.props
+    const { isUploading = false } = this.state
 
     return (
       <div
@@ -263,9 +269,17 @@ class ChatMessages extends Component {
               />
 
               <div style={{ position: 'absolute', right: 55, top: -10, width: 20, height: 0 }}>
-                <IconButton color={'primary'} onClick={() => this.fileInput.click()}>
-                  <Photo />
-                </IconButton>
+                {!isUploading && (
+                  <IconButton color={'primary'} onClick={() => this.fileInput.click()}>
+                    <Photo />
+                  </IconButton>
+                )}
+                {isUploading && (
+                  <CircularProgress
+                    color="secondary"
+                    style={{ width: 20, height: 20, marginTop: 14, marginLeft: 15 }}
+                  />
+                )}
               </div>
             </div>
           </div>
