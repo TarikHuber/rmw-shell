@@ -43,9 +43,22 @@ const Root = props => {
   const { appConfig, deferredPrompt, isAppInstallable, isAppInstalled } = props
   const locale = useSelector(state => state.locale, shallowEqual)
   const themeSource = useSelector(state => state.themeSource, shallowEqual)
+  const auth = useSelector(state => state.auth, shallowEqual)
   const messages = { ...getLocaleMessages(locale, locales), ...getLocaleMessages(locale, appConfig.locales) }
   const source = getThemeSource(themeSource, appConfig.themes)
   const theme = createMuiTheme(source)
+
+  const handleInstallPrompt = () => {
+    console.log('auth', auth)
+    console.log('isAuthorised', auth.isAuthorised)
+    console.log('isAppInstallable', isAppInstallable)
+    console.log('isAppInstalled', isAppInstalled)
+    console.log('deferredPrompt', deferredPrompt)
+
+    if (auth.isAuthorised && isAppInstallable && !isAppInstalled) {
+      deferredPrompt.prompt()
+    }
+  }
 
   const handlePresence = (user, firebaseApp) => {
     let myConnectionsRef = firebaseApp.database().ref(`users/${user.uid}/connections`)
@@ -65,12 +78,6 @@ const Root = props => {
       handlePresence(user, firebaseApp)
       setTimeout(() => {
         watchConnection(firebaseApp)
-        console.log('isAppInstallable', isAppInstallable)
-        console.log('isAppInstalled', isAppInstalled)
-        console.log('deferredPrompt', deferredPrompt)
-        if (isAppInstallable && !isAppInstalled) {
-          deferredPrompt.prompt()
-        }
       }, 1000)
 
       const userData = {
@@ -131,7 +138,7 @@ const Root = props => {
   }, [])
 
   return (
-    <div>
+    <div onClick={handleInstallPrompt}>
       <Helmet>
         <link rel="stylesheet" type="text/css" href="https://cdn.firebase.com/libs/firebaseui/3.0.0/firebaseui.css" />
       </Helmet>
