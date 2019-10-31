@@ -1,12 +1,12 @@
 import React from 'react'
+import Scrollbar from '../../components/Scrollbar'
 import SelectableMenuList from '../../containers/SelectableMenuList'
-import { withAppConfigs } from '../../contexts/AppConfigProvider'
 import { compose } from 'redux'
 import { injectIntl } from 'react-intl'
 import { withA2HS } from 'a2hs'
+import { withAppConfigs } from '../../contexts/AppConfigProvider'
 import { withRouter } from 'react-router-dom'
 import { withTheme } from '@material-ui/core/styles'
-import Scrollbar from '../../components/Scrollbar'
 
 export const DrawerContent = props => {
   const { appConfig, dialogs, match, messaging, drawer } = props

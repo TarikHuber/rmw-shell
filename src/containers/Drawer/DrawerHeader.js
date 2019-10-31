@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { DrawerHeader } from '../../components/Drawer'
-import { setDialogIsOpen } from '../../store/dialogs/actions'
 import drawerActions from '../../store/drawer/actions'
+import { DrawerHeader } from '../../components/Drawer'
+import { connect } from 'react-redux'
+import { setDialogIsOpen } from '../../store/dialogs/actions'
 
 DrawerHeader.propTypes = {
   auth: PropTypes.object

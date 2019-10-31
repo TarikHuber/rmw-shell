@@ -1,9 +1,7 @@
 import DrawerContent from './DrawerContent'
 import DrawerHeader from './DrawerHeader'
-import React, { Component } from 'react'
+import React from 'react'
 import ResponsiveDrawer from '../../containers/ResponsiveDrawer'
-import Scrollbar from '../../components/Scrollbar'
-import { injectIntl } from 'react-intl'
 import { withAppConfigs } from '../../contexts/AppConfigProvider'
 import { withRouter } from 'react-router-dom'
 

@@ -10,12 +10,10 @@ import { Provider } from 'react-redux'
 
 const Loading = () => <LoadingComponent />
 
-
 export const RootAsync = Loadable({
   loader: () => import('rmw-shell/lib/containers/Root'),
   loading: Loading
 })
-
 
 const App = ({ appConfig }) => {
   const store = appConfig && appConfig.configureStore ? appConfig.configureStore() : configureStore()

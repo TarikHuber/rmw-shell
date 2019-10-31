@@ -11,13 +11,14 @@ import { MuiPickersUtilsProvider } from '@material-ui/pickers'
 import { Router, Route, Switch } from 'react-router-dom'
 import { ThemeProvider } from '@material-ui/styles'
 import { bindActionCreators } from 'redux'
-import { useSelector, shallowEqual, useDispatch } from 'react-redux'
 import { createBrowserHistory } from 'history'
 import { createMuiTheme } from '@material-ui/core/styles'
 import { initializeMessaging } from '../../utils/messaging'
 import { saveAuthorisation } from '../../utils/auth'
 import { setPersistentValue } from '../../store/persistentValues/actions'
+import { useSelector, shallowEqual, useDispatch } from 'react-redux'
 import { watchAuth, clearInitialization, initConnection, watchList, initMessaging, watchPath } from 'firekit'
+import { withA2HS } from 'a2hs'
 
 const history = createBrowserHistory()
 
@@ -39,7 +40,7 @@ const getActions = dispatch => {
 const Root = props => {
   const actions = getActions(useDispatch())
   const { watchAuth, clearInitialization, watchConnection, watchList, watchPath, initMessaging } = actions
-  const { appConfig } = props
+  const { appConfig, deferredPrompt, isAppInstallable, isAppInstalled } = props
   const locale = useSelector(state => state.locale, shallowEqual)
   const themeSource = useSelector(state => state.themeSource, shallowEqual)
   const messages = { ...getLocaleMessages(locale, locales), ...getLocaleMessages(locale, appConfig.locales) }
@@ -64,6 +65,9 @@ const Root = props => {
       handlePresence(user, firebaseApp)
       setTimeout(() => {
         watchConnection(firebaseApp)
+        if (isAppInstallable && !isAppInstalled) {
+          deferredPrompt.prompt()
+        }
       }, 1000)
 
       const userData = {
@@ -148,4 +152,4 @@ const Root = props => {
   )
 }
 
-export default Root
+export default withA2HS(Root)
