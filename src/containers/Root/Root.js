@@ -37,6 +37,8 @@ const getActions = dispatch => {
   )
 }
 
+let installPromptShowed = false
+
 const Root = props => {
   const actions = getActions(useDispatch())
   const { watchAuth, clearInitialization, watchConnection, watchList, watchPath, initMessaging } = actions
@@ -49,13 +51,8 @@ const Root = props => {
   const theme = createMuiTheme(source)
 
   const handleInstallPrompt = () => {
-    console.log('auth', auth)
-    console.log('isAuthorised', auth.isAuthorised)
-    console.log('isAppInstallable', isAppInstallable)
-    console.log('isAppInstalled', isAppInstalled)
-    console.log('deferredPrompt', deferredPrompt)
-
-    if (auth.isAuthorised && isAppInstallable && !isAppInstalled) {
+    if (!installPromptShowed && auth.isAuthorised && isAppInstallable && !isAppInstalled) {
+      installPromptShowed = true
       deferredPrompt.prompt()
     }
   }
