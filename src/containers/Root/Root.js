@@ -65,6 +65,9 @@ const Root = props => {
       handlePresence(user, firebaseApp)
       setTimeout(() => {
         watchConnection(firebaseApp)
+        console.log('isAppInstallable', isAppInstallable)
+        console.log('isAppInstalled', isAppInstalled)
+        console.log('deferredPrompt', deferredPrompt)
         if (isAppInstallable && !isAppInstalled) {
           deferredPrompt.prompt()
         }
