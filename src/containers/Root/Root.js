@@ -49,9 +49,10 @@ const Root = props => {
   const messages = { ...getLocaleMessages(locale, locales), ...getLocaleMessages(locale, appConfig.locales) }
   const source = getThemeSource(themeSource, appConfig.themes)
   const theme = createMuiTheme(source)
+  let showInstallPrompt = auth.isAuthorised && isAppInstallable && !isAppInstalled
 
   const handleInstallPrompt = () => {
-    if (!installPromptShowed && auth.isAuthorised && isAppInstallable && !isAppInstalled) {
+    if (!installPromptShowed && showInstallPrompt) {
       installPromptShowed = true
       deferredPrompt.prompt()
     }
@@ -135,7 +136,7 @@ const Root = props => {
   }, [])
 
   return (
-    <div onClick={handleInstallPrompt}>
+    <div onClick={!installPromptShowed && showInstallPrompt ? handleInstallPrompt : undefined}>
       <Helmet>
         <link rel="stylesheet" type="text/css" href="https://cdn.firebase.com/libs/firebaseui/3.0.0/firebaseui.css" />
       </Helmet>
