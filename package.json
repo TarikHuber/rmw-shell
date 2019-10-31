@@ -21,13 +21,13 @@
   "dependencies": {},
   "peerDependencies": {
     "@date-io/moment": "1.x",
-    "@formatjs/intl-relativetimeformat": "^2.5.0",
+    "@formatjs/intl-relativetimeformat": "4.x",
     "@material-ui/core": "4.x",
     "@material-ui/icons": "4.x",
     "@material-ui/pickers": "3.x",
     "a2hs": "1.x",
     "downshift": "3.x",
-    "firebase": "6.x",
+    "firebase": "7.x",
     "firebaseui": "4.x",
     "fireform": "1.x",
     "firekit": "1.x",
@@ -60,7 +60,7 @@
     "redux": "4.x",
     "redux-form": "8.x",
     "redux-logger": "3.x",
-    "redux-persist": "5.x",
+    "redux-persist": "6.x",
     "redux-thunk": "2.x"
   },
   "devDependencies": {
