@@ -1,7 +1,6 @@
 import Activity from '../../containers/Activity'
-import Button from '@material-ui/core/Button'
-import FilterList from '@material-ui/icons/FilterList'
 import Add from '@material-ui/icons/Add'
+import FilterList from '@material-ui/icons/FilterList'
 import IconButton from '@material-ui/core/IconButton'
 import List from '@material-ui/core/List'
 import PropTypes from 'prop-types'
@@ -9,22 +8,27 @@ import React, { Component } from 'react'
 import ReactList from 'react-list'
 import Scrollbar from '../../components/Scrollbar'
 import SearchField from '../../components/SearchField'
+import Tooltip from '@material-ui/core/Tooltip'
 import isGranted from '../../utils/auth'
+import { Fab } from '@material-ui/core'
 import { FilterDrawer, filterSelectors, filterActions } from 'material-ui-filter'
+import { compose } from 'redux'
 import { connect } from 'react-redux'
+import { getCol } from 'firekit'
 import { injectIntl } from 'react-intl'
 import { withFirebase } from 'firekit-provider'
 import { withRouter } from 'react-router-dom'
-import { compose } from 'redux'
-import Tooltip from '@material-ui/core/Tooltip'
-import { getCol } from 'firekit'
-import { Fab } from '@material-ui/core'
 
 class CollectionActivity extends Component {
   componentDidMount() {
     const { path, name, watchCol } = this.props
 
-    watchCol(path ? path : name)
+    watchCol(path || name)
+  }
+
+  componentWillUnmount() {
+    const { unwatchCol, path, name } = this.props
+    unwatchCol(path || name)
   }
 
   render() {
@@ -91,8 +95,8 @@ class CollectionActivity extends Component {
                 handleCreateClick
                   ? handleCreateClick
                   : () => {
-                      history.push(`/${name}/create`)
-                    }
+                    history.push(`/${name}/create`)
+                  }
               }
               style={{ position: 'fixed', bottom: 15, right: 20, zIndex: 99 }}
               color={'secondary'}
@@ -108,7 +112,6 @@ class CollectionActivity extends Component {
 }
 
 CollectionActivity.propTypes = {
-  
   isGranted: PropTypes.func.isRequired
 }
 

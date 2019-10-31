@@ -1,12 +1,6 @@
 import Activity from '../../containers/Activity'
 import Avatar from '@material-ui/core/Avatar'
-import Button from '@material-ui/core/Button'
 import Delete from '@material-ui/icons/Delete'
-import Dialog from '@material-ui/core/Dialog'
-import DialogActions from '@material-ui/core/DialogActions'
-import DialogContent from '@material-ui/core/DialogContent'
-import DialogContentText from '@material-ui/core/DialogContentText'
-import DialogTitle from '@material-ui/core/DialogTitle'
 import Error from '@material-ui/icons/Error'
 import FormControl from '@material-ui/core/FormControl'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
@@ -19,6 +13,7 @@ import InputLabel from '@material-ui/core/InputLabel'
 import Person from '@material-ui/icons/Person'
 import PhotoCamera from '@material-ui/icons/PhotoCamera'
 import PropTypes from 'prop-types'
+import QuestionDialog from '../../containers/QuestionDialog'
 import React, { Component } from 'react'
 import Save from '@material-ui/icons/Save'
 import Switch from '@material-ui/core/Switch'
@@ -30,8 +25,9 @@ import requestNotificationPermission from '../../utils/messaging'
 import { GoogleIcon, FacebookIcon, GitHubIcon, TwitterIcon } from '../../components/Icons'
 import { ImageCropDialog } from '../../containers/ImageCropDialog'
 import { change, submit, formValueSelector } from 'redux-form'
+import { compose } from 'redux'
 import { connect } from 'react-redux'
-import { getList } from 'firekit'
+import { getList, getPath } from 'firekit'
 import { injectIntl } from 'react-intl'
 import { setDialogIsOpen } from '../../store/dialogs/actions'
 import { setPersistentValue } from '../../store/persistentValues/actions'
@@ -432,10 +428,11 @@ export class MyAccount extends Component {
   }
 
   componentDidMount() {
-    const { auth, watchList } = this.props
+    const { auth, watchList, watchPath } = this.props
     const { displayName, email, photoURL } = auth
 
     watchList(`notification_tokens/${auth.uid}`)
+    watchPath(`email_notifications/${auth.uid}`)
     this.setState({ values: { ...this.state.values, displayName, email, photoURL } })
   }
 
@@ -474,17 +471,24 @@ export class MyAccount extends Component {
     }
   }
 
+  handleEmailNotification = async e => {
+    const { firebaseApp, auth } = this.props
+    await firebaseApp
+      .database()
+      .ref(`email_notifications/${auth.uid}`)
+      .set(e.target.checked)
+  }
+
   render() {
     const {
       intl,
       setSimpleValue,
-      delete_user,
-      disable_notifications,
       auth,
       appConfig,
       classes,
       new_user_photo,
-      notificationTokens
+      notificationTokens,
+      emailNotifications = false
     } = this.props
 
     const showPasswords = this.isLinkedWithProvider('password')
@@ -529,7 +533,6 @@ export class MyAccount extends Component {
                 )}
                 {!this.state.values.photoURL && (
                   <Avatar className={classNames(classes.avatar, classes.bigAvatar)}>
-                    {' '}
                     <Person style={{ fontSize: 60 }} />{' '}
                   </Avatar>
                 )}
@@ -571,10 +574,22 @@ export class MyAccount extends Component {
                         <Switch
                           checked={notificationTokens.length > 0}
                           onChange={this.handleEnableNotificationsChange}
-                          value="checkedA"
+                          value="pushNotifiction"
                         />
                       }
                       label={intl.formatMessage({ id: 'notifications' })}
+                    />
+                  </FormGroup>
+                  <FormGroup row>
+                    <FormControlLabel
+                      control={
+                        <Switch
+                          checked={emailNotifications === true}
+                          onChange={this.handleEmailNotification}
+                          value="emailNotifications"
+                        />
+                      }
+                      label={intl.formatMessage({ id: 'email_notifications' })}
                     />
                   </FormGroup>
                 </div>
@@ -599,10 +614,13 @@ export class MyAccount extends Component {
                     <FormHelperText id="name-helper-text">{this.state.errors.displayName}</FormHelperText>
                   )}
                 </FormControl>
-                <FormControl className={classNames(classes.margin, classes.textField)} error={!!this.state.errors.email}>
+                <FormControl
+                  className={classNames(classes.margin, classes.textField)}
+                  error={!!this.state.errors.email}
+                >
                   <InputLabel htmlFor="adornment-password">{intl.formatMessage({ id: 'email' })}</InputLabel>
                   <Input
-                  //id="email"
+                    //id="email"
                     label="Email"
                     autoComplete="off"
                     placeholder={intl.formatMessage({ id: 'email' })}
@@ -616,7 +634,7 @@ export class MyAccount extends Component {
                         <IconButton
                           aria-label="Toggle password visibility"
                           onClick={auth.emailVerified === true ? undefined : this.handleEmailVerificationsSend}
-                        //onMouseDown={this.handleMouseDownPassword}
+                          //onMouseDown={this.handleMouseDownPassword}
                         >
                           {auth.emailVerified && <VerifiedUser color="primary" />}
                           {!auth.emailVerified && <Error color="secondary" />}
@@ -723,51 +741,21 @@ export class MyAccount extends Component {
             </div>
           )}
 
-          <Dialog
-            open={delete_user === true}
-            onClose={this.handleClose}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-          >
-            <DialogTitle id="alert-dialog-title">{intl.formatMessage({ id: 'delete_account_dialog_title' })}</DialogTitle>
-            <DialogContent>
-              <DialogContentText id="alert-dialog-description">
-                {intl.formatMessage({ id: 'delete_account_dialog_message' })}
-              </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={this.handleClose} color="primary">
-                {intl.formatMessage({ id: 'cancel' })}
-              </Button>
-              <Button onClick={this.handleDelete} color="secondary">
-                {intl.formatMessage({ id: 'delete' })}
-              </Button>
-            </DialogActions>
-          </Dialog>
+          <QuestionDialog
+            name="delete_user"
+            handleAction={this.handleDelete}
+            title={intl.formatMessage({ id: 'delete_account_dialog_title' })}
+            message={intl.formatMessage({ id: 'delete_account_dialog_message' })}
+            action={intl.formatMessage({ id: 'delete' })}
+          />
 
-          <Dialog
-            open={disable_notifications === true}
-            onClose={this.handleNotificationsClose}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-          >
-            <DialogTitle id="alert-dialog-title">
-              {intl.formatMessage({ id: 'disable_notifications_dialog_title' })}
-            </DialogTitle>
-            <DialogContent>
-              <DialogContentText id="alert-dialog-description">
-                {intl.formatMessage({ id: 'disable_notifications_dialog_message' })}
-              </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={this.handleNotificationsClose} color="primary">
-                {intl.formatMessage({ id: 'cancel' })}
-              </Button>
-              <Button onClick={this.handleDisableNotifications} color="secondary">
-                {intl.formatMessage({ id: 'delete' })}
-              </Button>
-            </DialogActions>
-          </Dialog>
+          <QuestionDialog
+            name="disable_notifications"
+            handleAction={this.handleDisableNotifications}
+            title={intl.formatMessage({ id: 'disable_notifications_dialog_title' })}
+            message={intl.formatMessage({ id: 'disable_notifications_dialog_message' })}
+            action={intl.formatMessage({ id: 'disable' })}
+          />
 
           <ImageCropDialog
             path={`users/${auth.uid}`}
@@ -791,7 +779,7 @@ export class MyAccount extends Component {
 MyAccount.propTypes = {
   history: PropTypes.object,
   setSimpleValue: PropTypes.func.isRequired,
-  
+
   isGranted: PropTypes.func,
   auth: PropTypes.object.isRequired,
   vehicle_types: PropTypes.array
@@ -816,11 +804,20 @@ const mapStateToProps = state => {
     photoURL: selector(state, 'photoURL'),
     old_password: selector(state, 'old_password'),
     notificationTokens: getList(state, `notification_tokens/${auth.uid}`),
+    emailNotifications: getPath(state, `email_notifications/${auth.uid}`),
     simpleValues
   }
 }
 
-export default connect(
-  mapStateToProps,
-  { setSimpleValue, change, submit, setDialogIsOpen, setPersistentValue }
-)(injectIntl(withRouter(withTheme(withFirebase(withAppConfigs(withStyles(styles, { withTheme: true })(MyAccount)))))))
+export default compose(
+  connect(
+    mapStateToProps,
+    { setSimpleValue, change, submit, setDialogIsOpen, setPersistentValue }
+  ),
+  injectIntl,
+  withRouter,
+  withTheme,
+  withFirebase,
+  withAppConfigs,
+  withStyles(styles, { withTheme: true })
+)(MyAccount)

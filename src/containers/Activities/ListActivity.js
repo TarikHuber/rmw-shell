@@ -26,6 +26,11 @@ class ListActivity extends Component {
     watchList(path || name)
   }
 
+  componentWillUnmount() {
+    const { unwatchList, path, name } = this.props
+    unwatchList(path || name)
+  }
+
   render() {
     const {
       createGrant,

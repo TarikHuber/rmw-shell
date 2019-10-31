@@ -167,7 +167,7 @@ const Message = props => {
                 )}
                 {type === 'image' && values.image !== null && (
                   <ImageViewer
-                    style={{ height: 'auto', maxWidth: 400, paddingTop: 0, cursor: 'pointer' }}
+                    style={{ height: 'auto', maxWidth: 400, paddingTop: 0, cursor: 'pointer', borderRadius: 5 }}
                     imageStyle={{ maxWidth: '100%', padding: 0, position: 'relative', borderRadius: 5 }}
                     onLoad={scrollToBottom}
                     src={values.image}

@@ -118,7 +118,7 @@ UserForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   handleAdminChange: PropTypes.func.isRequired,
   isAdmin: PropTypes.bool.isRequired,
-  
+
   initialized: PropTypes.bool.isRequired,
   uid: PropTypes.string.isRequired
 }
