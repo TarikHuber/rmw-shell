@@ -126,6 +126,12 @@
   "homepage": "https://www.react-most-wanted.com/",
   "license": "MIT",
   "repository": "https://github.com/TarikHuber/rmw-shell",
+  "prettier": {
+    "trailingComma": "es5",
+    "tabWidth": 2,
+    "semi": false,
+    "singleQuote": true
+  },
   "keywords": [
     "react-most-wanted",
     "react",

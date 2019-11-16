@@ -11,6 +11,8 @@ export class SignIn extends Component {
   render() {
     const { intl, firebaseApp, appConfig } = this.props
 
+    const {firebase_auth_props={}}=appConfig||{}
+
     const uiConfig = {
       signInSuccessUrl: '/',
       signInFlow: 'popup',
@@ -23,7 +25,8 @@ export class SignIn extends Component {
         }
       },
       signInOptions: appConfig.firebase_providers,
-      credentialHelper: firebaseui.auth.CredentialHelper.NONE
+      credentialHelper: firebaseui.auth.CredentialHelper.NONE,
+      ...firebase_auth_props
     }
 
     return (
