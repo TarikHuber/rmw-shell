@@ -24,7 +24,7 @@ const config = {
   },
   firebase_providers: ['google.com', 'facebook.com', 'twitter.com', 'github.com', 'password', 'phone'],
   initial_state: {
-    theme: 'dark',
+    theme: 'light',
     locale: 'en'
   },
   drawer_width: 240,

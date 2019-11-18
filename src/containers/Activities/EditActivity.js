@@ -19,17 +19,9 @@ import { withRouter } from 'react-router-dom'
 import { withTheme } from '@material-ui/core/styles'
 
 class EditActivity extends Component {
-
-
-  getUid=()=>{
-    const {customUid, match}=this.props
-
-    return customUid?customUid:match.params.uid
-  }
-
   _handleDelete = handleClose => {
-    const { history, firebaseApp, path } = this.props
-    const uid = this.getUid()
+    const { history, match, firebaseApp, path } = this.props
+    const uid = match.params.uid
 
     if (uid) {
       firebaseApp
@@ -55,21 +47,22 @@ class EditActivity extends Component {
       setSimpleValue,
       intl,
       submit,
+      match,
       isGranted,
       firebaseApp,
       children,
       fireFormProps,
       handleDelete,
       name,
-      path,
+      path
     } = this.props
 
-    const uid = this.getUid()
+    const uid = match.params.uid
 
     return (
       <Activity
         title={intl.formatMessage({
-          id: this.props.match.params.uid ? `edit_${name}` : `create_${name}`
+          id: uid ? `edit_${name}` : `create_${name}`
         })}
         appBarContent={
           <div style={{ display: 'flex' }}>
