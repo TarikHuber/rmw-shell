@@ -1,13 +1,23 @@
 import React, { Component } from 'react'
-import * as firebaseui from 'firebaseui'
-
+//import * as firebaseui from 'firebaseui'
+//const firebaseui=require('./npm__en.js')
+//import * as firebaseui2 from './firebaseui__de.js'
+import { injectIntl } from 'react-intl'
 let authUi = null
 
 export class AuthUI extends Component {
-  componentDidMount() {
-    const { firebaseApp, uiConfig } = this.props
 
-    // let authUi = null
+  async componentDidMount() {
+    const { firebaseApp, uiConfig, intl } = this.props
+
+    let firebaseui=null
+
+    try {
+      const {default:defaultImport}=await import(`./npm__${intl.locale}`)
+      firebaseui=defaultImport
+    } catch (error) {
+      firebaseui=await import('firebaseui')
+    }
 
     try {
       if (!firebaseui.auth.AuthUI.getInstance()) {
@@ -39,4 +49,4 @@ export class AuthUI extends Component {
   }
 }
 
-export default AuthUI
+export default injectIntl(AuthUI)
