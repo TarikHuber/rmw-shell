@@ -20,12 +20,23 @@ function Transition(props) {
 
 class QuestionDialog extends Component {
   handleClose = () => {
-    const { name, setSimpleValue } = this.props
+    const { name, setSimpleValue, onCloseAction } = this.props
+    if (onCloseAction) {
+      onCloseAction()
+    }
     setSimpleValue(name, undefined)
   }
 
   render() {
-    const { intl, isDialogOpen, handleAction, fullScreen, title = '', message = '', action = '' } = this.props
+    const {
+      intl,
+      isDialogOpen,
+      handleAction,
+      fullScreen,
+      title = '',
+      message = '',
+      action = '',
+    } = this.props
 
     if (!isDialogOpen) {
       return null
@@ -42,7 +53,9 @@ class QuestionDialog extends Component {
       >
         <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">{message}</DialogContentText>
+          <DialogContentText id="alert-dialog-description">
+            {message}
+          </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={this.handleClose} color="primary">
@@ -67,20 +80,17 @@ const mapStateToProps = (state, ownProps) => {
   const isDialogOpen = getSimpleValue(state, name, false)
 
   return {
-    isDialogOpen
+    isDialogOpen,
   }
 }
 
 QuestionDialog.propTypes = {
   name: PropTypes.string.isRequired,
-  handleDelete: PropTypes.func.isRequired
+  handleDelete: PropTypes.func.isRequired,
 }
 
 export default compose(
-  connect(
-    mapStateToProps,
-    { setSimpleValue }
-  ),
+  connect(mapStateToProps, { setSimpleValue }),
   withMobileDialog(),
   injectIntl
 )(QuestionDialog)
