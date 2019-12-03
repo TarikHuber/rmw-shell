@@ -24,7 +24,8 @@ const styles = theme => ({
   paper: {
     backgroundColor: theme.palette.primary.dark,
     margin: 0,
-    padding: 0
+    padding: 0,
+    square: false
   },
   listItem: {
     color: theme.palette.primary.contrastText
