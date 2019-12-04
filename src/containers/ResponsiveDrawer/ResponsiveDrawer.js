@@ -18,18 +18,18 @@ const styles = theme => ({
     alignItems: 'center',
     justifyContent: 'flex-end',
     padding: '0 8px',
-    ...theme.mixins.toolbar
+    ...theme.mixins.toolbar,
   },
   drawerPaper: {
     height: '100vh',
     width: drawerWidth,
     [theme.breakpoints.up('md')]: {
-      position: 'relative'
+      position: 'relative',
     },
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen
-    })
+      duration: theme.transitions.duration.enteringScreen,
+    }),
   },
   drawerPaperOpen: {
     height: '100vh',
@@ -38,31 +38,31 @@ const styles = theme => ({
     width: drawerWidth,
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen
-    })
+      duration: theme.transitions.duration.enteringScreen,
+    }),
   },
   drawerPaperClose: {
     height: '100vh',
     overflowX: 'hidden',
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen
+      duration: theme.transitions.duration.leavingScreen,
     }),
     width: theme.spacing(1) * 7,
     [theme.breakpoints.up('sm')]: {
-      width: theme.spacing(1) * 9
-    }
+      width: theme.spacing(1) * 9,
+    },
   },
 
   hide: {
-    display: 'none'
-  }
+    display: 'none',
+  },
 })
 
 class ResponsiveDrawer extends React.Component {
   state = {
     mobileOpen: false,
-    open: false
+    open: false,
   }
 
   handleDrawerToggle = () => {
@@ -86,13 +86,15 @@ class ResponsiveDrawer extends React.Component {
     const smDown = isWidthDown('sm', width)
 
     return (
-      <div>
+      <div style={{ boxSizing: 'content-box' }}>
         <SwipeableDrawer
           disableBackdropTransition={!iOS}
           disableDiscovery={iOS}
           variant={smDown ? 'temporary' : 'permanent'}
           onClose={this.handleDrawerToggle}
-          anchor={smDown ? undefined : theme.direction === 'rtl' ? 'right' : 'left'}
+          anchor={
+            smDown ? undefined : theme.direction === 'rtl' ? 'right' : 'left'
+          }
           classes={{
             paper: smDown
               ? classes.drawerPaper
@@ -100,12 +102,12 @@ class ResponsiveDrawer extends React.Component {
                 classes.drawerPaperOpen,
                 !drawer.open && classes.drawerPaperClose,
                 !drawer.useMinified && classes.hide
-              )
+              ),
           }}
           open={smDown ? drawer.mobileOpen : drawer.open}
           onOpen={this.handleDrawerToggle}
           ModalProps={{
-            keepMounted: true // Better open performance on mobile.
+            keepMounted: true, // Better open performance on mobile.
           }}
         >
           {children}
@@ -117,22 +119,19 @@ class ResponsiveDrawer extends React.Component {
 
 ResponsiveDrawer.propTypes = {
   classes: PropTypes.object.isRequired,
-  theme: PropTypes.object.isRequired
+  theme: PropTypes.object.isRequired,
 }
 
 const mapStateToProps = state => {
   const { drawer } = state
 
   return {
-    drawer
+    drawer,
   }
 }
 
 export default compose(
-  connect(
-    mapStateToProps,
-    { ...drawerActions }
-  ),
+  connect(mapStateToProps, { ...drawerActions }),
   withWidth(),
   withStyles(styles, { withTheme: true })
 )(ResponsiveDrawer)
