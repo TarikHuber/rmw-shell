@@ -22,28 +22,28 @@ export class Mic extends Component {
     this.state = {
       record: false,
       visible: false,
-      send: false
+      send: false,
     }
   }
 
   startRecording = () => {
     this.setState({
       record: true,
-      visible: true
+      visible: true,
     })
   }
 
   stopRecording = () => {
     this.setState({
       send: true,
-      record: false
+      record: false,
     })
   }
 
   cancelRecording = () => {
     this.setState({
       record: false,
-      visible: false
+      visible: false,
     })
   }
 
@@ -51,7 +51,7 @@ export class Mic extends Component {
     this.setState({
       record: false,
       visible: false,
-      uploadCompleted: 0
+      uploadCompleted: 0,
     })
 
     if (this.state.send) {
@@ -60,7 +60,14 @@ export class Mic extends Component {
   }
 
   uploadAudioFile = file => {
-    const { firebaseApp, intl, handleAddMessage, path, receiverPath } = this.props
+    const {
+      firebaseApp,
+      intl,
+      handleAddMessage,
+      path,
+      receiverPath,
+      auth,
+    } = this.props
 
     if (file === null) {
       return
@@ -82,13 +89,16 @@ export class Mic extends Component {
         path,
         receiverPath,
         key,
-        languageCode: intl.formatMessage({ id: 'current_locale', defaultMessage: 'en-US' })
-      }
+        languageCode: intl.formatMessage({
+          id: 'current_locale',
+          defaultMessage: 'en-US',
+        }),
+      },
     }
 
     let uploadTask = firebaseApp
       .storage()
-      .ref(`/user_chats/${key}.opus`)
+      .ref(`/user_chats/${auth.uid}/${key}.opus`)
       .put(file, metadata)
 
     uploadTask.on(
@@ -98,7 +108,7 @@ export class Mic extends Component {
 
         this.setState({
           sending: true,
-          uploadCompleted: progress
+          uploadCompleted: progress,
         })
       },
       error => {
@@ -107,7 +117,7 @@ export class Mic extends Component {
       () => {
         this.setState({
           sending: false,
-          uploadCompleted: undefined
+          uploadCompleted: undefined,
         })
 
         uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
@@ -151,9 +161,17 @@ export class Mic extends Component {
               record={this.state.record}
               onStop={this.onStop}
               strokeColor={theme.palette.secondary.main}
-              backgroundColor={theme.palette.type === 'light' ? theme.palette.grey[300] : theme.palette.grey[700]}
+              backgroundColor={
+                theme.palette.type === 'light'
+                  ? theme.palette.grey[300]
+                  : theme.palette.grey[700]
+              }
             />
-            <Fab style={{ marginLeft: -25 }} color="secondary"  onClick={this.stopRecording} >
+            <Fab
+              style={{ marginLeft: -25 }}
+              color="secondary"
+              onClick={this.stopRecording}
+            >
               <Send />
             </Fab>
           </div>
@@ -163,8 +181,9 @@ export class Mic extends Component {
           <Fab
             color="secondary"
             disabled={this.state.sending}
-            onClick={this.state.record ? this.stopRecording : this.startRecording}
-
+            onClick={
+              this.state.record ? this.stopRecording : this.startRecording
+            }
           >
             {this.state.record ? <Send /> : <Microfone />}
           </Fab>
@@ -175,12 +194,11 @@ export class Mic extends Component {
 }
 
 Mic.propTypes = {
-  
-  theme: PropTypes.object.isRequired
+  theme: PropTypes.object.isRequired,
 }
 
 export default compose(
-  connect(null,{setSimpleValue}),
+  connect(null, { setSimpleValue }),
   injectIntl,
   withTheme,
   withWidth(),

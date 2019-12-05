@@ -30,7 +30,7 @@ class ChatMessages extends Component {
 
     this.state = {
       value: '',
-      isUploading: false
+      isUploading: false,
     }
   }
 
@@ -49,8 +49,11 @@ class ChatMessages extends Component {
       authorName: auth.displayName,
       authorUid: auth.uid,
       authorPhotoUrl: auth.photoURL,
-      languageCode: intl.formatMessage({ id: 'current_locale', defaultMessage: 'en-US' }),
-      type
+      languageCode: intl.formatMessage({
+        id: 'current_locale',
+        defaultMessage: 'en-US',
+      }),
+      type,
     }
 
     if (type === 'image') {
@@ -123,7 +126,7 @@ class ChatMessages extends Component {
   }
 
   uploadSelectedFile = file => {
-    const { firebaseApp, intl } = this.props
+    const { firebaseApp, intl, auth } = this.props
 
     if (file === null) {
       return
@@ -147,7 +150,7 @@ class ChatMessages extends Component {
     reader.onload = fileData => {
       let uploadTask = firebaseApp
         .storage()
-        .ref(`/user_chats/${key}.jpg`)
+        .ref(`/user_chats/${auth.uid}/${key}.jpg`)
         .putString(fileData.target.result, 'data_url')
 
       uploadTask.on(
@@ -169,7 +172,15 @@ class ChatMessages extends Component {
   }
 
   render() {
-    const { theme, intl, chatMessageMenuOpen, predefinedMessages, path, receiverPath } = this.props
+    const {
+      theme,
+      intl,
+      chatMessageMenuOpen,
+      predefinedMessages,
+      path,
+      receiverPath,
+      auth,
+    } = this.props
     const { isUploading = false } = this.state
 
     return (
@@ -183,22 +194,37 @@ class ChatMessages extends Component {
           margin: 5,
           marginBottom: 15,
           marginRight: 15,
-          marginLeft: 15
+          marginLeft: 15,
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
           <div
             style={{
-              backgroundColor: theme.palette.type === 'light' ? theme.palette.grey[300] : theme.palette.grey[700],
+              backgroundColor:
+                theme.palette.type === 'light'
+                  ? theme.palette.grey[300]
+                  : theme.palette.grey[700],
               flexGrow: 1,
               height: 56,
               borderRadius: 30,
               paddingLeft: 8,
               paddingRight: 8,
-              margin: 5
+              margin: 5,
             }}
           >
-            <div style={{ position: 'relative', display: 'inline-block', width: '100%' }}>
+            <div
+              style={{
+                position: 'relative',
+                display: 'inline-block',
+                width: '100%',
+              }}
+            >
               <Input
                 id="message"
                 style={{
@@ -208,7 +234,7 @@ class ChatMessages extends Component {
                   lineHeight: undefined,
                   top: -6,
                   left: 15,
-                  right: 50
+                  right: 50,
                 }}
                 multiline
                 rowsMax="2"
@@ -222,7 +248,9 @@ class ChatMessages extends Component {
                 autoComplete="off"
                 placeholder={intl.formatMessage({ id: 'write_message_hint' })}
                 onKeyDown={e => {
-                  this.handleKeyDown(e, () => this.handleAddMessage('text', this.state.value))
+                  this.handleKeyDown(e, () =>
+                    this.handleAddMessage('text', this.state.value)
+                  )
                 }}
                 ref={field => {
                   this.name = field
@@ -230,7 +258,15 @@ class ChatMessages extends Component {
                 type="Text"
               />
 
-              <div style={{ position: 'absolute', right: 25, top: -10, width: 20, height: 0 }}>
+              <div
+                style={{
+                  position: 'absolute',
+                  right: 25,
+                  top: -10,
+                  width: 20,
+                  height: 0,
+                }}
+              >
                 <IconButton
                   color={'primary'}
                   onClick={() =>
@@ -268,16 +304,32 @@ class ChatMessages extends Component {
                 }}
               />
 
-              <div style={{ position: 'absolute', right: 55, top: -10, width: 20, height: 0 }}>
+              <div
+                style={{
+                  position: 'absolute',
+                  right: 55,
+                  top: -10,
+                  width: 20,
+                  height: 0,
+                }}
+              >
                 {!isUploading && (
-                  <IconButton color={'primary'} onClick={() => this.fileInput.click()}>
+                  <IconButton
+                    color={'primary'}
+                    onClick={() => this.fileInput.click()}
+                  >
                     <Photo />
                   </IconButton>
                 )}
                 {isUploading && (
                   <CircularProgress
                     color="secondary"
-                    style={{ width: 20, height: 20, marginTop: 14, marginLeft: 15 }}
+                    style={{
+                      width: 20,
+                      height: 20,
+                      marginTop: 14,
+                      marginLeft: 15,
+                    }}
                   />
                 )}
               </div>
@@ -287,7 +339,9 @@ class ChatMessages extends Component {
           {this.state.value !== '' && (
             <Fab
               color={'primary'}
-              disabled={this.state.value === undefined || this.state.value === ''}
+              disabled={
+                this.state.value === undefined || this.state.value === ''
+              }
               onClick={() => this.handleAddMessage('text', this.state.value)}
               aria-label="send"
             >
@@ -295,7 +349,12 @@ class ChatMessages extends Component {
             </Fab>
           )}
           {this.state.value === '' && (
-            <Mic receiverPath={receiverPath} handleAddMessage={this.handleAddMessage} path={path} />
+            <Mic
+              receiverPath={receiverPath}
+              handleAddMessage={this.handleAddMessage}
+              path={path}
+              auth={auth}
+            />
           )}
         </div>
         {chatMessageMenuOpen && (
@@ -316,7 +375,7 @@ class ChatMessages extends Component {
 
 ChatMessages.propTypes = {
   theme: PropTypes.object.isRequired,
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
 }
 
 const mapStateToProps = (state, ownPops) => {
@@ -332,15 +391,12 @@ const mapStateToProps = (state, ownPops) => {
     path,
     uid,
     chatMessageMenuOpen,
-    auth
+    auth,
   }
 }
 
 export default compose(
-  connect(
-    mapStateToProps,
-    { setSimpleValue }
-  ),
+  connect(mapStateToProps, { setSimpleValue }),
   injectIntl,
   withRouter,
   withFirebase,

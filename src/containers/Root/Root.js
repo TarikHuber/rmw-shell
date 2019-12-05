@@ -17,7 +17,14 @@ import { initializeMessaging } from '../../utils/messaging'
 import { saveAuthorisation } from '../../utils/auth'
 import { setPersistentValue } from '../../store/persistentValues/actions'
 import { useSelector, shallowEqual, useDispatch } from 'react-redux'
-import { watchAuth, clearInitialization, initConnection, watchList, initMessaging, watchPath } from 'firekit'
+import {
+  watchAuth,
+  clearInitialization,
+  initConnection,
+  watchList,
+  initMessaging,
+  watchPath,
+} from 'firekit'
 import { withA2HS } from 'a2hs'
 
 const history = createBrowserHistory()
@@ -31,7 +38,7 @@ const getActions = dispatch => {
       watchList,
       watchPath,
       initMessaging,
-      setPersistentValue
+      setPersistentValue,
     },
     dispatch
   )
@@ -41,15 +48,26 @@ let installPromptShowed = false
 
 const Root = props => {
   const actions = getActions(useDispatch())
-  const { watchAuth, clearInitialization, watchConnection, watchList, watchPath, initMessaging } = actions
+  const {
+    watchAuth,
+    clearInitialization,
+    watchConnection,
+    watchList,
+    watchPath,
+    initMessaging,
+  } = actions
   const { appConfig, deferredPrompt, isAppInstallable, isAppInstalled } = props
   const locale = useSelector(state => state.locale, shallowEqual)
   const themeSource = useSelector(state => state.themeSource, shallowEqual)
   const auth = useSelector(state => state.auth, shallowEqual)
-  const messages = { ...getLocaleMessages(locale, locales), ...getLocaleMessages(locale, appConfig.locales) }
+  const messages = {
+    ...getLocaleMessages(locale, locales),
+    ...getLocaleMessages(locale, appConfig.locales),
+  }
   const source = getThemeSource(themeSource, appConfig.themes)
   const theme = createMuiTheme(source)
-  let showInstallPrompt = auth.isAuthorised && isAppInstallable && !isAppInstalled
+  let showInstallPrompt =
+    auth.isAuthorised && isAppInstallable && !isAppInstalled
 
   const handleInstallPrompt = () => {
     if (!installPromptShowed && showInstallPrompt) {
@@ -59,9 +77,13 @@ const Root = props => {
   }
 
   const handlePresence = (user, firebaseApp) => {
-    let myConnectionsRef = firebaseApp.database().ref(`users/${user.uid}/connections`)
+    let myConnectionsRef = firebaseApp
+      .database()
+      .ref(`users/${user.uid}/connections`)
 
-    let lastOnlineRef = firebaseApp.database().ref(`users/${user.uid}/lastOnline`)
+    let lastOnlineRef = firebaseApp
+      .database()
+      .ref(`users/${user.uid}/lastOnline`)
     lastOnlineRef.onDisconnect().set(new Date())
 
     let con = myConnectionsRef.push(true)
@@ -85,7 +107,7 @@ const Root = props => {
         emailVerified: user.emailVerified,
         isAnonymous: user.isAnonymous,
         uid: user.uid,
-        providerData: user.providerData
+        providerData: user.providerData,
       }
 
       let publicProviderData = []
@@ -93,7 +115,7 @@ const Root = props => {
       user.providerData.forEach(provider => {
         publicProviderData.push({
           providerId: provider.providerId,
-          displayName: provider.displayName ? provider.displayName : null
+          displayName: provider.displayName ? provider.displayName : null,
         })
       })
 
@@ -101,7 +123,7 @@ const Root = props => {
         displayName: user.displayName ? user.displayName : 'UserName',
         photoURL: user.photoURL,
         uid: user.uid,
-        providerData: publicProviderData
+        providerData: publicProviderData,
       }
 
       watchList(firebaseApp, `user_grants/${user.uid}`)
@@ -110,7 +132,11 @@ const Root = props => {
 
       if (appConfig.onAuthStateChanged) {
         try {
-          appConfig.onAuthStateChanged(user, { ...props, ...actions }, firebaseApp)
+          appConfig.onAuthStateChanged(
+            user,
+            { ...props, ...actions },
+            firebaseApp
+          )
         } catch (err) {
           console.warn(err)
         }
@@ -121,7 +147,17 @@ const Root = props => {
         .ref(`users/${user.uid}`)
         .update(publicUserData)
 
-      initializeMessaging({ ...props, ...actions, initMessaging, firebaseApp, history, auth: userData }, true)
+      initializeMessaging(
+        {
+          ...props,
+          ...actions,
+          initMessaging,
+          firebaseApp,
+          history,
+          auth: userData,
+        },
+        true
+      )
 
       return userData
     } else {
@@ -136,9 +172,19 @@ const Root = props => {
   }, [])
 
   return (
-    <div onClick={!installPromptShowed && showInstallPrompt ? handleInstallPrompt : undefined}>
+    <div
+      onClick={
+        !installPromptShowed && showInstallPrompt
+          ? handleInstallPrompt
+          : undefined
+      }
+    >
       <Helmet>
-        <link rel="stylesheet" type="text/css" href="https://cdn.firebase.com/libs/firebaseui/3.0.0/firebaseui.css" />
+        <link
+          rel="stylesheet"
+          type="text/css"
+          href="https://cdn.firebase.com/libs/firebaseui/3.0.0/firebaseui.css"
+        />
       </Helmet>
       <AppConfigProvider appConfig={appConfig}>
         <MuiPickersUtilsProvider utils={Utils}>
